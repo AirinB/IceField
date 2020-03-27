@@ -1,7 +1,7 @@
 package com.rim.IceField;
 
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Iceberg {
     private boolean isStable;
@@ -10,14 +10,16 @@ public class Iceberg {
     private String type;
     private int maxNumOfPlayers;
     private boolean hasIgloo;
-    private List<PlayerBase> drowningPlayers;
-    private List<PlayerBase> currentPlayers; //List I added
-    private List<Iceberg> neighborIcebergs;
+    private ArrayList<PlayerBase> drowningPlayers = new ArrayList<PlayerBase>();
+    private ArrayList<PlayerBase> currentPlayers = new ArrayList<PlayerBase>(); //List I added
+    private ArrayList<Iceberg> neighborIcebergs = new ArrayList<Iceberg>();
     private int amountOfSnow;
     private ItemBase item;
 
-
-
+public Iceberg(boolean isStable,int num,String type,int maxNumOfPlayers,boolean hasIgloo, int amountOfSnow, ItemBase item)
+{
+    //FINISH CONSTRUCTOR
+}
     public void setItem(ItemBase item)
     {
         this.item = item;
@@ -36,18 +38,18 @@ public class Iceberg {
         return this.amountOfSnow;
     }
 
-    public List<Iceberg> getNeighborIcebergs()
+    public ArrayList<Iceberg> getNeighborIcebergs()
     {
         return this.neighborIcebergs;
     }
 
-    public List<PlayerBase> getCurrentPlayers()
+    public ArrayList<PlayerBase> getCurrentPlayers()
     {
         return this.currentPlayers;
     }
 
 
-    public List<PlayerBase> getDrowningPlayers()
+    public ArrayList<PlayerBase> getDrowningPlayers()
     {
         return this.drowningPlayers;
     }
@@ -99,7 +101,7 @@ public void setType(String str)
  public void Add_currentPlayers(PlayerBase p)
  {
      currentPlayers.add(p);
-     System.out.println("Player was added to the iceberg number: "+num);
+     System.out.println("Player"+p.ID+" was added to the iceberg number: "+num);
  }
 
  public void Remove_currentPlayers(PlayerBase p)
