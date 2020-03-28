@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Inventory {
 
     //had to do it static because belongs to the class
-    protected static ArrayList<ItemBase> items; //items in the inventory of each player
+    protected  ArrayList<ItemBase> items; //items in the inventory of each player
 
     public boolean addItem(ItemBase it){
         try {
@@ -47,7 +47,7 @@ public class Inventory {
     }
 
     //static method because it belongs to the whole class and to use it in GameOver() method
-    public static boolean isFlareGunAssembled(){
+    public  boolean isFlareGunAssembled(){
         int count = 0;
         for (ItemBase item: items) {
             if(item.tag.equals("Flare") || item.tag.equals("Charge") || item.tag.equals("Gun")){
