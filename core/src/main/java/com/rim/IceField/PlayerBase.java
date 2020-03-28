@@ -28,9 +28,19 @@ public abstract class PlayerBase {
     public void useSkill()
     {
 		if (this.tag.equals("Eskimo"))
+<<<<<<< HEAD
             System.out.println("An Igloo has been created!");
         else if (this.tag.equals("PolarExplorer"))
                 System.out.println("Neighboring icebergs have been checked!");
+=======
+		{
+			System.out.println("An Igloo has been created!");
+		} else if (this.tag.equals("PolarExplorer"))
+		{
+			//Not sure if this is correct
+			System.out.println("Neighboring icebergs have been checked!");
+		}
+>>>>>>> Rain
     }
 
     public void useItem()
