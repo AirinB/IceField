@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
+import java.util.ArrayList;
+
 public class GameMain extends BasicGame {
 	public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
@@ -30,7 +32,11 @@ public class GameMain extends BasicGame {
     }
 
     public static void main(String[] args) {
+      Game game = new Game();
+      PlayerBase p1 = new Eskimo();
+        ArrayList<PlayerBase> players = new ArrayList<PlayerBase>();
+        players.add(p1);
+      game.newGame(players);
 
-//Dddd
     }
 }

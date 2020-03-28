@@ -3,10 +3,10 @@ package com.rim.IceField;
 import java.util.ArrayList;
 
 public class Game {
-    private Map map;
+    private static Map map;
 
     public Game(){
-        this.map = new Map();
+        map = new Map();
     }
 
     public Map getMap() {
@@ -14,17 +14,25 @@ public class Game {
     }
 
     public void setMap(Map map) {
-        this.map = map;
+        map = map;
     }
 
     public static void GameOver()
     {
-        System.out.println("Game Over!");
+
+        //for (Iceberg ice: map.getIcebergs() ){
+          //  if ( (ice.getCurrentPlayers().size() == ice.getNum())  &&  (Inventory.isFlareGunAssembled()) )
+              //  System.out.println("Game Over!");
+
+       // }
     }
 
     public void newGame(ArrayList<PlayerBase> players){
-        //map.generateItemsOnMap();
-        //finish
+
+        map.generateItemsOnMap(players);
+        for (PlayerBase player: players ){
+            player.turn();
+        }
 
         System.out.println("Game started!");
     }

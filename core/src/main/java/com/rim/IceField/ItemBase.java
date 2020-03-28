@@ -1,6 +1,6 @@
 package com.rim.IceField;
 
-public abstract class ItemBase {
+public class ItemBase {
     protected String tag; // name of the item
     protected static int itemNumber = 0;
     protected int id;

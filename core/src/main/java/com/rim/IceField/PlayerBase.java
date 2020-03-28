@@ -1,6 +1,4 @@
 package com.rim.IceField;
-import com.rim.IceField.Inventory;
-
 public abstract class PlayerBase {
     protected String tag;
     protected int ID;
