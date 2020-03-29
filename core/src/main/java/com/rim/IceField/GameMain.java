@@ -80,7 +80,8 @@ public class GameMain extends BasicGame {
         {
             for (int j = 0; j < 4; j++) {
                 playersList.get(i).turn(); // Some more turn() log
-                System.out.println("Choose an action by entering its corresponding number : 1 - Move | 2 - Use skill | 3 - Save Character | 4 - Use Item | 5 - Pick Item ");
+                System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move | 2 - Use skill | 3 - Save Character | " +
+                        "4 - Use Item | 5 - Pick Item | 6 - in water | 7 - end of game ");
                 int m = input.nextInt();
                 switch (m) {
                     case 1:
