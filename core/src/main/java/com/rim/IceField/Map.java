@@ -5,9 +5,8 @@ import java.util.ArrayList;
 public class Map {
 
 
-      private ArrayList<Iceberg> icebergs;
-      private ArrayList<ItemBase> items;
-
+    private ArrayList<Iceberg> icebergs;
+    private ArrayList<ItemBase> items;
 
 
     public ArrayList<Iceberg> getIcebergs() {
@@ -20,72 +19,68 @@ public class Map {
     }
 
 
-    public Map(){
+    public Map() {
 
         this.items = new ArrayList<ItemBase>();
-        this.icebergs =  new ArrayList<Iceberg>();
+        this.icebergs = new ArrayList<Iceberg>();
 
     }
-
 
 
     public void generateItemsOnMap() {
 
 
-         // - - - - - - - - - - - - - - - - - - - - - Items - - - - - - - - - - - - - - - - - - - - -
+        // - - - - - - - - - - - - - - - - - - - - - Items - - - - - - - - - - - - - - - - - - - - -
 
         //This is done for the test-cases needed in this iteration.
 
-         ItemBase shovel = new Shovel();
-         items.add(shovel);
+        ItemBase shovel = new Shovel();
+        items.add(shovel);
 
-         ItemBase rope = new Rope();
-         items.add(rope);
+        ItemBase rope = new Rope();
+        items.add(rope);
 
-         ItemBase food = new Food();
-         items.add(food);
+        ItemBase food = new Food();
+        items.add(food);
 
-         ItemBase flare = new Food();
-         items.add(flare);
+        ItemBase flare = new Food();
+        items.add(flare);
 
-         ItemBase divingSuit = new DivingSuit();
-         items.add(divingSuit);
+        ItemBase divingSuit = new DivingSuit();
+        items.add(divingSuit);
 
-         ItemBase gun = new Food();
-         items.add(gun);
+        ItemBase gun = new Food();
+        items.add(gun);
 
-         System.out.println("Items were generated!");
-
-
+        System.out.println("Items were generated!");
 
 
-          // - - - - - - - - - - - - - - - - - - - - - Icebergs - - - - - - - - - - - - - - - - - - - - -
+        // - - - - - - - - - - - - - - - - - - - - - Icebergs - - - - - - - - - - - - - - - - - - - - -
 
 
+        //Items have to be added by Dinu to adjust it to the test-cases.
 
-          //Items have to be added by Dinu to adjust it to the test-cases.
 
+        Iceberg first = new Iceberg(true, 1, "stable", 20, false, 1, null);
+        icebergs.add(first);
 
-          Iceberg first = new Iceberg(true, 1, "stable", 20, false, 1, null  );
-          icebergs.add(first);
-
-          Iceberg second = new Iceberg(true, 2, "instable", 3, false, 2, null  );
+          Iceberg second = new Iceberg(true, 2, "stable", 20, false, 2, null  );
           icebergs.add(second);
 
-          Iceberg third = new Iceberg(true, 3, "stable", 20, false, 3, null  );
-          icebergs.add(third);
+        Iceberg third = new Iceberg(true, 3, "stable", 20, false, 3, null);
+        icebergs.add(third);
 
-          Iceberg forth = new Iceberg(true, 4, "hole", 0, false, 2, null  );
+          Iceberg forth = new Iceberg(true, 4, "instable", 3, false, 2, null  );
           icebergs.add(forth);
 
-          Iceberg fifth = new Iceberg(true, 5, "stable", 20, false, 1, null );
+          Iceberg fifth = new Iceberg(true, 5, "hole", 0, false, 1, null );
           icebergs.add(fifth);
 
-          System.out.println("Icebergs were generated!");
+        System.out.println("Icebergs were generated!");
 
-          ArrayList<Iceberg> neighbour1 = new ArrayList<Iceberg>();
-          neighbour1.add(second);
-          first.setNeighborIcebergs(neighbour1);
+        ArrayList<Iceberg> neighbour1 = new ArrayList<Iceberg>();
+        neighbour1.add(second);
+        first.setNeighborIcebergs(neighbour1);
 
         ArrayList<Iceberg> neighbour2 = new ArrayList<Iceberg>();
         neighbour2.add(third);
@@ -102,9 +97,6 @@ public class Map {
         ArrayList<Iceberg> neighbour5 = new ArrayList<Iceberg>();
         neighbour5.add(first);
         first.setNeighborIcebergs(neighbour5);
-
-
-
 
 
     }

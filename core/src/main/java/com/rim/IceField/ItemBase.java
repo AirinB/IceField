@@ -13,13 +13,19 @@ public abstract class ItemBase {
         itemNumber++;
 //        this.posX = posX;
 //        this.posY = posY;
-        this.obtained = false; //in the begining the item does not belong to anyone
-        this.active = false;  //the item that does not belog to the inventory, cannnot be used
+        this.obtained = false; //in the beginning the item does not belong to anyone
+        this.active = false;  //the item that does not belong to the inventory, cannot be used
     }
 
-    public boolean useItem(PlayerBase player) throws Exception {
-        if(!obtained || !active) throw new Exception("the Item is now owned or not active");
-        return false;
+    public  boolean useItem(PlayerBase player) throws Exception {
+        try {
+            if(!obtained || !active) throw new Exception("the Item is now owned or not active");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public String getTag() {
@@ -45,6 +51,7 @@ public abstract class ItemBase {
     public boolean isActive() {
         return active;
     }
+
 
 
 }

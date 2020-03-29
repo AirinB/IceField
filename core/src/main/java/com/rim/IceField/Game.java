@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Game {
     private static Map map;
 
-    public Game(){
+    public Game() {
         map = new Map();
     }
 
@@ -14,8 +14,7 @@ public class Game {
     }
 
 
-    public  static boolean GameOver(ArrayList<PlayerBase> players)
-    {
+    public static boolean GameOver(ArrayList<PlayerBase> players) {
         boolean end = false;
         boolean playersCheck = false;
         boolean flareGunCheck = false;
@@ -29,7 +28,7 @@ public class Game {
         }
 
         //Checking if all the players stand on the same iceberg and it's not a hole
-        for (Iceberg ice: map.getIcebergs() ){
+        for (Iceberg ice : map.getIcebergs()) {
             if (ice.getCurrentPlayers().size() == players.size() && ice.getType() != "hole")
                 playersCheck = true;
         }
@@ -37,12 +36,12 @@ public class Game {
         //Checking if flare gun was collected
         if (playersCheck) {
             for (PlayerBase player : players) {
-                if (player.inventory.count == 3 ) {
+                if (Inventory.countGunItems == 3) {
                     flareGunCheck = true;
                     System.out.println("The flare gun is collected");
                 }
                 if (!flareGunCheck) {
-                        player.inventory.count = 0;
+                    Inventory.countGunItems = 0;
                 }
             }
         }
@@ -58,7 +57,7 @@ public class Game {
 
     }
 
-    public static void newGame(ArrayList<PlayerBase> players){
+    public static void newGame(ArrayList<PlayerBase> players) {
 
         map.generateItemsOnMap();
         System.out.println("Game started!");
