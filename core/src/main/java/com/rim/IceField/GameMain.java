@@ -80,7 +80,8 @@ public class GameMain extends BasicGame {
         {
             for (int j = 0; j < 4; j++) {
                 playersList.get(i).turn(); // Some more turn() log
-                System.out.println("Choose an action by entering its corresponding number : 1 - Move | 2 - Use skill | 3 - Save Character | 4 - Use Item | 5 - Pick Item ");
+                System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move | 2 - Use skill | 3 - Save Character | " +
+                        "4 - Use Item | 5 - Pick Item | 6 - in water | 7 - end of game ");
                 int m = input.nextInt();
                 switch (m) {
                     case 1:
@@ -125,60 +126,80 @@ public class GameMain extends BasicGame {
                         break;
 
                     case 4:// use item
-                        System.out.println("Choose which item you want to use: Diving Suit, Food, Shovel or Flare Gun?");
+                        Food food = new Food();
+                        Shovel shovel = new Shovel();
+                        DivingSuit divingSuit = new DivingSuit();
+                        playersList.get(0).inventory.addItem(food);
+                        playersList.get(0).inventory.addItem(shovel);
+                        playersList.get(0).inventory.addItem(divingSuit);
+
+
+                        System.out.println("Choose which item you want to use: Diving Suit, Food, Shovel?");
                         Scanner scan= new Scanner(System.in);
                         String str=scan.nextLine();
                         scan.close();
+                        playersList.get(0).inventory.getItem(str);
                         playersList.get(0).useItem( playersList.get(0).inventory.getItem(str));
+                        System.out.println("The item was used");
                         // from the first player get the useItemFunction and pass the item that was choosed by the user
                         break;
                     case 5: //Pick item
-                      playersList.get(i).pickItem();
+                        int counter = 0;
+                        while(counter < playersList.get(0).getCurrentIceberg().getAmountOfSnow()){
+                            playersList.get(i).removeSnow();
+                            counter++;
+                        }
+                        playersList.get(0).pickItem();
+                        System.out.println("The item is picked");
+
                       break;
 
-                    case 6: //Game over when one player dies
-
-                        playersList.get(0).move('N');
-                        playersList.get(0).move('N');  // to fall in a hole
-                        playersList.get(0).move('N');
-                        playersList.get(0).move('N');
-                        playersList.get(0).fall(); // this method keeps decrementing the heat level of the character until saved or dead
-
-                        if(playersList.get(0).getHeatLevel() == 0) {
-                            playersList.get(0).die();
-                            g1.GameOver(playersList);
-                        }
-                        break;
-                    case 7: //Put on diving suit (The)
+                    case 6: //Put on diving suit (The)
                         System.out.println("You are in water! Pless 1 for the scenario when you have a diving suit\n" +
                                 " 2 for when you do not and there is no one to save you\n 3 The other player saves you ");
-                        playersList.get(0).decreseHeatLevel();
+                        playersList.get(0).fall();
                         int userInput1 = input.nextInt();
                         if(userInput1 == 1){
-                            DivingSuit divingSuit = new DivingSuit();
-                            playersList.get(0).inventory.addItem(divingSuit);
+                            System.out.println("You wear a diving suit");
+                            DivingSuit divingSuit2 = new DivingSuit();
+                            playersList.get(0).inventory.addItem(divingSuit2);
                             playersList.get(0).useItem( playersList.get(0).inventory.getItem("Diving Suit"));
                         }else if(userInput1 == 2){
 
                             playersList.get(0).die();
                             Game.GameOver(playersList);
+                            return;
                         }else{
-                            System.out.println("Player" + playersList.get(2).getTag() + "Press 1 if you want to save the other player");
+                            System.out.println("Player " + playersList.get(1).getTag() + " Press 1 if you want to save the other player");
                             int userInput2 = input.nextInt();
                             if(userInput2 == 1) playersList.get(1).SavePlayer( playersList.get(0));
                             else {
                                 playersList.get(0).die();
-                                Game.GameOver(playersList);
+                                g1.GameOver(playersList);
+                                return;
                             }
 
                         }
 
                         break;
 
-                    case 8: // Game over by putting together flare gun.
-                       // playersList.get(0).getInventory().addItem(gun);
-                        break;
-
+                    case 7: // Game over by putting together flare gun.
+                        System.out.println("Choose: \n 1 for Win scenarion \n 2 for lose scenario");
+                        int userInput2 = input.nextInt();
+                        if(userInput2 == 1){
+                            Gun gun = new Gun();
+                            Flare flare = new Flare();
+                            Charge charge = new Charge();
+                            playersList.get(0).inventory.addItem(gun);
+                            playersList.get(0).inventory.addItem(flare);
+                            playersList.get(0).inventory.addItem(charge);
+                            g1.GameOver(playersList);
+                            return;
+                        }else{
+                            playersList.get(0).die();
+                            g1.GameOver(playersList);
+                            return;
+                        }
 
 
                 }
