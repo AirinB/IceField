@@ -1,7 +1,5 @@
 package com.rim.IceField;
 
-import java.util.Scanner;
-
 public abstract class PlayerBase {
     protected Iceberg currentIceberg;
     protected String tag;
@@ -26,7 +24,7 @@ public abstract class PlayerBase {
     {
         return currentIceberg;
     }
-public void setCurrentIceberg(Iceberg iceberg)
+    public void setCurrentIceberg(Iceberg iceberg)
 {
     currentIceberg = iceberg;
 }
@@ -36,6 +34,10 @@ public void setCurrentIceberg(Iceberg iceberg)
     public PlayerBase() {
         this.tag = "PlayerBase";
         inventory = new Inventory();
+    }
+
+    public String getTag() {
+        return tag;
     }
 
     public void move(char dir) {
@@ -107,13 +109,23 @@ public void setCurrentIceberg(Iceberg iceberg)
         return isDrowning;
     }
 
-    public void pickItem() {
+    public ItemBase pickItem() throws Exception {
         if (currentIceberg.getAmountOfSnow() == 0) {
             inventory.items.add(currentIceberg.getItem());
             System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
+            return currentIceberg.getItem();
         } else {
             System.out.println("Level of snow on iceberg is not 0!");
+            throw new Exception("The is snow on the iceberg");
         }
+
+    }
+
+
+    public void removeSnow(){
+
+        int currentSnow = currentIceberg.getAmountOfSnow();
+        currentIceberg.setAmountOfSnow( currentSnow - 1 );
     }
 
 
