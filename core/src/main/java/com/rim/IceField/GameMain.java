@@ -88,6 +88,7 @@ public class GameMain extends BasicGame {
                         int direction = input.nextInt();
                         switch (direction) {
                             case 1:
+                                playersList.get(i).move('N');
 
                                /*for(int k =0;k<5;k++)
                                {
@@ -106,11 +107,80 @@ public class GameMain extends BasicGame {
                         }
                         break;
 
+                    case 2: // Use skill
+                        playersList.get(i).useSkill(playersList.get(i).getCurrentIceberg());
+                        break;
+
+                    case 3:// Save character
+
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');  // to fall in a hole
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');
+                        playersList.get(0).fall();
+
+                        playersList.get(1).move('N');// to get on neighboring iceberg and save the one from hole
+                        playersList.get(1).pickItem(); // There is a rope on the second iceberg
+                        playersList.get(1).move('N');
+                        playersList.get(1).move('N');
+
+                        playersList.get(1).SavePlayer(playersList.get(0));
+                        break;
+
+                    case 4:// use item
+                        playersList.get(0).useItem(); // Should I send an object in useItem?
+
+                    case 5: //Pick item
+                      playersList.get(i).pickItem();
+
+                    case 6: //Game over when one player dies
+
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');  // to fall in a hole
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');
+                        playersList.get(0).fall(); // this method keeps decrementing the heat level of the character until saved or dead
+
+                        if(playersList.get(0).getHeatLevel() == 0) {
+                            playersList.get(0).die();
+                            g1.GameOver(playersList);
+                        }
+                    case 7: //Put on diving suit (The)
+
+                        playersList.get(0).pickItem(); // There will be a diving suit on the first iceberg
+                        playersList.get(0).useItem();
+
+                    case 8: // Game over by putting together flare gun.
+                       // playersList.get(0).getInventory().addItem(gun);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 }
+
             }
         }
+
+
     }
+
 }
 
 

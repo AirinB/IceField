@@ -13,15 +13,23 @@ public abstract class PlayerBase {
     protected Inventory inventory;
     protected boolean isDrowning = false;
 
+    public Inventory getInventory()
+    {
+        return inventory;
+    }
 
+   public void setWearingDSuit(boolean wearing)
+   {
+       isWearingDSuit = wearing;
+   }
     public Iceberg getCurrentIceberg()
     {
         return currentIceberg;
     }
-    public void setCurrentIceberg(Iceberg iceberg)
-    {
-        currentIceberg = iceberg;
-    }
+public void setCurrentIceberg(Iceberg iceberg)
+{
+    currentIceberg = iceberg;
+}
     /**
      * The constructor for the playerbase just instantiates an inventory.
      */
@@ -30,7 +38,7 @@ public abstract class PlayerBase {
         inventory = new Inventory();
     }
 
-    public void move(int dir) {
+    public void move(char dir) {
         switch (dir) {
             case 1:
 
@@ -74,9 +82,10 @@ public abstract class PlayerBase {
         }
     }
 
-    public void die() {
-        System.out.println("You have died. RIP ):");
+    public void die()
+    {
         isDead = true;
+		  System.out.println("You have died. RIP ):");
     }
 
     /**
@@ -108,11 +117,12 @@ public abstract class PlayerBase {
     }
 
 
+
+
+
     public int getHeatLevel() {
         return heatLevel;
     }
 
-    public void setWearingDSuit(boolean b) {
-        isWearingDSuit = b;
-    }
+
 }
