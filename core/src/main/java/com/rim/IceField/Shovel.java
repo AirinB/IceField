@@ -9,8 +9,8 @@ public class Shovel extends ItemBase {
     @Override
     public boolean useItem(PlayerBase player) {
         try{
-            int currentAmountOfSnow =  player.getIceberg().getAmountOfSnow( );
-            player.getIceberg().setAmountOfSnow( currentAmountOfSnow - 2);
+            int currentAmountOfSnow =  player.getCurrentIceberg().getAmountOfSnow();
+            player.getCurrentIceberg().setAmountOfSnow( currentAmountOfSnow - 2);
 
         } catch (Exception e) {
             e.printStackTrace();
