@@ -3,18 +3,17 @@ package com.rim.IceField;
 import java.util.ArrayList;
 
 
-
 public class Inventory {
 
 
-    protected  ArrayList<ItemBase> items; //items in the inventory of each player
+    protected ArrayList<ItemBase> items; //items in the inventory of each player
     //We check if players collected the parts of the gun, it hasn't to be one player.
-    public static int  count = 0;
+    public static int count = 0;
 
-    public boolean addItem(ItemBase it){
+    public boolean addItem(ItemBase it) {
         try {
 
-            if(!(it.tag.equals("Flare") || it.tag.equals("Charge") || it.tag.equals("Gun"))){
+            if (!(it.tag.equals("Flare") || it.tag.equals("Charge") || it.tag.equals("Gun"))) {
                 // Flare, charge and gun cannot be used separately
 
                 it.active = true;
@@ -30,7 +29,7 @@ public class Inventory {
         return true;
     }
 
-    public boolean deleteItem(int index){
+    public boolean deleteItem(int index) {
         try {
             items.remove(index);
 
@@ -44,7 +43,6 @@ public class Inventory {
     public ArrayList<ItemBase> getItems() {
         return items;
     }
-
 
 
 //    public  void isFlareGunAssembled(){

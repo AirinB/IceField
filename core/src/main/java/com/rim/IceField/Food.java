@@ -10,7 +10,7 @@ public class Food extends ItemBase {
 
     @Override
     public boolean useItem(PlayerBase player) {
-        try{
+        try {
             player.increaseHeatLevel();
 
         } catch (Exception e) {
