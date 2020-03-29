@@ -8,6 +8,14 @@ public class DivingSuit extends ItemBase {
 
     @Override
     public boolean useItem(PlayerBase player) {
-        return false;
+        try{
+            player.setWearingDSuit(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
     }
 }

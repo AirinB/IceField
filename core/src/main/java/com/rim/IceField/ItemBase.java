@@ -17,7 +17,10 @@ public abstract class ItemBase {
         this.active = false;  //the item that does not belog to the inventory, cannnot be used
     }
 
-    public abstract boolean useItem(PlayerBase player);
+    public boolean useItem(PlayerBase player) throws Exception {
+        if(!obtained || !active) throw new Exception("the Item is now owned or not active");
+        return false;
+    }
 
     public String getTag() {
         return tag;
