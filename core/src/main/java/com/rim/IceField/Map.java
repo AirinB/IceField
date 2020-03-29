@@ -83,6 +83,30 @@ public class Map {
 
           System.out.println("Icebergs were generated!");
 
+          ArrayList<Iceberg> neighbour1 = new ArrayList<Iceberg>();
+          neighbour1.add(second);
+          first.setNeighborIcebergs(neighbour1);
+
+        ArrayList<Iceberg> neighbour2 = new ArrayList<Iceberg>();
+        neighbour2.add(third);
+        first.setNeighborIcebergs(neighbour2);
+
+        ArrayList<Iceberg> neighbour3 = new ArrayList<Iceberg>();
+        neighbour3.add(forth);
+        first.setNeighborIcebergs(neighbour3);
+
+        ArrayList<Iceberg> neighbour4 = new ArrayList<Iceberg>();
+        neighbour4.add(fifth);
+        first.setNeighborIcebergs(neighbour4);
+
+        ArrayList<Iceberg> neighbour5 = new ArrayList<Iceberg>();
+        neighbour5.add(first);
+        first.setNeighborIcebergs(neighbour5);
+
+
+
+
+
     }
 
 }

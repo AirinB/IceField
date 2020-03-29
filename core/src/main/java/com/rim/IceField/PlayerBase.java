@@ -1,4 +1,7 @@
 package com.rim.IceField;
+
+import java.net.SocketTimeoutException;
+
 public abstract class PlayerBase {
     protected String tag;
     protected int ID;
@@ -7,6 +10,15 @@ public abstract class PlayerBase {
     protected boolean isDead;
     protected int numOfMoves;
     public Inventory Inv;
+    public Iceberg currentIceberg;
+
+    public void setCurrentIceberg(Iceberg currentIceberg) {
+        this.currentIceberg = currentIceberg;
+    }
+    public Iceberg getCurrentIceberg()
+    {
+        return this.currentIceberg;
+    }
 
     public PlayerBase()
     {
@@ -56,6 +68,7 @@ public abstract class PlayerBase {
 
     public void turn()
     {
+        System.out.println("It's your turn " + tag);
 
     }
 

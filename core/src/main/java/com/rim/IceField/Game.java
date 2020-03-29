@@ -63,7 +63,7 @@ public class Game {
         map.generateItemsOnMap();
         System.out.println("Game started!");
 
-        while (true) {
+      /*  while (true) {
             try {
                 for (PlayerBase player : players) {
 
@@ -79,7 +79,7 @@ public class Game {
                 break;
             }
 
-        }
+        }*/
 
 
     }
