@@ -10,7 +10,7 @@ public class Blizzard {
     public static void blow(ArrayList<PlayerBase> players, ArrayList<Iceberg> icebergs){
         numOfRounds++;
         for(PlayerBase player: players) {
-            if (!(player.useSkill() && player.tag.equals("Eskimo")))  //Checking if Eskimo has Igloo
+            if (!(player.currentIceberg.getHasIgloo()))  //Checking if Eskimo has Igloo
                 player.heatLevel--;
         }
         //Covering icebergs with snow

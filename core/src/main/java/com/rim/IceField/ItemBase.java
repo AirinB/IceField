@@ -1,6 +1,6 @@
 package com.rim.IceField;
 
-public class ItemBase {
+public abstract class ItemBase {
     protected String tag; // name of the item
     protected static int itemNumber = 0;
     protected int id;
@@ -8,14 +8,18 @@ public class ItemBase {
     protected boolean obtained; // the item is owned by a player
     protected boolean active; //the item can be used or not
 
-    public ItemBase(String tag) {
-        this.tag = tag;
+    public ItemBase() {
         id = itemNumber;
         itemNumber++;
 //        this.posX = posX;
 //        this.posY = posY;
         this.obtained = false; //in the begining the item does not belong to anyone
         this.active = false;  //the item that does not belog to the inventory, cannnot be used
+    }
+
+    public boolean useItem(PlayerBase player) throws Exception {
+        if(!obtained || !active) throw new Exception("the Item is now owned or not active");
+        return false;
     }
 
     public String getTag() {

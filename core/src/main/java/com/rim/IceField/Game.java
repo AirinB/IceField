@@ -37,12 +37,12 @@ public class Game {
         //Checking if flare gun was collected
         if (playersCheck) {
             for (PlayerBase player : players) {
-                if (player.Inv.count == 3 ) {
+                if (player.inventory.count == 3 ) {
                     flareGunCheck = true;
                     System.out.println("The flare gun is collected");
                 }
                 if (!flareGunCheck) {
-                        player.Inv.count = 0;
+                        player.inventory.count = 0;
                 }
             }
         }
@@ -63,7 +63,7 @@ public class Game {
         map.generateItemsOnMap();
         System.out.println("Game started!");
 
-        while (true) {
+      /*  while (true) {
             try {
                 for (PlayerBase player : players) {
 
@@ -79,7 +79,7 @@ public class Game {
                 break;
             }
 
-        }
+        }*/
 
 
     }
