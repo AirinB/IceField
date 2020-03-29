@@ -84,7 +84,7 @@ public class GameMain extends BasicGame {
                         int direction = in.nextInt();
                         switch (direction) {
                             case 1:
-                                playersList.get(i).move();
+                                playersList.get(i).move('N');
 
                                /*for(int k =0;k<5;k++)
                                {
@@ -109,16 +109,16 @@ public class GameMain extends BasicGame {
 
                     case 3:// Save character
 
-                        playersList.get(0).move();
-                        playersList.get(0).move();  // to fall in a hole
-                        playersList.get(0).move();
-                        playersList.get(0).move();
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');  // to fall in a hole
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');
                         playersList.get(0).fall();
 
-                        playersList.get(1).move();// to get on neighboring iceberg and save the one from hole
+                        playersList.get(1).move('N');// to get on neighboring iceberg and save the one from hole
                         playersList.get(1).pickItem(); // There is a rope on the second iceberg
-                        playersList.get(1).move();
-                        playersList.get(1).move();
+                        playersList.get(1).move('N');
+                        playersList.get(1).move('N');
 
                         playersList.get(1).SavePlayer(playersList.get(0));
                         break;
@@ -131,10 +131,10 @@ public class GameMain extends BasicGame {
 
                     case 6: //Game over when one player dies
 
-                        playersList.get(0).move();
-                        playersList.get(0).move();  // to fall in a hole
-                        playersList.get(0).move();
-                        playersList.get(0).move();
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');  // to fall in a hole
+                        playersList.get(0).move('N');
+                        playersList.get(0).move('N');
                         playersList.get(0).fall(); // this method keeps decrementing the heat level of the character until saved or dead
 
                         if(playersList.get(0).getHeatLevel() == 0) {

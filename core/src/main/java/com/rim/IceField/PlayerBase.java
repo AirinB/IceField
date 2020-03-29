@@ -39,7 +39,7 @@ public void setCurrentIceberg(Iceberg iceberg)
         inventory = new Inventory();
     }
 
-    public void move(int dir) {
+    public void move(char dir) {
         switch (dir) {
             case 1:
 
@@ -117,19 +117,13 @@ public void setCurrentIceberg(Iceberg iceberg)
         }
     }
 
-    public Iceberg getCurrentIceberg() {
-        return currentIceberg;
-    }
 
-    public void setCurrentIceberg(Iceberg iceberg) {
-        currentIceberg = iceberg;
-    }
+
+
 
     public int getHeatLevel() {
         return heatLevel;
     }
 
-    public void setWearingDSuit(boolean b) {
-        isWearingDSuit = b;
-    }
+
 }
