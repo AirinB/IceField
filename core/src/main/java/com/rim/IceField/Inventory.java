@@ -2,6 +2,8 @@ package com.rim.IceField;
 
 import java.util.ArrayList;
 
+
+
 public class Inventory {
 
 
@@ -45,17 +47,14 @@ public class Inventory {
 
 
 
-    public  void isFlareGunAssembled(){
+//    public  void isFlareGunAssembled(){
+//
+//        for (ItemBase item: items) {
+//            if(item.tag.equals("Flare") || item.tag.equals("Charge") || item.tag.equals("Gun")){
+//                count++;
+//            }
+//        }
+//    }
 
-        for (ItemBase item: items) {
-            if(item.tag.equals("Flare") || item.tag.equals("Charge") || item.tag.equals("Gun")){
-                count++;
-            }
-        }
-
-
-
-
-    }
 
 }

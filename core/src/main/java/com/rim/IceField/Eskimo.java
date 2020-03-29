@@ -12,7 +12,7 @@ public class Eskimo extends PlayerBase {
     }
 
     @Override
-    public void useSkill() {
+    public void useSkill(Iceberg ice) {
         System.out.println("An Igloo has been created!");
         usedIgloo = true;
     }

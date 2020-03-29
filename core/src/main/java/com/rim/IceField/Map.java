@@ -36,22 +36,22 @@ public class Map {
 
         //This is done for the test-cases needed in this iteration.
 
-         ItemBase shovel = new ItemBase("shovel");
+         ItemBase shovel = new Shovel();
          items.add(shovel);
 
-         ItemBase rope = new ItemBase("rope");
+         ItemBase rope = new Rope();
          items.add(rope);
 
-         ItemBase food = new ItemBase("food");
+         ItemBase food = new Food();
          items.add(food);
 
-         ItemBase flare = new ItemBase("flare");
+         ItemBase flare = new Food();
          items.add(flare);
 
-         ItemBase divingSuit = new ItemBase("divingSuit");
+         ItemBase divingSuit = new DivingSuit();
          items.add(divingSuit);
 
-         ItemBase gun = new ItemBase("gun");
+         ItemBase gun = new Food();
          items.add(gun);
 
          System.out.println("Items were generated!");
@@ -82,6 +82,30 @@ public class Map {
           icebergs.add(fifth);
 
           System.out.println("Icebergs were generated!");
+
+          ArrayList<Iceberg> neighbour1 = new ArrayList<Iceberg>();
+          neighbour1.add(second);
+          first.setNeighborIcebergs(neighbour1);
+
+        ArrayList<Iceberg> neighbour2 = new ArrayList<Iceberg>();
+        neighbour2.add(third);
+        first.setNeighborIcebergs(neighbour2);
+
+        ArrayList<Iceberg> neighbour3 = new ArrayList<Iceberg>();
+        neighbour3.add(forth);
+        first.setNeighborIcebergs(neighbour3);
+
+        ArrayList<Iceberg> neighbour4 = new ArrayList<Iceberg>();
+        neighbour4.add(fifth);
+        first.setNeighborIcebergs(neighbour4);
+
+        ArrayList<Iceberg> neighbour5 = new ArrayList<Iceberg>();
+        neighbour5.add(first);
+        first.setNeighborIcebergs(neighbour5);
+
+
+
+
 
     }
 
