@@ -30,7 +30,9 @@ public Iceberg(boolean isStable,int num,String type,int maxNumOfPlayers,boolean 
 }
     public void setNeighborIcebergs(ArrayList<Iceberg> arr)
     {
-        neighborIcebergs = arr;
+        for(int i =  0 ; i<arr.size(); i++) {
+            neighborIcebergs.add(arr.get(i));
+        }
     }
     public void setItem(ItemBase item)
     {

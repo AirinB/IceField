@@ -60,12 +60,10 @@ public class GameMain extends BasicGame {
         }
         Game g1 = new Game();
         g1.getMap().generateItemsOnMap();
-        for(int i = 0;i<5;i++)
-        {
-            System.out.println(g1.getMap().getIcebergs().get(i).getNum());
-        }
-
-
+        //for(int i = 0;i<5;i++)
+       // {
+       //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
+       // }
 
             for(int i = 0 ; i< n ; i++) {
 
@@ -97,7 +95,11 @@ public class GameMain extends BasicGame {
 
                                 //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
                                 list1.get(i).getCurrentIceberg().Remove_currentPlayers(list1.get(i));
+
+                                Iceberg newCurrent = list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0);
+
                                 list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(list1.get(i));
+                            //    list1.get(i).setCurrentIceberg(newCurrent);
 
 
                         }
