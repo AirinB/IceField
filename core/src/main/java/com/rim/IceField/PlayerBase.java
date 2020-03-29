@@ -1,5 +1,6 @@
 package com.rim.IceField;
 
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public abstract class PlayerBase {
@@ -10,6 +11,15 @@ public abstract class PlayerBase {
     protected boolean isDead = false;
     protected int numOfMoves;
     public Inventory Inv;
+    public Iceberg currentIceberg;
+
+    public void setCurrentIceberg(Iceberg currentIceberg) {
+        this.currentIceberg = currentIceberg;
+    }
+    public Iceberg getCurrentIceberg()
+    {
+        return this.currentIceberg;
+    }
 
     /** 
      * The constructor for the playerbase just instantiates an inventory.
@@ -74,6 +84,7 @@ public abstract class PlayerBase {
 
     public void turn()
     {
+        System.out.println("It's your turn " + tag);
 
     }
 

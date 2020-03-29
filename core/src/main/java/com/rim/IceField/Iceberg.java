@@ -19,8 +19,19 @@ public class Iceberg {
 
 public Iceberg(boolean isStable,int num,String type,int maxNumOfPlayers,boolean hasIgloo, int amountOfSnow, ItemBase item)
 {
-   //All parameters should be assigned randomly outside the class
+    this.isStable = isStable;
+    this.num = num;
+    this.type = type;
+    this.maxNumOfPlayers = maxNumOfPlayers;
+    this.hasIgloo = hasIgloo;
+    this.amountOfSnow = amountOfSnow;
+    this.item = item;
+
 }
+    public void setNeighborIcebergs(ArrayList<Iceberg> arr)
+    {
+        neighborIcebergs = arr;
+    }
     public void setItem(ItemBase item)
     {
         System.out.println("setItem()");
