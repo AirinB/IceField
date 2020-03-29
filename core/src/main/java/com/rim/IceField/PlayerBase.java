@@ -21,6 +21,10 @@ public abstract class PlayerBase {
         return iceberg;
     }
 
+    public void setWearingDSuit(boolean wearingDSuit) {
+        isWearingDSuit = wearingDSuit;
+    }
+
     /**
      * The constructor for the playerbase just instantiates an inventory.
      */
