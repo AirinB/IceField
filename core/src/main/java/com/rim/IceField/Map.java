@@ -69,16 +69,16 @@ public class Map {
           Iceberg first = new Iceberg(true, 1, "stable", 20, false, 1, null  );
           icebergs.add(first);
 
-          Iceberg second = new Iceberg(true, 2, "instable", 3, false, 2, null  );
+          Iceberg second = new Iceberg(true, 2, "stable", 20, false, 2, null  );
           icebergs.add(second);
 
           Iceberg third = new Iceberg(true, 3, "stable", 20, false, 3, null  );
           icebergs.add(third);
 
-          Iceberg forth = new Iceberg(true, 4, "hole", 0, false, 2, null  );
+          Iceberg forth = new Iceberg(true, 4, "instable", 3, false, 2, null  );
           icebergs.add(forth);
 
-          Iceberg fifth = new Iceberg(true, 5, "stable", 20, false, 1, null );
+          Iceberg fifth = new Iceberg(true, 5, "hole", 0, false, 1, null );
           icebergs.add(fifth);
 
           System.out.println("Icebergs were generated!");

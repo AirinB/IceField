@@ -8,28 +8,28 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameMain extends BasicGame {
-	public static final String GAME_IDENTIFIER = "com.rim.IceField";
+    public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
-	private Texture texture;
-	
-	@Override
+    private Texture texture;
+
+    @Override
     public void initialise() {
-    	texture = new Texture("mini2Dx.png");
+        texture = new Texture("mini2Dx.png");
     }
-    
+
     @Override
     public void update(float delta) {
-    //Test
+        //Test
     }
-    
+
     @Override
     public void interpolate(float alpha) {
-    
+
     }
-    
+
     @Override
     public void render(Graphics g) {
-		g.drawTexture(texture, 0f, 0f);
+        g.drawTexture(texture, 0f, 0f);
     }
 
     public static void main(String[] args) {
@@ -38,22 +38,20 @@ public class GameMain extends BasicGame {
         System.out.println("Introduce the number of players in the game: ");
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
-        ArrayList<PlayerBase> list1 = new ArrayList<PlayerBase>();
+        ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
 
-        for (int i = 0 ; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             System.out.println("Press 1 to create a new Eskimo, 2 for a Polar Explorer");
             int m = in.nextInt();
-            switch(m)
-            {
+            switch (m) {
                 case 1:
                     Eskimo e = new Eskimo();
-                    list1.add(e);
+                    playersList.add(e);
                     System.out.println("New Eskimo added.");
                     break;
                 case 2:
                     PolarExplorer pe = new PolarExplorer();
-                    list1.add(pe);
+                    playersList.add(pe);
                     System.out.println("New Polar Explorer added.");
                     break;
             }
@@ -61,24 +59,23 @@ public class GameMain extends BasicGame {
         Game g1 = new Game();
         g1.getMap().generateItemsOnMap();
         //for(int i = 0;i<5;i++)
-       // {
-       //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
-       // }
+        // {
+        //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
+        // }
 
-            for(int i = 0 ; i< n ; i++) {
+        for (int i = 0; i < n; i++) {
 
-                g1.getMap().getIcebergs().get(0).Add_currentPlayers(list1.get(i));
-                list1.get(i).currentIceberg = g1.getMap().getIcebergs().get(0);
+            g1.getMap().getIcebergs().get(0).Add_currentPlayers(playersList.get(i));
+            playersList.get(i).currentIceberg = g1.getMap().getIcebergs().get(0);
 
 
-            }
+        }
 
-        g1.newGame(list1);
+        g1.newGame(playersList);
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < 4; j++) {
-                list1.get(i).turn(); // Some more turn() log
+                playersList.get(i).turn(); // Some more turn() log
                 System.out.println("Choose an action by entering its corresponding number : 1 - Move | 2 - Use skill | 3 - Save Character | 4 - Use Item | 5 - Pick Item ");
                 int m = in.nextInt();
                 switch (m) {
@@ -87,6 +84,7 @@ public class GameMain extends BasicGame {
                         int direction = in.nextInt();
                         switch (direction) {
                             case 1:
+                                playersList.get(i).move();
 
                                /*for(int k =0;k<5;k++)
                                {
@@ -94,16 +92,79 @@ public class GameMain extends BasicGame {
                                }*/
 
                                 //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
-                                list1.get(i).getCurrentIceberg().Remove_currentPlayers(list1.get(i));
+                             //   playersList.get(i).getCurrentIceberg().Remove_currentPlayers(playersList.get(i));
 
-                                Iceberg newCurrent = list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0);
+                               // Iceberg newCurrent = playersList.get(i).getCurrentIceberg().getNeighborIcebergs().get(0);
 
-                                list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(list1.get(i));
-                            //    list1.get(i).setCurrentIceberg(newCurrent);
+                              //  playersList.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(playersList.get(i));
+                               //     playersList.get(i).setCurrentIceberg(newCurrent);
 
 
                         }
                         break;
+
+                    case 2: // Use skill
+                        playersList.get(i).useSkill(playersList.get(i).getCurrentIceberg());
+                        break;
+
+                    case 3:// Save character
+
+                        playersList.get(0).move();
+                        playersList.get(0).move();  // to fall in a hole
+                        playersList.get(0).move();
+                        playersList.get(0).move();
+                        playersList.get(0).fall();
+
+                        playersList.get(1).move();// to get on neighboring iceberg and save the one from hole
+                        playersList.get(1).pickItem(); // There is a rope on the second iceberg
+                        playersList.get(1).move();
+                        playersList.get(1).move();
+
+                        playersList.get(1).SavePlayer(playersList.get(0));
+                        break;
+
+                    case 4:// use item
+                        playersList.get(0).useItem(); // Should I send an object in useItem?
+
+                    case 5: //Pick item
+                      playersList.get(i).pickItem();
+
+                    case 6: //Game over when one player dies
+
+                        playersList.get(0).move();
+                        playersList.get(0).move();  // to fall in a hole
+                        playersList.get(0).move();
+                        playersList.get(0).move();
+                        playersList.get(0).fall(); // this method keeps decrementing the heat level of the character until saved or dead
+
+                        if(playersList.get(0).getHeatLevel() == 0) {
+                            playersList.get(0).die();
+                            g1.GameOver(playersList);
+                        }
+                    case 7: //Put on diving suit (The)
+
+                        playersList.get(0).pickItem(); // There will be a diving suit on the first iceberg
+                        playersList.get(0).useItem();
+
+                    case 8: // Game over by putting together flare gun.
+                       // playersList.get(0).getInventory().addItem(gun);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -114,26 +175,8 @@ public class GameMain extends BasicGame {
         }
 
 
-
-
     }
 
-    public static class Eskimo extends PlayerBase {
-        private boolean usedIgloo;
-
-        public Eskimo()
-        {
-            super();
-            this.tag = "Eskimo";
-            this.heatLevel = 5;
-
-        }
-
-        @Override
-        public void useSkill(Iceberg ice) {
-            System.out.println("An Igloo has been created!");
-        }
-    }
 }
 
 

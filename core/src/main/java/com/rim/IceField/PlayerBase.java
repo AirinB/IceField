@@ -14,7 +14,15 @@ public abstract class PlayerBase {
 
     protected Inventory inventory;
 
-   
+    public Inventory getInventory()
+    {
+        return inventory;
+    }
+
+   public void setWearingDSuit(boolean wearing)
+   {
+       isWearingDSuit = wearing;
+   }
     public Iceberg getCurrentIceberg()
     {
         return currentIceberg;
@@ -72,6 +80,7 @@ public void setCurrentIceberg(Iceberg iceberg)
 
     public void die()
     {
+        isDead = true;
 		  System.out.println("You have died. RIP ):");
     }
 
