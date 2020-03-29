@@ -1,6 +1,6 @@
 package com.rim.IceField;
 
-public class ItemBase {
+public abstract class ItemBase {
     protected String tag; // name of the item
     protected static int itemNumber = 0;
     protected int id;
@@ -17,6 +17,8 @@ public class ItemBase {
         this.obtained = false; //in the begining the item does not belong to anyone
         this.active = false;  //the item that does not belog to the inventory, cannnot be used
     }
+
+    public abstract boolean useItem(PlayerBase player);
 
     public String getTag() {
         return tag;
