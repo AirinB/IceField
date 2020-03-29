@@ -7,6 +7,7 @@ import org.mini2Dx.core.graphics.Graphics;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
@@ -36,22 +37,24 @@ public class GameMain extends BasicGame {
 
 
         System.out.println("Introduce the number of players in the game: ");
-        Scanner in = new Scanner(System.in);
-        int n = in.nextInt();
-        ArrayList<PlayerBase> list1 = new ArrayList<PlayerBase>();
+        Scanner input = new Scanner(System.in);
+        int numberOfPlayers = input.nextInt();
+        ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0 ; i < numberOfPlayers; i++)
+        {
             System.out.println("Press 1 to create a new Eskimo, 2 for a Polar Explorer");
-            int m = in.nextInt();
-            switch (m) {
+            int m = input.nextInt();
+            switch(m)
+            {
                 case 1:
                     Eskimo e = new Eskimo();
-                    list1.add(e);
+                    playersList.add(e);
                     System.out.println("New Eskimo added.");
                     break;
                 case 2:
                     PolarExplorer pe = new PolarExplorer();
-                    list1.add(pe);
+                    playersList.add(pe);
                     System.out.println("New Polar Explorer added.");
                     break;
             }
@@ -63,25 +66,26 @@ public class GameMain extends BasicGame {
         //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
         // }
 
-        for (int i = 0; i < n; i++) {
+            for(int i = 0 ; i< numberOfPlayers ; i++) {
 
-            g1.getMap().getIcebergs().get(0).Add_currentPlayers(list1.get(i));
-            list1.get(i).currentIceberg = g1.getMap().getIcebergs().get(0);
+                g1.getMap().getIcebergs().get(0).Add_currentPlayers(playersList.get(i));
+                playersList.get(i).currentIceberg = g1.getMap().getIcebergs().get(0);
 
 
         }
 
-        g1.newGame(list1);
+        g1.newGame(playersList);
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < numberOfPlayers; i++)
+        {
             for (int j = 0; j < 4; j++) {
-                list1.get(i).turn(); // Some more turn() log
+                playersList.get(i).turn(); // Some more turn() log
                 System.out.println("Choose an action by entering its corresponding number : 1 - Move | 2 - Use skill | 3 - Save Character | 4 - Use Item | 5 - Pick Item ");
-                int m = in.nextInt();
+                int m = input.nextInt();
                 switch (m) {
                     case 1:
                         System.out.println("Press 1 to move up, 2 - right, 3 - down, 4 - left:");
-                        int direction = in.nextInt();
+                        int direction = input.nextInt();
                         switch (direction) {
                             case 1:
 
@@ -91,12 +95,12 @@ public class GameMain extends BasicGame {
                                }*/
 
                                 //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
-                                list1.get(i).getCurrentIceberg().Remove_currentPlayers(list1.get(i));
+                                playersList.get(i).getCurrentIceberg().Remove_currentPlayers(playersList.get(i));
 
-                                Iceberg newCurrent = list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0);
+                                Iceberg newCurrent = playersList.get(i).getCurrentIceberg().getNeighborIcebergs().get(0);
 
-                                list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(list1.get(i));
-                                //    list1.get(i).setCurrentIceberg(newCurrent);
+                                playersList.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(playersList.get(i));
+                            //    list1.get(i).setCurrentIceberg(newCurrent);
 
 
                         }

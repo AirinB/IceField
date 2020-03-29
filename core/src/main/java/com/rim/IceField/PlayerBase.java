@@ -1,6 +1,5 @@
 package com.rim.IceField;
 
-import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public abstract class PlayerBase {
@@ -14,6 +13,15 @@ public abstract class PlayerBase {
     protected Inventory inventory;
     protected boolean isDrowning = false;
 
+
+    public Iceberg getCurrentIceberg()
+    {
+        return currentIceberg;
+    }
+    public void setCurrentIceberg(Iceberg iceberg)
+    {
+        currentIceberg = iceberg;
+    }
     /**
      * The constructor for the playerbase just instantiates an inventory.
      */
@@ -99,13 +107,6 @@ public abstract class PlayerBase {
         }
     }
 
-    public Iceberg getCurrentIceberg() {
-        return currentIceberg;
-    }
-
-    public void setCurrentIceberg(Iceberg iceberg) {
-        currentIceberg = iceberg;
-    }
 
     public int getHeatLevel() {
         return heatLevel;

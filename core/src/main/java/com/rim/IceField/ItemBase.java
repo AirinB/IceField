@@ -17,9 +17,15 @@ public abstract class ItemBase {
         this.active = false;  //the item that does not belong to the inventory, cannot be used
     }
 
-    public boolean useItem(PlayerBase player) throws Exception {
-        if (!obtained || !active) throw new Exception("the Item is now owned or not active");
-        return false;
+    public  boolean useItem(PlayerBase player) throws Exception {
+        try {
+            if(!obtained || !active) throw new Exception("the Item is now owned or not active");
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public String getTag() {
@@ -45,6 +51,7 @@ public abstract class ItemBase {
     public boolean isActive() {
         return active;
     }
+
 
 
 }

@@ -7,8 +7,8 @@ public class Rope extends ItemBase {
     }
 
     @Override
-    public boolean useItem(PlayerBase player) {
-
+    public boolean useItem(PlayerBase player) throws Exception {
+        super.useItem(player) ;
         return false;
     }
 }
