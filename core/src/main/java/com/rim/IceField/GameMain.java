@@ -1,7 +1,5 @@
 package com.rim.IceField;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
@@ -29,5 +27,11 @@ public class GameMain extends BasicGame {
     @Override
     public void render(Graphics g) {
 		g.drawTexture(texture, 0f, 0f);
+    }
+
+    public static void main(String[] args) {
+
+
+
     }
 }
