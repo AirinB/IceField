@@ -1,5 +1,6 @@
 package com.rim.IceField;
 
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public abstract class PlayerBase {
@@ -9,8 +10,11 @@ public abstract class PlayerBase {
     protected int heatLevel;
     protected boolean isDead = false;
     protected int numOfMoves;
+
     protected Iceberg iceberg;
     protected Inventory inventory;
+
+   
 
 
     public Iceberg getIceberg() {
@@ -80,6 +84,7 @@ public abstract class PlayerBase {
 
     public void turn()
     {
+        System.out.println("It's your turn " + tag);
 
     }
 
