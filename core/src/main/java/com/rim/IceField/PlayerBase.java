@@ -4,7 +4,7 @@ import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public abstract class PlayerBase {
-    protected Iceberg currentIceberg; //Added because necessary
+    protected Iceberg currentIceberg;
     protected String tag;
     protected int ID;
     protected boolean isWearingDSuit = false;
@@ -12,16 +12,17 @@ public abstract class PlayerBase {
     protected boolean isDead = false;
     protected int numOfMoves;
 
-    protected Iceberg iceberg;
     protected Inventory inventory;
 
    
-
-
-    public Iceberg getIceberg() {
-        return iceberg;
+    public Iceberg getCurrentIceberg()
+    {
+        return currentIceberg;
     }
-
+public void setCurrentIceberg(Iceberg iceberg)
+{
+    currentIceberg = iceberg;
+}
     /**
      * The constructor for the playerbase just instantiates an inventory.
      */
