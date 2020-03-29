@@ -4,6 +4,7 @@ import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public abstract class PlayerBase {
+    protected Iceberg currentIceberg; //Added because necessary
     protected String tag;
     protected int ID;
     protected boolean isWearingDSuit = false;
@@ -40,10 +41,10 @@ public abstract class PlayerBase {
 		System.out.println("Player has been saved!");
     }
   
-    public void useSkill()
+    public void useSkill(Iceberg ice)
     {
        System.out.println("Empty Skill.");
-		}
+    }
 
 
     public void increaseHeatLevel() {
