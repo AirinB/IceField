@@ -18,7 +18,7 @@ public abstract class ItemBase {
     }
 
     public boolean useItem(PlayerBase player) throws Exception {
-        if(!obtained || !active) throw new Exception("the Item is now owned or not active");
+        if (!obtained || !active) throw new Exception("the Item is now owned or not active");
         return false;
     }
 
