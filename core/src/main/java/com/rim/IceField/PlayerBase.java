@@ -1,4 +1,6 @@
 package com.rim.IceField;
+import java.util.Scanner;
+
 public abstract class PlayerBase {
     protected String tag;
     protected int ID;
@@ -30,7 +32,7 @@ public abstract class PlayerBase {
     public void useSkill()
     {
        System.out.println("Empty Skill.");
-		}
+    }
 
 
     public void useItem()
@@ -49,7 +51,8 @@ public abstract class PlayerBase {
 		  System.out.println("You have died. RIP ):");
     }
 
-    /** In the fall() method we decrement the current heatLevel by 1, and that will be updated every second,
+    /**
+     * In the fall() method we decrement the current heatLevel by 1, and that will be updated every second,
      * Meaning eskimos get 5 seconds to live if they fall, and Polar expolorers get 4 seconds.
      */
     public void fall()
