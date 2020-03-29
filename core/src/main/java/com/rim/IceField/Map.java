@@ -36,22 +36,22 @@ public class Map {
 
         //This is done for the test-cases needed in this iteration.
 
-         ItemBase shovel = new ItemBase("shovel");
+         ItemBase shovel = new Shovel();
          items.add(shovel);
 
-         ItemBase rope = new ItemBase("rope");
+         ItemBase rope = new Rope();
          items.add(rope);
 
-         ItemBase food = new ItemBase("food");
+         ItemBase food = new Food();
          items.add(food);
 
-         ItemBase flare = new ItemBase("flare");
+         ItemBase flare = new Food();
          items.add(flare);
 
-         ItemBase divingSuit = new ItemBase("divingSuit");
+         ItemBase divingSuit = new DivingSuit();
          items.add(divingSuit);
 
-         ItemBase gun = new ItemBase("gun");
+         ItemBase gun = new Food();
          items.add(gun);
 
          System.out.println("Items were generated!");

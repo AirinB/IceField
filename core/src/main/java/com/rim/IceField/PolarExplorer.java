@@ -9,7 +9,7 @@ public class PolarExplorer extends PlayerBase {
     }
 
     @Override
-    public void useSkill() {
+    public void useSkill(Iceberg ice) {
         //Not sure if this is correct
         System.out.println("Neighboring icebergs have been checked!");
     }
