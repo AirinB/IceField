@@ -6,6 +6,8 @@ public class Inventory {
 
 
     protected  ArrayList<ItemBase> items; //items in the inventory of each player
+    //We check if players collected the parts of the gun, it hasn't to be one player.
+    public static int  count = 0;
 
     public boolean addItem(ItemBase it){
         try {
@@ -17,11 +19,6 @@ public class Inventory {
             }
             it.obtained = true;
             items.add(it);
-
-            if(isFlareGunAssembled()){
-                //   ItemBase flareGun = new ItemBase("FlareGun");
-                System.out.println("The flare gun is collected");
-            }
 
         } catch (Exception e) {
 
@@ -47,14 +44,17 @@ public class Inventory {
     }
 
 
-    public  boolean isFlareGunAssembled(){
-        int count = 0;
+
+    public  void isFlareGunAssembled(){
+
         for (ItemBase item: items) {
             if(item.tag.equals("Flare") || item.tag.equals("Charge") || item.tag.equals("Gun")){
                 count++;
             }
         }
-        return count == 3; // if the count is 3 than all the parts of the flare gun are collected
+
+
+
 
     }
 

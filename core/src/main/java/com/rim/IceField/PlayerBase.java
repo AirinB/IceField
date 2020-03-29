@@ -23,7 +23,8 @@ public abstract class PlayerBase {
 		System.out.println("Player has been saved!");
     }
 
-    public void useSkill()
+    //Had to make this method boolean in order to be able to check if the Eskimo constructed the igloo
+    public boolean useSkill()
     {
 		if (this.tag.equals("Eskimo"))
 		{
@@ -33,10 +34,13 @@ public abstract class PlayerBase {
 			//Not sure if this is correct
 			System.out.println("Neighboring icebergs have been checked!");
 		}
+
+		return true;
     }
 
     public void useItem()
     {
+
 
     }
 
