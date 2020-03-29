@@ -90,14 +90,14 @@ public class GameMain extends BasicGame {
                         switch (direction) {
                             case 1:
 
-                               for(int k =0;k<5;k++)
+                               /*for(int k =0;k<5;k++)
                                {
                                    System.out.println(g1.getMap().getIcebergs().get(k).getNeighborIcebergs().get(0));
-                               }
+                               }*/
 
                                 //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
-                                //list1.get(i).getCurrentIceberg().Remove_currentPlayers(list1.get(i));
-                                //list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(list1.get(i));
+                                list1.get(i).getCurrentIceberg().Remove_currentPlayers(list1.get(i));
+                                list1.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(list1.get(i));
 
 
                         }
@@ -114,6 +114,23 @@ public class GameMain extends BasicGame {
 
 
 
+    }
+
+    public static class Eskimo extends PlayerBase {
+        private boolean usedIgloo;
+
+        public Eskimo()
+        {
+            super();
+            this.tag = "Eskimo";
+            this.heatLevel = 5;
+
+        }
+
+        @Override
+        public void useSkill(Iceberg ice) {
+            System.out.println("An Igloo has been created!");
+        }
     }
 }
 
