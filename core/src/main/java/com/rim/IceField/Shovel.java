@@ -7,7 +7,8 @@ public class Shovel extends ItemBase {
     }
 
     @Override
-    public boolean useItem(PlayerBase player) {
+    public boolean useItem(PlayerBase player) throws Exception {
+        super.useItem(player) ;
         try{
             int currentAmountOfSnow =  player.getCurrentIceberg().getAmountOfSnow();
             player.getCurrentIceberg().setAmountOfSnow( currentAmountOfSnow - 2);

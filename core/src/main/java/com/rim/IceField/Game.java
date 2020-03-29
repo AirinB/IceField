@@ -36,12 +36,12 @@ public class Game {
         //Checking if flare gun was collected
         if (playersCheck) {
             for (PlayerBase player : players) {
-                if (player.inventory.count == 3) {
+                if (Inventory.countGunItems == 3) {
                     flareGunCheck = true;
                     System.out.println("The flare gun is collected");
                 }
                 if (!flareGunCheck) {
-                    player.inventory.count = 0;
+                    Inventory.countGunItems = 0;
                 }
             }
         }
