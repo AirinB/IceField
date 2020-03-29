@@ -4,17 +4,22 @@ import java.util.ArrayList;
 
 public class Blizzard {
 
-    //I am not sure about the static here , but actually we don't need the instance of the Blizzard, blizzard is shared among the classes, so
-    // we can just do Blizzard.blow() when it is required.
-
     public static int numOfRounds;
 
 
-    public static void blow(ArrayList<PlayerBase> players){
+    public static void blow(ArrayList<PlayerBase> players, ArrayList<Iceberg> icebergs){
         numOfRounds++;
-        for(PlayerBase player: players){
-            player.heatLevel--;
+        for(PlayerBase player: players) {
+            if (!(player.useSkill() && player.tag.equals("Eskimo")))  //Checking if Eskimo has Igloo
+                player.heatLevel--;
         }
+        //Covering icebergs with snow
+        for(Iceberg iceberg: icebergs){
+            int snow = iceberg.getAmountOfSnow();
+            iceberg.setAmountOfSnow(snow + 1);
+        }
+
+
 
     }
 
