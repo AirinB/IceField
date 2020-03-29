@@ -8,8 +8,7 @@ public abstract class ItemBase {
     protected boolean obtained; // the item is owned by a player
     protected boolean active; //the item can be used or not
 
-    public ItemBase(String tag) {
-        this.tag = tag;
+    public ItemBase() {
         id = itemNumber;
         itemNumber++;
 //        this.posX = posX;

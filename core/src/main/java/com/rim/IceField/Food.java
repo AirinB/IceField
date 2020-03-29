@@ -3,8 +3,9 @@ package com.rim.IceField;
 public class Food extends ItemBase {
 
 
-    public Food(String tag) {
-        super(tag);
+    public Food() {
+        super();
+        tag = "Food";
     }
 
     @Override

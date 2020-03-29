@@ -10,24 +10,24 @@ public abstract class PlayerBase {
     protected int heatLevel;
     protected boolean isDead = false;
     protected int numOfMoves;
-    public Inventory Inv;
-    public Iceberg currentIceberg;
 
-    public void setCurrentIceberg(Iceberg currentIceberg) {
-        this.currentIceberg = currentIceberg;
-    }
-    public Iceberg getCurrentIceberg()
-    {
-        return this.currentIceberg;
+    protected Iceberg iceberg;
+    protected Inventory inventory;
+
+   
+
+
+    public Iceberg getIceberg() {
+        return iceberg;
     }
 
-    /** 
+    /**
      * The constructor for the playerbase just instantiates an inventory.
      */
     public PlayerBase()
     {
        this.tag = "PlayerBase";
-       Inv = new Inventory();
+       inventory = new Inventory();
     }
 
     public void move()
@@ -61,8 +61,8 @@ public abstract class PlayerBase {
     {
         String in;
         //Not sure how I would check a specific item in the inventory here.
-        for (int i = 0; i < Inv.items.size(); i++) {
-            System.out.print(Inv.items.toString() + " ");
+        for (int i = 0; i < inventory.items.size(); i++) {
+            System.out.print(inventory.items.toString() + " ");
         }
         Scanner sc = new Scanner(System.in);
         in = sc.nextLine();
