@@ -11,7 +11,7 @@ public abstract class PlayerBase {
     protected int heatLevel;
     protected boolean isDead = false;
     protected int numOfMoves;
-    protected Inventory Inv;
+    protected Inventory inventory;
     protected boolean isDrowning = false;
 
     /**
@@ -19,11 +19,24 @@ public abstract class PlayerBase {
      */
     public PlayerBase() {
         this.tag = "PlayerBase";
-        Inv = new Inventory();
+        inventory = new Inventory();
     }
 
-    public void move() {
+    public void move(int dir) {
+        switch (dir) {
+            case 1:
 
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+        }
     }
 
     public void SavePlayer(PlayerBase player) {
@@ -43,11 +56,14 @@ public abstract class PlayerBase {
         this.heatLevel--;
     }
 
-
-    public void useItem() {
-        String in;
-        Scanner sc = new Scanner(System.in);
-        in = sc.nextLine();
+    public void useItem(ItemBase item) {
+        if (inventory.items.contains(item)) {
+            try {
+                item.useItem(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void die() {
@@ -76,7 +92,7 @@ public abstract class PlayerBase {
 
     public void pickItem() {
         if (currentIceberg.getAmountOfSnow() == 0) {
-            Inv.items.add(currentIceberg.getItem());
+            inventory.items.add(currentIceberg.getItem());
             System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
         } else {
             System.out.println("Level of snow on iceberg is not 0!");

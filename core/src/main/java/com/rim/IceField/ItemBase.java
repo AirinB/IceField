@@ -13,8 +13,8 @@ public abstract class ItemBase {
         itemNumber++;
 //        this.posX = posX;
 //        this.posY = posY;
-        this.obtained = false; //in the begining the item does not belong to anyone
-        this.active = false;  //the item that does not belog to the inventory, cannnot be used
+        this.obtained = false; //in the beginning the item does not belong to anyone
+        this.active = false;  //the item that does not belong to the inventory, cannot be used
     }
 
     public boolean useItem(PlayerBase player) throws Exception {
