@@ -1,4 +1,7 @@
 package com.rim.IceField;
+
+import java.util.Scanner;
+
 public abstract class PlayerBase {
     protected String tag;
     protected int ID;
@@ -32,6 +35,17 @@ public abstract class PlayerBase {
        System.out.println("Empty Skill.");
 		}
 
+
+    public void increaseHeatLevel() {
+        this.heatLevel++;
+    }
+    public void decreseHeatLevel() {
+        this.heatLevel--;
+    }
+
+    public int getHeatLevel() {
+        return heatLevel;
+    }
 
     public void useItem()
     {
