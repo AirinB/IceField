@@ -95,6 +95,7 @@ public abstract class PlayerBase {
      * Meaning eskimos get 5 seconds to live if they fall, and Polar expolorers get 4 seconds.
      */
     public void fall() {
+        currentIceberg.setType("hole");
         isDrowning = true;
         System.out.println("Ouch! You've fallen into some water");
         decreseHeatLevel();
@@ -123,7 +124,7 @@ public abstract class PlayerBase {
 
 
     public void removeSnow(){
-
+        if(currentIceberg.getAmountOfSnow() <= 0) return;
         int currentSnow = currentIceberg.getAmountOfSnow();
         currentIceberg.setAmountOfSnow( currentSnow - 1 );
     }
