@@ -1,15 +1,21 @@
 package com.rim.IceField;
 
 public class DivingSuit extends ItemBase {
+
     public DivingSuit() {
         super();
+        System.out.println("DivingSuit()");
         tag = "Diving Suit";
     }
 
     @Override
     public boolean useItem(PlayerBase player) throws Exception {
+        System.out.println("useItem()");
         super.useItem(player) ;
         try{
+
+            //when the player weard a diving suit, we set
+            // the value that indicate that he wears it to true
             player.setWearingDSuit(true);
 
         } catch (Exception e) {

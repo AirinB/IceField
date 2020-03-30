@@ -7,16 +7,22 @@ public class Inventory {
 
 
     protected ArrayList<ItemBase> items = new ArrayList<ItemBase>(); //items in the inventory of each player
+
     //We check if players collected the parts of the gun, it hasn't to be one player.
-    public static int countGunItems = 0;
+    public static int countGunItems = 0; //how many items are in the inventory
 
     public boolean addItem(ItemBase it) {
+        System.out.println("addItem()");
+
         try {
 
+            // Flare, charge and gun cannot be used separately
             if (!(it.tag.equals("Flare") || it.tag.equals("Charge") || it.tag.equals("Gun"))) {
-                // Flare, charge and gun cannot be used separately
 
+
+                //all items can be activated after adding them to the inventory except the parts of the gun
                 it.active = true;
+
             }else{
                 countGunItems++;
             }
@@ -50,6 +56,8 @@ public class Inventory {
     }
 
     public ItemBase getItem(String s){
+        System.out.println("getItem()");
+
         for (ItemBase item: items) {
             if(item.tag.equals(s)){
                 return item;
