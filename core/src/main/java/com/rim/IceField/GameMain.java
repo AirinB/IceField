@@ -84,19 +84,12 @@ public class GameMain extends BasicGame {
                 int m = input.nextInt();
                 switch (m) {
                     case 1:
+
                         System.out.println("Press 1 to move up, 2 - right, 3 - down, 4 - left:");
                         int direction = input.nextInt();
-                        if (direction == 1) {
-
-                            playersList.get(i).move('N');
-
-                            //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
-                            playersList.get(i).getCurrentIceberg().Remove_currentPlayers(playersList.get(i));
-
-                            playersList.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(playersList.get(i));
-                            playersList.get(i).currentIceberg = g1.getMap().getIcebergs().get(s);
-                            s++;
-                        }
+                        System.out.println("--------------------------"+playersList.get(i).getCurrentIceberg().getNum()+"--------------------------");
+                        playersList.get(i).move(1);
+                        System.out.println("--------------------------"+playersList.get(i).getCurrentIceberg().getNum()+"--------------------------");
                         break;
 
                     case 2: // Use skill
@@ -105,19 +98,22 @@ public class GameMain extends BasicGame {
 
                     case 3:// Save character
 
-                        playersList.get(0).move('N');
-                        playersList.get(0).move('N');  // to fall in a hole
-                        playersList.get(0).move('N');
-                        playersList.get(0).move('N');
+                        playersList.get(0).move(1);
+                        playersList.get(0).move(1);  // to fall in a hole
+                        playersList.get(0).move(1);
+                        playersList.get(0).move(1);
                         playersList.get(0).fall();
 
-                        playersList.get(1).move('N');// to get on neighboring iceberg and save the one from hole
+                        playersList.get(1).move(1);// to get on neighboring iceberg and save the one from hole
+                        playersList.get(1).removeSnow();
                         playersList.get(1).pickItem(); // There is a rope on the second iceberg
-                        playersList.get(1).move('N');
-                        playersList.get(1).move('N');
+                        playersList.get(1).move(1);
+                        playersList.get(1).move(1);
 
                         playersList.get(1).SavePlayer(playersList.get(0));
                         break;
+
+
 
                     case 4:// use item
                         Food food = new Food();
@@ -149,7 +145,7 @@ public class GameMain extends BasicGame {
                       break;
 
                     case 6: //Put on diving suit (The)
-                        System.out.println("You are in water! Pless 1 for the scenario when you have a diving suit\n" +
+                        System.out.println(" Pless 1 for the scenario when you have a diving suit\n" +
                                 " 2 for when you do not and there is no one to save you\n 3 The other player saves you ");
                         playersList.get(0).fall();
                         int userInput1 = input.nextInt();
@@ -194,7 +190,14 @@ public class GameMain extends BasicGame {
                             g1.GameOver(playersList);
                             return;
                         }
+                    case 8: //Instable iceberg
+                        playersList.get(0).move(1);
+                        playersList.get(0).move(1);  //to stay on unstable iceberg
+                        playersList.get(0).move(1);
 
+                        playersList.get(1).move(1);
+                        playersList.get(1).move(1);
+                        playersList.get(1).move(1);
 
                 }
 
