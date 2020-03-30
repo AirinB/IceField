@@ -2,24 +2,33 @@ package com.rim.IceField;
 
 import java.util.ArrayList;
 
+//Class Game
 public class Game {
+
+    //Instance of Map, shared between the classes
     private static Map map;
 
+    //Constructor
     public Game() {
         map = new Map();
     }
 
+    //Getter for map
     public Map getMap() {
+        System.out.println("getMap()");
         return map;
     }
 
-
+    //Static method GameOver for finishing the game.
     public static boolean GameOver(ArrayList<PlayerBase> players) {
-        boolean end = false;
-        boolean playersCheck = false;
-        boolean flareGunCheck = false;
 
-        //Checking if any of the player died
+        System.out.println("GameOver()");
+
+        boolean end = false;             //Boolean for check the end of the game
+        boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
+        boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
+
+        //Checking if any of the player died, then the game is lost
         for (PlayerBase player : players) {
             if (player.isDead) {
                 System.out.println("Game lost!");
@@ -52,14 +61,18 @@ public class Game {
             end = true;
         }
 
-        return end;
 
+        return end;
 
     }
 
+
+    //Static method for starting a new game.
     public static void newGame(ArrayList<PlayerBase> players) {
 
-        map.generateItemsOnMap();
+        System.out.println("newGame()");
+
+        map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
 
       /*  while (true) {

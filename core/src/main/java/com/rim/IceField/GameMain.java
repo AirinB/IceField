@@ -1,6 +1,5 @@
 package com.rim.IceField;
 
-
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -283,8 +282,8 @@ public class GameMain extends BasicGame {
 
                         for(int l = 0; l<3;l++)
                         {
-                            //reduces the heat level of the player
-                           playersList.get(0).decreseHeatLevel();
+                           playersList.get(0).decreaseHeatLevel();
+
                         }
 
                             playersList.get(0).useItem(food1);
