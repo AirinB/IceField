@@ -42,7 +42,7 @@ public abstract class PlayerBase {
         return tag;
     }
 
-    public void move(int dir) {
+    public void move(int dir) throws Exception {
         switch (dir) {
             case 1: //Up
                 //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
@@ -52,7 +52,10 @@ public abstract class PlayerBase {
                 currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
                 currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
                 if(currentIceberg.getType()=="hole") this.fall();
-                else if(currentIceberg.)
+                else if(currentIceberg.getType()=="instable" && currentIceberg.getMaxNumOfPlayers()<currentIceberg.getCurrentPlayers().size()) {
+                    this.fall();
+                    throw new Exception("This iceberg falls...");
+                }
                 break;
             case 2: //Left
                 //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
@@ -96,6 +99,7 @@ public abstract class PlayerBase {
 
     public void decreseHeatLevel() {
         this.heatLevel--;
+        if(heatLevel ==0) this.die();
     }
 
     public void useItem(ItemBase item) {

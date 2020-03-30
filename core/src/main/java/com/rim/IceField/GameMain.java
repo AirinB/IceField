@@ -59,6 +59,7 @@ public class GameMain extends BasicGame {
         }
         Game g1 = new Game();
         g1.getMap().generateItemsOnMap();
+        ArrayList<Iceberg> icebergs = g1.getMap().getIcebergs();
         //for(int i = 0;i<5;i++)
         // {
         //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
@@ -74,27 +75,28 @@ public class GameMain extends BasicGame {
 
         g1.newGame(playersList);
 
+
         for (int i = 0; i < numberOfPlayers; i++)
         {
             int s = 0 ;
             for (int j = 0; j < 4; j++) {
                 playersList.get(i).turn(); // Some more turn() log
                 System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move | 2 - Use skill | 3 - Save Character | " +
-                        "4 - Use Item | 5 - Pick Item | 6 - in water | 7 - end of game ");
+                        "4 - Use Item | 5 - Pick Item | 6 - in water | 7 - end of game | 8 - Fall because iceberg is unstable | 9 - Blizzard blows");
                 int m = input.nextInt();
                 switch (m) {
                     case 1:
 
                         System.out.println("Press 1 to move up, 2 - right, 3 - down, 4 - left:");
                         int direction = input.nextInt();
-                        System.out.println("--------------------------"+playersList.get(i).getCurrentIceberg().getNum()+"--------------------------");
                         playersList.get(i).move(1);
-                        System.out.println("--------------------------"+playersList.get(i).getCurrentIceberg().getNum()+"--------------------------");
-                        break;
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
 
                     case 2: // Use skill
                         playersList.get(i).useSkill(playersList.get(i).getCurrentIceberg());
-                        break;
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
 
                     case 3:// Save character
 
@@ -111,7 +113,8 @@ public class GameMain extends BasicGame {
                         playersList.get(1).move(1);
 
                         playersList.get(1).SavePlayer(playersList.get(0));
-                        break;
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
 
 
 
@@ -132,7 +135,8 @@ public class GameMain extends BasicGame {
                         playersList.get(0).useItem( playersList.get(0).inventory.getItem(str));
                         System.out.println("The item was used");
                         // from the first player get the useItemFunction and pass the item that was choosed by the user
-                        break;
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
                     case 5: //Pick item
                         int counter = 0;
                         while(counter < playersList.get(0).getCurrentIceberg().getAmountOfSnow()){
@@ -142,7 +146,8 @@ public class GameMain extends BasicGame {
                         playersList.get(0).pickItem();
                         System.out.println("The item is picked");
 
-                      break;
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
 
                     case 6: //Put on diving suit (The)
                         System.out.println(" Pless 1 for the scenario when you have a diving suit\n" +
@@ -154,10 +159,13 @@ public class GameMain extends BasicGame {
                             DivingSuit divingSuit2 = new DivingSuit();
                             playersList.get(0).inventory.addItem(divingSuit2);
                             playersList.get(0).useItem( playersList.get(0).inventory.getItem("Diving Suit"));
+                            System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                            return;
                         }else if(userInput1 == 2){
 
                             playersList.get(0).die();
                             Game.GameOver(playersList);
+                            System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         }else{
                             System.out.println("Player " + playersList.get(1).getTag() + " Press 1 if you want to save the other player");
@@ -166,12 +174,14 @@ public class GameMain extends BasicGame {
                             else {
                                 playersList.get(0).die();
                                 g1.GameOver(playersList);
+                                System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                                 return;
                             }
 
                         }
 
-                        break;
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
 
                     case 7: // Game over by putting together flare gun.
                         System.out.println("Choose: \n 1 for Win scenarion \n 2 for lose scenario");
@@ -184,22 +194,72 @@ public class GameMain extends BasicGame {
                             playersList.get(0).inventory.addItem(flare);
                             playersList.get(0).inventory.addItem(charge);
                             g1.GameOver(playersList);
+                            System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         }else{
                             playersList.get(0).die();
                             g1.GameOver(playersList);
+                            System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         }
                     case 8: //Instable iceberg
-                        playersList.get(0).move(1);
-                        playersList.get(0).move(1);  //to stay on unstable iceberg
-                        playersList.get(0).move(1);
+                       try {
+                           playersList.get(0).move(1);
+                           playersList.get(0).move(1);  //to stay on unstable iceberg
+                           playersList.get(0).move(1);
 
-                        playersList.get(1).move(1);
-                        playersList.get(1).move(1);
-                        playersList.get(1).move(1);
+                           playersList.get(1).move(1);
+                           playersList.get(1).move(1);
+                           playersList.get(1).move(1);
+                       }
+                       catch (Exception e )             //This exception is thrown ny Move(). When maxNumof players on iceberg < curren - it becomes a hole ----> we notify everybody that he falls
+                       {
+                           for(PlayerBase player:g1.getMap().getIcebergs().get(3).getCurrentPlayers())
+                           {
+                               player.fall();
+                               playersList.get(0).die();
+                               playersList.get(1).die();
+                               g1.GameOver(playersList);
+                               System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                               return;
+                           }
+                       }
+                    case 9: //Blizzard blows
+                        Blizzard.blow(playersList,g1.getMap().getIcebergs());
+                        System.out.println(playersList.get(0).getHeatLevel());
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
 
+                    case 10:
+                        System.out.println("Please, specify which character was created the first, because test case will be run for him");
+                        System.out.println("1. Eskimos");
+                        System.out.println("2. Polar Explorer");
+                        int userInput3 = input.nextInt();
+                        if(userInput3 == 2)
+                        {
+                            for(int z = 0;z<4;z++)
+                            {
+                                Blizzard.blow(playersList,icebergs);
+
+
+                            }
+
+
+                        }
+                        if(userInput3 == 1)
+                        {
+                            for(int z = 0;z<5;z++)
+                            {
+                                Blizzard.blow(playersList,icebergs);
+
+                            }
+                        }
+                        g1.GameOver(playersList);
+                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                        return;
                 }
+
+                case 11:
 
             }
         }
