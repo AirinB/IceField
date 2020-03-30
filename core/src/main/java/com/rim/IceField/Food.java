@@ -5,13 +5,17 @@ public class Food extends ItemBase {
 
     public Food() {
         super();
+        System.out.println("Food()");
         tag = "Food";
     }
 
     @Override
     public boolean useItem(PlayerBase player) throws Exception {
+        System.out.println("Use item()");
         super.useItem(player) ;
         try{
+            //When the player used the item food
+            // this would increase the heat level by 1
             player.increaseHeatLevel();
 
         } catch (Exception e) {

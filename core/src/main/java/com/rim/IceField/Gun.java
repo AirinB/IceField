@@ -2,9 +2,9 @@ package com.rim.IceField;
 
 public class Gun extends ItemBase {
         public Gun(){
-
             super();
-            tag = "Gun";
+            System.out.println("Gun()");
+            tag = "Gun"; //name of the derived class
 
         }
 }
