@@ -74,13 +74,13 @@ public class Map {
         Iceberg first = new Iceberg(true, 1, "stable", 20, false, 1, null);
         icebergs.add(first);
 
-        Iceberg second = new Iceberg(true, 2, "stable", 20, false, 2, null);
+        Iceberg second = new Iceberg(true, 2, "stable", 20, false, 1, rope);
         icebergs.add(second);
 
-        Iceberg third = new Iceberg(true, 3, "stable", 20, false, 3, null);
+        Iceberg third = new Iceberg(true, 3, "stable", 20, false, 1, null);
         icebergs.add(third);
 
-        Iceberg forth = new Iceberg(true, 4, "instable", 3, false, 2, null);
+        Iceberg forth = new Iceberg(true, 4, "instable", 1, false, 1, null);
         icebergs.add(forth);
 
         Iceberg fifth = new Iceberg(true, 5, "hole", 0, false, 1, null);
@@ -96,19 +96,19 @@ public class Map {
 
         ArrayList<Iceberg> neighbour2 = new ArrayList<Iceberg>();
         neighbour2.add(third);
-        first.setNeighborIcebergs(neighbour2);
+        second.setNeighborIcebergs(neighbour2);
 
         ArrayList<Iceberg> neighbour3 = new ArrayList<Iceberg>();
         neighbour3.add(forth);
-        first.setNeighborIcebergs(neighbour3);
+        third.setNeighborIcebergs(neighbour3);
 
         ArrayList<Iceberg> neighbour4 = new ArrayList<Iceberg>();
         neighbour4.add(fifth);
-        first.setNeighborIcebergs(neighbour4);
+        forth.setNeighborIcebergs(neighbour4);
 
         ArrayList<Iceberg> neighbour5 = new ArrayList<Iceberg>();
         neighbour5.add(first);
-        first.setNeighborIcebergs(neighbour5);
+        fifth.setNeighborIcebergs(neighbour5);
 
 
     }

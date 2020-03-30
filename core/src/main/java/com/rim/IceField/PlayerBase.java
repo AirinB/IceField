@@ -8,7 +8,7 @@ public abstract class PlayerBase {
     protected boolean isWearingDSuit = false;     //Boolean for checking if diving suit is on
     protected int heatLevel;                      //Heat level of the player: Eskimo - 5, PolarExplorer - 4
     protected boolean isDead = false;             //Boolean if the player has died
-    //protected int numOfMoves;
+    protected int numOfMoves;                     //Number of moves of each player
     protected Inventory inventory;                //Instance of Inventory class (contains list of items)
     protected boolean isDrowning = false;         //Boolean for checking if the player is in the water and drowning
 
@@ -46,43 +46,59 @@ public abstract class PlayerBase {
 
 
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
-    public void move(char dir) {
-        System.out.println("move()");
-
+    public void move(int dir) throws Exception {
+        System.out.println("Move()");
         switch (dir) {
-            case 'w': //Up
+            case 1: //Up
                 //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
                 currentIceberg.Remove_currentPlayers(this);
 
                 //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
                 currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
                 currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
+                if(currentIceberg.getType()=="hole") this.fall();
+                else if(currentIceberg.getType()=="instable" && currentIceberg.getMaxNumOfPlayers()<currentIceberg.getCurrentPlayers().size()) {
+                    this.fall();
+                    throw new Exception("This iceberg falls...");
+                }
                 break;
-            case 'a': //Left
+            case 2://Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
+                currentIceberg.Remove_currentPlayers(this);
+
+                //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
+                currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
+                currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
+                if(currentIceberg.getType()=="hole") this.fall();
+                else if(currentIceberg.getType()=="instable" && currentIceberg.getMaxNumOfPlayers()<currentIceberg.getCurrentPlayers().size()) {
+                    this.fall();
+                    throw new Exception("This iceberg falls...");
+                }
+            case 3: //Down
                 //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
                 currentIceberg.Remove_currentPlayers(this);
 
                 //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
                 currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
                 currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
-                break;
-            case 's': //Down
+                if(currentIceberg.getType()=="hole") this.fall();
+                else if(currentIceberg.getType()=="instable" && currentIceberg.getMaxNumOfPlayers()<currentIceberg.getCurrentPlayers().size()) {
+                    this.fall();
+                    throw new Exception("This iceberg falls...");
+                }
+            case 4: //Right
                 //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
                 currentIceberg.Remove_currentPlayers(this);
 
                 //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
                 currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
                 currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
-                break;
-            case 'd': //Right
-                //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
-                currentIceberg.Remove_currentPlayers(this);
-
-                //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
-                currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
-                currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
-                break;
+                if(currentIceberg.getType()=="hole") this.fall();
+                else if(currentIceberg.getType()=="instable" && currentIceberg.getMaxNumOfPlayers()<currentIceberg.getCurrentPlayers().size()) {
+                    this.fall();
+                    throw new Exception("This iceberg falls...");
+                }
         }
+        numOfMoves--;
     }
 
     //Method for saving the player.
@@ -184,5 +200,10 @@ public abstract class PlayerBase {
     public int getHeatLevel() {
         System.out.println("getHeatLevel()");
         return heatLevel;
+    }
+
+    public int getNumOfMoves(){
+        System.out.println("getNumOfMoves()");
+        return numOfMoves;
     }
 }

@@ -26,7 +26,6 @@ public class Blizzard {
 
     }
 
-
     //Getter for numOfRounds
     public static int getNumOfRounds() {
         System.out.println("getNumOfRounds");
