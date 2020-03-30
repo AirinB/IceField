@@ -1,7 +1,6 @@
 package com.rim.IceField;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.sun.media.jfxmedia.events.PlayerStateListener;
+
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -86,10 +85,12 @@ public class GameMain extends BasicGame {
             int s = 0 ;
             //since every player has 4 turns
             for (int j = 0; j < 4; j++) {
-                //Current player's turn (will  have more logic)
-                playersList.get(i).turn();
-                System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move | 2 - Use skill | 3 - Save Character | " +
-                        "4 - Use Item | 5 - Pick Item | 6 - in water | 7 - end of game | 8 - Fall because iceberg is unstable | 9 - Blizzard blows | 10 -   | 11 - Take turn");
+
+                playersList.get(i).turn(); // Some more turn() log
+                System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move\n | 2 - Use skill\n | 3 - Save Character\n | " +
+                        "4 - Use Item \n| 5 - Pick Item\n | 6 - in water\n | 7 - end of game\n | 8 - Fall because iceberg is unstable\n |" +
+                        " 9 - Blizzard blows \n | 9 - Blizzard blows\n | 10 - Blizzart kills\n | 11 - Turn\n");
+
                 int m = input.nextInt();
                 switch (m) {
                     case 1:
