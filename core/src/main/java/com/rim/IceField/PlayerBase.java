@@ -7,7 +7,7 @@ public abstract class PlayerBase {
     protected boolean isWearingDSuit = false;
     protected int heatLevel;
     protected boolean isDead = false;
-    protected int numOfMoves = 4;
+    protected int numOfMoves;
     protected Inventory inventory;
     protected boolean isDrowning = false;
 
@@ -26,12 +26,6 @@ public abstract class PlayerBase {
     public void setCurrentIceberg(Iceberg iceberg) {
         currentIceberg = iceberg;
     }
-
-    /**
-     * TODO: Implement all classes.
-     *
-     */
-
 
     /**
      * The constructor for the playerbase just instantiates an inventory.
@@ -119,6 +113,7 @@ public abstract class PlayerBase {
      * Meaning eskimos get 5 seconds to live if they fall, and Polar expolorers get 4 seconds.
      */
     public void fall() {
+        currentIceberg.setType("hole");
         if (!isWearingDSuit) {
             isDrowning = true;
             System.out.println("Ouch! You've fallen into some water");
@@ -146,13 +141,11 @@ public abstract class PlayerBase {
         }
     }
 
-
     public void removeSnow() {
-
+        if (currentIceberg.getAmountOfSnow() <= 0) return;
         int currentSnow = currentIceberg.getAmountOfSnow();
         currentIceberg.setAmountOfSnow(currentSnow - 1);
     }
-
 
     public int getHeatLevel() {
         return heatLevel;

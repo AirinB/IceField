@@ -22,6 +22,9 @@ public class Inventory {
             }
             it.obtained = true;
             items.add(it);
+            if(countGunItems == 3){
+
+            }
 
         } catch (Exception e) {
 
