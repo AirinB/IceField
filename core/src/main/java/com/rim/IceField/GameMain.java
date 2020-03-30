@@ -1,6 +1,5 @@
 package com.rim.IceField;
 
-import com.badlogic.gdx.graphics.Texture;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
