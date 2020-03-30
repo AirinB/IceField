@@ -11,7 +11,7 @@ public class Blizzard {
         numOfRounds++;
         for(PlayerBase player: players) {
             if (!(player.currentIceberg.getHasIgloo()))  //Checking if Eskimo has Igloo
-                player.heatLevel--;
+                player.decreseHeatLevel();
         }
         //Covering icebergs with snow
         for(Iceberg iceberg: icebergs){
