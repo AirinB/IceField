@@ -7,27 +7,32 @@ public abstract class PlayerBase {
     protected boolean isWearingDSuit = false;
     protected int heatLevel;
     protected boolean isDead = false;
-    protected int numOfMoves;
+    protected int numOfMoves = 4;
     protected Inventory inventory;
     protected boolean isDrowning = false;
 
-    public Inventory getInventory()
-    {
+    public Inventory getInventory() {
         return inventory;
     }
 
-   public void setWearingDSuit(boolean wearing)
-   {
-       isWearingDSuit = wearing;
-   }
-    public Iceberg getCurrentIceberg()
-    {
+    public void setWearingDSuit(boolean wearing) {
+        isWearingDSuit = wearing;
+    }
+
+    public Iceberg getCurrentIceberg() {
         return currentIceberg;
     }
-    public void setCurrentIceberg(Iceberg iceberg)
-{
-    currentIceberg = iceberg;
-}
+
+    public void setCurrentIceberg(Iceberg iceberg) {
+        currentIceberg = iceberg;
+    }
+
+    /**
+     * TODO: Implement all classes.
+     *
+     */
+
+
     /**
      * The constructor for the playerbase just instantiates an inventory.
      */
@@ -42,17 +47,37 @@ public abstract class PlayerBase {
 
     public void move(char dir) {
         switch (dir) {
-            case 1:
+            case 'w': //Up
+                //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
+                currentIceberg.Remove_currentPlayers(this);
 
+                //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
+                currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
+                currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
                 break;
-            case 2:
+            case 'a': //Left
+                //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
+                currentIceberg.Remove_currentPlayers(this);
 
+                //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
+                currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
+                currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
                 break;
-            case 3:
+            case 's': //Down
+                //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
+                currentIceberg.Remove_currentPlayers(this);
 
+                //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
+                currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
+                currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
                 break;
-            case 4:
+            case 'd': //Right
+                //Add self onto neighboring iceberg, remove from old iceberg, decrease num of moves.
+                currentIceberg.Remove_currentPlayers(this);
 
+                //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
+                currentIceberg.getNeighborIcebergs().get(0).Add_currentPlayers(this);
+                currentIceberg = currentIceberg.getNeighborIcebergs().get(0);
                 break;
         }
     }
@@ -84,10 +109,9 @@ public abstract class PlayerBase {
         }
     }
 
-    public void die()
-    {
+    public void die() {
         isDead = true;
-		  System.out.println("You have died. RIP ):");
+        System.out.println("You have died. RIP ):");
     }
 
     /**
@@ -95,9 +119,11 @@ public abstract class PlayerBase {
      * Meaning eskimos get 5 seconds to live if they fall, and Polar expolorers get 4 seconds.
      */
     public void fall() {
-        isDrowning = true;
-        System.out.println("Ouch! You've fallen into some water");
-        decreseHeatLevel();
+        if (!isWearingDSuit) {
+            isDrowning = true;
+            System.out.println("Ouch! You've fallen into some water");
+            decreseHeatLevel();
+        }
     }
 
     public void turn() {
@@ -116,25 +142,19 @@ public abstract class PlayerBase {
             return currentIceberg.getItem();
         } else {
             System.out.println("Level of snow on iceberg is not 0!");
-            throw new Exception("The is snow on the iceberg");
+            throw new Exception("There is snow on the iceberg");
         }
-
     }
 
 
-    public void removeSnow(){
+    public void removeSnow() {
 
         int currentSnow = currentIceberg.getAmountOfSnow();
-        currentIceberg.setAmountOfSnow( currentSnow - 1 );
+        currentIceberg.setAmountOfSnow(currentSnow - 1);
     }
-
-
-
 
 
     public int getHeatLevel() {
         return heatLevel;
     }
-
-
 }

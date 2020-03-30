@@ -11,11 +11,11 @@ import java.util.Scanner;
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
-    private Texture texture;
+    //private Texture texture;
 
     @Override
     public void initialise() {
-        texture = new Texture("mini2Dx.png");
+        //texture = new Texture("mini2Dx.png");
     }
 
     @Override
@@ -30,12 +30,10 @@ public class GameMain extends BasicGame {
 
     @Override
     public void render(Graphics g) {
-        g.drawTexture(texture, 0f, 0f);
+        //g.drawTexture(texture, 0f, 0f);
     }
 
     public static void main(String[] args) throws Exception {
-
-
         System.out.println("Introduce the number of players in the game: ");
         Scanner input = new Scanner(System.in);
         int numberOfPlayers = input.nextInt();
@@ -66,7 +64,7 @@ public class GameMain extends BasicGame {
         //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
         // }
 
-            for(int i = 0 ; i< numberOfPlayers ; i++) {
+            for(int i = 0 ; i < numberOfPlayers ; i++) {
 
                 g1.getMap().getIcebergs().get(0).Add_currentPlayers(playersList.get(i));
                 playersList.get(i).currentIceberg = g1.getMap().getIcebergs().get(0);
@@ -78,6 +76,7 @@ public class GameMain extends BasicGame {
 
         for (int i = 0; i < numberOfPlayers; i++)
         {
+            int s = 0 ;
             for (int j = 0; j < 4; j++) {
                 playersList.get(i).turn(); // Some more turn() log
                 System.out.println("Choose an action by entering its corresponding number : 1 - Move | 2 - Use skill | 3 - Save Character | 4 - Use Item | 5 - Pick Item ");
@@ -87,20 +86,15 @@ public class GameMain extends BasicGame {
                         System.out.println("Press 1 to move up, 2 - right, 3 - down, 4 - left:");
                         int direction = input.nextInt();
                         if (direction == 1) {
-                            playersList.get(i).move('N');
 
-                               /*for(int k =0;k<5;k++)
-                               {
-                                   System.out.println(g1.getMap().getIcebergs().get(k).getNeighborIcebergs().get(0));
-                               }*/
+                            playersList.get(i).move('N');
 
                             //At this point all players will move in one direction, to the1 next Iceberg in the list. More functionality in the future.
                             playersList.get(i).getCurrentIceberg().Remove_currentPlayers(playersList.get(i));
 
-                            Iceberg newCurrent = playersList.get(i).getCurrentIceberg().getNeighborIcebergs().get(0);
-
                             playersList.get(i).getCurrentIceberg().getNeighborIcebergs().get(0).Add_currentPlayers(playersList.get(i));
-                            //    list1.get(i).setCurrentIceberg(newCurrent);
+                            playersList.get(i).currentIceberg = g1.getMap().getIcebergs().get(s);
+                            s++;
                         }
                         break;
 

@@ -10,8 +10,7 @@ public class PolarExplorer extends PlayerBase {
 
     @Override
     public void useSkill(Iceberg ice) {
-        //Not sure if this is correct
-        System.out.println("Neighboring icebergs have been checked!");
+        System.out.println("Max num. of players on neighbor: " + this.getCurrentIceberg().getNeighborIcebergs().get(0).getMaxNumOfPlayers());
     }
 
 }
