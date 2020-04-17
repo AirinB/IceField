@@ -33,6 +33,7 @@ public class Game {
             if (player.isDead) {
                 System.out.println("Game lost!");
                 end = true;
+              return end;
             }
         }
 
@@ -43,26 +44,28 @@ public class Game {
         }
 
         //Checking if flare gun was collected
-        if (playersCheck) {
+      /*  if (playersCheck) {
             for (PlayerBase player : players) {
                 if (Inventory.countGunItems == 3) {
                     flareGunCheck = true;
                     System.out.println("The flare gun is collected");
+
                 }
                 if (!flareGunCheck) {
                     Inventory.countGunItems = 0;
                 }
             }
-        }
+        }*/
 
         //Checking if all the conditions are preserved for winning the game
         if (playersCheck && flareGunCheck) {
             System.out.println("Game Over! You Win");
             end = true;
+            return end;
         }
 
+return end;
 
-        return end;
 
     }
 
@@ -74,24 +77,6 @@ public class Game {
 
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
-
-      /*  while (true) {
-            try {
-                for (PlayerBase player : players) {
-
-                    player.turn();
-
-                    if (GameOver(players)) {
-                        break;
-                    }
-
-                }
-            }
-            catch (Exception e){
-                break;
-            }
-
-        }*/
 
 
     }

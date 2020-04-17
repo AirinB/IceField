@@ -123,6 +123,10 @@ public abstract class PlayerBase {
     public void decreaseHeatLevel() {
         System.out.println("decreaseHeatLevel()");
         this.heatLevel--;
+        if(this.heatLevel==0)
+        {
+            this.die();
+        }
     }
 
     //Use the item specified in the parameter.
@@ -158,7 +162,7 @@ public abstract class PlayerBase {
         if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
             isDrowning = true;
             System.out.println("Ouch! You've fallen into some water");
-            decreaseHeatLevel();
+            decreaseHeatLevel(); //Should timer should be set in future!1111
         }
     }
 
