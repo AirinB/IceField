@@ -2,7 +2,7 @@ package com.rim.IceField;
 
 public abstract class ItemBase {
     protected String tag; // name of the item
-    protected static int itemNumber = 0;
+    protected static int itemNumber = 0; // give an ID
     protected int id;
     protected int posX, posY;
     protected boolean obtained; // the item is owned by a player
