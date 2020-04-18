@@ -20,6 +20,7 @@ public class Blizzard {
         }
 
         //Covering icebergs with snow
+
         Random objGenerator = new Random(); //for random covering with snow the icebergs
         for (Iceberg iceberg : icebergs) {
 
