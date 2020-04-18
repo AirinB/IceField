@@ -86,9 +86,14 @@ public class GameMain extends BasicGame {
             for (int j = 0; j < 4; j++) {
 
                 playersList.get(i).turn(); // Some more turn() log
+
                 System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move\n | 2 - Use skill\n | 3 - Save Character\n | " +
                         "4 - Use Item \n| 5 - Pick Item\n | 6 - in water\n | 7 - end of game\n | 8 - Fall because iceberg is unstable\n |" +
                         " 9 - Blizzard blows \n | 9 - Blizzard blows\n | 10 - Blizzart kills\n | 11 - Turn\n");
+
+
+                System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move | 2 - Use skill | 3 - Save Character | " +
+                        "4 - Use Item | 5 - Pick Item | 6 - in water | 7 - end of game | 8 - Fall because iceberg is unstable | 9 - Blizzard blows | 10 - Blizzard kills| 11 - Turn");
 
                 int m = input.nextInt();
                 switch (m) {
@@ -114,7 +119,7 @@ public class GameMain extends BasicGame {
                         playersList.get(0).move(1);
                         playersList.get(0).move(1);
                         playersList.get(0).move(1);
-                        playersList.get(0).fall();
+                        //playersList.get(0).fall();
 
                         playersList.get(1).move(1);// to get on neighboring iceberg and save the one from hole
                         playersList.get(1).removeSnow();
@@ -254,7 +259,6 @@ public class GameMain extends BasicGame {
                         if (userInput3 == 2) {
                             for (int z = 0; z < 4; z++) {
                                 Blizzard.blow(playersList, icebergs);
-
 
                             }
 
