@@ -1,16 +1,36 @@
 package com.rim.IceField;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 //Class Game
 public class Game {
 
     //Instance of Map, shared between the classes
     private static Map map;
+    private ArrayList<PlayerBase> players; // the players belong to the game
+    private final int maxRounds = 10;
+    private int currentRound;
+    private static boolean[] randomBlow; //if the array element is true, the wind would blow
+
 
     //Constructor
     public Game() {
         map = new Map();
+        currentRound += 1;
+        randomBlow = new boolean[maxRounds];
+
+        Random objGenerator = new Random(1);
+        for(int i = 1; i < 10; i++){
+            randomBlow[i] = objGenerator.nextBoolean();
+        }
+    }
+
+    public static boolean processInput(){
+        return false;
+    }
+    public static boolean processOutput(){
+        return false;
     }
 
     //Getter for map
@@ -73,13 +93,22 @@ return end;
     //Static method for starting a new game.
     public static void newGame(ArrayList<PlayerBase> players) {
 
-        System.out.println("newGame()");
-
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
+
+
 
 
     }
 
 
+    public static void Turn(PlayerBase player) throws Exception {
+        if(!player.isTurn()) throw new Exception("It's not this player's turn");
+        int round = 0;
+        while (round < 4){
+             if(processInput()){// the round increases only if the action was successful
+                 round++;
+             }
+        }
+    }
 }
