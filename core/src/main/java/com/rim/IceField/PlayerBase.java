@@ -11,6 +11,11 @@ public abstract class PlayerBase {
     protected int numOfMoves;                     //Number of moves of each player
     protected Inventory inventory;                //Instance of Inventory class (contains list of items)
     protected boolean isDrowning = false;         //Boolean for checking if the player is in the water and drowning
+    protected boolean isTurn =  false;            //Check if is the players turn
+
+    public boolean isTurn() {
+        return isTurn;
+    }
 
     public Inventory getInventory() {
         System.out.println("getInventory()");
@@ -168,7 +173,6 @@ public abstract class PlayerBase {
 
     //Player's turn to make actions.
     public void turn() {
-        System.out.println("turn()");
         System.out.println("It's your turn " + tag);
     }
 
@@ -184,7 +188,13 @@ public abstract class PlayerBase {
         System.out.println("pickItem()");
         if (currentIceberg.getAmountOfSnow() == 0) {
             inventory.items.add(currentIceberg.getItem());
-            System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
+            String tagString = currentIceberg.getItem().getTag() ;
+            try {
+                System.out.println(tagString + " was added to your inventory.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return currentIceberg.getItem();
         } else {
             System.out.println("Level of snow on iceberg is not 0!");

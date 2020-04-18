@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
+
     //private Texture texture;
 
     @Override
@@ -33,6 +34,9 @@ public class GameMain extends BasicGame {
     }
 
     public static void main(String[] args) throws Exception {
+
+
+
         System.out.println("Introduce the number of players in the game: ");
         Scanner input = new Scanner(System.in);
         int numberOfPlayers = input.nextInt();
@@ -158,7 +162,7 @@ public class GameMain extends BasicGame {
                         int counter = 0;
                         //we need to remove all the snow from an iceberg in order to be able to pick the item.
                         while (counter < playersList.get(0).getCurrentIceberg().getAmountOfSnow()) {
-                            playersList.get(i).removeSnow();
+                            playersList.get(0).removeSnow();
                             counter++;
                         }
                         playersList.get(0).pickItem();

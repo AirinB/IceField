@@ -2,7 +2,6 @@ package com.rim.IceField;
 
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Iceberg {
     private boolean isStable;
@@ -29,9 +28,7 @@ public class Iceberg {
     }
 
     public void setNeighborIcebergs(ArrayList<Iceberg> arr) {
-        for (int i = 0; i < arr.size(); i++) {
-            neighborIcebergs.add(arr.get(i));
-        }
+        neighborIcebergs.addAll(arr);
     }
 
     public void setItem(ItemBase item) {
