@@ -1,6 +1,7 @@
 package com.rim.IceField;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 //Blizzard class
 public class Blizzard {
