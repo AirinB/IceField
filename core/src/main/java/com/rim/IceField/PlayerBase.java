@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 //Abstract PlayerBase class
-public abstract class PlayerBase extends TimerTask {
+public abstract class PlayerBase {
     protected Iceberg currentIceberg;             //Iceberg the player stands on
     protected String tag;                         //Type of the player: Eskimo, PolarExplorer
     protected int ID;                             //ID of the player
@@ -16,6 +16,11 @@ public abstract class PlayerBase extends TimerTask {
     protected Inventory inventory;                //Instance of Inventory class (contains list of items)
     protected boolean isDrowning = false;         //Boolean for checking if the player is in the water and drowning
     Timer timer = new Timer();                    //Experiments with timer
+    protected boolean isTurn =  false;            //Check if is the players turn
+
+    public boolean isTurn() {
+        return isTurn;
+    }
 
     public Inventory getInventory() {
         System.out.println("getInventory()");
@@ -48,7 +53,6 @@ public abstract class PlayerBase extends TimerTask {
         System.out.println("getTag()");
         return tag;
     }
-
 
 
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
@@ -112,7 +116,6 @@ public abstract class PlayerBase extends TimerTask {
         System.out.println("SavePlayer");
         System.out.println(player.tag + " has been saved!");
         player.isDrowning = false;  //player is saved , so it's not drowning anymore
-        player.timer.cancel();
     }
 
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
@@ -132,7 +135,6 @@ public abstract class PlayerBase extends TimerTask {
         this.heatLevel--;
         if(this.heatLevel==0)
         {
-            this.timer.cancel();
             this.die();
         }
     }
@@ -165,23 +167,12 @@ public abstract class PlayerBase extends TimerTask {
     //Player falls into water
     public void fall() {
 
+        System.out.println("fall()");
         currentIceberg.setType("hole");
-        if (!isWearingDSuit) {
-            //check if the player hasn't his diving suit on
+        if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
             isDrowning = true;
-
-                System.out.println("Ouch! You've fallen into some water");
-                TimerTask tt = new TimerTask() {
-                    @Override
-                    public void run() {
-                        decreaseHeatLevel();
-                    }
-
-                    ;
-                };
-
-                timer.scheduleAtFixedRate(tt, 0, 1000);
-
+            System.out.println("Ouch! You've fallen into some water");
+            decreaseHeatLevel(); //Should timer should be set in future!1111
         }
     }
 

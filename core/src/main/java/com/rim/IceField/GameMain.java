@@ -11,6 +11,7 @@ import java.util.Timer;
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
+
     //private Texture texture;
 
     @Override
@@ -34,6 +35,9 @@ public class GameMain extends BasicGame {
     }
 
     public static void main(String[] args) throws Exception {
+
+
+
         System.out.println("Introduce the number of players in the game: ");
         Scanner input = new Scanner(System.in);
         int numberOfPlayers = input.nextInt();
@@ -159,7 +163,7 @@ public class GameMain extends BasicGame {
                         int counter = 0;
                         //we need to remove all the snow from an iceberg in order to be able to pick the item.
                         while (counter < playersList.get(0).getCurrentIceberg().getAmountOfSnow()) {
-                            playersList.get(i).removeSnow();
+                            playersList.get(0).removeSnow();
                             counter++;
                         }
                         playersList.get(0).pickItem();
@@ -184,7 +188,7 @@ public class GameMain extends BasicGame {
                             //Player dies
                             playersList.get(0).die();
                             //if a player dies the game is over and they lose
-                            Game.GameOver(playersList);
+                            Game.GameOver();
                             System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         } else {
@@ -193,7 +197,7 @@ public class GameMain extends BasicGame {
                             if (userInput2 == 1) playersList.get(1).SavePlayer(playersList.get(0));
                             else {
                                 playersList.get(0).die();
-                                g1.GameOver(playersList);
+                                g1.GameOver();
                                 System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                                 return;
                             }
@@ -213,12 +217,12 @@ public class GameMain extends BasicGame {
                             playersList.get(0).inventory.addItem(gun);
                             playersList.get(0).inventory.addItem(flare);
                             playersList.get(0).inventory.addItem(charge);
-                            g1.GameOver(playersList);
+                            g1.GameOver();
                             System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         } else {
                             playersList.get(0).die();
-                            g1.GameOver(playersList);
+                            g1.GameOver();
                             System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         }
@@ -239,7 +243,7 @@ public class GameMain extends BasicGame {
                                 player.fall();
                                 playersList.get(0).die();
                                 playersList.get(1).die();
-                                g1.GameOver(playersList);
+                                g1.GameOver();
                                 System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                                 return;
                             }
@@ -271,7 +275,7 @@ public class GameMain extends BasicGame {
 
                             }
                         }
-                        g1.GameOver(playersList);
+                        g1.GameOver();
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
 
