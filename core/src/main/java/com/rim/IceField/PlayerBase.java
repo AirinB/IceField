@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 //Abstract PlayerBase class
-public abstract class PlayerBase {
+public abstract class PlayerBase extends TimerTask {
     protected Iceberg currentIceberg;             //Iceberg the player stands on
     protected String tag;                         //Type of the player: Eskimo, PolarExplorer
     protected int ID;                             //ID of the player
@@ -116,6 +116,7 @@ public abstract class PlayerBase {
         System.out.println("SavePlayer");
         System.out.println(player.tag + " has been saved!");
         player.isDrowning = false;  //player is saved , so it's not drowning anymore
+        player.timer.cancel();
     }
 
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
@@ -135,6 +136,7 @@ public abstract class PlayerBase {
         this.heatLevel--;
         if(this.heatLevel==0)
         {
+            this.timer.cancel();
             this.die();
         }
     }
@@ -172,7 +174,17 @@ public abstract class PlayerBase {
         if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
             isDrowning = true;
             System.out.println("Ouch! You've fallen into some water");
-            decreaseHeatLevel(); //Should timer should be set in future!1111
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                    decreaseHeatLevel();
+                }
+
+                ;
+            };
+
+            timer.scheduleAtFixedRate(tt, 0, 1000);
+
         }
     }
 
