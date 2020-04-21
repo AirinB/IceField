@@ -1,5 +1,7 @@
 package com.rim.IceField;
 
+import java.util.Timer;
+
 //Po;arExplorer class
 public class PolarExplorer extends PlayerBase {
 
@@ -8,6 +10,11 @@ public class PolarExplorer extends PlayerBase {
         super();
         this.tag = "PolarExplorer";    //Setting the name
         this.heatLevel = 4;            //Setting number of heat units
+    }
+
+    @Override
+    public void run() {
+        decreaseHeatLevel();
     }
 
     //Method useSkill performs the ability of PolarExplorer to get the max number of players that could stand on the current iceberg.

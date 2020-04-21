@@ -1,7 +1,11 @@
 package com.rim.IceField;
 
+import java.sql.Time;
+import java.util.Timer;
+import java.util.TimerTask;
+
 //Abstract PlayerBase class
-public abstract class PlayerBase {
+public abstract class PlayerBase extends TimerTask {
     protected Iceberg currentIceberg;             //Iceberg the player stands on
     protected String tag;                         //Type of the player: Eskimo, PolarExplorer
     protected int ID;                             //ID of the player
@@ -11,6 +15,7 @@ public abstract class PlayerBase {
     protected int numOfMoves;                     //Number of moves of each player
     protected Inventory inventory;                //Instance of Inventory class (contains list of items)
     protected boolean isDrowning = false;         //Boolean for checking if the player is in the water and drowning
+    Timer timer = new Timer();                    //Experiments with timer
     protected boolean isTurn =  false;            //Check if is the players turn
 
     public boolean isTurn() {
@@ -111,6 +116,7 @@ public abstract class PlayerBase {
         System.out.println("SavePlayer");
         System.out.println(player.tag + " has been saved!");
         player.isDrowning = false;  //player is saved , so it's not drowning anymore
+        player.timer.cancel();
     }
 
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
@@ -130,6 +136,7 @@ public abstract class PlayerBase {
         this.heatLevel--;
         if(this.heatLevel==0)
         {
+            this.timer.cancel();
             this.die();
         }
     }
@@ -167,12 +174,23 @@ public abstract class PlayerBase {
         if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
             isDrowning = true;
             System.out.println("Ouch! You've fallen into some water");
-            decreaseHeatLevel(); //Should timer should be set in future!1111
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                    decreaseHeatLevel();
+                }
+
+                ;
+            };
+
+            timer.scheduleAtFixedRate(tt, 0, 1000);
+
         }
     }
 
     //Player's turn to make actions.
     public void turn() {
+        System.out.println("turn()");
         System.out.println("It's your turn " + tag);
     }
 
@@ -188,13 +206,7 @@ public abstract class PlayerBase {
         System.out.println("pickItem()");
         if (currentIceberg.getAmountOfSnow() == 0) {
             inventory.items.add(currentIceberg.getItem());
-            String tagString = currentIceberg.getItem().getTag() ;
-            try {
-                System.out.println(tagString + " was added to your inventory.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
             return currentIceberg.getItem();
         } else {
             System.out.println("Level of snow on iceberg is not 0!");
