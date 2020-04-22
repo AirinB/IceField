@@ -3,14 +3,13 @@ package com.rim.IceField;
 public class Shovel extends ItemBase {
     public Shovel() {
         super();
-        System.out.println("Shovel()");
+
         tag = "Shovel";
     }
 
     @Override
     public boolean useItem(PlayerBase player) throws Exception {
         super.useItem(player) ;
-        System.out.println("UseItem()");
         try{
 
             //we get the current amount of snow and set it -2

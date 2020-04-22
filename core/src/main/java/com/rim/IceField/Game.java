@@ -75,9 +75,11 @@ public class Game {
         //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
 
         //Checking if all the players stand on the same iceberg and it's not a hole
-        for (Iceberg ice : map.getIcebergs()) {
-            if (ice.getCurrentPlayers().size() == players.size() && !ice.getType().equals("hole"))
-                playersCheck = true;
+        for (int i =0;i<9;i++) {
+            for(int j =0;j<9;j++) {
+                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole"))
+                    playersCheck = true;
+            }
         }
 
         //Checking if flare gun was collected

@@ -19,10 +19,10 @@ public abstract class ItemBase {
     }
 
     public  boolean useItem(PlayerBase player) throws Exception {
-        System.out.println("useItem()");
+
         try {
             //an item cannot be used if its not in the inventory or its not active
-            if(!obtained || !active) throw new Exception("the Item is now owned or not active");
+            if(!obtained || !active) throw new Exception("the Item is not owned or not active");
             return false;
 
         } catch (Exception e) {
