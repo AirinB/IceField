@@ -11,7 +11,7 @@ public class Blizzard {
     public static int numOfRounds; //Blizzzard blows
 
     //Method performing Blow functionality.
-    public static void blow(ArrayList<PlayerBase> players, ArrayList<Iceberg> icebergs) {
+    public static void blow(ArrayList<PlayerBase> players, Map map) {
 
         System.out.println("blow()");
 
@@ -21,9 +21,11 @@ public class Blizzard {
                 player.decreaseHeatLevel();  //Decreasing heatLevel of players
         }
         //Covering icebergs with snow
-        for (Iceberg iceberg : icebergs) {
-            int snow = iceberg.getAmountOfSnow();
-            iceberg.setAmountOfSnow(snow + 1);
+        for (int i = 0; i <9 ; i++) {
+            for (int j = 0; j < 9; j++) {
+                int snow = map.Icebergs[i][j].getAmountOfSnow();
+                map.Icebergs[i][j].setAmountOfSnow(snow + 1);
+            }
         }
 
     }

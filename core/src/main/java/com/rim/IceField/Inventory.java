@@ -12,7 +12,7 @@ public class Inventory {
     public static int countGunItems = 0; //how many items are in the inventory
 
     public boolean addItem(ItemBase it) {
-        System.out.println("addItem()");
+
 
         try {
 
