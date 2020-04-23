@@ -24,17 +24,13 @@ public Iceberg[][] Icebergs = new Iceberg[10][10];
 
     //Constructor for Map
     public Map() {
-
         this.items = new ArrayList<ItemBase>();
-
     }
 
 
 
     //Method for generating icebergs and items on the map.
     public void generateItemsOnMap() {
-
-        System.out.println("generateItemsOnMap()");
 
         // - - - - - - - - - - - - - - - - - - - - - Items - - - - - - - - - - - - - - - - - - - - -
 
@@ -70,14 +66,14 @@ public Iceberg[][] Icebergs = new Iceberg[10][10];
 
 
         Iceberg first = new Iceberg(true, 1, "stable", 20, false, 1, null);
-Icebergs[0][0] = first;
-first.y = 0;
-first.x = 0;
-first.setItem(shovel);
+        Icebergs[0][0] = first;
+        first.y = 0;
+        first.x = 0;
+        first.setItem(shovel);
         Iceberg second = new Iceberg(true, 2, "stable", 20, false, 1, rope);
         Icebergs[0][1] = second;
-second.y = 0;
-second.x = 1;
+        second.y = 0;
+        second.x = 1;
         Iceberg third = new Iceberg(true, 3, "stable", 20, false, 1, null);
         Icebergs[1][0] = third;
         third.y = 1;

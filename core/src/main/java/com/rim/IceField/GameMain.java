@@ -110,7 +110,7 @@ public class GameMain extends BasicGame {
                         return;
 
                     case 2: // Use skill
-                        //Depending on wether it's a eskimo or polar Explorer they will use the corresponding skill.
+                        //Depending on whether it's a eskimo or polar Explorer they will use the corresponding skill.
                         //We send current iceberg for the eskimo to check if it has an igloo and for the explorer to check its neighbours.
                        str = in.nextLine();
                         playersList.get(i).useSkill(g1.getMap(),str);

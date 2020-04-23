@@ -23,22 +23,18 @@ public abstract class PlayerBase extends TimerTask {
     }
 
     public Inventory getInventory() {
-        System.out.println("getInventory()");
         return inventory;
     }
 
     public void setWearingDSuit(boolean wearing) {
-        System.out.println("setWearing suit()");
         isWearingDSuit = wearing;
     }
 
     public Iceberg getCurrentIceberg() {
-        System.out.println("getCurrentIceberg()");
         return currentIceberg;
     }
 
     public void setCurrentIceberg(Iceberg iceberg) {
-        System.out.println("setCurrentIceberg()");
         currentIceberg = iceberg;
     }
 
@@ -50,7 +46,6 @@ public abstract class PlayerBase extends TimerTask {
     }
 
     public String getTag() {
-        System.out.println("getTag()");
         return tag;
     }
 
@@ -118,7 +113,6 @@ public abstract class PlayerBase extends TimerTask {
     }
             //Method for saving the player.
             public void SavePlayer (PlayerBase player){
-                System.out.println("SavePlayer");
                 System.out.println(player.tag + " has been saved!");
                 player.isDrowning = false;  //player is saved , so it's not drowning anymore
                 player.timer.cancel();
@@ -126,18 +120,15 @@ public abstract class PlayerBase extends TimerTask {
 
             //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
             public void useSkill (Map map, String dir) throws Exception {
-                System.out.println("Empty Skill.");
             }
 
             //Increases the heat level of the player.
             public void increaseHeatLevel () {
-                System.out.println("increaseHeatLevel()");
                 this.heatLevel++;
             }
 
             //Decreases the heat level of the player.
             public void decreaseHeatLevel () {
-                System.out.println("decreaseHeatLevel()");
                 this.heatLevel--;
                 if (this.heatLevel == 0) {
                     this.timer.cancel();
@@ -169,7 +160,6 @@ public abstract class PlayerBase extends TimerTask {
 
             //Player dies
             public void die () {
-                System.out.println("die()");
                 isDead = true;
                 System.out.println("You have died. RIP ):");
             }
@@ -178,8 +168,6 @@ public abstract class PlayerBase extends TimerTask {
 
             //Player falls into water
             public void fall () {
-
-                System.out.println("fall()");
                 currentIceberg.setType("hole");
                 if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
                     isDrowning = true;
@@ -200,7 +188,6 @@ public abstract class PlayerBase extends TimerTask {
 
             //Player's turn to make actions.
             public void turn () {
-                System.out.println("turn()");
                 System.out.println("It's your turn " + tag);
             }
 
@@ -213,7 +200,6 @@ public abstract class PlayerBase extends TimerTask {
 
             //PickItem method which return the item.
             public ItemBase pickItem () throws Exception {
-                System.out.println("pickItem()");
                 if (currentIceberg.getAmountOfSnow() == 0) {
                     inventory.items.add(currentIceberg.getItem());
                     System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
@@ -226,7 +212,6 @@ public abstract class PlayerBase extends TimerTask {
 
             //Removes snow from the iceberg
             public void removeSnow () {
-                System.out.println("removeSnow()");
                 if (currentIceberg.getAmountOfSnow() <= 0) return;
                 int currentSnow = currentIceberg.getAmountOfSnow();
                 currentIceberg.setAmountOfSnow(currentSnow - 1);     //amount of snow is decreased by 1
@@ -234,12 +219,10 @@ public abstract class PlayerBase extends TimerTask {
 
             //Getter for heatLevel attribute
             public int getHeatLevel () {
-                System.out.println("getHeatLevel()");
                 return heatLevel;
             }
 
             public int getNumOfMoves () {
-                System.out.println("getNumOfMoves()");
                 return numOfMoves;
             }
         }
