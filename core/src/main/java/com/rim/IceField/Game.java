@@ -35,7 +35,6 @@ public class Game {
 
     //Getter for map
     public Map getMap() {
-        System.out.println("getMap()");
         return map;
     }
 

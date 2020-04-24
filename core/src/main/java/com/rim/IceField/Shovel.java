@@ -3,7 +3,6 @@ package com.rim.IceField;
 public class Shovel extends ItemBase {
     public Shovel() {
         super();
-
         tag = "Shovel";
     }
 

@@ -9,7 +9,6 @@ public abstract class ItemBase {
     protected boolean active; //the item can be used or not
 
     public ItemBase() {
-        System.out.println("ItemBase()");
         id = itemNumber;
         itemNumber++;
 //        this.posX = posX;
@@ -33,7 +32,6 @@ public abstract class ItemBase {
     }
 
     public String getTag() {
-        System.out.println("getTag()");
         return tag;
     }
 

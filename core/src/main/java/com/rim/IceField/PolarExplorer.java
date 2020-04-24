@@ -24,7 +24,7 @@ public class PolarExplorer extends PlayerBase {
         if ("north".equals(dir)) { //Up
 
             if (currentIceberg.y - 1 < 0) {
-                System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
+                System.out.println("Sorry, you are on the edge of the map, impossible to use skill");
             } else {
                 System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getMaxNumOfPlayers());
             }

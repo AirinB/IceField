@@ -54,8 +54,6 @@ public class Inventory {
     }
 
     public ItemBase getItem(String s){
-        System.out.println("getItem()");
-
         for (ItemBase item: items) {
             if(item.tag.equals(s)){
                 return item;

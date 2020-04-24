@@ -8,13 +8,10 @@ import java.util.Random;
 public class Blizzard {
 
     //Number of times the blizzard was blowing
-    public static int numOfRounds; //Blizzzard blows
+    public static int numOfRounds; //Blizzard blows
 
     //Method performing Blow functionality.
     public static void blow(ArrayList<PlayerBase> players, Map map) {
-
-        System.out.println("blow()");
-
 
         for (PlayerBase player : players) {
             if (!(player.currentIceberg.getHasIgloo()))  //Checking if Eskimo hasn't Igloo (Igloo protects him from decrease of heat units)
@@ -27,12 +24,10 @@ public class Blizzard {
                 map.Icebergs[i][j].setAmountOfSnow(snow + 1);
             }
         }
-
     }
 
     //Getter for numOfRounds
     public static int getNumOfRounds() {
-        System.out.println("getNumOfRounds");
         return numOfRounds;
     }
 }
