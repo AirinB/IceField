@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Iceberg {
     private boolean isStable;
-   public  int x;
+    public int x;
     public int y;
     //private int numOfPlayers; NO NEED, I JUST ADD THE LIST OF PLAYERS ON THE ICEBERG
     private String type;
@@ -28,7 +28,6 @@ public class Iceberg {
     }
 
 
-
     public void setItem(ItemBase item) {
         this.item = item;
     }
@@ -44,7 +43,6 @@ public class Iceberg {
     public int getAmountOfSnow() {
         return this.amountOfSnow;
     }
-
 
 
     public ArrayList<PlayerBase> getCurrentPlayers() {
@@ -102,12 +100,12 @@ public class Iceberg {
 
     public void Add_currentPlayers(PlayerBase p) {
         currentPlayers.add(p);
-      //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
+        //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
     }
 
     public void Remove_currentPlayers(PlayerBase p) {
         currentPlayers.remove(p);
-       // System.out.println("Player was removed from  the iceberg number: " + num);
+        // System.out.println("Player was removed from  the iceberg number: " + num);
     }
 
     public void Add_drowningPlayers(PlayerBase p) {
