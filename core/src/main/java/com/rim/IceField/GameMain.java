@@ -6,7 +6,6 @@ import org.mini2Dx.core.graphics.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.Timer;
 
 
 public class GameMain extends BasicGame {
