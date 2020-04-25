@@ -100,7 +100,9 @@ public class Iceberg {
 
     public void Add_currentPlayers(PlayerBase p) {
         currentPlayers.add(p);
-        //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
+        p.setCurrentIceberg(this);
+      //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
+
     }
 
     public void Remove_currentPlayers(PlayerBase p) {

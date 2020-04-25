@@ -1,7 +1,5 @@
 package com.rim.IceField;
 
-import java.util.Timer;
-
 //Po;arExplorer class
 public class PolarExplorer extends PlayerBase {
 
