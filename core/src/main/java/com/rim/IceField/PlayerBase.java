@@ -207,7 +207,7 @@ public abstract class PlayerBase extends TimerTask {
         }
         else
         {
-            System.out.println("Impossible to use the item!");
+            System.out.println("Impossible to use the item or no such item exists!");
         }
     }
 

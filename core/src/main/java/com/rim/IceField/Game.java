@@ -123,49 +123,20 @@ public class Game {
     public void UserInteraction(ArrayList<String> text, PlayerBase player)
     {
         if(text.get(0).equals("move ")) {
-            if (text.get(1).equals("NORTH")) {
-
-                try {
-                    player.move("north", this.getMap());
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (text.get(1).equals("SOUTH")) {
-                try {
-                    player.move("south", this.getMap());
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (text.get(0).equals("LEFT")) {
-                try {
-                    player.move("west", this.getMap());
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (text.get(0).equals("RIGHT")) {
-                try {
-                    player.move("east", this.getMap());
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try{
+                player.move(text.get(1), this.getMap());
             }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
         }
 
         else if(text.get(0).equals("use")) {
-            if (text.get(1).equals("food")) {
-                player.useItem("Food");
-                System.out.println("Action accepted!");
-            } else if (text.get(1).equals("shovel")) {
-                player.useItem("Shovel");
-                System.out.println("Action accepted!");
-            } else if (text.get(1).equals("diving suit")) {
-                player.useItem("Diving Suit");
-                System.out.println("Action accepted!");
-            }
+
+                player.useItem(text.get(1));
+            System.out.println("Action accepted!");
+
         }
         else if(text.get(0).equals("pick"))
         {
@@ -184,42 +155,14 @@ public class Game {
 
         else if(text.get(0).equals("apply skill"))
         {
-            if(text.get(1).equals("NORTH"))
-            {
+
                 try {
-                    player.useSkill(this.getMap(), "north");
+                    player.useSkill(this.getMap(), text.get(1));
                     System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-            else if(text.get(1).equals("SOUTH"))
-            {
-                try {
-                    player.useSkill(this.getMap(), "south");
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            else if(text.get(1).equals("WEST"))
-            {
-                try {
-                    player.useSkill(this.getMap(), "west");
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            else if(text.get(1).equals("EAST"))
-            {
-                try {
-                    player.useSkill(this.getMap(), "east");
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+
 
         }
         //Will distinguish between players based on their unique ID
@@ -239,14 +182,54 @@ public class Game {
         {
             GameOver();
             System.out.println("Action accepted!");
+            if(GameOver() == false)
+            {
+                System.out.println("You can't fire the gun, work more!");
+            }
         }
 
         else if(text.get(0).equals("inv"))
         {
             System.out.println("Action accepted!");
+            int numFood = 0;
+            int charge =0;
+            int DivingSuit = 0;
+            int Flare = 0;
+            int Gun = 0;
+            int rope =0;
+            int shovel = 0;
             for(int i = 0 ; i < player.getInventory().getItems().size(); i++)
             {
-                System.out.println(player.getInventory().getItemAt(i));
+                if(player.getInventory().getItemAt(i).tag == "Food")
+                {
+                    numFood++;
+                }
+                else if(player.getInventory().getItemAt(i).tag == "Charge")
+                {
+                    charge++;
+                }
+                else if(player.getInventory().getItemAt(i).tag == "Flare")
+                {
+                    Flare++;
+                }
+                else if(player.getInventory().getItemAt(i).tag == "DivingSuit")
+                {
+                    DivingSuit++;
+                }
+                else if(player.getInventory().getItemAt(i).tag == "Gun")
+                {
+                    Gun++;
+                }
+                else if(player.getInventory().getItemAt(i).tag == "rope")
+                {
+                    rope++;
+                }
+                else if(player.getInventory().getItemAt(i).tag == "shovel")
+                {
+                    shovel++;
+                }
+                System.out.println("You have: " + "Food - " + numFood + "Charge - " + charge + "Flare - " + Flare + "Diving suit - "
+                + DivingSuit + "Gun - " + Gun + "Rope - "+ rope + "shovel" + shovel);
             }
         }
 

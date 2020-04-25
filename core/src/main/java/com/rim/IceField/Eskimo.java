@@ -77,6 +77,10 @@ public class Eskimo extends PlayerBase {
             }
 
         }
+        else
+        {
+            System.out.println("No such direction, try again");
+        }
 
 
     }
