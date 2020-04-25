@@ -2,6 +2,7 @@ package com.rim.IceField;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 //Class Game
 public class Game {
@@ -126,24 +127,28 @@ public class Game {
 
                 try {
                     player.move("north", this.getMap());
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (text.get(1).equals("SOUTH")) {
                 try {
                     player.move("south", this.getMap());
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (text.get(0).equals("LEFT")) {
                 try {
                     player.move("west", this.getMap());
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (text.get(0).equals("RIGHT")) {
                 try {
                     player.move("east", this.getMap());
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -153,18 +158,27 @@ public class Game {
         else if(text.get(0).equals("use")) {
             if (text.get(1).equals("food")) {
                 player.useItem("Food");
+                System.out.println("Action accepted!");
             } else if (text.get(1).equals("shovel")) {
                 player.useItem("Shovel");
+                System.out.println("Action accepted!");
             } else if (text.get(1).equals("diving suit")) {
                 player.useItem("Diving Suit");
+                System.out.println("Action accepted!");
             }
         }
         else if(text.get(0).equals("pick"))
         {
-            try {
-                player.pickItem();
-            } catch (Exception e) {
-                e.printStackTrace();
+            System.out.println("Would you like to pick " + player.currentIceberg.getItem() + "press 1 for yes, 2 for no");
+            Scanner input = new Scanner(System.in);
+            int y = input.nextInt();
+            if(y == 1) {
+                try {
+                    player.pickItem();
+                    System.out.println("Action accepted!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -174,6 +188,7 @@ public class Game {
             {
                 try {
                     player.useSkill(this.getMap(), "north");
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -182,6 +197,7 @@ public class Game {
             {
                 try {
                     player.useSkill(this.getMap(), "south");
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -190,6 +206,7 @@ public class Game {
             {
                 try {
                     player.useSkill(this.getMap(), "west");
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -198,6 +215,7 @@ public class Game {
             {
                 try {
                     player.useSkill(this.getMap(), "east");
+                    System.out.println("Action accepted!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -208,20 +226,24 @@ public class Game {
         else if(text.get(0).equals("save"))
         {
                 player.SavePlayer(text.get(1), players);
+            System.out.println("Action accepted!");
         }
 
         else if(text.get(0).equals("remove snow"))
         {
             player.removeSnow();
+            System.out.println("Action accepted!");
         }
 
         else if(text.get(0).equals("fire"))
         {
             GameOver();
+            System.out.println("Action accepted!");
         }
 
         else if(text.get(0).equals("inv"))
         {
+            System.out.println("Action accepted!");
             for(int i = 0 ; i < player.getInventory().getItems().size(); i++)
             {
                 System.out.println(player.getInventory().getItemAt(i));
@@ -230,6 +252,7 @@ public class Game {
 
         else if(text.get(0).equals("help"))
         {
+            System.out.println("Action accepted!");
             // Show all possible inputs
             System.out.println("Move NORTH / SOUTH / LEFT / RIGHT - will move the player in the corresponding direction.");
             System.out.println("use food / shovel / diving suit - will make use of the corresponding item if the user has it in the inventory.");
@@ -245,6 +268,7 @@ public class Game {
 
         else if(text.get(0).equals("info"))
         {
+            System.out.println("Action accepted!");
             System.out.println("Heat level: " + player.getHeatLevel());
             System.out.println("Moves left: ");
             System.out.print( 4 - player.numOfMoves);
@@ -268,6 +292,10 @@ public class Game {
             }
             System.out.println("Parts collected:" + partsCollected);
 
+        }
+        else
+        {
+            System.out.println("There is no such command. Enter 'help' to see available actions");
         }
     }
 }

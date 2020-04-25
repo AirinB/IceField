@@ -75,7 +75,7 @@ public abstract class PlayerBase extends TimerTask {
         } else if ("south".equals(str)) {
             currentIceberg.Remove_currentPlayers(this);
             if (currentIceberg.y + 1 > 9) {
-                System.out.println("Sorry, you are on the edge of the map, no way to move up");
+                System.out.println("Sorry, you are on the edge of the map, no way to move down");
             } else {
                 currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
                 currentIceberg.Add_currentPlayers(this);
@@ -89,7 +89,7 @@ public abstract class PlayerBase extends TimerTask {
         } else if ("west".equals(str)) {
             currentIceberg.Remove_currentPlayers(this);
             if (currentIceberg.x - 1 < 0) {
-                System.out.println("Sorry, you are on the edge of the map, no way to move up");
+                System.out.println("Sorry, you are on the edge of the map, no way to move left");
             } else {
                 currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
                 currentIceberg.Add_currentPlayers(this);
@@ -103,7 +103,7 @@ public abstract class PlayerBase extends TimerTask {
         } else if ("east".equals(str)) {
             currentIceberg.Remove_currentPlayers(this);
             if (currentIceberg.x + 1 > 9) {
-                System.out.println("Sorry, you are on the edge of the map, no way to move up");
+                System.out.println("Sorry, you are on the edge of the map, no way to move right");
             } else {
                 currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
                 currentIceberg.Add_currentPlayers(this);
@@ -119,17 +119,47 @@ public abstract class PlayerBase extends TimerTask {
 
     //Method for saving the player.
     public void SavePlayer(String playerID, ArrayList<PlayerBase> players) {
-        for(int i = 0; i < players.size(); i++)
-        {
-            if(players.get(i).getID() == Integer.parseInt(playerID))
+        //Check every item in the inventory to see if there's a rope.
+        for(int j = 0 ; j<this.inventory.getItems().size(); j++) {
+            if(this.inventory.getItems().get(j).tag == "Rope")
             {
-                System.out.println(players.get(i).tag + " has been saved!");
-                players.get(i).isDrowning = false;  //player is saved , so it's not drowning anymore
-                players.get(i).timer.cancel();
-                break;
-            }
-        }
+            for (int i = 0; i < players.size(); i++) {
+                //Find the drowning player in the list of all players.
+                if (players.get(i).getID() == Integer.parseInt(playerID)) {
+                    //Check if the player is drowning
+                    if(players.get(i).isDrowning) {
+                        if(checkSavableDistance(players.get(i)) == true) {
+                            System.out.println(players.get(i).tag + " has been saved!");
+                            players.get(i).isDrowning = false;  //player is saved , so it's not drowning anymore
+                            players.get(i).timer.cancel();
+                            break;
+                        }
+                        else{
+                            System.out.println("The given player is too far to be saved, get closer to save them.");
+                        }
 
+                    }
+                    else {System.out.println("You are trying to save a player that is not in the water!");
+                    break;}
+
+                }
+                }
+            break;
+            }
+            else {System.out.println("You don't have a rope!");}
+        }
+    }
+
+    //Checks if current player is on neighboring iceberg in savable distance from player in need.
+    public boolean checkSavableDistance(PlayerBase drowningPlayer)
+    {
+        int diffY = Math.abs(this.getCurrentIceberg().getY() - drowningPlayer.getCurrentIceberg().getY());
+        int diffX = Math.abs(this.getCurrentIceberg().getX() - drowningPlayer.getCurrentIceberg().getX());
+        if(diffY <= 1 && diffX <= 1)
+        {
+            return true;
+        }
+        return false;
 
     }
 
@@ -175,6 +205,10 @@ public abstract class PlayerBase extends TimerTask {
                 }
             }
         }
+        else
+        {
+            System.out.println("Impossible to use the item!");
+        }
     }
 
 
@@ -190,7 +224,7 @@ public abstract class PlayerBase extends TimerTask {
         currentIceberg.setType("hole");
         isDrowning = true;
         if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
-            System.out.println("Ouch! You've fallen into some water");
+            System.out.println("You fell in the water. Ask for help to get back!");
             TimerTask tt = new TimerTask() {
                 @Override
                 public void run() {
@@ -220,21 +254,25 @@ public abstract class PlayerBase extends TimerTask {
     //PickItem method which return the item.
     public ItemBase pickItem() throws Exception {
         if (currentIceberg.getAmountOfSnow() == 0) {
-            inventory.items.add(currentIceberg.getItem());
-            currentIceberg.DeletePickedItem(); // Will delete the item from the iceberg after it was picked
-            String tagString = currentIceberg.getItem().getTag() ;
-            try {
-                System.out.println(tagString + " was added to your inventory.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            if(currentIceberg.getItem() != null) {
+                inventory.items.add(currentIceberg.getItem());
+                currentIceberg.DeletePickedItem(); // Will delete the item from the iceberg after it was picked
+                String tagString = currentIceberg.getItem().getTag();
+                try {
+                    System.out.println(tagString + " was added to your inventory.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-            System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
-            return currentIceberg.getItem();
+                System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
+                return currentIceberg.getItem();
+            }
+            else {System.out.println("Impossible to pick, no such item on the iceberg.");}
         } else {
             System.out.println("Level of snow on iceberg is not 0!");
             throw new Exception("There is snow on the iceberg");
         }
+       return null;
     }
 
     //Removes snow from the iceberg
