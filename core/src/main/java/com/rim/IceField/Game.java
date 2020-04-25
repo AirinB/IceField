@@ -19,10 +19,12 @@ public class Game {
 
 
     //Constructor
-    public Game() {
+    public Game(ArrayList players) {
+        this.players = players;
         map = new Map();
         currentRound += 1;
         randomBlow = new boolean[maxRounds];
+
 
         Random objGenerator = new Random(1);
         for (int i = 1; i < 10; i++) {
