@@ -8,11 +8,11 @@ import java.util.Scanner;
 
 //Map class
 public class Map {
-    private int MAP_HEIGHT = 10;
-    private int MAP_WIDTH = 10;
+    private final int MAP_HEIGHT = 10;
+    private final int MAP_WIDTH = 10;
     public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];
 
-    private ArrayList<ItemBase> items;      //List of items
+    private final ArrayList<ItemBase> items;      //List of items
 
     //Getter for list of icebergs
     public Iceberg[][] getIcebergs() {

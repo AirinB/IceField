@@ -1,6 +1,5 @@
 package com.rim.IceField;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -67,8 +66,8 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
             }
 
-            if (currentIceberg.getType() == "hole") this.fall();
-            else if (currentIceberg.getType() == "instable" && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+            if (currentIceberg.getType().equals("hole")) this.fall();
+            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
@@ -81,8 +80,8 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
             }
 
-            if (currentIceberg.getType() == "hole") this.fall();
-            else if (currentIceberg.getType() == "instable" && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+            if (currentIceberg.getType().equals("hole")) this.fall();
+            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
@@ -95,8 +94,8 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
             }
 
-            if (currentIceberg.getType() == "hole") this.fall();
-            else if (currentIceberg.getType() == "instable" && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+            if (currentIceberg.getType().equals("hole")) this.fall();
+            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
@@ -109,8 +108,8 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
             }
 
-            if (currentIceberg.getType() == "hole") this.fall();
-            else if (currentIceberg.getType() == "instable" && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+            if (currentIceberg.getType().equals("hole")) this.fall();
+            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
@@ -120,34 +119,33 @@ public abstract class PlayerBase extends TimerTask {
     //Method for saving the player.
     public void SavePlayer(String playerID, ArrayList<PlayerBase> players) {
         //Check every item in the inventory to see if there's a rope.
-        for(int j = 0 ; j<this.inventory.getItems().size(); j++) {
-            if(this.inventory.getItems().get(j).tag == "Rope")
+            if(ContainsItem("Rope"))
             {
-            for (int i = 0; i < players.size(); i++) {
-                //Find the drowning player in the list of all players.
-                if (players.get(i).getID() == Integer.parseInt(playerID)) {
-                    //Check if the player is drowning
-                    if(players.get(i).isDrowning) {
-                        if(checkSavableDistance(players.get(i)) == true) {
-                            System.out.println(players.get(i).tag + " has been saved!");
-                            players.get(i).isDrowning = false;  //player is saved , so it's not drowning anymore
-                            players.get(i).timer.cancel();
+                for (PlayerBase player : players) {
+                    //Find the drowning player in the list of all players.
+                    if (player.getID() == Integer.parseInt(playerID)) {
+                        //Check if the player is drowning
+                        if (player.isDrowning) {
+                            if (checkSavableDistance(player)) {
+                                System.out.println(player.tag + " has been saved!");
+                                player.isDrowning = false;  //player is saved , so it's not drowning anymore
+                                player.timer.cancel();
+                                break;
+                            } else {
+                                System.out.println("The given player is too far to be saved, get closer to save them.");
+                            }
+
+                        } else {
+                            System.out.println("You are trying to save a player that is not in the water!");
                             break;
-                        }
-                        else{
-                            System.out.println("The given player is too far to be saved, get closer to save them.");
                         }
 
                     }
-                    else {System.out.println("You are trying to save a player that is not in the water!");
-                    break;}
+                }
 
-                }
-                }
-            break;
             }
             else {System.out.println("You don't have a rope!");}
-        }
+
     }
 
     //Checks if current player is on neighboring iceberg in savable distance from player in need.
@@ -155,11 +153,7 @@ public abstract class PlayerBase extends TimerTask {
     {
         int diffY = Math.abs(this.getCurrentIceberg().getY() - drowningPlayer.getCurrentIceberg().getY());
         int diffX = Math.abs(this.getCurrentIceberg().getX() - drowningPlayer.getCurrentIceberg().getX());
-        if(diffY <= 1 && diffX <= 1)
-        {
-            return true;
-        }
-        return false;
+        return diffY <= 1 && diffX <= 1;
 
     }
 
@@ -184,10 +178,10 @@ public abstract class PlayerBase extends TimerTask {
     //Use the item specified in the parameter.
     public void useItem(String item) {
 
-        if (inventory.items.contains(item)) {
+        if (ContainsItem(item)) {
             try {
                 for(int i = 0; i<inventory.items.size(); i++) {
-                    if(inventory.items.get(i).tag == item) {
+                    if(inventory.items.get(i).tag.equals(item)) {
                         inventory.items.get(i).useItem(this);
                         break;
                     }
@@ -196,9 +190,9 @@ public abstract class PlayerBase extends TimerTask {
                 e.printStackTrace();
             }
 
-            if (item == "Food" || item == "Diving Suit") {
+            if (item.equals("Food") || item.equals("Diving Suit")) {
                 for (int i = 0; i < inventory.items.size(); i++) {
-                    if (item == inventory.items.get(i).tag) {
+                    if (item.equals(inventory.items.get(i).tag)) {
                         inventory.deleteItem(i);
                         return;
                     }
@@ -209,6 +203,14 @@ public abstract class PlayerBase extends TimerTask {
         {
             System.out.println("Impossible to use the item or no such item exists!");
         }
+    }
+
+    private boolean ContainsItem(String item) {
+
+        for( ItemBase itemBase: inventory.items){
+            if(itemBase.tag.equals(item))return true;
+        }
+        return false;
     }
 
 

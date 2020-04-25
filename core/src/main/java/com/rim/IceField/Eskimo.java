@@ -29,7 +29,7 @@ public class Eskimo extends PlayerBase {
             if (currentIceberg.y - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getHasIgloo() == false) {
+                if (!map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y - 1][currentIceberg.x].setHasIgloo(true);
                 } else {
@@ -42,7 +42,7 @@ public class Eskimo extends PlayerBase {
             if (currentIceberg.y + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getHasIgloo() == false) {
+                if (!map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y + 1][currentIceberg.x].setHasIgloo(true);
                 } else {
@@ -55,7 +55,7 @@ public class Eskimo extends PlayerBase {
             if (currentIceberg.x - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getHasIgloo() == false) {
+                if (!map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y][currentIceberg.x - 1].setHasIgloo(true);
                 } else {
@@ -68,7 +68,7 @@ public class Eskimo extends PlayerBase {
             if (currentIceberg.x + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getHasIgloo() == false) {
+                if (!map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y][currentIceberg.x + 1].setHasIgloo(true);
                 } else {
@@ -76,6 +76,13 @@ public class Eskimo extends PlayerBase {
                 }
             }
 
+        } else if("here".equals(dir)){
+            if (!map.Icebergs[currentIceberg.y][currentIceberg.x].getHasIgloo()) {
+                map.Icebergs[currentIceberg.y][currentIceberg.x].setHasIgloo(true);
+                System.out.println("An Igloo has been created!");
+            } else {
+                System.out.println("There is an igloo on this iceberg already!");
+            }
         }
         else
         {
