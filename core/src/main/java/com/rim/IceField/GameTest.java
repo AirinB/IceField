@@ -23,6 +23,8 @@ class GameTest {
         playersList.add(p2);
         playersList.add(p3);
         game.newGame(playersList);
+        assertEquals(5,e1.heatLevel);
+        assertEquals(4,p1.heatLevel);
         assertEquals(5, playersList.size());
 
     }
