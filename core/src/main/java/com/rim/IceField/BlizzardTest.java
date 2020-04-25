@@ -22,14 +22,17 @@ class BlizzardTest {
         game.getMap().Icebergs[1][0].Add_currentPlayers(e2);
 
 
+        assertEquals(1,game.getMap().Icebergs[0][0].getAmountOfSnow());
+        assertEquals(1,game.getMap().Icebergs[1][0].getAmountOfSnow());
+
         Blizzard.blow(playersList, game.getMap());
         assertEquals(4,e1.heatLevel);
         assertEquals(2,game.getMap().Icebergs[0][0].getAmountOfSnow());
-        assertEquals(2,game.getMap().Icebergs[0][1].getAmountOfSnow());
 
         assertEquals(4,e2.heatLevel);
         assertEquals(2,game.getMap().Icebergs[1][0].getAmountOfSnow());
 
+        //Test-case 16: Polar explorer skill
         e1.useSkill(game.getMap(),"east");
         try {
             e1.move("east", game.getMap());

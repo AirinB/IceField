@@ -216,5 +216,42 @@ class PlayerBaseTest {
         assertEquals(5,p1.heatLevel);
      }
 
+     @Test
+     void polarSkill(){
+        //Test-case 15: Polar explorer skill
+         PlayerBase  p1 = new PolarExplorer();
+         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
+         playersList.add(p1);
+         Game game = new Game();
+         game.newGame(playersList);
+         game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
+         try {
+         p1.useSkill(game.getMap(), "east");
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         assertEquals("instable", game.getMap().Icebergs[1][1].getType());
+
+         try {
+             p1.useSkill(game.getMap(), "north");
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         assertEquals("stable", game.getMap().Icebergs[1][0].getType());
+
+         try {
+             p1.move("east",game.getMap());
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+
+         try {
+             p1.useSkill(game.getMap(), "east");
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         assertEquals("hole", game.getMap().Icebergs[1][2].getType());
+     }
+
 
 }
