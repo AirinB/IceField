@@ -10,10 +10,12 @@ public class Blizzard {
 
     //Method performing Blow functionality.
     public static void blow(ArrayList<PlayerBase> players, Map map) {
+        System.out.println("The blizzard is blowing, some icebergs are covered in snow and some people will lose body heat.");
 
         for (PlayerBase player : players) {
             if (!(player.currentIceberg.getHasIgloo()))  //Checking if Eskimo hasn't Igloo (Igloo protects him from decrease of heat units)
                 player.decreaseHeatLevel();  //Decreasing heatLevel of players
+            System.out.println(player + "Your body temerature has decreased.");
         }
         //Covering icebergs with snow
         //I set it to 2 *2 right now because we don't have 9*9 icebergs yet ( I can test the app this way)

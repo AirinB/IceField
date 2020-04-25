@@ -27,6 +27,15 @@ public class Iceberg {
 
     }
 
+    public int getX()
+    {
+        return x;
+    }
+
+    public int getY()
+    {
+        return y;
+    }
 
     public void setItem(ItemBase item) {
         this.item = item;
@@ -99,9 +108,20 @@ public class Iceberg {
     }
 
     public void Add_currentPlayers(PlayerBase p) {
-        currentPlayers.add(p);
-        p.setCurrentIceberg(this);
-      //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
+        if(currentPlayers.size() < maxNumOfPlayers) {
+            currentPlayers.add(p);
+            p.setCurrentIceberg(this);
+            //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
+        }
+        else
+        {
+            System.out.println("Too many people on this iceberg! It has cracked.");
+            for(PlayerBase pl : currentPlayers)
+            {
+                pl.fall();
+                this.drowningPlayers.add(pl);
+            }
+        }
 
     }
 
@@ -119,6 +139,11 @@ public class Iceberg {
     public void Remove_drowningPlayers(PlayerBase p) {
         drowningPlayers.remove(p);
         System.out.println("The player" + p.ID + " is saved. You are a hero!");
+    }
+
+    public void DeletePickedItem ()
+    {
+        this.item = null;
     }
 
 
