@@ -63,6 +63,10 @@ public class Inventory {
         }
         return null;
     }
+    public ItemBase getItemAt(int index)
+    {
+        return items.get(index);
+    }
 
     public void showItems() {
         for (ItemBase item : items) {

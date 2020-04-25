@@ -121,5 +121,10 @@ public class Iceberg {
         System.out.println("The player" + p.ID + " is saved. You are a hero!");
     }
 
+    public void DeletePickedItem ()
+    {
+        this.item = null;
+    }
+
 
 }

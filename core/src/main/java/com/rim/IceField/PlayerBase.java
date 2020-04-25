@@ -1,6 +1,7 @@
 package com.rim.IceField;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,6 +21,10 @@ public abstract class PlayerBase extends TimerTask {
 
     public boolean isTurn() {
         return isTurn;
+    }
+    public int getID()
+    {
+        return ID;
     }
 
     public Inventory getInventory() {
@@ -113,10 +118,19 @@ public abstract class PlayerBase extends TimerTask {
     }
 
     //Method for saving the player.
-    public void SavePlayer(PlayerBase player) {
-        System.out.println(player.tag + " has been saved!");
-        player.isDrowning = false;  //player is saved , so it's not drowning anymore
-        player.timer.cancel();
+    public void SavePlayer(String playerID, ArrayList<PlayerBase> players) {
+        for(int i = 0; i < players.size(); i++)
+        {
+            if(players.get(i).getID() == Integer.parseInt(playerID))
+            {
+                System.out.println(players.get(i).tag + " has been saved!");
+                players.get(i).isDrowning = false;  //player is saved , so it's not drowning anymore
+                players.get(i).timer.cancel();
+                break;
+            }
+        }
+
+
     }
 
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
@@ -138,18 +152,23 @@ public abstract class PlayerBase extends TimerTask {
     }
 
     //Use the item specified in the parameter.
-    public void useItem(ItemBase item) {
+    public void useItem(String item) {
 
         if (inventory.items.contains(item)) {
             try {
-                item.useItem(this);
+                for(int i = 0; i<inventory.items.size(); i++) {
+                    if(inventory.items.get(i).tag == item) {
+                        inventory.items.get(i).useItem(this);
+                        break;
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if (item.tag == "Food" || item.tag == "Diving Suit") {
+            if (item == "Food" || item == "Diving Suit") {
                 for (int i = 0; i < inventory.items.size(); i++) {
-                    if (item.tag == inventory.items.get(i).tag) {
+                    if (item == inventory.items.get(i).tag) {
                         inventory.deleteItem(i);
                         return;
                     }
@@ -202,6 +221,14 @@ public abstract class PlayerBase extends TimerTask {
     public ItemBase pickItem() throws Exception {
         if (currentIceberg.getAmountOfSnow() == 0) {
             inventory.items.add(currentIceberg.getItem());
+            currentIceberg.DeletePickedItem(); // Will delete the item from the iceberg after it was picked
+            String tagString = currentIceberg.getItem().getTag() ;
+            try {
+                System.out.println(tagString + " was added to your inventory.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
             return currentIceberg.getItem();
         } else {

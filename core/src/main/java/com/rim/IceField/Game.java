@@ -117,4 +117,157 @@ public class Game {
             }
         }
     }
+
+    //Will be continuously called in the game loop.
+    public void UserInteraction(ArrayList<String> text, PlayerBase player)
+    {
+        if(text.get(0).equals("move ")) {
+            if (text.get(1).equals("NORTH")) {
+
+                try {
+                    player.move("north", this.getMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (text.get(1).equals("SOUTH")) {
+                try {
+                    player.move("south", this.getMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (text.get(0).equals("LEFT")) {
+                try {
+                    player.move("west", this.getMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (text.get(0).equals("RIGHT")) {
+                try {
+                    player.move("east", this.getMap());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        else if(text.get(0).equals("use")) {
+            if (text.get(1).equals("food")) {
+                player.useItem("Food");
+            } else if (text.get(1).equals("shovel")) {
+                player.useItem("Shovel");
+            } else if (text.get(1).equals("diving suit")) {
+                player.useItem("Diving Suit");
+            }
+        }
+        else if(text.get(0).equals("pick"))
+        {
+            try {
+                player.pickItem();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if(text.get(0).equals("apply skill"))
+        {
+            if(text.get(1).equals("NORTH"))
+            {
+                try {
+                    player.useSkill(this.getMap(), "north");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(text.get(1).equals("SOUTH"))
+            {
+                try {
+                    player.useSkill(this.getMap(), "south");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(text.get(1).equals("WEST"))
+            {
+                try {
+                    player.useSkill(this.getMap(), "west");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(text.get(1).equals("EAST"))
+            {
+                try {
+                    player.useSkill(this.getMap(), "east");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        //Will distinguish between players based on their unique ID
+        else if(text.get(0).equals("save"))
+        {
+                player.SavePlayer(text.get(1), players);
+        }
+
+        else if(text.get(0).equals("remove snow"))
+        {
+            player.removeSnow();
+        }
+
+        else if(text.get(0).equals("fire"))
+        {
+            GameOver();
+        }
+
+        else if(text.get(0).equals("inv"))
+        {
+            for(int i = 0 ; i < player.getInventory().getItems().size(); i++)
+            {
+                System.out.println(player.getInventory().getItemAt(i));
+            }
+        }
+
+        else if(text.get(0).equals("help"))
+        {
+            // Show all possible inputs
+            System.out.println("Move NORTH / SOUTH / LEFT / RIGHT - will move the player in the corresponding direction.");
+            System.out.println("use food / shovel / diving suit - will make use of the corresponding item if the user has it in the inventory.");
+            System.out.println("pick - will pick the item from the iceberg that the player is on.");
+            System.out.println("apply skill NORTH / SOUTH / WEST / EAST - will apply apply current player's skill in the corresponding direction");
+            System.out.println("save (player ID) - will save the player with the given id if they are in trouble and the conditions for saving them are met.");
+            System.out.println("remove snow - will remove one unit of snow from the current iceberg.");
+            System.out.println("fire - will fire the gun if all conditions for firing it are met.");
+            System.out.println("inv - will display all items in current player's inventory.");
+            System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
+
+        }
+
+        else if(text.get(0).equals("info"))
+        {
+            System.out.println("Heat level: " + player.getHeatLevel());
+            System.out.println("Moves left: ");
+            System.out.print( 4 - player.numOfMoves);
+            int partsCollected = 0;
+            //for every player
+            for(int i = 0; i<players.size(); i++)
+            {
+                //we check every item in their inventory if it is a Gun, flare or charge
+                for(int j = 0; j < players.get(i).getInventory().getItems().size(); j++)
+                {
+                    if(players.get(i).getInventory().getItems().get(j).getTag() == "Gun" ||
+                            players.get(i).getInventory().getItems().get(j).getTag() == "Flare"||
+                            players.get(i).getInventory().getItems().get(j).getTag() == "Charge")
+                    {
+                        partsCollected++;
+                        //break;
+                    }
+
+
+                }
+            }
+            System.out.println("Parts collected:" + partsCollected);
+
+        }
+    }
 }

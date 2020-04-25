@@ -4,6 +4,7 @@ import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Timer;
 
@@ -87,6 +88,16 @@ public class GameMain extends BasicGame {
 
                 playersList.get(i).turn(); // Some more turn() log
 
+                System.out.println("Give an input:");
+                Scanner inp = new Scanner(System.in);
+                String inpt = in.nextLine();
+            //    String inpt =  System.console().readLine();
+
+                String strr[] = inpt.split(" ");
+                ArrayList<String> inputArr = new ArrayList<String>(Arrays.asList(strr));
+                g1.UserInteraction(inputArr, playersList.get(i));
+
+
                 System.out.println("Choose an scenario by entering its corresponding number :\n 1 - Move\n | 2 - Use skill\n | 3 - Save Character\n | " +
                         "4 - Use Item \n| 5 - Pick Item\n | 6 - in water\n | 7 - end of game\n | 8 - Fall because iceberg is unstable\n |" +
                         " 9 - Blizzard blows \n | 9 - Blizzard blows\n | 10 - Blizzart kills\n | 11 - Turn\n");
@@ -149,7 +160,7 @@ public class GameMain extends BasicGame {
                         //Get's the item that the player wants to use from the inventory
                         playersList.get(0).inventory.getItem(sstr);
                         //Uses the item
-                        playersList.get(0).useItem(playersList.get(0).inventory.getItem(sstr));
+                       // playersList.get(0).useItem(playersList.get(0).inventory.getItem(sstr));
                         System.out.println("The item was used");
                         // from the first player get the useItemFunction and pass the item that was choosed by the user
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
@@ -176,7 +187,7 @@ public class GameMain extends BasicGame {
                             System.out.println("You wear a diving suit");
                             DivingSuit divingSuit2 = new DivingSuit();
                             playersList.get(0).inventory.addItem(divingSuit2);
-                            playersList.get(0).useItem(playersList.get(0).inventory.getItem("Diving Suit"));
+                           // playersList.get(0).useItem(playersList.get(0).inventory.getItem("Diving Suit"));
                             System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         } else if (userInput1 == 2) {
@@ -189,18 +200,18 @@ public class GameMain extends BasicGame {
                         } else {
                             System.out.println("Player " + playersList.get(1).getTag() + " Press 1 if you want to save the other player");
                             int userInput2 = input.nextInt();
-                            if (userInput2 == 1) playersList.get(1).SavePlayer(playersList.get(0));
-                            else {
+                          //  if (userInput2 == 1) playersList.get(1).SavePlayer(playersList.get(0));
+                          //  else {
                                 playersList.get(0).die();
                                 g1.GameOver();
                                 System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                                 return;
-                            }
+                           // }
 
                         }
 
-                        System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
-                        return;
+                      //  System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
+                       // return;
 
                     case 7: // Game over by putting together flare gun.
                         System.out.println("Choose: \n 1 for Win scenarion \n 2 for lose scenario");
