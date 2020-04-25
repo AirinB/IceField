@@ -20,6 +20,7 @@ public class Eskimo extends PlayerBase {
     }
 
     //Method useSkill performs the ability of Eskimo to construct the Igloo
+
     @Override
     public void useSkill(Map map, String dir) {
 
@@ -75,6 +76,10 @@ public class Eskimo extends PlayerBase {
                 }
             }
 
+        }
+        else
+        {
+            System.out.println("No such direction, try again");
         }
 
 
