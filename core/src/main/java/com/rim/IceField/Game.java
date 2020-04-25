@@ -104,7 +104,7 @@ public class Game {
 
 
     //Static method for starting a new game.
-    public void newGame(ArrayList<PlayerBase> players) throws Exception {
+    public void newGame() throws Exception {
 
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
@@ -191,7 +191,7 @@ public class Game {
         //Will distinguish between players based on their unique ID
         else if(input.get(0).equals("save"))
         {
-                player.SavePlayer(input.get(1), players);
+                player.SavePlayer(input.get(1), input.get(2), map);
             System.out.println("Action accepted!");
         }
 

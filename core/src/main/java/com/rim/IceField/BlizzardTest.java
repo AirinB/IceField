@@ -5,21 +5,21 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class BlizzardTest {
 
     @Test
-    void blow() {
+    void blow() throws Exception {
         //Test-case 10: Blizzard Blowing
         Eskimo e1 = new Eskimo();
         Eskimo e2 = new Eskimo();
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(e1);
         playersList.add(e2);
-        Game game = new Game();
-        game.newGame(playersList);
+        Game game = new Game(playersList);
+        game.newGame();
         game.getMap().Icebergs[0][0].Add_currentPlayers(e1);
         game.getMap().Icebergs[1][0].Add_currentPlayers(e2);
 
@@ -53,7 +53,7 @@ class BlizzardTest {
         Blizzard.blow(playersList, game.getMap());
         assertEquals(4,e1.heatLevel);
         assertEquals(0,e2.heatLevel);
-        assertEquals(true,e2.isDead);
+        assertTrue(e2.isDead);
         //Test-case 20: Lose scenario of the game because of Blizzard
         //assertEquals(true, game.isGameLost());
 

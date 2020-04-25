@@ -55,7 +55,7 @@ public abstract class PlayerBase extends TimerTask {
 
 
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
-    public void move(String str, Map map) throws Exception {
+    public boolean move(String str, Map map) throws Exception {
         // up-> y--, down-> y++, left--> x--, right--> x++;
         if ("north".equals(str)) { //Up
             currentIceberg.Remove_currentPlayers(this);
@@ -114,37 +114,58 @@ public abstract class PlayerBase extends TimerTask {
                 throw new Exception("This iceberg falls...");
             }
         }
+        return true;
     }
 
     //Method for saving the player.
-    public void SavePlayer(String playerID, ArrayList<PlayerBase> players) {
+    public boolean SavePlayer(String playerID, String dir, Map map) {
         //Check every item in the inventory to see if there's a rope.
-            if(ContainsItem("Rope"))
+            if(!ContainsItem("Rope"))
             {
-                for (PlayerBase player : players) {
-                    //Find the drowning player in the list of all players.
-                    if (player.getID() == Integer.parseInt(playerID)) {
-                        //Check if the player is drowning
-                        if (player.isDrowning) {
-                            if (checkSavableDistance(player)) {
-                                System.out.println(player.tag + " has been saved!");
-                                player.isDrowning = false;  //player is saved , so it's not drowning anymore
-                                player.timer.cancel();
-                                break;
-                            } else {
-                                System.out.println("The given player is too far to be saved, get closer to save them.");
-                            }
+                System.out.println("You don't have a rope!");
+                return false;
+            }
 
-                        } else {
-                            System.out.println("You are trying to save a player that is not in the water!");
+            ArrayList<PlayerBase> playerBases = null;
+
+            if(dir.equals("north")){
+               playerBases =  map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
+            }else if(dir.equals("south")){
+                currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
+            }else if(dir.equals("west")){
+                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
+            }else if(dir.equals("east")){
+                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
+            }
+
+
+        if (playerBases != null) {
+            for (PlayerBase player : playerBases) {
+                //Find the drowning player in the list of all players.
+                if (player.getID() == Integer.parseInt(playerID)) {
+                    //Check if the player is drowning
+                    if (player.isDrowning) {
+                        if (checkSavableDistance(player)) {
+                            System.out.println(player.tag + " has been saved!");
+                            player.isDrowning = false;  //player is saved , so it's not drowning anymore
+                            player.timer.cancel();
                             break;
+                        } else {
+                            System.out.println("The given player is too far to be saved, get closer to save them.");
                         }
 
+                    } else {
+                        System.out.println("You are trying to save a player that is not in the water!");
+                        ;
                     }
-                }
 
+                }
             }
-            else {System.out.println("You don't have a rope!");}
+            return true;
+        }
+
+
+        return false;
 
     }
 
