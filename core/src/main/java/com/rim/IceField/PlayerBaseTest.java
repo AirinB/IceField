@@ -200,4 +200,21 @@ class PlayerBaseTest {
         assertEquals(true, p1.isDrowning);
         assertEquals("hole", game.getMap().Icebergs[1][1].getType());
     }
+
+    @Test
+    void eatFood() {
+        //Test-case 14: Eat food
+        PlayerBase  p1 = new PolarExplorer();
+        Food food = new Food();
+        p1.inventory.addItem(food);
+        assertEquals(4,p1.heatLevel);
+        try {
+        food.useItem(p1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(5,p1.heatLevel);
+     }
+
+
 }
