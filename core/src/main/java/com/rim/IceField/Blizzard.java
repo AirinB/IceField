@@ -18,7 +18,7 @@ public class Blizzard {
                 player.decreaseHeatLevel();  //Decreasing heatLevel of players
         }
         //Covering icebergs with snow
-        for (int i = 0; i <9 ; i++) {
+        for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 int snow = map.Icebergs[i][j].getAmountOfSnow();
                 map.Icebergs[i][j].setAmountOfSnow(snow + 1);

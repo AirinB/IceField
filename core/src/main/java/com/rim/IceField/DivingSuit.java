@@ -9,8 +9,8 @@ public class DivingSuit extends ItemBase {
 
     @Override
     public boolean useItem(PlayerBase player) throws Exception {
-        super.useItem(player) ;
-        try{
+        super.useItem(player);
+        try {
 
             //when the player wears a diving suit, we set
             // the value that indicate that he wears it to true
