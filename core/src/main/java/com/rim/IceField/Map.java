@@ -1,21 +1,62 @@
 package com.rim.IceField;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 //Map class
 public class Map {
-
-    public Iceberg[][] Icebergs = new Iceberg[10][10];
-    public int[][] map = new int[10][10];
+    private int MAP_HEIGHT = 10;
+    private int MAP_WIDTH = 10;
+    public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];
 
     private ArrayList<ItemBase> items;      //List of items
 
     //Getter for list of icebergs
     public Iceberg[][] getIcebergs() {
-
         return Icebergs;
     }
+
+    public void loadMap(String path) throws FileNotFoundException {
+        File map = new File(path);
+        String[] icebergs;
+        String[] splitIcebergs;
+        Scanner sc = new Scanner(map);
+        int r = 0, c = 0;
+        while(sc.hasNextLine()) {
+            String line = sc.nextLine();
+            icebergs = line.split(" ");
+            for (String iceberg : icebergs) {
+                splitIcebergs = iceberg.split(":");
+                Icebergs[r][c].setAmountOfSnow(Integer.parseInt(splitIcebergs[1]));
+                Icebergs[r][c].setItem(returnItem(splitIcebergs[2]));
+                if (splitIcebergs[0].equals("4")) {
+                    Icebergs[r][c].setIsStable(true);
+                } else if (splitIcebergs[0].equals("5")) {
+                    Icebergs[r][c].setIsStable(false);
+                }
+                r++;
+            }
+            c++;
+
+        }
+    }
+
+    public ItemBase returnItem(String tag) {
+        if (new Shovel().tag.equals(tag)) return new Shovel();
+        if (new Charge().tag.equals(tag)) return new Charge();
+        if (new DivingSuit().tag.equals(tag)) return new DivingSuit();
+        if (new Flare().tag.equals(tag)) return new Flare();
+        if (new Food().tag.equals(tag)) return new Food();
+        if (new Gun().tag.equals(tag)) return new Gun();
+        if (new Rope().tag.equals(tag)) return new Rope();
+        return null;
+    }
+    //MAKE FUNCTION THAT RETURNS RANDOM ITEMS
+    //MAKE FUNCTION THAT FINDS ITEM FROM TAG
+
 
     //Getter for list of items
     public ArrayList<ItemBase> getItems() {
