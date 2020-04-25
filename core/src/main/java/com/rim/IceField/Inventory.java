@@ -38,6 +38,8 @@ public class Inventory {
         return true;
     }
 
+
+
     public boolean deleteItem(int index) {
         try {
             items.remove(index);
