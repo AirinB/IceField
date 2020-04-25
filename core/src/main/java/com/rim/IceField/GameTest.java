@@ -10,6 +10,7 @@ class GameTest {
 
     @Test
     void newPlayers() {
+        //Test-case 1 : Create players
         Game game = new Game();
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         Eskimo e1 = new Eskimo();
