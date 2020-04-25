@@ -2,7 +2,7 @@ package com.rim.IceField;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerBaseTest {
 
@@ -41,8 +41,26 @@ class PlayerBaseTest {
         }
         p2.useItem(shovel);
         assertEquals(2, ice2.getAmountOfSnow());
+    }
 
+    @Test
+    void fallWithoutDS() {
+        //initial version: should be changed with move method when the map is ready
+        PlayerBase  p1 = new PolarExplorer();
+        Iceberg ice1 = new Iceberg(false,1,"hole", 0, false,0, null);
+        ice1.Add_currentPlayers(p1);
+        p1.fall();
+        assertEquals(true,p1.isDrowning);
+    }
 
-
+    void fallWithS() {
+        //initial version: should be changed with move method when the map is ready
+        PlayerBase  p1 = new PolarExplorer();
+        DivingSuit ds = new DivingSuit();
+        p1.inventory.addItem(ds);
+        Iceberg ice1 = new Iceberg(false,1,"hole", 0, false,0, null);
+        ice1.Add_currentPlayers(p1);
+        p1.fall();
+        assertEquals(true,p1.isDrowning);
     }
 }
