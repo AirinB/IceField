@@ -14,6 +14,7 @@ public class Shovel extends ItemBase {
             //we get the current amount of snow and set it -2
             // because with shovel we can remove 2 units of snow
             int currentAmountOfSnow =  player.getCurrentIceberg().getAmountOfSnow();
+            if (currentAmountOfSnow <= 0 ) return false;
             player.getCurrentIceberg().setAmountOfSnow( currentAmountOfSnow - 2);
 
         } catch (Exception e) {
