@@ -1,6 +1,5 @@
 package com.rim.IceField;
 
-import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -169,8 +168,8 @@ public abstract class PlayerBase extends TimerTask {
     //Player falls into water
     public void fall() {
         currentIceberg.setType("hole");
+        isDrowning = true;
         if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
-            isDrowning = true;
             System.out.println("Ouch! You've fallen into some water");
             TimerTask tt = new TimerTask() {
                 @Override
