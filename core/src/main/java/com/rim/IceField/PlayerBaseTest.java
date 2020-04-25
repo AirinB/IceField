@@ -73,6 +73,7 @@ class PlayerBaseTest {
         //Test-case 18: Heat level reaches 0
         assertEquals(0,p1.heatLevel);
         assertEquals(true,p1.isDead);
+        //Test-case 20: Lose scenario of the game because of a drowning player
         //assertEquals(true, Game.isGameLost());
         //assertEquals(true, Game.GameOver());
     }
@@ -252,6 +253,69 @@ class PlayerBaseTest {
          }
          assertEquals("hole", game.getMap().Icebergs[1][2].getType());
      }
+
+
+//     @Test
+//     public void testTurn(){
+//         PlayerBase  p1 = new PolarExplorer();
+//         PlayerBase  p2 = new PolarExplorer();
+//         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
+//         playersList.add(p1);
+//         playersList.add(p2);
+//         Game game = new Game();
+//         game.newGame(playersList);
+//         try {
+//         Game.Turn(p1);
+//         } catch (Exception e) {
+//             e.printStackTrace();
+//         }
+//     }
+
+    @Test
+    public void mapEdge(){
+        //Test-case 4: Stuck at the edge of map
+        PlayerBase  p1 = new PolarExplorer();
+        ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
+        playersList.add(p1);
+        Game game = new Game();
+        game.newGame(playersList);
+        game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
+        try {
+            p1.move("west",game.getMap());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void winScenario() {
+        //Test-case 19: Win scenario
+        PlayerBase  p1 = new PolarExplorer();
+        PlayerBase  p2 = new PolarExplorer();
+        ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
+        playersList.add(p1);
+        playersList.add(p2);
+        Game game = new Game();
+        game.newGame(playersList);
+        game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
+        game.getMap().Icebergs[0][1].Add_currentPlayers(p2);
+        Charge charge = new Charge();
+        Gun gun = new Gun();
+        Flare flare = new Flare();
+        p1.inventory.addItem(charge);
+        p1.inventory.addItem(gun);
+        p2.inventory.addItem(flare);
+        try {
+            p1.move("east",game.getMap());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //same problem as with isLost, array of players is not used
+        //assertEquals(true, Game.isWin());
+
+
+    }
+
 
 
 }

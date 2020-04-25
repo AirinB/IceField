@@ -52,6 +52,7 @@ class BlizzardTest {
         assertEquals(4,e1.heatLevel);
         assertEquals(0,e2.heatLevel);
         assertEquals(true,e2.isDead);
+        //Test-case 20: Lose scenario of the game because of Blizzard
         //assertEquals(true, game.isGameLost());
 
 
