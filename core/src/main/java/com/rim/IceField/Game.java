@@ -21,15 +21,16 @@ public class Game {
         randomBlow = new boolean[maxRounds];
 
         Random objGenerator = new Random(1);
-        for(int i = 1; i < 10; i++){
+        for (int i = 1; i < 10; i++) {
             randomBlow[i] = objGenerator.nextBoolean();
         }
     }
 
-    public static boolean processInput(){
+    public static boolean processInput() {
         return false;
     }
-    public static boolean processOutput(){
+
+    public static boolean processOutput() {
         return false;
     }
 
@@ -43,7 +44,7 @@ public class Game {
     public static boolean GameOver() {
 
 
-        if(isGameLost())return true;
+        if (isGameLost()) return true;
 
         //Checking if all the conditions are preserved for winning the game
         if (isWin()) {
@@ -51,10 +52,10 @@ public class Game {
             return true;
         }
 
-    return false;
+        return false;
     }
 
-    public static boolean isGameLost(){
+    public static boolean isGameLost() {
         //Checking if any of the player died, then the game is lost
         for (PlayerBase player : players) {
             if (player.isDead) {
@@ -66,16 +67,15 @@ public class Game {
     }
 
 
-
-    public static boolean isWin(){
+    public static boolean isWin() {
         //Checking if all the conditions are preserved for winning the game
 
         boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
         //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
 
         //Checking if all the players stand on the same iceberg and it's not a hole
-        for (int i =0;i<9;i++) {
-            for(int j =0;j<9;j++) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole"))
                     playersCheck = true;
             }
@@ -92,8 +92,6 @@ public class Game {
     }
 
 
-
-
     //Static method for starting a new game.
     public void newGame(ArrayList<PlayerBase> players) {
 
@@ -101,21 +99,21 @@ public class Game {
         System.out.println("Game started!");
 
         //there can be a limited number of rounds
-        if(currentRound > maxRounds) GameOver();
+        if (currentRound > maxRounds) GameOver();
 
     }
 
 
     public static void Turn(PlayerBase player) throws Exception {
-        if(!player.isTurn()) throw new Exception("It's not this player's turn");
+        if (!player.isTurn()) throw new Exception("It's not this player's turn");
         int round = 0;
-        while (round < 4){
+        while (round < 4) {
             try {
                 if (processInput()) {// the round increases only if the action was successful
                     round++;
                 }
-            }catch(Exception e){
-                    //end of turn
+            } catch (Exception e) {
+                //end of turn
             }
         }
     }

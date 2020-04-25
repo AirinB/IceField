@@ -37,19 +37,16 @@ public class GameMain extends BasicGame {
     public static void main(String[] args) throws Exception {
 
 
-
         System.out.println("Introduce the number of players in the game: ");
         Scanner input = new Scanner(System.in);
         int numberOfPlayers = input.nextInt();
         //List of players.
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         // Filling the list of players with a number of players specified by the user
-        for (int i = 0 ; i < numberOfPlayers; i++)
-        {
+        for (int i = 0; i < numberOfPlayers; i++) {
             System.out.println("Press 1 to create a new Eskimo, 2 for a Polar Explorer");
             int m = input.nextInt();
-            switch(m)
-            {
+            switch (m) {
                 case 1:
                     Eskimo e = new Eskimo();
                     playersList.add(e);
@@ -71,11 +68,11 @@ public class GameMain extends BasicGame {
         //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
         // }
 
-            for(int i = 0 ; i < numberOfPlayers ; i++) {
-                //Here we put all players on the first iceberg (the one on possition 0 in the list).
-                g1.getMap().Icebergs[0][0].Add_currentPlayers(playersList.get(i));
-                //Set the first iceberg as Player's iceberg for every player. The plaeyr needs to know which iceberg they are currently on.
-                playersList.get(i).currentIceberg = g1.getMap().Icebergs[0][0];
+        for (int i = 0; i < numberOfPlayers; i++) {
+            //Here we put all players on the first iceberg (the one on possition 0 in the list).
+            g1.getMap().Icebergs[0][0].Add_currentPlayers(playersList.get(i));
+            //Set the first iceberg as Player's iceberg for every player. The plaeyr needs to know which iceberg they are currently on.
+            playersList.get(i).currentIceberg = g1.getMap().Icebergs[0][0];
 
 
         }
@@ -83,9 +80,8 @@ public class GameMain extends BasicGame {
         g1.newGame(playersList);
         Scanner in = new Scanner(System.in);
 
-        for (int i = 0; i < numberOfPlayers; i++)
-        {
-            int s = 0 ;
+        for (int i = 0; i < numberOfPlayers; i++) {
+            int s = 0;
             //since every player has 4 turns
             for (int j = 0; j < 4; j++) {
 
@@ -105,15 +101,15 @@ public class GameMain extends BasicGame {
 
                         String str = in.nextLine();
                         //Method move in playerBase, gets the direction of movement and actually changes the possition of the character from current iceberg to neighboring iceberg
-                        playersList.get(i).move(str,g1.getMap());
+                        playersList.get(i).move(str, g1.getMap());
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
 
                     case 2: // Use skill
                         //Depending on whether it's a eskimo or polar Explorer they will use the corresponding skill.
                         //We send current iceberg for the eskimo to check if it has an igloo and for the explorer to check its neighbours.
-                       str = in.nextLine();
-                        playersList.get(i).useSkill(g1.getMap(),str);
+                        str = in.nextLine();
+                        playersList.get(i).useSkill(g1.getMap(), str);
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
 
@@ -313,13 +309,12 @@ public class GameMain extends BasicGame {
                 }
 
 
-
-
             }
         }
 
 
-    }}
+    }
+}
 
 
 

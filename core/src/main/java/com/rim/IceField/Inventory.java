@@ -23,7 +23,7 @@ public class Inventory {
                 //all items can be activated after adding them to the inventory except the parts of the gun
                 it.active = true;
 
-            }else{
+            } else {
                 countGunItems++;
             }
             it.obtained = true;
@@ -55,16 +55,19 @@ public class Inventory {
         return items;
     }
 
-    public ItemBase getItem(String s){
-        for (ItemBase item: items) {
-            if(item.tag.equals(s)){
+    public ItemBase getItem(String s) {
+        for (ItemBase item : items) {
+            if (item.tag.equals(s)) {
                 return item;
             }
         }
         return null;
     }
 
-
-
+    public void showItems() {
+        for (ItemBase item : items) {
+            System.out.println(item.tag + " ");
+        }
+    }
 
 }

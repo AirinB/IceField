@@ -19,6 +19,7 @@ public class Blizzard {
         //I set it to 2 *2 right now because we don't have 9*9 icebergs yet ( I can test the app this way)
         for (int i = 0; i <2 ; i++) {
             for (int j = 0; j < 2; j++) {
+
                 int snow = map.Icebergs[i][j].getAmountOfSnow();
                 map.Icebergs[i][j].setAmountOfSnow(snow + 1);
             }

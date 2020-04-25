@@ -6,7 +6,8 @@ import java.util.ArrayList;
 //Map class
 public class Map {
 
-public Iceberg[][] Icebergs = new Iceberg[10][10];
+    public Iceberg[][] Icebergs = new Iceberg[10][10];
+    public int[][] map = new int[10][10];
 
     private ArrayList<ItemBase> items;      //List of items
 
@@ -26,7 +27,6 @@ public Iceberg[][] Icebergs = new Iceberg[10][10];
     public Map() {
         this.items = new ArrayList<ItemBase>();
     }
-
 
 
     //Method for generating icebergs and items on the map.
@@ -89,7 +89,7 @@ public Iceberg[][] Icebergs = new Iceberg[10][10];
 
         Icebergs[1][2] = fifth;
         fifth.y = 1;
-        fifth.x =2;
+        fifth.x = 2;
         System.out.println("Icebergs were generated!");
 
 

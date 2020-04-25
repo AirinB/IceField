@@ -28,32 +28,28 @@ public class PolarExplorer extends PlayerBase {
             }
 
 
-            }
-
-        else if ("south".equals(dir)) { //Down
-            if (currentIceberg.y +1>9) {
+        } else if ("south".equals(dir)) { //Down
+            if (currentIceberg.y + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-             //   System.out.println("Current iceberg ["+currentIceberg.y+"]["+currentIceberg.x+"]");
-                System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y +1][currentIceberg.x].getMaxNumOfPlayers());
-            }
-
-
-        }
-        else if ("west".equals(dir)) { //Left
-            if (currentIceberg.x-1<0) {
-                System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
-            } else {
-                System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y][currentIceberg.x-1].getMaxNumOfPlayers());
+                //   System.out.println("Current iceberg ["+currentIceberg.y+"]["+currentIceberg.x+"]");
+                System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getMaxNumOfPlayers());
             }
 
 
-        }
-        else if ("east".equals(dir)) { //Right
-            if (currentIceberg.x+1>9) {
+        } else if ("west".equals(dir)) { //Left
+            if (currentIceberg.x - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y][currentIceberg.x+1].getMaxNumOfPlayers());
+                System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getMaxNumOfPlayers());
+            }
+
+
+        } else if ("east".equals(dir)) { //Right
+            if (currentIceberg.x + 1 > 9) {
+                System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
+            } else {
+                System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getMaxNumOfPlayers());
             }
 
         }

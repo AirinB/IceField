@@ -111,120 +111,120 @@ public abstract class PlayerBase extends TimerTask {
             }
         }
     }
-            //Method for saving the player.
-            public void SavePlayer (PlayerBase player){
-                System.out.println(player.tag + " has been saved!");
-                player.isDrowning = false;  //player is saved , so it's not drowning anymore
-                player.timer.cancel();
+
+    //Method for saving the player.
+    public void SavePlayer(PlayerBase player) {
+        System.out.println(player.tag + " has been saved!");
+        player.isDrowning = false;  //player is saved , so it's not drowning anymore
+        player.timer.cancel();
+    }
+
+    //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
+    public void useSkill(Map map, String dir) throws Exception {
+    }
+
+    //Increases the heat level of the player.
+    public void increaseHeatLevel() {
+        this.heatLevel++;
+    }
+
+    //Decreases the heat level of the player.
+    public void decreaseHeatLevel() {
+        this.heatLevel--;
+        if (this.heatLevel == 0) {
+            this.timer.cancel();
+            this.die();
+        }
+    }
+
+    //Use the item specified in the parameter.
+    public void useItem(ItemBase item) {
+
+        if (inventory.items.contains(item)) {
+            try {
+                item.useItem(this);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-            //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
-            public void useSkill (Map map, String dir) throws Exception {
-            }
-
-            //Increases the heat level of the player.
-            public void increaseHeatLevel () {
-                this.heatLevel++;
-            }
-
-            //Decreases the heat level of the player.
-            public void decreaseHeatLevel () {
-                this.heatLevel--;
-                if (this.heatLevel == 0) {
-                    this.timer.cancel();
-                    this.die();
-                }
-            }
-
-            //Use the item specified in the parameter.
-            public void useItem (ItemBase item){
-
-                if (inventory.items.contains(item)) {
-                    try {
-                        item.useItem(this);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            if (item.tag == "Food" || item.tag == "Diving Suit") {
+                for (int i = 0; i < inventory.items.size(); i++) {
+                    if (item.tag == inventory.items.get(i).tag) {
+                        inventory.deleteItem(i);
+                        return;
                     }
-
-                    if (item.tag == "Food" || item.tag == "Diving Suit") {
-                        for (int i = 0; i < inventory.items.size(); i++) {
-                            if (item.tag == inventory.items.get(i).tag) {
-                                inventory.deleteItem(i);
-                                return;
-                            }
-                        }
-                    }
                 }
-            }
-
-
-            //Player dies
-            public void die () {
-                isDead = true;
-                System.out.println("You have died. RIP ):");
-            }
-
-
-
-            //Player falls into water
-            public void fall () {
-                currentIceberg.setType("hole");
-                if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
-                    isDrowning = true;
-                    System.out.println("Ouch! You've fallen into some water");
-                    TimerTask tt = new TimerTask() {
-                        @Override
-                        public void run() {
-                            decreaseHeatLevel();
-                        }
-
-                        ;
-                    };
-
-                    timer.scheduleAtFixedRate(tt, 0, 1000);
-
-                }
-            }
-
-            //Player's turn to make actions.
-            public void turn () {
-                System.out.println("It's your turn " + tag);
-            }
-
-            //Checking if the player is drowning
-            public boolean checkDrowning () {
-                System.out.println("checkDrowning()");
-                System.out.println(isDrowning);
-                return isDrowning;
-            }
-
-            //PickItem method which return the item.
-            public ItemBase pickItem () throws Exception {
-                if (currentIceberg.getAmountOfSnow() == 0) {
-                    inventory.items.add(currentIceberg.getItem());
-                    System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
-                    return currentIceberg.getItem();
-                } else {
-                    System.out.println("Level of snow on iceberg is not 0!");
-                    throw new Exception("There is snow on the iceberg");
-                }
-            }
-
-            //Removes snow from the iceberg
-            public void removeSnow () {
-                if (currentIceberg.getAmountOfSnow() <= 0) return;
-                int currentSnow = currentIceberg.getAmountOfSnow();
-                currentIceberg.setAmountOfSnow(currentSnow - 1);     //amount of snow is decreased by 1
-            }
-
-            //Getter for heatLevel attribute
-            public int getHeatLevel () {
-                return heatLevel;
-            }
-
-            public int getNumOfMoves () {
-                return numOfMoves;
             }
         }
+    }
+
+
+    //Player dies
+    public void die() {
+        isDead = true;
+        System.out.println("You have died. RIP ):");
+    }
+
+
+    //Player falls into water
+    public void fall() {
+        currentIceberg.setType("hole");
+        if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
+            isDrowning = true;
+            System.out.println("Ouch! You've fallen into some water");
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                    decreaseHeatLevel();
+                }
+
+                ;
+            };
+
+            timer.scheduleAtFixedRate(tt, 0, 1000);
+
+        }
+    }
+
+    //Player's turn to make actions.
+    public void turn() {
+        System.out.println("It's your turn " + tag);
+    }
+
+    //Checking if the player is drowning
+    public boolean checkDrowning() {
+        System.out.println("checkDrowning()");
+        System.out.println(isDrowning);
+        return isDrowning;
+    }
+
+    //PickItem method which return the item.
+    public ItemBase pickItem() throws Exception {
+        if (currentIceberg.getAmountOfSnow() == 0) {
+            inventory.items.add(currentIceberg.getItem());
+            System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
+            return currentIceberg.getItem();
+        } else {
+            System.out.println("Level of snow on iceberg is not 0!");
+            throw new Exception("There is snow on the iceberg");
+        }
+    }
+
+    //Removes snow from the iceberg
+    public void removeSnow() {
+        if (currentIceberg.getAmountOfSnow() <= 0) return;
+        int currentSnow = currentIceberg.getAmountOfSnow();
+        currentIceberg.setAmountOfSnow(currentSnow - 1);     //amount of snow is decreased by 1
+    }
+
+    //Getter for heatLevel attribute
+    public int getHeatLevel() {
+        return heatLevel;
+    }
+
+    public int getNumOfMoves() {
+        return numOfMoves;
+    }
+}
 
 

@@ -28,58 +28,49 @@ public class Eskimo extends PlayerBase {
             if (currentIceberg.y - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y-1][currentIceberg.x].getHasIgloo() == false) {
+                if (map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getHasIgloo() == false) {
                     System.out.println("An Igloo has been created!");
-                    map.Icebergs[currentIceberg.y-1][currentIceberg.x].setHasIgloo(true);
-                }
-                else {
+                    map.Icebergs[currentIceberg.y - 1][currentIceberg.x].setHasIgloo(true);
+                } else {
                     System.out.println("There is an igloo on this iceberg already!");
                 }
             }
 
-        }
+        } else if ("south".equals(dir)) {
 
-      else  if ("south".equals(dir)) {
-
-            if (currentIceberg.y +1 >9) {
+            if (currentIceberg.y + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y+1][currentIceberg.x].getHasIgloo() == false) {
+                if (map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getHasIgloo() == false) {
                     System.out.println("An Igloo has been created!");
-                    map.Icebergs[currentIceberg.y+1][currentIceberg.x].setHasIgloo(true);
-                }
-                else {
+                    map.Icebergs[currentIceberg.y + 1][currentIceberg.x].setHasIgloo(true);
+                } else {
                     System.out.println("There is an igloo on this iceberg already!");
                 }
             }
 
-        }
-        else  if ("west".equals(dir)) {
+        } else if ("west".equals(dir)) {
 
-            if (currentIceberg.x-1<0) {
+            if (currentIceberg.x - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y][currentIceberg.x-1].getHasIgloo() == false) {
+                if (map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getHasIgloo() == false) {
                     System.out.println("An Igloo has been created!");
-                    map.Icebergs[currentIceberg.y][currentIceberg.x-1].setHasIgloo(true);
-                }
-                else {
+                    map.Icebergs[currentIceberg.y][currentIceberg.x - 1].setHasIgloo(true);
+                } else {
                     System.out.println("There is an igloo on this iceberg already!");
                 }
             }
 
-        }
+        } else if ("east".equals(dir)) {
 
-        else  if ("east".equals(dir)) {
-
-            if (currentIceberg.x+1>9) {
+            if (currentIceberg.x + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             } else {
-                if (map.Icebergs[currentIceberg.y][currentIceberg.x+1].getHasIgloo() == false) {
+                if (map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getHasIgloo() == false) {
                     System.out.println("An Igloo has been created!");
-                    map.Icebergs[currentIceberg.y][currentIceberg.x+1].setHasIgloo(true);
-                }
-                else {
+                    map.Icebergs[currentIceberg.y][currentIceberg.x + 1].setHasIgloo(true);
+                } else {
                     System.out.println("There is an igloo on this iceberg already!");
                 }
             }
