@@ -6,37 +6,31 @@ import java.util.ArrayList;
 //Map class
 public class Map {
 
+    public Iceberg[][] Icebergs = new Iceberg[10][10];
+    public int[][] map = new int[10][10];
 
-    private ArrayList<Iceberg> icebergs;    //List of icebergs
     private ArrayList<ItemBase> items;      //List of items
 
     //Getter for list of icebergs
-    public ArrayList<Iceberg> getIcebergs() {
-        System.out.println("getIcebergs");
-        return icebergs;
+    public Iceberg[][] getIcebergs() {
+
+        return Icebergs;
     }
 
     //Getter for list of items
     public ArrayList<ItemBase> getItems() {
-        System.out.println("getItems()");
         return items;
     }
 
 
     //Constructor for Map
     public Map() {
-
         this.items = new ArrayList<ItemBase>();
-        this.icebergs = new ArrayList<Iceberg>();
-
     }
-
 
 
     //Method for generating icebergs and items on the map.
     public void generateItemsOnMap() {
-
-        System.out.println("generateItemsOnMap()");
 
         // - - - - - - - - - - - - - - - - - - - - - Items - - - - - - - - - - - - - - - - - - - - -
 
@@ -72,25 +66,35 @@ public class Map {
 
 
         Iceberg first = new Iceberg(true, 1, "stable", 20, false, 1, null);
-        icebergs.add(first);
-
+        Icebergs[0][0] = first;
+        first.y = 0;
+        first.x = 0;
+        first.setItem(shovel);
         Iceberg second = new Iceberg(true, 2, "stable", 20, false, 1, rope);
-        icebergs.add(second);
-
+        Icebergs[0][1] = second;
+        second.y = 0;
+        second.x = 1;
         Iceberg third = new Iceberg(true, 3, "stable", 20, false, 1, null);
-        icebergs.add(third);
+        Icebergs[1][0] = third;
+        third.y = 1;
+        third.x = 0;
 
         Iceberg forth = new Iceberg(true, 4, "instable", 1, false, 1, null);
-        icebergs.add(forth);
 
+        Icebergs[1][1] = forth;
+        forth.y = 1;
+        forth.x = 1;
         Iceberg fifth = new Iceberg(true, 5, "hole", 0, false, 1, null);
-        icebergs.add(fifth);
 
+
+        Icebergs[1][2] = fifth;
+        fifth.y = 1;
+        fifth.x = 2;
         System.out.println("Icebergs were generated!");
 
 
         //Setting the neighboring icebergs.
-        ArrayList<Iceberg> neighbour1 = new ArrayList<Iceberg>();
+        /*ArrayList<Iceberg> neighbour1 = new ArrayList<Iceberg>();
         neighbour1.add(second);
         first.setNeighborIcebergs(neighbour1);
 
@@ -110,7 +114,7 @@ public class Map {
         neighbour5.add(first);
         fifth.setNeighborIcebergs(neighbour5);
 
-
+*/
     }
 
 }

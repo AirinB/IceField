@@ -9,7 +9,6 @@ public abstract class ItemBase {
     protected boolean active; //the item can be used or not
 
     public ItemBase() {
-        System.out.println("ItemBase()");
         id = itemNumber;
         itemNumber++;
 //        this.posX = posX;
@@ -18,11 +17,11 @@ public abstract class ItemBase {
         this.active = false;  //the item that does not belong to the inventory, cannot be used
     }
 
-    public  boolean useItem(PlayerBase player) throws Exception {
-        System.out.println("useItem()");
+    public boolean useItem(PlayerBase player) throws Exception {
+
         try {
             //an item cannot be used if its not in the inventory or its not active
-            if(!obtained || !active) throw new Exception("the Item is now owned or not active");
+            if (!obtained || !active) throw new Exception("the Item is not owned or not active");
             return false;
 
         } catch (Exception e) {
@@ -33,7 +32,6 @@ public abstract class ItemBase {
     }
 
     public String getTag() {
-        System.out.println("getTag()");
         return tag;
     }
 
@@ -56,7 +54,6 @@ public abstract class ItemBase {
     public boolean isActive() {
         return active;
     }
-
 
 
 }

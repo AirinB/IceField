@@ -37,19 +37,16 @@ public class GameMain extends BasicGame {
     public static void main(String[] args) throws Exception {
 
 
-
         System.out.println("Introduce the number of players in the game: ");
         Scanner input = new Scanner(System.in);
         int numberOfPlayers = input.nextInt();
         //List of players.
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         // Filling the list of players with a number of players specified by the user
-        for (int i = 0 ; i < numberOfPlayers; i++)
-        {
+        for (int i = 0; i < numberOfPlayers; i++) {
             System.out.println("Press 1 to create a new Eskimo, 2 for a Polar Explorer");
             int m = input.nextInt();
-            switch(m)
-            {
+            switch (m) {
                 case 1:
                     Eskimo e = new Eskimo();
                     playersList.add(e);
@@ -66,27 +63,25 @@ public class GameMain extends BasicGame {
         //Will create the items on icebergs and the icebergs themeselves. We have defined icebergs and items on the in class Map to use for the use cases.
         g1.getMap().generateItemsOnMap();
         //putting all created icebergs in a list
-        ArrayList<Iceberg> icebergs = g1.getMap().getIcebergs();
         //for(int i = 0;i<5;i++)
         // {
         //     System.out.println(g1.getMap().getIcebergs().get(i).getNum());
         // }
 
-            for(int i = 0 ; i < numberOfPlayers ; i++) {
-                //Here we put all players on the first iceberg (the one on possition 0 in the list).
-                g1.getMap().getIcebergs().get(0).Add_currentPlayers(playersList.get(i));
-                //Set the first iceberg as Player's iceberg for every player. The plaeyr needs to know which iceberg they are currently on.
-                playersList.get(i).currentIceberg = g1.getMap().getIcebergs().get(0);
+        for (int i = 0; i < numberOfPlayers; i++) {
+            //Here we put all players on the first iceberg (the one on possition 0 in the list).
+            g1.getMap().Icebergs[0][0].Add_currentPlayers(playersList.get(i));
+            //Set the first iceberg as Player's iceberg for every player. The plaeyr needs to know which iceberg they are currently on.
+            playersList.get(i).currentIceberg = g1.getMap().Icebergs[0][0];
 
 
         }
         //We start the game. This method will actually generate the items on map.
         g1.newGame(playersList);
+        Scanner in = new Scanner(System.in);
 
-
-        for (int i = 0; i < numberOfPlayers; i++)
-        {
-            int s = 0 ;
+        for (int i = 0; i < numberOfPlayers; i++) {
+            int s = 0;
             //since every player has 4 turns
             for (int j = 0; j < 4; j++) {
 
@@ -104,23 +99,23 @@ public class GameMain extends BasicGame {
                 switch (m) {
                     case 1:
 
-                        System.out.println("Press 1 to move up, 2 - right, 3 - down, 4 - left:");
-                        int direction = input.nextInt();
+                        String str = in.nextLine();
                         //Method move in playerBase, gets the direction of movement and actually changes the possition of the character from current iceberg to neighboring iceberg
-                        playersList.get(i).move(1);
+                        playersList.get(i).move(str, g1.getMap());
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
 
                     case 2: // Use skill
-                        //Depending on wether it's a eskimo or polar Explorer they will use the corresponding skill.
+                        //Depending on whether it's a eskimo or polar Explorer they will use the corresponding skill.
                         //We send current iceberg for the eskimo to check if it has an igloo and for the explorer to check its neighbours.
-                        playersList.get(i).useSkill(playersList.get(i).getCurrentIceberg());
+                        str = in.nextLine();
+                        playersList.get(i).useSkill(g1.getMap(), str);
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
 
                     case 3:// Save character
                         //We make 4 moves since the 5th iceberg is a whole and we need the player to fall for the test case to be able to save them
-                        playersList.get(0).move(1);
+                       /* playersList.get(0).move(1, g);
                         playersList.get(0).move(1);
                         playersList.get(0).move(1);
                         playersList.get(0).move(1);
@@ -134,7 +129,7 @@ public class GameMain extends BasicGame {
                         //Second player will save the first one after picking a rope and when they get on the neighboring iceberg.
                         playersList.get(1).SavePlayer(playersList.get(0));
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
-                        return;
+                        return;*/
 
 
                     case 4:// use item
@@ -149,12 +144,12 @@ public class GameMain extends BasicGame {
 
                         System.out.println("Choose which item you want to use: Diving Suit, Food, Shovel?");
                         Scanner scan = new Scanner(System.in);
-                        String str = scan.nextLine();
+                        String sstr = scan.nextLine();
                         scan.close();
                         //Get's the item that the player wants to use from the inventory
-                        playersList.get(0).inventory.getItem(str);
+                        playersList.get(0).inventory.getItem(sstr);
                         //Uses the item
-                        playersList.get(0).useItem(playersList.get(0).inventory.getItem(str));
+                        playersList.get(0).useItem(playersList.get(0).inventory.getItem(sstr));
                         System.out.println("The item was used");
                         // from the first player get the useItemFunction and pass the item that was choosed by the user
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
@@ -226,7 +221,7 @@ public class GameMain extends BasicGame {
                             System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         }
-                    case 8: //Instable iceberg
+                   /* case 8: //Instable iceberg
                         try {
                             playersList.get(0).move(1);
                             playersList.get(0).move(1);  //to stay on unstable iceberg
@@ -247,10 +242,10 @@ public class GameMain extends BasicGame {
                                 System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                                 return;
                             }
-                        }
+                        }*/
                     case 9: //Blizzard blows
                         //method blow gets the current iceberg on which it blows and the list of players to see who is affected
-                        Blizzard.blow(playersList, g1.getMap().getIcebergs());
+                        Blizzard.blow(playersList, g1.getMap());
                         //Displays the heatlevel of the first player
                         System.out.println(playersList.get(0).getHeatLevel());
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
@@ -263,7 +258,7 @@ public class GameMain extends BasicGame {
                         int userInput3 = input.nextInt();
                         if (userInput3 == 2) {
                             for (int z = 0; z < 4; z++) {
-                                Blizzard.blow(playersList, icebergs);
+                                Blizzard.blow(playersList, g1.getMap());
 
                             }
 
@@ -271,7 +266,7 @@ public class GameMain extends BasicGame {
                         }
                         if (userInput3 == 1) {
                             for (int z = 0; z < 5; z++) {
-                                Blizzard.blow(playersList, icebergs);
+                                Blizzard.blow(playersList, g1.getMap());
 
                             }
                         }
@@ -279,7 +274,7 @@ public class GameMain extends BasicGame {
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
 
-                    case 11:   //Imitation of Turn(). Imitation of 4 actions of 1st Player and Turn goes to the 2nd
+                 /*   case 11:   //Imitation of Turn(). Imitation of 4 actions of 1st Player and Turn goes to the 2nd
                         playersList.get(i).turn();
                         Food food1 = new Food();
                         Food food2 = new Food();
@@ -309,11 +304,9 @@ public class GameMain extends BasicGame {
                         System.out.println("Num of moves "+playersList.get(1).getNumOfMoves());
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
-                }
+                }*/
 
                 }
-
-
 
 
             }
@@ -321,6 +314,7 @@ public class GameMain extends BasicGame {
 
 
     }
+}
 
 
 
