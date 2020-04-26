@@ -1,6 +1,6 @@
 package com.rim.IceField;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,7 +127,7 @@ public class Game {
     }
 
 
-    public  void Turn(@NotNull PlayerBase player) throws Exception {
+    public  void Turn( PlayerBase player) throws Exception {
         if (!player.isTurn()) throw new Exception("It's not this player's turn");
         int round = 0;
         while (round < 4) {
@@ -143,7 +143,7 @@ public class Game {
     }
 
     //Will be continuously called in the game loop.
-    public boolean UserInteraction(@NotNull ArrayList<String> input, PlayerBase player)
+    public boolean UserInteraction( ArrayList<String> input, PlayerBase player)
     {
         if(input.get(0).equals("move ")) {
             try{
@@ -238,7 +238,7 @@ public class Game {
         return true;
     }
 
-    private  void printInventory(@NotNull PlayerBase player) {
+    private  void printInventory( PlayerBase player) {
         int numFood = 0;
         int charge =0;
         int DivingSuit = 0;
@@ -281,7 +281,7 @@ public class Game {
         }
     }
 
-    private int getPlayerInfo(@NotNull PlayerBase player) {
+    private int getPlayerInfo( PlayerBase player) {
         System.out.println("Action accepted!");
         System.out.println("Heat level: " + player.getHeatLevel());
         System.out.println("Moves left: ");
