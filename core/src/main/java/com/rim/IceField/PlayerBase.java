@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 //Abstract PlayerBase class
 public abstract class PlayerBase extends TimerTask {
     protected Iceberg currentIceberg;             //Iceberg the player stands on
@@ -54,10 +55,16 @@ public abstract class PlayerBase extends TimerTask {
     }
 
 
+    /**
+     * @param dir the direction of movement
+     * @param map the map of the game
+     * @return returns true if the action was succesful
+     * @throws Exception if the player falls
+     */
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
-    public boolean move(String str, Map map) throws Exception {
+    public boolean move(String dir, Map map) throws Exception {
         // up-> y--, down-> y++, left--> x--, right--> x++;
-        if ("north".equals(str)) { //Up
+        if ("north".equals(dir)) { //Up
             currentIceberg.Remove_currentPlayers(this);
             if (currentIceberg.y - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, no way to move up");
@@ -71,7 +78,7 @@ public abstract class PlayerBase extends TimerTask {
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
-        } else if ("south".equals(str)) {
+        } else if ("south".equals(dir)) {
             currentIceberg.Remove_currentPlayers(this);
             if (currentIceberg.y + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, no way to move down");
@@ -85,7 +92,7 @@ public abstract class PlayerBase extends TimerTask {
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
-        } else if ("west".equals(str)) {
+        } else if ("west".equals(dir)) {
             currentIceberg.Remove_currentPlayers(this);
             if (currentIceberg.x - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, no way to move left");
@@ -99,7 +106,7 @@ public abstract class PlayerBase extends TimerTask {
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
-        } else if ("east".equals(str)) {
+        } else if ("east".equals(dir)) {
             currentIceberg.Remove_currentPlayers(this);
             if (currentIceberg.x + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, no way to move right");
@@ -117,6 +124,12 @@ public abstract class PlayerBase extends TimerTask {
         return true;
     }
 
+    /**
+     * @param playerID the player that we want to save
+     * @param dir direction where the player we want to save is located
+     * @param map the map of the game
+     * @return returns true if the action is succesful
+     */
     //Method for saving the player.
     public boolean SavePlayer(String playerID, String dir, Map map) {
         //Check every item in the inventory to see if there's a rope.
@@ -177,8 +190,15 @@ public abstract class PlayerBase extends TimerTask {
 
     }
 
+    /**
+     * @param map map of the game
+     * @param dir direction
+     * @return true if the acction is succesfull
+     * @throws Exception
+     */
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
-    public void useSkill(Map map, String dir) throws Exception {
+    public boolean useSkill(Map map, String dir) throws Exception {
+        return false;
     }
 
     //Increases the heat level of the player.
@@ -186,7 +206,10 @@ public abstract class PlayerBase extends TimerTask {
         this.heatLevel++;
     }
 
-    //Decreases the heat level of the player.
+    /**
+     * is decreasing the
+     * heat level of the player
+     */
     public void decreaseHeatLevel() {
         this.heatLevel--;
         if (this.heatLevel == 0) {
@@ -195,8 +218,13 @@ public abstract class PlayerBase extends TimerTask {
         }
     }
 
+    /**
+     * @param item name of the
+     * item that the player wants to use
+     * @return true if action is succesful
+     */
     //Use the item specified in the parameter.
-    public void useItem(String item) {
+    public boolean useItem(String item) {
 
         if (ContainsItem(item)) {
             try {
@@ -214,7 +242,7 @@ public abstract class PlayerBase extends TimerTask {
                 for (int i = 0; i < inventory.items.size(); i++) {
                     if (item.equals(inventory.items.get(i).tag)) {
                         inventory.deleteItem(i);
-                        return;
+                        return true;
                     }
                 }
             }
@@ -222,9 +250,16 @@ public abstract class PlayerBase extends TimerTask {
         else
         {
             System.out.println("Impossible to use the item or no such item exists!");
+            return false;
         }
+        return false;
     }
 
+    /**
+     * @param item the item that should be checked if
+     * it is present in the inventory
+     * @return true if the item is present in the inventory
+     */
     private boolean ContainsItem(String item) {
 
         for( ItemBase itemBase: inventory.items){
@@ -241,6 +276,10 @@ public abstract class PlayerBase extends TimerTask {
     }
 
 
+    /**
+     * the player falls in a hole
+     * the timer starts and the heat level is declining
+     */
     //Player falls into water
     public void fall() {
         currentIceberg.setType("hole");
@@ -273,6 +312,10 @@ public abstract class PlayerBase extends TimerTask {
         return isDrowning;
     }
 
+    /**
+     * @return the item the player picked from the iceberg
+     * @throws Exception if there is snow on the iceberg
+     */
     //PickItem method which return the item.
     public ItemBase pickItem() throws Exception {
         if (currentIceberg.getAmountOfSnow() == 0) {
@@ -297,6 +340,10 @@ public abstract class PlayerBase extends TimerTask {
        return null;
     }
 
+    /**
+     * remove one unit of snow
+     * from the iceberg
+     */
     //Removes snow from the iceberg
     public void removeSnow() {
         if (currentIceberg.getAmountOfSnow() <= 0) return;
@@ -304,6 +351,9 @@ public abstract class PlayerBase extends TimerTask {
         currentIceberg.setAmountOfSnow(currentSnow - 1);     //amount of snow is decreased by 1
     }
 
+    /**
+     * @return int from o to 4/5
+     */
     //Getter for heatLevel attribute
     public int getHeatLevel() {
         return heatLevel;

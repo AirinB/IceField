@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-//Class Game
 public class Game {
 
     //Instance of Map, shared between the classes
@@ -18,7 +17,9 @@ public class Game {
     private final boolean[] randomBlow; //if the array element is true, the wind would blow
 
 
-    //Constructor
+    /**
+     * @param players the player that are playing the game
+     */
     public Game(ArrayList<PlayerBase> players) {
         this.players = players;
         currentRound  = 0;
@@ -31,6 +32,11 @@ public class Game {
         }
     }
 
+    /**
+     * @return userInputList
+     * the first element is the name of the command
+     * second element is the argument for the command
+     */
     public  ArrayList<String> processInput() {
         String s;
         Scanner sc = new Scanner(System.in);
@@ -49,6 +55,10 @@ public class Game {
     }
 
 
+    /**
+     * @return true if the game ends
+     * it checks if there is a win or lose
+     */
     //Static method GameOver for finishing the game.
     public  boolean GameOver() {
 
@@ -64,6 +74,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * @return true for lost game
+     * if anyone is dead
+     */
     public  boolean isGameLost() {
         //Checking if any of the player died, then the game is lost
         for (PlayerBase player : players) {
@@ -76,18 +90,27 @@ public class Game {
     }
 
 
+    /**
+     * @return true if the players win
+     */
     public  boolean isWin() {
         //Checking if all the conditions are preserved for winning the game
 
         boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
         //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
 
-        //Checking if all the players stand on the same iceberg and it's not a hole
+        /**
+         * Checking if all the players
+         * stand on the same iceberg
+         * and it's not a hole
+         */
         //MODIFIED TO 2 FOR TESTING PURPOSES
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
-                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole"))
+                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole")) {
                     playersCheck = true;
+                    break;
+                }
             }
         }
 
@@ -102,7 +125,12 @@ public class Game {
     }
 
 
-    //Static method for starting a new game.
+    /**
+     * @throws Exception if its not the
+     * player's turn to make the move
+     * this is the gameLoop, we iterate through each player
+     * giving them the turn to make 4 moves
+     */
     public void newGame() throws Exception {
 
         map.generateItemsOnMap();           //Generating items on map
@@ -115,7 +143,11 @@ public class Game {
                 Blizzard.blow(players, map);
             }
             for (PlayerBase player : players) {
-                Turn(player);
+                try {
+                    Turn(player);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             currentRound++;
         }
@@ -126,6 +158,10 @@ public class Game {
     }
 
 
+    /**
+     * @param player the player whos turn it is
+     * @throws Exception if its not players turn, it trows a exception
+     */
     public  void Turn( PlayerBase player) throws Exception {
         if (!player.isTurn()) throw new Exception("It's not this player's turn");
         int round = 0;
@@ -141,6 +177,13 @@ public class Game {
         }
     }
 
+    /**
+     * @param input the input from the player,
+     * the first element is the command and the
+     * second is the argument
+     * @param player the player that is doing the acction
+     * @return true if the action was succsfull
+     */
     //Will be continuously called in the game loop.
     public boolean UserInteraction( ArrayList<String> input, PlayerBase player)
     {
@@ -237,6 +280,10 @@ public class Game {
         return true;
     }
 
+    /**
+     * @param player the player
+     * to which the inventory belongs to
+     */
     private  void printInventory( PlayerBase player) {
         int numFood = 0;
         int charge =0;
@@ -280,6 +327,11 @@ public class Game {
         }
     }
 
+    /**
+     * @param player the player who's turn is know
+     * the method displays the inventory content
+     * @return how many parts of the gun are collected
+     */
     private int getPlayerInfo( PlayerBase player) {
         System.out.println("Action accepted!");
         System.out.println("Heat level: " + player.getHeatLevel());
@@ -303,6 +355,10 @@ public class Game {
         return partsCollected;
     }
 
+
+    /**
+     * prints the help message
+     */
     private  void printHelp() {
         // Show all possible inputs
         System.out.println("Move NORTH / SOUTH / LEFT / RIGHT - will move the player in the corresponding direction.");

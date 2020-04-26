@@ -14,6 +14,10 @@ public class Eskimo extends PlayerBase {
 
     }
 
+    /**
+     * decrease the heat
+     * every few seconds
+     */
     @Override
     public void run() {
         decreaseHeatLevel();
@@ -21,19 +25,27 @@ public class Eskimo extends PlayerBase {
 
     //Method useSkill performs the ability of Eskimo to construct the Igloo
 
+    /**
+     * Constructs the igloo in the showed direction
+     * @param map map of the game
+     * @param dir direction
+     * @return true if the action was successful
+     */
     @Override
-    public void useSkill(Map map, String dir) {
+    public boolean useSkill(Map map, String dir) {
 
         if ("north".equals(dir)) { //Up
 
             if (currentIceberg.y - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
+                return false;
             } else {
                 if (!map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y - 1][currentIceberg.x].setHasIgloo(true);
                 } else {
                     System.out.println("There is an igloo on this iceberg already!");
+                    return false;
                 }
             }
 
@@ -41,12 +53,14 @@ public class Eskimo extends PlayerBase {
 
             if (currentIceberg.y + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
+                return false;
             } else {
                 if (!map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y + 1][currentIceberg.x].setHasIgloo(true);
                 } else {
                     System.out.println("There is an igloo on this iceberg already!");
+                    return false;
                 }
             }
 
@@ -54,12 +68,14 @@ public class Eskimo extends PlayerBase {
 
             if (currentIceberg.x - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
+                return false;
             } else {
                 if (!map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y][currentIceberg.x - 1].setHasIgloo(true);
                 } else {
                     System.out.println("There is an igloo on this iceberg already!");
+                    return false;
                 }
             }
 
@@ -67,12 +83,14 @@ public class Eskimo extends PlayerBase {
 
             if (currentIceberg.x + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
+                return  false;
             } else {
                 if (!map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
                     map.Icebergs[currentIceberg.y][currentIceberg.x + 1].setHasIgloo(true);
                 } else {
                     System.out.println("There is an igloo on this iceberg already!");
+                    return false;
                 }
             }
 
@@ -82,14 +100,16 @@ public class Eskimo extends PlayerBase {
                 System.out.println("An Igloo has been created!");
             } else {
                 System.out.println("There is an igloo on this iceberg already!");
+                return false;
             }
         }
         else
         {
             System.out.println("No such direction, try again");
+            return false;
         }
 
-
+        return true;
     }
 
 }

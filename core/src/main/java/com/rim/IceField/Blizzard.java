@@ -8,6 +8,12 @@ public class Blizzard {
     //Number of times the blizzard was blowing
     public static int numOfRounds; //Blizzard blows
 
+    /**
+     * @param players all the players in the game
+     * @param map the map of the game
+     * The Blizzard randomply blows and also randomly
+     * covers some icebergs with snow
+     */
     //Method performing Blow functionality.
     public static void blow(ArrayList<PlayerBase> players, Map map) {
         System.out.println("The blizzard is blowing, some icebergs are covered in snow and some people will lose body heat.");
