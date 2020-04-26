@@ -16,7 +16,16 @@ public class Iceberg {
     private int amountOfSnow;
     private ItemBase item;
 
-    public Iceberg(boolean isStable, int num, String type, int maxNumOfPlayers, boolean hasIgloo, int amountOfSnow, ItemBase item) {
+    /**
+     * @param isStable true if the iceber is stable
+     * @param type: stable/hole/unstable
+     * @param maxNumOfPlayers max number of players on the iceberg
+     * @param hasIgloo if the igloo is constructed on the iceberg
+     * @param amountOfSnow how much snow on the iceberg
+     * @param item what item is on the iceberg or null if there is no item
+     */
+    public Iceberg(boolean isStable, String type, int maxNumOfPlayers,
+                   boolean hasIgloo, int amountOfSnow, ItemBase item) {
         this.isStable = isStable;
         //this.num = num;
         this.type = type;
@@ -107,6 +116,11 @@ public class Iceberg {
         isStable = b;
     }
 
+    /**
+     * @param p the player to
+     * be added to the iceberg
+     * if too many player, they fall and are added to the dowing players
+     */
     public void Add_currentPlayers(PlayerBase p) {
 
         currentPlayers.add(p);
@@ -114,6 +128,10 @@ public class Iceberg {
         //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
     }
 
+    /**
+     * @param p the player to be
+     * removed from the iceberg
+     */
     public void Remove_currentPlayers(PlayerBase p) {
         currentPlayers.remove(p);
         // System.out.println("Player was removed from  the iceberg number: " + num);
