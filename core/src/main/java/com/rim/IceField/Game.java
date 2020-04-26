@@ -2,6 +2,8 @@ package com.rim.IceField;
 
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -11,19 +13,19 @@ public class Game {
 
     //Instance of Map, shared between the classes
     private final Map map;
-    private  ArrayList<PlayerBase> players; // the players belong to the game
-    private  final int maxRounds = 10;
-    private  int currentRound;
-    private  boolean[] randomBlow; //if the array element is true, the wind would blow
+    private ArrayList<PlayerBase> players; // the players belong to the game
+    private final int maxRounds = 10;
+    private int currentRound;
+    private boolean[] randomBlow; //if the array element is true, the wind would blow
 
 
-    /**
+        /**
      * @param players the player that are playing the game
      */
     public Game(ArrayList<PlayerBase> players) {
         map = new Map();
         this.players = players;
-        currentRound  = 0;
+        currentRound = 0;
         randomBlow = new boolean[maxRounds];
 
 
@@ -33,21 +35,20 @@ public class Game {
         }
     }
 
-    /**
+        /**
      * @return userInputList
      * the first element is the name of the command
      * second element is the argument for the command
      */
-    public  ArrayList<String> processInput() {
+    public ArrayList<String> processInput() {
         String s;
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter a string: \n");
         s = sc.nextLine();
-        System.out.println("You entered String "+s);
+        System.out.println("You entered String " + s);
         sc.close();
         return new ArrayList<String>(Arrays.asList(s.split(" ")));
     }
-
 
 
     //Getter for map
@@ -56,12 +57,12 @@ public class Game {
     }
 
 
-    /**
+        /**
      * @return true if the game ends
      * it checks if there is a win or lose
      */
     //Static method GameOver for finishing the game.
-    public  boolean GameOver() {
+    public boolean GameOver() {
 
 
         if (isGameLost()) return true;
@@ -75,11 +76,11 @@ public class Game {
         return false;
     }
 
-    /**
+        /**
      * @return true for lost game
      * if anyone is dead
      */
-    public  boolean isGameLost() {
+    public boolean isGameLost() {
         //Checking if any of the player died, then the game is lost
         for (PlayerBase player : players) {
             if (player.isDead) {
@@ -91,10 +92,10 @@ public class Game {
     }
 
 
-    /**
+        /**
      * @return true if the players win
      */
-    public  boolean isWin() {
+    public boolean isWin() {
         //Checking if all the conditions are preserved for winning the game
 
         boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
@@ -126,7 +127,7 @@ public class Game {
     }
 
 
-    /**
+        /**
      * @throws Exception if its not the
      * player's turn to make the move
      * this is the gameLoop, we iterate through each player
@@ -137,10 +138,10 @@ public class Game {
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
         while (currentRound < maxRounds) {
-            if( randomBlow[currentRound + 1]){
+            if (randomBlow[currentRound + 1]) {
                 System.out.println("The next round the Blizzard would come. Take care!");
             }
-            if (randomBlow[currentRound]){
+            if (randomBlow[currentRound]) {
                 Blizzard.blow(players, map);
             }
             for (PlayerBase player : players) {
@@ -150,38 +151,80 @@ public class Game {
                     Turn(player);
                 } catch (Exception e) {
                     e.printStackTrace();
-                }finally {
+                } finally {
                     player.isTurn = false;
                 }
 
             }
-            currentRound++;
+
+            //there can be a limited number of rounds
         }
-
-        //there can be a limited number of rounds
-
-
     }
+        //New game when the inputs come from a file
+        //When calling the inputs will be received by calling method loadInputs(..).
+        public void newGame (ArrayList < PlayerBase > playersList, ArrayList < String > inputs) throws Exception {
+            int count = 0;
+            //the case when the inputs are not comming from a file
+            map.generateItemsOnMap();           //Generating items on map
+            System.out.println("Game started!");
+            while (currentRound < maxRounds) {
+                if (randomBlow[currentRound + 1]) {
+                    System.out.println("The next round the Blizzard would come. Take care!");
+                }
+                if (randomBlow[currentRound]) {
+                    Blizzard.blow(players, map);
+                }
+                for (PlayerBase player : players) {
+                    ArrayList<String> fourInputs = new ArrayList<String>();
+                    for (int i = 0; i < 4; i++) {
+                        fourInputs.add(inputs.get(count));
+                        count++;
+                    }
+                    Turn(player, fourInputs);
+                }
+                currentRound++;
+            }
+
+            //there can be a limited number of rounds
+        }
 
 
     /**
      * @param player the player whos turn it is
      * @throws Exception if its not players turn, it trows a exception
      */
-    public  void Turn( PlayerBase player) throws Exception {
-        if (!player.isTurn()) throw new Exception("It's not this player's turn");
-        int round = 0;
-        while (round < 4) {
-            try {
-                ArrayList<String> input = processInput();
-                if (UserInteraction(input, player)) {// the round increases only if the action was successful
-                    round++;
+        public void Turn (PlayerBase player) throws Exception {
+            if (!player.isTurn()) throw new Exception("It's not this player's turn");
+            int round = 0;
+            while (round < 4) {
+                try {
+                    ArrayList<String> input = processInput();
+                    if (UserInteraction(input, player)) {// the round increases only if the action was successful
+                        round++;
+                    }
+                } catch (Exception e) {
+                    //end of turn
                 }
-            } catch (Exception e) {
-                //end of turn
+            }
+            //After the player makes their 4 moves we need to give the turn to the next player
+        }
+
+        //method overloading this one will only be called when the input is read from a file since in that case we don't ask the user for input.
+        //Will receive 4 user inputs that the player needs to act on.
+        public void Turn (PlayerBase player, ArrayList < String > fourUserInput) throws Exception {
+            if (!player.isTurn()) throw new Exception("It's not this player's turn");
+            int round = 0;
+            while (round < 0) {
+                try {
+                    ArrayList<String> input = new ArrayList<String>(Arrays.asList(fourUserInput.get(round).split(" ")));
+                    if (UserInteraction(input, player)) {
+                        round++;
+                    }
+                } catch (Exception e) {
+                    //end of turn
+                }
             }
         }
-    }
 
     /**
      * @param input the input from the player,
@@ -190,200 +233,203 @@ public class Game {
      * @param player the player that is doing the acction
      * @return true if the action was succsfull
      */
-    //Will be continuously called in the game loop.
-    public boolean UserInteraction( ArrayList<String> input, PlayerBase player)
-    {
-        if(input.get(0).equals("move ")) {
-            try{
-                player.move(input.get(1), this.getMap());
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-
-        }
-
-        else if(input.get(0).equals("use")) {
-
-                player.useItem(input.get(1));
-            System.out.println("Action accepted!");
-
-        }
-        else if(input.get(0).equals("pick"))
+        //Will be continuously called in the game loop.
+        public boolean UserInteraction (ArrayList < String > input, PlayerBase player)
         {
-            System.out.println("Would you like to pick " + player.currentIceberg.getItem() + "press 1 for yes, 2 for no");
-            Scanner input1 = new Scanner(System.in);
-            int y = input1.nextInt();
-            if(y == 1) {
-                try {
-                    player.pickItem();
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
+            //For these 3 inputs that also require a direction
+            if (input.get(0).equals("move") || input.get(0).equals("apply") || input.get(0).equals("save")) {
+                //Check if the direction is valid
+                if (validDirection(input)) {
+                    if (input.get(0).equals("move ")) {
+                        try {
+                            player.move(input.get(1), this.getMap());
+                            System.out.println("Action accepted!");
+                            return true;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        //Instead of apply skill just apply.
+                    } else if (input.get(0).equals("apply")) {
+
+                        try {
+                            player.useSkill(this.getMap(), input.get(1));
+                            System.out.println("Action accepted!");
+                            return true;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                    //Will distinguish between players based on their unique ID
+                    else if (input.get(0).equals("save")) {
+                        player.SavePlayer(input.get(1), input.get(2), map);
+                        System.out.println("Action accepted!");
+                        return true;
+                    }
+
                 }
-            }
-        }
+            } else if (input.get(0).equals("use")) {
+                //Check if the item could be used, therefore understanding if it is a valid item;
+                boolean check;
+                check = player.useItem(input.get(1));
+                System.out.println("Action accepted!");
+                if (check == true) {
+                    return true;
+                } else
+                    return false;
 
-        else if(input.get(0).equals("apply skill"))
-        {
 
-                try {
-                    player.useSkill(this.getMap(), input.get(1));
-                    System.out.println("Action accepted!");
-                } catch (Exception e) {
-                    e.printStackTrace();
+            } else if (input.get(0).equals("pick")) {
+                System.out.println("Would you like to pick " + player.currentIceberg.getItem() + "press 1 for yes, 2 for no");
+                Scanner input1 = new Scanner(System.in);
+                int y = input1.nextInt();
+                if (y == 1) {
+                    try {
+                        player.pickItem();
+                        System.out.println("Action accepted!");
+                        return true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+                return false;
+            } else if (input.get(0).equals("remove snow")) {
+                player.removeSnow();
+                System.out.println("Action accepted!");
+                return true;
+            } else if (input.get(0).equals("fire")) {
+                GameOver();
+                System.out.println("Action accepted!");
+                if (!GameOver()) {
+                    System.out.println("You can't fire the gun, work more!");
+                    return false;
+                }
+                return true;
+            } else if (input.get(0).equals("inv")) {
+                System.out.println("Action accepted!");
+                printInventory(player);
+            } else if (input.get(0).equals("help")) {
+                System.out.println("Action accepted!");
+                printHelp();
 
+            } else if (input.get(0).equals("info")) {
+                int partsCollected = getPlayerInfo(player);
+                System.out.println("Parts collected:" + partsCollected);
 
-        }
-        //Will distinguish between players based on their unique ID
-        else if(input.get(0).equals("save"))
-        {
-                player.SavePlayer(input.get(1), input.get(2), map);
-            System.out.println("Action accepted!");
-        }
-
-        else if(input.get(0).equals("remove snow"))
-        {
-            player.removeSnow();
-            System.out.println("Action accepted!");
-        }
-
-        else if(input.get(0).equals("fire"))
-        {
-            GameOver();
-            System.out.println("Action accepted!");
-            if(!GameOver())
-            {
-                System.out.println("You can't fire the gun, work more!");
+            } else {
+                System.out.println("There is no such command. Enter 'help' to see available actions");
+                return false;
             }
-        }
-
-        else if(input.get(0).equals("inv"))
-        {
-            System.out.println("Action accepted!");
-            printInventory(player);
-        }
-
-        else if(input.get(0).equals("help"))
-        {
-            System.out.println("Action accepted!");
-            printHelp();
-
-        }
-
-        else if(input.get(0).equals("info"))
-        {
-            int partsCollected = getPlayerInfo(player);
-            System.out.println("Parts collected:" + partsCollected);
-
-        }
-        else
-        {
-            System.out.println("There is no such command. Enter 'help' to see available actions");
             return false;
         }
-        return true;
-    }
+
+        public boolean validDirection (ArrayList < String > input)
+        {
+
+            if (input.get(1).equals("NORTH") || input.get(1).equals("SOUTH") || input.get(1).equals("EAST") || input.get(1).equals("WEST") ||
+                    input.get(2).equals("NORTH") || input.get(2).equals("SOUTH") || input.get(2).equals("EAST") || input.get(1).equals("WEST")) {
+                return true;
+            } else
+                return false;
+
+        }
 
     /**
      * @param player the player
      * to which the inventory belongs to
      */
-    private  void printInventory( PlayerBase player) {
-        int numFood = 0;
-        int charge =0;
-        int DivingSuit = 0;
-        int Flare = 0;
-        int Gun = 0;
-        int rope =0;
-        int shovel = 0;
-        for(int i = 0 ; i < player.getInventory().getItems().size(); i++)
-        {
-            if(player.getInventory().getItemAt(i).tag.equals("Food"))
-            {
-                numFood++;
+        private void printInventory (PlayerBase player){
+            int numFood = 0;
+            int charge = 0;
+            int DivingSuit = 0;
+            int Flare = 0;
+            int Gun = 0;
+            int rope = 0;
+            int shovel = 0;
+            for (int i = 0; i < player.getInventory().getItems().size(); i++) {
+                if (player.getInventory().getItemAt(i).tag.equals("Food")) {
+                    numFood++;
+                } else if (player.getInventory().getItemAt(i).tag.equals("Charge")) {
+                    charge++;
+                } else if (player.getInventory().getItemAt(i).tag.equals("Flare")) {
+                    Flare++;
+                } else if (player.getInventory().getItemAt(i).tag.equals("DivingSuit")) {
+                    DivingSuit++;
+                } else if (player.getInventory().getItemAt(i).tag.equals("Gun")) {
+                    Gun++;
+                } else if (player.getInventory().getItemAt(i).tag.equals("rope")) {
+                    rope++;
+                } else if (player.getInventory().getItemAt(i).tag.equals("shovel")) {
+                    shovel++;
+                }
+                System.out.println("You have: " + "Food - " + numFood + "Charge - " + charge + "Flare - " + Flare + "Diving suit - "
+                        + DivingSuit + "Gun - " + Gun + "Rope - " + rope + "shovel" + shovel);
             }
-            else if(player.getInventory().getItemAt(i).tag.equals("Charge"))
-            {
-                charge++;
-            }
-            else if(player.getInventory().getItemAt(i).tag.equals("Flare"))
-            {
-                Flare++;
-            }
-            else if(player.getInventory().getItemAt(i).tag.equals("DivingSuit"))
-            {
-                DivingSuit++;
-            }
-            else if(player.getInventory().getItemAt(i).tag.equals("Gun"))
-            {
-                Gun++;
-            }
-            else if(player.getInventory().getItemAt(i).tag.equals("rope"))
-            {
-                rope++;
-            }
-            else if(player.getInventory().getItemAt(i).tag.equals("shovel"))
-            {
-                shovel++;
-            }
-            System.out.println("You have: " + "Food - " + numFood + "Charge - " + charge + "Flare - " + Flare + "Diving suit - "
-            + DivingSuit + "Gun - " + Gun + "Rope - "+ rope + "shovel" + shovel);
         }
-    }
 
     /**
      * @param player the player who's turn is know
      * the method displays the inventory content
      * @return how many parts of the gun are collected
      */
-    private int getPlayerInfo( PlayerBase player) {
-        System.out.println("Action accepted!");
-        System.out.println("Heat level: " + player.getHeatLevel());
-        System.out.println("Moves left: ");
-        System.out.print( 4 - player.numOfMoves);
-        int partsCollected = 0;
-        //for every player
-        for (PlayerBase playerBase : players) {
-            //we check every item in their inventory if it is a Gun, flare or charge
-            for (int j = 0; j < playerBase.getInventory().getItems().size(); j++) {
-                if (playerBase.getInventory().getItems().get(j).getTag().equals("Gun") ||
-                        playerBase.getInventory().getItems().get(j).getTag().equals("Flare") ||
-                        playerBase.getInventory().getItems().get(j).getTag().equals("Charge")) {
-                    partsCollected++;
-                    //break;
+        private int getPlayerInfo (PlayerBase player){
+            System.out.println("Action accepted!");
+            System.out.println("Heat level: " + player.getHeatLevel());
+            System.out.println("Moves left: ");
+            System.out.print(4 - player.numOfMoves);
+            int partsCollected = 0;
+            //for every player
+            for (PlayerBase playerBase : players) {
+                //we check every item in their inventory if it is a Gun, flare or charge
+                for (int j = 0; j < playerBase.getInventory().getItems().size(); j++) {
+                    if (playerBase.getInventory().getItems().get(j).getTag().equals("Gun") ||
+                            playerBase.getInventory().getItems().get(j).getTag().equals("Flare") ||
+                            playerBase.getInventory().getItems().get(j).getTag().equals("Charge")) {
+                        partsCollected++;
+                        //break;
+                    }
+
+
                 }
-
-
             }
+            return partsCollected;
         }
-        return partsCollected;
-    }
 
 
     /**
      * prints the help message
      */
-    private  void printHelp() {
-        // Show all possible inputs
-        System.out.println("Move NORTH / SOUTH / LEFT / RIGHT - will move the player in the corresponding direction.");
-        System.out.println("use food / shovel / diving suit - will make use of the corresponding item if the user has it in the inventory.");
-        System.out.println("pick - will pick the item from the iceberg that the player is on.");
-        System.out.println("apply skill NORTH / SOUTH / WEST / EAST - will apply apply current player's skill in the corresponding direction");
-        System.out.println("save (player ID) - will save the player with the given id if they are in trouble and the conditions for saving them are met.");
-        System.out.println("remove snow - will remove one unit of snow from the current iceberg.");
-        System.out.println("fire - will fire the gun if all conditions for firing it are met.");
-        System.out.println("inv - will display all items in current player's inventory.");
-        System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
-    }
+        private void printHelp () {
+            // Show all possible inputs
+            System.out.println("Move NORTH / SOUTH / LEFT / RIGHT - will move the player in the corresponding direction.");
+            System.out.println("use food / shovel / diving suit - will make use of the corresponding item if the user has it in the inventory.");
+            System.out.println("pick - will pick the item from the iceberg that the player is on.");
+            System.out.println("apply NORTH / SOUTH / WEST / EAST - will apply apply current player's skill in the corresponding direction");
+            System.out.println("save (player ID) - will save the player with the given id if they are in trouble and the conditions for saving them are met.");
+            System.out.println("remove snow - will remove one unit of snow from the current iceberg.");
+            System.out.println("fire - will fire the gun if all conditions for firing it are met.");
+            System.out.println("inv - will display all items in current player's inventory.");
+            System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
+        }
+
+        public ArrayList<String> loadInputs (String path) throws FileNotFoundException {
+            File inputs = new File(path);
+            Scanner sc = new Scanner(inputs);
+            ArrayList<String> fromFile = new ArrayList<String>();
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                fromFile.add(line);
+            }
+            return fromFile;
+        }
+
+        public void writeOutputs (String path, String output) throws FileNotFoundException {
 
 
-
-
-
-
-
+        }
     //for testing at this stage
 
     public  boolean isWinForTest() {
@@ -421,3 +467,6 @@ public class Game {
         return false;
     }
 }
+
+
+
