@@ -14,6 +14,10 @@ public class Eskimo extends PlayerBase {
 
     }
 
+    /**
+     * decrease the heat
+     * every few seconds
+     */
     @Override
     public void run() {
         decreaseHeatLevel();
@@ -21,6 +25,12 @@ public class Eskimo extends PlayerBase {
 
     //Method useSkill performs the ability of Eskimo to construct the Igloo
 
+    /**
+     * Constructs the igloo in the showed direction
+     * @param map map of the game
+     * @param dir direction
+     * @return true if the action was successful
+     */
     @Override
     public boolean useSkill( Map map,String str) {
 
@@ -81,7 +91,7 @@ public class Eskimo extends PlayerBase {
             return false;
         }
 
-
+        return true;
     }
 
 }

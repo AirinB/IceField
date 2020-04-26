@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 //Abstract PlayerBase class
 public abstract class PlayerBase extends TimerTask {
     protected Iceberg currentIceberg;             //Iceberg the player stands on
@@ -92,6 +93,12 @@ public boolean checkDir(String str, Map map) {
     }
 
 
+    /**
+     * @param dir the direction of movement
+     * @param map the map of the game
+     * @return returns true if the action was succesful
+     * @throws Exception if the player falls
+     */
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
     public boolean move(String str, Map map) throws Exception {
 
@@ -137,6 +144,12 @@ public boolean checkDir(String str, Map map) {
         return true;
     }
 
+    /**
+     * @param playerID the player that we want to save
+     * @param dir direction where the player we want to save is located
+     * @param map the map of the game
+     * @return returns true if the action is succesful
+     */
     //Method for saving the player.
     public boolean SavePlayer(String playerID, String dir, Map map) {
         //Check every item in the inventory to see if there's a rope.
@@ -197,9 +210,15 @@ public boolean checkDir(String str, Map map) {
 
     }
 
+    /**
+     * @param map map of the game
+     * @param dir direction
+     * @return true if the acction is succesfull
+     * @throws Exception
+     */
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
     public boolean useSkill(Map map, String str) throws Exception {
-        return true;
+        return false;
     }
 
     //Increases the heat level of the player.
@@ -207,7 +226,10 @@ public boolean checkDir(String str, Map map) {
         this.heatLevel++;
     }
 
-    //Decreases the heat level of the player.
+    /**
+     * is decreasing the
+     * heat level of the player
+     */
     public void decreaseHeatLevel() {
         this.heatLevel--;
         if (this.heatLevel == 0) {
@@ -216,8 +238,13 @@ public boolean checkDir(String str, Map map) {
         }
     }
 
+    /**
+     * @param item name of the
+     * item that the player wants to use
+     * @return true if action is succesful
+     */
     //Use the item specified in the parameter.
-    public void useItem(String item) {
+    public boolean useItem(String item) {
 
         if (ContainsItem(item)) {
             try {
@@ -235,7 +262,7 @@ public boolean checkDir(String str, Map map) {
                 for (int i = 0; i < inventory.items.size(); i++) {
                     if (item.equals(inventory.items.get(i).tag)) {
                         inventory.deleteItem(i);
-                        return;
+                        return true;
                     }
                 }
             }
@@ -243,9 +270,16 @@ public boolean checkDir(String str, Map map) {
         else
         {
             System.out.println("Impossible to use the item or no such item exists!");
+            return false;
         }
+        return false;
     }
 
+    /**
+     * @param item the item that should be checked if
+     * it is present in the inventory
+     * @return true if the item is present in the inventory
+     */
     private boolean ContainsItem(String item) {
 
         for( ItemBase itemBase: inventory.items){
@@ -262,6 +296,10 @@ public boolean checkDir(String str, Map map) {
     }
 
 
+    /**
+     * the player falls in a hole
+     * the timer starts and the heat level is declining
+     */
     //Player falls into water
     public void fall() {
         currentIceberg.setType("hole");
@@ -294,6 +332,10 @@ public boolean checkDir(String str, Map map) {
         return isDrowning;
     }
 
+    /**
+     * @return the item the player picked from the iceberg
+     * @throws Exception if there is snow on the iceberg
+     */
     //PickItem method which return the item.
     public ItemBase pickItem() throws Exception {
         if (currentIceberg.getAmountOfSnow() == 0) {
@@ -318,6 +360,10 @@ public boolean checkDir(String str, Map map) {
        return null;
     }
 
+    /**
+     * remove one unit of snow
+     * from the iceberg
+     */
     //Removes snow from the iceberg
     public void removeSnow() {
         if (currentIceberg.getAmountOfSnow() <= 0) return;
@@ -325,6 +371,9 @@ public boolean checkDir(String str, Map map) {
         currentIceberg.setAmountOfSnow(currentSnow - 1);     //amount of snow is decreased by 1
     }
 
+    /**
+     * @return int from o to 4/5
+     */
     //Getter for heatLevel attribute
     public int getHeatLevel() {
         return heatLevel;
