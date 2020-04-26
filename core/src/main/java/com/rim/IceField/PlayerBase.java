@@ -149,16 +149,16 @@ public boolean checkDir(String str, Map map) {
                 return false;
             }
 
-            ArrayList<PlayerBase> playerBases = null;
+            ArrayList<PlayerBase> playerBases = new ArrayList<PlayerBase>();
 
             if(dir.equals("north")){
-               playerBases =  map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
+               playerBases = map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
             }else if(dir.equals("south")){
-                currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
+                playerBases = map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getCurrentPlayers();
             }else if(dir.equals("west")){
-                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
+                playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getCurrentPlayers();
             }else if(dir.equals("east")){
-                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
+                playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getCurrentPlayers();
             }
 
 
@@ -168,18 +168,17 @@ public boolean checkDir(String str, Map map) {
                 if (player.getID() == Integer.parseInt(playerID)) {
                     //Check if the player is drowning
                     if (player.isDrowning) {
-                        if (checkSavableDistance(player)) {
+
                             System.out.println(player.tag + " has been saved!");
                             player.isDrowning = false;  //player is saved , so it's not drowning anymore
                             player.timer.cancel();
+                            player.currentIceberg = this.currentIceberg;
+                            this.currentIceberg.Add_currentPlayers(player);
                             break;
-                        } else {
-                            System.out.println("The given player is too far to be saved, get closer to save them.");
-                        }
 
                     } else {
                         System.out.println("You are trying to save a player that is not in the water!");
-                        ;
+
                     }
 
                 }
