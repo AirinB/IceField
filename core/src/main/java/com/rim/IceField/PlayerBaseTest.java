@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PlayerBaseTest {
 
@@ -30,11 +31,11 @@ class PlayerBaseTest {
         p1.inventory.addItem(shovel);
         Iceberg ice1 = new Iceberg(true,1,"stable", 4, false,4, null);
         ice1.Add_currentPlayers(p1);
-        p1.useItem(shovel);
+        p1.useItem("shovel");
         assertEquals(2, ice1.getAmountOfSnow());
-        p1.useItem(shovel);
+        p1.useItem("shovel");
         assertEquals(0, ice1.getAmountOfSnow());
-        p1.useItem(shovel);
+        p1.useItem("shovel");
         assertEquals(0, ice1.getAmountOfSnow());
 
         PlayerBase  p2 = new PolarExplorer();
@@ -44,27 +45,27 @@ class PlayerBaseTest {
         for (ItemBase item: i.getItems()){
             System.out.println(item);
         }
-        p2.useItem(shovel);
+        p2.useItem("shovel");
         assertEquals(2, ice2.getAmountOfSnow());
     }
 
 
     @Test
-    void fallWithoutDS() {
+    void fallWithoutDS() throws Exception {
         //Test-case 5: PLayer in the water without diving suit
         PlayerBase  p1 = new PolarExplorer();
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(p1);
         assertEquals(4,p1.heatLevel);
-        Game game = new Game();
-        game.newGame(playersList);
+        Game game = new Game(playersList);
+        game.newGame();
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         try {
             p1.move("east", game.getMap());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(true,p1.isDrowning);
+        assertTrue(p1.isDrowning);
         assertEquals(3 ,p1.heatLevel);
         try {
             Thread.sleep(3000);
@@ -73,7 +74,7 @@ class PlayerBaseTest {
         }
         //Test-case 18: Heat level reaches 0
         assertEquals(0,p1.heatLevel);
-        assertEquals(true,p1.isDead);
+        assertTrue(p1.isDead);
         //Test-case 20: Lose scenario of the game because of a drowning player
         //assertEquals(true, Game.isGameLost());
         //assertEquals(true, Game.GameOver());
@@ -82,7 +83,7 @@ class PlayerBaseTest {
 
 
     @Test
-    void fallWithDS() {
+    void fallWithDS() throws Exception {
         //Test-case 5: PLayer in the water with diving suit
         PlayerBase  p1 = new PolarExplorer();
         PlayerBase  p2 = new PolarExplorer();
@@ -90,8 +91,8 @@ class PlayerBaseTest {
         playersList.add(p1);
         playersList.add(p2);
         assertEquals(4,p1.heatLevel);
-        Game game = new Game();
-        game.newGame(playersList);
+        Game game = new Game(playersList);
+        game.newGame();
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
         DivingSuit ds = new DivingSuit();
@@ -106,8 +107,8 @@ class PlayerBaseTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(true,p1.isWearingDSuit);
-        assertEquals(true,p1.isDrowning);
+        assertTrue(p1.isWearingDSuit);
+        assertTrue(p1.isDrowning);
         assertEquals(4,p1.heatLevel);
         try {
             Thread.sleep(3000);
@@ -165,32 +166,32 @@ class PlayerBaseTest {
     }
 
     @Test
-    void stepHole(){
+    void stepHole() throws Exception {
         //Test-case 3: Step on a hole
         PlayerBase  p1 = new PolarExplorer();
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(p1);
-        Game game = new Game();
-        game.newGame(playersList);
+        Game game = new Game(playersList);
+        game.newGame();
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         try {
             p1.move("east", game.getMap());
         } catch (Exception e) {
                 e.printStackTrace();
             }
-        assertEquals(true, p1.isDrowning);
+        assertTrue(p1.isDrowning);
     }
 
     @Test
-    void stepUnstable(){
+    void stepUnstable() throws Exception {
         //Test-case 2: Step on an unstable iceberg
         PlayerBase  p1 = new PolarExplorer();
         PlayerBase  p2 = new PolarExplorer();
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(p1);
         playersList.add(p2);
-        Game game = new Game();
-        game.newGame(playersList);
+        Game game = new Game(playersList);
+        game.newGame();
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         game.getMap().Icebergs[1][0].Add_currentPlayers(p2);
         try {
@@ -198,8 +199,8 @@ class PlayerBaseTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(true, p2.isDrowning);
-        assertEquals(true, p1.isDrowning);
+        assertTrue(p2.isDrowning);
+        assertTrue(p1.isDrowning);
         assertEquals("hole", game.getMap().Icebergs[1][1].getType());
     }
 
@@ -219,13 +220,13 @@ class PlayerBaseTest {
      }
 
      @Test
-     void polarSkill(){
+     void polarSkill() throws Exception {
         //Test-case 15: Polar explorer skill
          PlayerBase  p1 = new PolarExplorer();
          ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
          playersList.add(p1);
-         Game game = new Game();
-         game.newGame(playersList);
+         Game game = new Game(playersList);
+         game.newGame();
          game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
          try {
          p1.useSkill(game.getMap(), "east");
@@ -273,13 +274,13 @@ class PlayerBaseTest {
 //     }
 
     @Test
-    public void mapEdge(){
+    public void mapEdge() throws Exception {
         //Test-case 4: Stuck at the edge of map
         PlayerBase  p1 = new PolarExplorer();
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(p1);
-        Game game = new Game();
-        game.newGame(playersList);
+        Game game = new Game(playersList);
+        game.newGame();
         game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
         try {
             p1.move("west",game.getMap());
@@ -289,15 +290,15 @@ class PlayerBaseTest {
     }
 
     @Test
-    public void winScenario() {
+    public void winScenario() throws Exception {
         //Test-case 19: Win scenario
         PlayerBase  p1 = new PolarExplorer();
         PlayerBase  p2 = new PolarExplorer();
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(p1);
         playersList.add(p2);
-        Game game = new Game();
-        game.newGame(playersList);
+        Game game = new Game(playersList);
+        game.newGame();
         game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
         game.getMap().Icebergs[0][1].Add_currentPlayers(p2);
         Charge charge = new Charge();
