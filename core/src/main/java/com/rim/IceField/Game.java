@@ -12,14 +12,14 @@ public class Game {
 
     //Instance of Map, shared between the classes
     private final Map map;
-    private  ArrayList<PlayerBase> players; // the players belong to the game
+    private final ArrayList<PlayerBase> players; // the players belong to the game
     private  final int maxRounds = 10;
     private  int currentRound;
-    private  boolean[] randomBlow; //if the array element is true, the wind would blow
+    private final boolean[] randomBlow; //if the array element is true, the wind would blow
 
 
     //Constructor
-    public Game(ArrayList players) {
+    public Game(ArrayList<PlayerBase> players) {
         this.players = players;
         map = new Map();
         currentRound += 1;
