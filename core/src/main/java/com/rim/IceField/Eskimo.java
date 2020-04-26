@@ -32,10 +32,10 @@ public class Eskimo extends PlayerBase {
      * @return true if the action was successful
      */
     @Override
-    public boolean useSkill( Map map,String str) {
+    public boolean useSkill( Map map,String dir) {
 
 
-        if(checkDir(str,map)&&"north".equals(str))
+        if(checkDir(dir,map)&&"north".equals(dir))
         {
             if (!map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getHasIgloo()) {
                 System.out.println("An Igloo has been created!");
@@ -47,7 +47,7 @@ public class Eskimo extends PlayerBase {
                 return false;
             }
         }
-        else if(checkDir(str,map)&&"south".equals(str))
+        else if(checkDir(dir,map)&&"south".equals(dir))
         {
             if (!map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getHasIgloo()) {
                 System.out.println("An Igloo has been created!");
@@ -59,7 +59,7 @@ public class Eskimo extends PlayerBase {
                 }
         }
 
-        else if(checkDir(str,map)&&"west".equals(str))
+        else if(checkDir(dir,map)&&"west".equals(dir))
         {
             if (!map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getHasIgloo()) {
             System.out.println("An Igloo has been created!");
@@ -72,7 +72,7 @@ public class Eskimo extends PlayerBase {
             }
         }
 
-        else if(checkDir(str,map)&&"east".equals(str))
+        else if(checkDir(dir,map)&&"east".equals(dir))
         {
             if (!map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getHasIgloo()) {
                 System.out.println("An Igloo has been created!");
@@ -91,7 +91,6 @@ public class Eskimo extends PlayerBase {
             return false;
         }
 
-        return true;
     }
 
 }

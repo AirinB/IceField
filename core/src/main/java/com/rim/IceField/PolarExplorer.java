@@ -30,24 +30,24 @@ public class PolarExplorer extends PlayerBase {
      * @throws Exception
      */
     @Override
-    public boolean useSkill(Map map,String str) throws Exception
+    public boolean useSkill(Map map,String dir) throws Exception
     {
-        if(checkDir(str,map)&&"north".equals(str))
+        if(checkDir(dir,map)&&"north".equals(dir))
         {
             System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getMaxNumOfPlayers());
             return true;
         }
-       else if(checkDir(str,map)&&"south".equals(str))
+       else if(checkDir(dir,map)&&"south".equals(dir))
         {
             System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getMaxNumOfPlayers());
             return true;
         }
-        else if(checkDir(str,map)&&"west".equals(str))
+        else if(checkDir(dir,map)&&"west".equals(dir))
         {
             System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getMaxNumOfPlayers());
             return true;
         }
-        else if(checkDir(str,map)&&"east".equals(str))
+        else if(checkDir(dir,map)&&"east".equals(dir))
         {
             System.out.println("Max num of players on iceberg: " + map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getMaxNumOfPlayers());
             return true;
@@ -56,7 +56,5 @@ public class PolarExplorer extends PlayerBase {
             System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
             return false;
         }
-        return true;
-
 }
 }

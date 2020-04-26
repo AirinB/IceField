@@ -217,7 +217,7 @@ public boolean checkDir(String str, Map map) {
      * @throws Exception
      */
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
-    public boolean useSkill(Map map, String str) throws Exception {
+    public boolean useSkill(Map map, String dir) throws Exception {
         return false;
     }
 
