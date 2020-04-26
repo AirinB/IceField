@@ -104,7 +104,7 @@ public class Game {
 
 
     //Static method for starting a new game.
-    public void newGame() throws Exception {
+    public void newGame(ArrayList<PlayerBase> playersList) throws Exception {
 
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");

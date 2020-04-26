@@ -37,9 +37,9 @@ public class Map {
                 } else if (splitIcebergs[0].equals("5")) {
                     Icebergs[r][c].setIsStable(false);
                 }
-                r++;
+                c++;
             }
-            c++;
+            r++;
 
         }
     }
