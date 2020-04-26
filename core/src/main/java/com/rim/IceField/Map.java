@@ -33,7 +33,7 @@ public class Map {
             for (String iceberg : icebergs) {
                 splitIcebergs = iceberg.split(":");
                 Icebergs[r][c] = new Iceberg(Boolean.parseBoolean(splitIcebergs[0]), splitIcebergs[1],
-                        Integer.parseInt(splitIcebergs[2]), ranSnow(),ranItem());
+                        Integer.parseInt(splitIcebergs[2]),false, ranSnow(),ranItem());
                 c++;
             }
             r++;

@@ -10,7 +10,7 @@ public class Iceberg {
     //private int numOfPlayers; NO NEED, I JUST ADD THE LIST OF PLAYERS ON THE ICEBERG
     private String type;
     private int maxNumOfPlayers;
-    private boolean hasIgloo;
+    private boolean hasIgloo = false;
     private ArrayList<PlayerBase> drowningPlayers = new ArrayList<PlayerBase>();
     private ArrayList<PlayerBase> currentPlayers = new ArrayList<PlayerBase>(); //List I added
     private int amountOfSnow;
@@ -25,12 +25,12 @@ public class Iceberg {
      * @param item what item is on the iceberg or null if there is no item
      */
     public Iceberg(boolean isStable, String type, int maxNumOfPlayers,
-                   int amountOfSnow, ItemBase item) {
+                   boolean hasIgloo, int amountOfSnow, ItemBase item) {
         this.isStable = isStable;
         //this.num = num;
         this.type = type;
         this.maxNumOfPlayers = maxNumOfPlayers;
-        //this.hasIgloo = hasIgloo;
+        this.hasIgloo = hasIgloo;
         this.amountOfSnow = amountOfSnow;
         this.item = item;
 
