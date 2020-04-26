@@ -34,18 +34,9 @@ public class GameMain extends BasicGame {
         //g.drawTexture(texture, 0f, 0f);
     }
 
-    public static ArrayList<String> processInput(){
-        String s;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a string: \n");
-        s = sc.nextLine();
-        System.out.println("You entered String "+s);
-        sc.close();
-        return new ArrayList<String>(Arrays.asList(s.split(" ")));
-    }
+
 
     public static void main(String[] args) throws Exception {
-        ArrayList<String> insdff =  processInput();
 
 
 
@@ -73,7 +64,7 @@ public class GameMain extends BasicGame {
             }
         }
         Map map = new Map();
-        Game g1 = new Game(playersList, map );
+        Game g1 = new Game(playersList );
         //Will create the items on icebergs and the icebergs themeselves. We have defined icebergs and items on the in class Map to use for the use cases.
         g1.getMap().generateItemsOnMap();
         //putting all created icebergs in a list
