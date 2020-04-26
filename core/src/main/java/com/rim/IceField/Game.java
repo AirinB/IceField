@@ -19,9 +19,8 @@ public class Game {
 
 
     //Constructor
-    public Game(ArrayList<PlayerBase> players, Map map) {
+    public Game(ArrayList<PlayerBase> players) {
         this.players = players;
-        this.map = map;
         currentRound  = 0;
         randomBlow = new boolean[maxRounds];
 
