@@ -18,7 +18,7 @@ public class PolarExplorer extends PlayerBase {
     //Method useSkill performs the ability of PolarExplorer to get the max number of players that could stand on the current iceberg.
 
     @Override
-    public boolean useSkill(String str,Map map) throws Exception
+    public boolean useSkill(Map map,String str) throws Exception
     {
         if(checkDir(str,map)&&"north".equals(str))
         {

@@ -22,7 +22,7 @@ public class Eskimo extends PlayerBase {
     //Method useSkill performs the ability of Eskimo to construct the Igloo
 
     @Override
-    public boolean useSkill( String str,Map map) {
+    public boolean useSkill( Map map,String str) {
 
 
         if(checkDir(str,map)&&"north".equals(str))

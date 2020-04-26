@@ -36,8 +36,7 @@ public class GameMain extends BasicGame {
 
     public static void main(String[] args) throws Exception {
 
-//Map mp = new Map();
-//mp.loadMap("assets/icefield.map");
+
         System.out.println("Introduce the number of players in the game: ");
         Scanner input = new Scanner(System.in);
         int numberOfPlayers = input.nextInt();
@@ -121,7 +120,7 @@ public class GameMain extends BasicGame {
                         //Depending on whether it's a eskimo or polar Explorer they will use the corresponding skill.
                         //We send current iceberg for the eskimo to check if it has an igloo and for the explorer to check its neighbours.
                         str = in.nextLine();
-                        playersList.get(i).useSkill( str,g1.getMap());
+                        playersList.get(i).useSkill( g1.getMap(),str);
                         System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                         return;
 
