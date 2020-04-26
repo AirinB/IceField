@@ -169,7 +169,9 @@ public class Game {
      * @throws Exception if its not players turn, it trows a exception
      */
     public  void Turn( PlayerBase player) throws Exception {
+
         if (!player.isTurn()) throw new Exception("It's not this player's turn");
+
         int round = 0;
         while (round < 4) {
             try {
@@ -181,6 +183,7 @@ public class Game {
                 //end of turn
             }
         }
+
     }
 
     /**

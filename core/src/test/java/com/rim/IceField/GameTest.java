@@ -10,7 +10,10 @@ class GameTest {
 
    @Test
    void newPlayers() {
-       //Test-case 1 : Create players
+       /**
+        * Test-case 1: Create player
+        * Testing the right list size
+        */
        ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
        Eskimo e1 = new Eskimo();
        Eskimo e2 = new Eskimo();
@@ -24,11 +27,11 @@ class GameTest {
        playersList.add(p1);
        playersList.add(p2);
        playersList.add(p3);
-       try {
-           game.newGame();
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
+//       try {
+//           game.newGame();
+//       } catch (Exception e) {
+//           e.printStackTrace();
+//       }
        assertEquals(5,e1.heatLevel);
        assertEquals(4,p1.heatLevel);
        assertEquals(5, playersList.size());

@@ -34,7 +34,7 @@ public class Eskimo extends PlayerBase {
     @Override
     public boolean useSkill(Map map, String dir) {
 
-
+        if ("north".equals(dir)){
             if (currentIceberg.y - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
                 return false;
@@ -92,10 +92,7 @@ public class Eskimo extends PlayerBase {
                     return false;
                 }
             }
-            else {
-                System.out.println("There is an igloo on this iceberg already!");
-                return false;
-            }
+
         }
 
         else

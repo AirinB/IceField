@@ -16,6 +16,10 @@ class PlayerBaseTest {
     //Map map;
     Game game;
 
+    /**
+     * Initial setup for the tests: player's ,
+     * game, map creation
+     */
 
     @BeforeEach
     public void setup() {
@@ -29,10 +33,13 @@ class PlayerBaseTest {
         game.getMap().generateItemsOnMap();
     }
 
+
+    /**
+     * Test-case 8: Remove snow by hand
+     */
     @Test
     void removeSnowByHand() {
-        //Test-case 8: Remove snow by hand
-        Iceberg ice = new Iceberg(true, 1, "stable", 4, false, 5, null);
+        Iceberg ice = new Iceberg(true, "stable", 1,true, 5, null);
         ice.Add_currentPlayers(p1);
         p1.removeSnow();
         assertEquals(4, ice.getAmountOfSnow());
@@ -40,12 +47,16 @@ class PlayerBaseTest {
         assertEquals(3, ice.getAmountOfSnow());
     }
 
+    /**
+     * Test case 9: Remove snow by shovel
+     * @throws Exception if there is no shovel
+     * in the player's inventory
+     */
     @Test
     void removeSnowByShovel() throws Exception{
-        //Test case 9: Remove snow by shovel
         Shovel shovel = new Shovel();
         p1.inventory.addItem(shovel);
-        Iceberg ice1 = new Iceberg(true, 1, "stable", 4, false, 4, null);
+        Iceberg ice1 = new Iceberg(true, "stable", 1,true, 4, null);
         ice1.Add_currentPlayers(p1);
         try {
             shovel.useItem(p1);
@@ -69,7 +80,7 @@ class PlayerBaseTest {
         assertEquals(0, ice1.getAmountOfSnow());
 
 
-        Iceberg ice2 = new Iceberg(true, 1, "stable", 2, false, 2, null);
+        Iceberg ice2 = new Iceberg(true, "stable", 1,true, 2, null);
         ice2.Add_currentPlayers(p2);
         Inventory i = p2.getInventory();
         for (ItemBase item : i.getItems()) {
@@ -80,9 +91,13 @@ class PlayerBaseTest {
     }
 
 
+    /**
+     * Test-case 5: PLayer in the water without diving suit
+     * @throws Exception if there is no shovel
+     * no iceberg the player moves to
+     */
     @Test
     void fallWithoutDS() throws Exception {
-        //Test-case 5: PLayer in the water without diving suit
         assertEquals(4, p1.heatLevel);
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         try {
@@ -96,18 +111,28 @@ class PlayerBaseTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //Test-case 18: Heat level reaches 0
+        /**
+         * Test-case 18: Heat level reaches 0
+         * due to the player being in the water
+         */
         assertEquals(0, p1.heatLevel);
         assertTrue(p1.isDead);
-        //Test-case 20: Lose scenario of the game because of a drowning player
+        /**
+         * Test-case 20: Lose scenario of the game because
+         * of a drowning player
+         */
         assertTrue(game.isGameLost());
         assertTrue(game.GameOver());
     }
 
 
+    /**
+     * Test-case 6: PLayer in the water with diving suit
+     * @throws Exception if there is no shovel
+     * no iceberg the player moves to
+     */
     @Test
     void fallWithDS() throws Exception {
-        //Test-case 5: PLayer in the water with diving suit
         assertEquals(4, p1.heatLevel);
         game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
         game.getMap().Icebergs[1][0].Add_currentPlayers(p2);
@@ -145,20 +170,28 @@ class PlayerBaseTest {
         assertEquals("instable", p2.getCurrentIceberg().getType());
 
 
+        /**
+         *Test-case 7: couldn't save player - no rope
+         */
         //Test-case 7: couldn't save player - no rope
         p2.SavePlayer(String.valueOf(p1.getID()), "east", game.getMap());
         assertTrue( p1.isDrowning);
 
+        /**
+         *Test-case 8: save player - player is saved
+         */
         Rope rope = new Rope();
         p2.inventory.addItem(rope);
         p2.SavePlayer(String.valueOf(p1.getID()), "east", game.getMap());
         assertFalse(p1.isDrowning);
     }
 
-
+    /**
+     * Test-case 8: Save player (player is saved)
+     */
     @Test
-    void savePlayer() throws Exception {
-        //Test-case 7: Save player (player is saved)
+    void savePlayer()  {
+
         assertEquals(4, p1.heatLevel);
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         game.getMap().Icebergs[1][1].Add_currentPlayers(p2);
@@ -167,9 +200,6 @@ class PlayerBaseTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //System.out.println(p1.currentIceberg.getX());
-        //System.out.println(p1.currentIceberg.getY());
-
         assertFalse(p1.isWearingDSuit);
         assertTrue(p1.isDrowning);
         assertFalse(p2.isDrowning);
@@ -187,20 +217,20 @@ class PlayerBaseTest {
 
         Rope rope = new Rope();
         p2.inventory.addItem(rope);
-        //System.out.println(p2.currentIceberg.getX());
-        //System.out.println(p2.currentIceberg.getY());
         p2.SavePlayer(String.valueOf(p1.getID()), "east", game.getMap());
         assertFalse(p1.isDrowning);
       }
 
+
+    /**
+     *Test-case 13: Impossible to pick the item if there is snow
+     */
     @Test
-    void pickItem() {
+    void pickItem() throws Exception {
 
         Food food = new Food();
-        Iceberg ice1 = new Iceberg(true,1,"stable", 4, false,1, food);
+        Iceberg ice1 = new Iceberg(true, "stable", 1,true, 1, food);
         ice1.Add_currentPlayers(p1);
-
-        //Test-case 13: Impossible to pick the item if there is snow
         try {
             p1.pickItem();
         } catch (Exception e) {
@@ -208,7 +238,9 @@ class PlayerBaseTest {
         }
         assertEquals(0, p1.inventory.getItems().size());
 
-        // Test-case 11 : Picking the item
+        /**
+         *Test-case 11 Impossible to pick the item if there is snow
+         */
         p1.removeSnow();
         try {
             p1.pickItem();
@@ -216,10 +248,10 @@ class PlayerBaseTest {
             e.printStackTrace();
         }
         assertEquals(1, p1.inventory.getItems().size());
-
-        //Test case 12: Impossible to pick the item because it doesn't exists
-
-        Iceberg ice2 = new Iceberg(true,1,"stable", 4, false,1, null);
+        /**
+         *Test case 12: Impossible to pick the item because it doesn't exists
+         */
+        Iceberg ice2 = new Iceberg(true, "stable", 1,true, 5, null);
         ice2.Add_currentPlayers(p1);
         try {
             p2.pickItem();
@@ -229,9 +261,12 @@ class PlayerBaseTest {
         assertEquals(0, p2.inventory.getItems().size());
     }
 
+
+    /**
+     * Test-case 3: Stepping on a hole
+     */
     @Test
     void stepHole() throws Exception {
-        //Test-case 3: Step on a hole
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         try {
             p1.move("east", game.getMap());
@@ -241,9 +276,11 @@ class PlayerBaseTest {
         assertTrue(p1.isDrowning);
     }
 
+    /**
+     * Test-case 3: Stepping on an unstable iceberg
+     */
     @Test
     void stepUnstable() throws Exception {
-        //Test-case 2: Step on an unstable iceberg
         game.getMap().Icebergs[1][1].Add_currentPlayers(p1);
         game.getMap().Icebergs[1][0].Add_currentPlayers(p2);
         try {
@@ -256,9 +293,12 @@ class PlayerBaseTest {
         assertEquals("hole", game.getMap().Icebergs[1][1].getType());
     }
 
+    /**
+     * Test-case 14: Eat food
+     * Player's heat level must be increased
+     */
     @Test
     void eatFood() {
-        //Test-case 14: Eat food
         Food food = new Food();
         p1.inventory.addItem(food);
         assertEquals(4,p1.heatLevel);
@@ -270,9 +310,11 @@ class PlayerBaseTest {
         assertEquals(5,p1.heatLevel);
      }
 
+    /**
+     * //Test-case 15: Polar explorer skill
+     */
      @Test
      void polarSkill() throws Exception {
-        //Test-case 15: Polar explorer skill
          game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
          try {
          p1.useSkill(game.getMap(), "east");
@@ -303,15 +345,11 @@ class PlayerBaseTest {
      }
 
 
-     //
-     @Test
-     public void testTurn(){
-        //Test-case 17: Player's turn
-     }
-
+    /**
+     * //Test-case 4: Stuck at the edge of map
+     */
     @Test
     public void mapEdge() throws Exception {
-        //Test-case 4: Stuck at the edge of map
         game.getMap().Icebergs[1][0].Add_currentPlayers(p1);
         try {
             p1.move("west",game.getMap());
@@ -320,9 +358,11 @@ class PlayerBaseTest {
         }
     }
 
+    /**
+     * //Test-case 19: Win scenario
+     */
     @Test
     public void winScenario() throws Exception {
-        //Test-case 19: Win scenario
         game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
         game.getMap().Icebergs[0][1].Add_currentPlayers(p2);
         Charge charge = new Charge();
