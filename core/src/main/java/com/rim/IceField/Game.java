@@ -19,10 +19,10 @@ public class Game {
 
 
     //Constructor
-    public Game(ArrayList<PlayerBase> players) {
+    public Game(ArrayList<PlayerBase> players, Map map) {
         this.players = players;
-        map = new Map();
-        currentRound += 1;
+        this.map = map;
+        currentRound  = 0;
         randomBlow = new boolean[maxRounds];
 
 
@@ -35,11 +35,11 @@ public class Game {
     public  ArrayList<String> processInput() {
         String s;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a string");
+        System.out.println("Enter a string: \n");
         s = sc.nextLine();
         System.out.println("You entered String "+s);
         sc.close();
-        return new ArrayList<String>(Arrays.asList(s.split("")));
+        return new ArrayList<String>(Arrays.asList(s.split(" ")));
     }
 
 
