@@ -14,6 +14,7 @@ class GameTest {
        ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
        Eskimo e1 = new Eskimo();
        Eskimo e2 = new Eskimo();
+       //Map map = new Map();
        Game game = new Game(playersList);
        playersList.add(e1);
        playersList.add(e2);

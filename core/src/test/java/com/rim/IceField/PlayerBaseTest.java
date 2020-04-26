@@ -13,6 +13,7 @@ class PlayerBaseTest {
     PlayerBase p1;
     PlayerBase p2;
     ArrayList<PlayerBase> playersList;
+    //Map map;
     Game game;
 
 
@@ -23,9 +24,9 @@ class PlayerBaseTest {
         playersList = new ArrayList<PlayerBase>();
         playersList.add(p1);
         playersList.add(p2);
+        //map = new Map();
         game = new Game(playersList);
         game.getMap().generateItemsOnMap();
-
     }
 
     @Test

@@ -96,54 +96,43 @@ public boolean checkDir(String str, Map map) {
     public boolean move(String str, Map map) throws Exception {
 
 
-        if(checkDir(str,map)&&"north".equals(str))
-        {
+        if (checkDir(str, map) && "north".equals(str)) {
             currentIceberg.Remove_currentPlayers(this);
             currentIceberg = map.Icebergs[currentIceberg.y - 1][currentIceberg.x];
             currentIceberg.Add_currentPlayers(this);
             this.currentIceberg = currentIceberg;
-        }
-
-       else if(checkDir(str,map)&&"south".equals(str))
-        {
+        } else if (checkDir(str, map) && "south".equals(str)) {
             currentIceberg.Remove_currentPlayers(this);
             currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
             currentIceberg.Add_currentPlayers(this);
             this.currentIceberg = currentIceberg;
-        }
-
-      else  if(checkDir(str,map)&&"west".equals(str))
-        {
+        } else if (checkDir(str, map) && "west".equals(str)) {
             currentIceberg.Remove_currentPlayers(this);
             currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
             currentIceberg.Add_currentPlayers(this);
             this.currentIceberg = currentIceberg;
-        }
-
-       else if(checkDir(str,map)&&"east".equals(str))
-        {
+        } else if (checkDir(str, map) && "east".equals(str)) {
             currentIceberg.Remove_currentPlayers(this);
             currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
             currentIceberg.Add_currentPlayers(this);
             this.currentIceberg = currentIceberg;
-        }
-       else{
+        } else {
             System.out.println("Sorry, you are on the edge of the map, no way to move up");
             return false;
         }
 
-            if (currentIceberg.getType().equals("hole")) this.fall();
-            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
-                System.out.println("Too many people on this iceberg! It has cracked.");
-                for(PlayerBase p1 :  this.currentIceberg.getCurrentPlayers())
-                {
-                    p1.fall();
-                    currentIceberg.Add_drowningPlayers(p1);
-                }
-                this.getCurrentIceberg().Add_drowningPlayers(this);
-                this.fall();
-                throw new Exception("This iceberg falls...");
+        if (currentIceberg.getType().equals("hole")) this.fall();
+        else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+            System.out.println("Too many people on this iceberg! It has cracked.");
+            for (PlayerBase p1 : this.currentIceberg.getCurrentPlayers()) {
+                p1.fall();
+                currentIceberg.Add_drowningPlayers(p1);
             }
+            this.getCurrentIceberg().Add_drowningPlayers(this);
+            this.fall();
+            throw new Exception("This iceberg falls...");
+
+
         }
         return true;
     }

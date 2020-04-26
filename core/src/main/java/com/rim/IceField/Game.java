@@ -1,4 +1,7 @@
 package com.rim.IceField;
+
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -9,14 +12,15 @@ public class Game {
 
     //Instance of Map, shared between the classes
     private final Map map;
-    private final ArrayList<PlayerBase> players; // the players belong to the game
+    private  ArrayList<PlayerBase> players; // the players belong to the game
     private  final int maxRounds = 10;
     private  int currentRound;
-    private final boolean[] randomBlow; //if the array element is true, the wind would blow
+    private  boolean[] randomBlow; //if the array element is true, the wind would blow
 
 
     //Constructor
     public Game(ArrayList<PlayerBase> players) {
+        map = new Map();
         this.players = players;
         currentRound  = 0;
         randomBlow = new boolean[maxRounds];
@@ -81,8 +85,8 @@ public class Game {
 
         //Checking if all the players stand on the same iceberg and it's not a hole
         //MODIFIED TO 2 FOR TESTING PURPOSES
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
                 if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole"))
                     playersCheck = true;
             }
@@ -100,7 +104,7 @@ public class Game {
 
 
     //Static method for starting a new game.
-    public void newGame(ArrayList<PlayerBase> playersList) throws Exception {
+    public void newGame() throws Exception {
 
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");

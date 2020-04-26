@@ -1,6 +1,5 @@
 package com.rim.IceField;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +18,7 @@ class BlizzardTest {
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(e1);
         playersList.add(e2);
+        Map map = new Map();
         Game game = new Game(playersList);
         game.getMap().generateItemsOnMap();
         game.getMap().Icebergs[0][0].Add_currentPlayers(e1);
