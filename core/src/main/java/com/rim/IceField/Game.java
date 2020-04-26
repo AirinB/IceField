@@ -12,14 +12,15 @@ public class Game {
 
     //Instance of Map, shared between the classes
     private final Map map;
-    private final ArrayList<PlayerBase> players; // the players belong to the game
+    private  ArrayList<PlayerBase> players; // the players belong to the game
     private  final int maxRounds = 10;
     private  int currentRound;
-    private final boolean[] randomBlow; //if the array element is true, the wind would blow
+    private  boolean[] randomBlow; //if the array element is true, the wind would blow
 
 
     //Constructor
     public Game(ArrayList<PlayerBase> players) {
+        map = new Map();
         this.players = players;
         currentRound  = 0;
         randomBlow = new boolean[maxRounds];
@@ -103,7 +104,7 @@ public class Game {
 
 
     //Static method for starting a new game.
-    public void newGame(ArrayList<PlayerBase> playersList) throws Exception {
+    public void newGame() throws Exception {
 
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
@@ -115,7 +116,9 @@ public class Game {
                 Blizzard.blow(players, map);
             }
             for (PlayerBase player : players) {
+                player.isTurn = true;
                 Turn(player);
+                player.isTurn = false;
             }
             currentRound++;
         }
@@ -314,5 +317,48 @@ public class Game {
         System.out.println("fire - will fire the gun if all conditions for firing it are met.");
         System.out.println("inv - will display all items in current player's inventory.");
         System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
+    }
+
+
+
+
+
+
+
+    //for testing at this stage
+
+    public  boolean isWinForTest() {
+        //Checking if all the conditions are preserved for winning the game
+
+        boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
+        //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
+
+        //Checking if all the players stand on the same iceberg and it's not a hole
+        //MODIFIED TO 2 FOR TESTING PURPOSES
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole"))
+                    playersCheck = true;
+            }
+        }
+
+        //Checking if flare gun was collected
+        if (playersCheck) {
+            if (Inventory.countGunItems == 3) {
+                System.out.println("The flare gun is collected");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public  boolean GameOverForTest() {
+        //Checking if all the conditions are preserved for winning the game
+        if (isWinForTest()) {
+            System.out.println("Game Over! You Win");
+            return true;
+        }
+
+        return false;
     }
 }

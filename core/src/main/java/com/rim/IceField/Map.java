@@ -125,7 +125,7 @@ public class Map {
         third.y = 1;
         third.x = 0;
 
-        Iceberg forth = new Iceberg(true, 4, "instable", 1, false, 1, null);
+        Iceberg forth = new Iceberg(true, 1, "instable", 1, false, 1, null);
         Icebergs[1][1] = forth;
         forth.y = 1;
         forth.x = 1;

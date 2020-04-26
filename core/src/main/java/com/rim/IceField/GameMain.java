@@ -63,8 +63,10 @@ public class GameMain extends BasicGame {
                     break;
             }
         }
-        Map map = new Map();
-        Game g1 = new Game(playersList );
+
+        //Map map = new Map();
+        Game g1 = new Game(playersList);
+
         //Will create the items on icebergs and the icebergs themeselves. We have defined icebergs and items on the in class Map to use for the use cases.
         g1.getMap().generateItemsOnMap();
 
@@ -83,7 +85,7 @@ public class GameMain extends BasicGame {
 
         }
         //We start the game. This method will actually generate the items on map.
-        g1.newGame(playersList);
+        g1.newGame();
         Scanner in = new Scanner(System.in);
 
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -98,7 +100,7 @@ public class GameMain extends BasicGame {
                 String inpt = in.nextLine();
             //    String inpt =  System.console().readLine();
 
-                String[] strr = inpt.split(" ");
+                String strr[] = inpt.split(" ");
                 ArrayList<String> inputArr = new ArrayList<String>(Arrays.asList(strr));
                 g1.UserInteraction(inputArr, playersList.get(i));
 
@@ -199,7 +201,7 @@ public class GameMain extends BasicGame {
                             //Player dies
                             playersList.get(0).die();
                             //if a player dies the game is over and they lose
-                            g1.GameOver();
+                            //Game.GameOver();
                             System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         } else {
