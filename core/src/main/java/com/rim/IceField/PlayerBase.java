@@ -100,25 +100,51 @@ public boolean checkDir(String str, Map map) {
      * @throws Exception if the player falls
      */
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
-    public boolean move(String str, Map map) throws Exception {
+    public boolean move(String dir, Map map) throws Exception {
+        // up-> y--, down-> y++, left--> x--, right--> x++;
+        if ("north".equals(dir)) { //Up
+            currentIceberg.Remove_currentPlayers(this);
+            if (currentIceberg.y - 1 < 0) {
+                System.out.println("Sorry, you are on the edge of the map, no way to move up");
+            } else {
+                currentIceberg = map.Icebergs[currentIceberg.y - 1][currentIceberg.x];
+                currentIceberg.Add_currentPlayers(this);
+            }
 
+            if (currentIceberg.getType().equals("hole")) this.fall();
+            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                this.fall();
+                throw new Exception("This iceberg falls...");
+            }
+        } else if ("south".equals(dir)) {
+            currentIceberg.Remove_currentPlayers(this);
+            if (currentIceberg.y + 1 > 9) {
+                System.out.println("Sorry, you are on the edge of the map, no way to move down");
+            } else {
+                currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
+                currentIceberg.Add_currentPlayers(this);
+            }
 
-        if (checkDir(str, map) && "north".equals(str)) {
+            if (currentIceberg.getType().equals("hole")) this.fall();
+            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                this.fall();
+                throw new Exception("This iceberg falls...");
+            }
+        } else if ("west".equals(dir)) {
             currentIceberg.Remove_currentPlayers(this);
-            currentIceberg = map.Icebergs[currentIceberg.y - 1][currentIceberg.x];
-            currentIceberg.Add_currentPlayers(this);
-            this.currentIceberg = currentIceberg;
-        } else if (checkDir(str, map) && "south".equals(str)) {
-            currentIceberg.Remove_currentPlayers(this);
-            currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
-            currentIceberg.Add_currentPlayers(this);
-            this.currentIceberg = currentIceberg;
-        } else if (checkDir(str, map) && "west".equals(str)) {
-            currentIceberg.Remove_currentPlayers(this);
-            currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
-            currentIceberg.Add_currentPlayers(this);
-            this.currentIceberg = currentIceberg;
-        } else if (checkDir(str, map) && "east".equals(str)) {
+            if (currentIceberg.x - 1 < 0) {
+                System.out.println("Sorry, you are on the edge of the map, no way to move left");
+            } else {
+                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
+                currentIceberg.Add_currentPlayers(this);
+            }
+
+            if (currentIceberg.getType().equals("hole")) this.fall();
+            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                this.fall();
+                throw new Exception("This iceberg falls...");
+            }
+        } else if ("east".equals(dir)) {
             currentIceberg.Remove_currentPlayers(this);
             currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
             currentIceberg.Add_currentPlayers(this);

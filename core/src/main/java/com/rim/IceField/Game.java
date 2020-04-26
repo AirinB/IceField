@@ -145,8 +145,15 @@ public class Game {
             }
             for (PlayerBase player : players) {
                 player.isTurn = true;
-                Turn(player);
-                player.isTurn = false;
+
+                try {
+                    Turn(player);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    player.isTurn = false;
+                }
+
             }
             currentRound++;
         }
