@@ -25,12 +25,12 @@ public class Iceberg {
      * @param item what item is on the iceberg or null if there is no item
      */
     public Iceberg(boolean isStable, String type, int maxNumOfPlayers,
-                   boolean hasIgloo, int amountOfSnow, ItemBase item) {
+                   int amountOfSnow, ItemBase item) {
         this.isStable = isStable;
         //this.num = num;
         this.type = type;
         this.maxNumOfPlayers = maxNumOfPlayers;
-        this.hasIgloo = hasIgloo;
+        //this.hasIgloo = hasIgloo;
         this.amountOfSnow = amountOfSnow;
         this.item = item;
 
