@@ -40,7 +40,6 @@ public abstract class PlayerBase extends TimerTask {
 
     public void setCurrentIceberg(Iceberg iceberg) {
         currentIceberg = iceberg;
-
     }
 
 
@@ -50,6 +49,44 @@ public abstract class PlayerBase extends TimerTask {
         inventory = new Inventory();
     }
 
+public boolean checkDir(String str, Map map) {
+    if ("north".equals(str)) { //Up
+        currentIceberg.Remove_currentPlayers(this);
+        if (currentIceberg.y - 1 < 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if ("south".equals(str)) {
+
+        if (currentIceberg.y + 1 > 9) {
+            return false;
+        } else {
+            return true;
+        }
+
+    } else if ("west".equals(str)) {
+
+        if (currentIceberg.x - 1 < 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if ("east".equals(str)) {
+
+        if (currentIceberg.x + 1 > 9) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    return true;
+}
+
+
+
     public String getTag() {
         return tag;
     }
@@ -57,57 +94,43 @@ public abstract class PlayerBase extends TimerTask {
 
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
     public boolean move(String str, Map map) throws Exception {
-        // up-> y--, down-> y++, left--> x--, right--> x++;
-        if ("north".equals(str)) { //Up
-            currentIceberg.Remove_currentPlayers(this);
-            if (currentIceberg.y - 1 < 0) {
-                System.out.println("Sorry, you are on the edge of the map, no way to move up");
-            } else {
-                currentIceberg = map.Icebergs[currentIceberg.y - 1][currentIceberg.x];
-                currentIceberg.Add_currentPlayers(this);
-            }
 
-            if (currentIceberg.getType().equals("hole")) this.fall();
-            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
-                this.fall();
-                throw new Exception("This iceberg falls...");
-            }
-        } else if ("south".equals(str)) {
-            currentIceberg.Remove_currentPlayers(this);
-            if (currentIceberg.y + 1 > 9) {
-                System.out.println("Sorry, you are on the edge of the map, no way to move down");
-            } else {
-                currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
-                currentIceberg.Add_currentPlayers(this);
-            }
 
-            if (currentIceberg.getType().equals("hole")) this.fall();
-            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
-                this.fall();
-                throw new Exception("This iceberg falls...");
-            }
-        } else if ("west".equals(str)) {
+        if(checkDir(str,map)&&"north".equals(str))
+        {
             currentIceberg.Remove_currentPlayers(this);
-            if (currentIceberg.x - 1 < 0) {
-                System.out.println("Sorry, you are on the edge of the map, no way to move left");
-            } else {
-                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
-                currentIceberg.Add_currentPlayers(this);
-            }
+            currentIceberg = map.Icebergs[currentIceberg.y - 1][currentIceberg.x];
+            currentIceberg.Add_currentPlayers(this);
+            this.currentIceberg = currentIceberg;
+        }
 
-            if (currentIceberg.getType().equals("hole")) this.fall();
-            else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
-                this.fall();
-                throw new Exception("This iceberg falls...");
-            }
-        } else if ("east".equals(str)) {
+       else if(checkDir(str,map)&&"south".equals(str))
+        {
             currentIceberg.Remove_currentPlayers(this);
-            if (currentIceberg.x + 1 > 9) {
-                System.out.println("Sorry, you are on the edge of the map, no way to move right");
-            } else {
-                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
-                currentIceberg.Add_currentPlayers(this);
-            }
+            currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
+            currentIceberg.Add_currentPlayers(this);
+            this.currentIceberg = currentIceberg;
+        }
+
+      else  if(checkDir(str,map)&&"west".equals(str))
+        {
+            currentIceberg.Remove_currentPlayers(this);
+            currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
+            currentIceberg.Add_currentPlayers(this);
+            this.currentIceberg = currentIceberg;
+        }
+
+       else if(checkDir(str,map)&&"east".equals(str))
+        {
+            currentIceberg.Remove_currentPlayers(this);
+            currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
+            currentIceberg.Add_currentPlayers(this);
+            this.currentIceberg = currentIceberg;
+        }
+       else{
+            System.out.println("Sorry, you are on the edge of the map, no way to move up");
+            return false;
+        }
 
             if (currentIceberg.getType().equals("hole")) this.fall();
             else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
@@ -137,14 +160,13 @@ public abstract class PlayerBase extends TimerTask {
             ArrayList<PlayerBase> playerBases = new ArrayList<PlayerBase>();
 
             if(dir.equals("north")){
-               playerBases =  map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
+               playerBases = map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
             }else if(dir.equals("south")){
                 playerBases = map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getCurrentPlayers();
             }else if(dir.equals("west")){
                 playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getCurrentPlayers();
             }else if(dir.equals("east")){
                 playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getCurrentPlayers();
-
             }
 
 
@@ -154,18 +176,17 @@ public abstract class PlayerBase extends TimerTask {
                 if (player.getID() == Integer.parseInt(playerID)) {
                     //Check if the player is drowning
                     if (player.isDrowning) {
-                        if (checkSavableDistance(player)) {
+
                             System.out.println(player.tag + " has been saved!");
                             player.isDrowning = false;  //player is saved , so it's not drowning anymore
                             player.timer.cancel();
+                            player.currentIceberg = this.currentIceberg;
+                            this.currentIceberg.Add_currentPlayers(player);
                             break;
-                        } else {
-                            System.out.println("The given player is too far to be saved, get closer to save them.");
-                        }
 
                     } else {
                         System.out.println("You are trying to save a player that is not in the water!");
-                        ;
+
                     }
 
                 }
@@ -188,7 +209,8 @@ public abstract class PlayerBase extends TimerTask {
     }
 
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
-    public void useSkill(Map map, String dir) throws Exception {
+    public boolean useSkill(Map map, String str) throws Exception {
+        return true;
     }
 
     //Increases the heat level of the player.

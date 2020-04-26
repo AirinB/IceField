@@ -9,17 +9,16 @@ public class Game {
 
     //Instance of Map, shared between the classes
     private final Map map;
-    private  ArrayList<PlayerBase> players; // the players belong to the game
+    private final ArrayList<PlayerBase> players; // the players belong to the game
     private  final int maxRounds = 10;
     private  int currentRound;
-    private  boolean[] randomBlow; //if the array element is true, the wind would blow
+    private final boolean[] randomBlow; //if the array element is true, the wind would blow
 
 
     //Constructor
-    public Game(ArrayList players) {
+    public Game(ArrayList<PlayerBase> players) {
         this.players = players;
-        map = new Map();
-        currentRound = 0;
+        currentRound  = 0;
         randomBlow = new boolean[maxRounds];
 
 
@@ -32,11 +31,11 @@ public class Game {
     public  ArrayList<String> processInput() {
         String s;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a string\n");
+        System.out.println("Enter a string: \n");
         s = sc.nextLine();
         System.out.println("You entered String "+s);
         sc.close();
-        return new ArrayList<String>(Arrays.asList(s.split("")));
+        return new ArrayList<String>(Arrays.asList(s.split(" ")));
     }
 
 
@@ -101,7 +100,7 @@ public class Game {
 
 
     //Static method for starting a new game.
-    public void newGame() throws Exception {
+    public void newGame(ArrayList<PlayerBase> playersList) throws Exception {
 
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
