@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 class BlizzardTest {
 
@@ -17,7 +19,7 @@ class BlizzardTest {
         playersList.add(e1);
         playersList.add(e2);
         Game game = new Game(playersList);
-        game.newGame();
+        game.getMap().generateItemsOnMap();
         game.getMap().Icebergs[0][0].Add_currentPlayers(e1);
         game.getMap().Icebergs[1][0].Add_currentPlayers(e2);
 
@@ -51,11 +53,13 @@ class BlizzardTest {
         Blizzard.blow(playersList, game.getMap());
         Assertions.assertEquals(4,e1.heatLevel);
         Assertions.assertEquals(0,e2.heatLevel);
-        Assertions.assertTrue(e2.isDead);
+        assertTrue(e2.isDead);
         //Test-case 20: Lose scenario of the game because of Blizzard
-        //assertEquals(true, game.isGameLost());
+        assertTrue(game.isGameLost());
 
 
     }
+
+
 }
 

@@ -92,7 +92,7 @@ public class GameMain extends BasicGame {
                 String inpt = in.nextLine();
             //    String inpt =  System.console().readLine();
 
-                String[] strr = inpt.split(" ");
+                String strr[] = inpt.split(" ");
                 ArrayList<String> inputArr = new ArrayList<String>(Arrays.asList(strr));
                 g1.UserInteraction(inputArr, playersList.get(i));
 
@@ -193,7 +193,7 @@ public class GameMain extends BasicGame {
                             //Player dies
                             playersList.get(0).die();
                             //if a player dies the game is over and they lose
-                            g1.GameOver();
+                            //Game.GameOver();
                             System.out.println("------------------------------------------------------------------END OF TEST CASE------------------------------------------------------------------");
                             return;
                         } else {

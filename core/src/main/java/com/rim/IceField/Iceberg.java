@@ -108,21 +108,10 @@ public class Iceberg {
     }
 
     public void Add_currentPlayers(PlayerBase p) {
-        if(currentPlayers.size() < maxNumOfPlayers) {
-            currentPlayers.add(p);
-            p.setCurrentIceberg(this);
-            //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
-        }
-        else
-        {
-            System.out.println("Too many people on this iceberg! It has cracked.");
-            for(PlayerBase pl : currentPlayers)
-            {
-                pl.fall();
-                this.drowningPlayers.add(pl);
-            }
-        }
 
+        currentPlayers.add(p);
+        p.setCurrentIceberg(this);
+        //  System.out.println("Player" + p.ID + " was added to the iceberg number: " + num);
     }
 
     public void Remove_currentPlayers(PlayerBase p) {

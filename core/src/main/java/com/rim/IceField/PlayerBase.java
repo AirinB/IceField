@@ -40,6 +40,7 @@ public abstract class PlayerBase extends TimerTask {
 
     public void setCurrentIceberg(Iceberg iceberg) {
         currentIceberg = iceberg;
+
     }
 
 
@@ -110,6 +111,13 @@ public abstract class PlayerBase extends TimerTask {
 
             if (currentIceberg.getType().equals("hole")) this.fall();
             else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                System.out.println("Too many people on this iceberg! It has cracked.");
+                for(PlayerBase p1 :  this.currentIceberg.getCurrentPlayers())
+                {
+                    p1.fall();
+                    currentIceberg.Add_drowningPlayers(p1);
+                }
+                this.getCurrentIceberg().Add_drowningPlayers(this);
                 this.fall();
                 throw new Exception("This iceberg falls...");
             }
@@ -126,16 +134,17 @@ public abstract class PlayerBase extends TimerTask {
                 return false;
             }
 
-            ArrayList<PlayerBase> playerBases = null;
+            ArrayList<PlayerBase> playerBases = new ArrayList<PlayerBase>();
 
             if(dir.equals("north")){
                playerBases =  map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
             }else if(dir.equals("south")){
-                currentIceberg = map.Icebergs[currentIceberg.y + 1][currentIceberg.x];
+                playerBases = map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getCurrentPlayers();
             }else if(dir.equals("west")){
-                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x - 1];
+                playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getCurrentPlayers();
             }else if(dir.equals("east")){
-                currentIceberg = map.Icebergs[currentIceberg.y][currentIceberg.x + 1];
+                playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getCurrentPlayers();
+
             }
 
 
