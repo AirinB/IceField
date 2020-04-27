@@ -27,6 +27,7 @@ public class Eskimo extends PlayerBase {
 
     /**
      * Constructs the igloo in the showed direction
+     *
      * @param map map of the game
      * @param dir direction
      * @return true if the action was successful
@@ -34,7 +35,7 @@ public class Eskimo extends PlayerBase {
     @Override
     public boolean useSkill(Map map, String dir) {
 
-        if ("north".equals(dir)){
+        if ("north".equals(dir)) {
             if (currentIceberg.y - 1 < 0) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
                 return false;
@@ -47,7 +48,6 @@ public class Eskimo extends PlayerBase {
                     return false;
                 }
             }
-
         } else if ("south".equals(dir)) {
 
             if (currentIceberg.y + 1 > 9) {
@@ -61,7 +61,7 @@ public class Eskimo extends PlayerBase {
                     System.out.println("There is an igloo on this iceberg already!");
                     return false;
                 }
-        }
+            }
 
         } else if ("west".equals(dir)) {
 
@@ -82,7 +82,7 @@ public class Eskimo extends PlayerBase {
 
             if (currentIceberg.x + 1 > 9) {
                 System.out.println("Sorry, you are on the edge of the map, impossible to yse skill");
-                return  false;
+                return false;
             } else {
                 if (!map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getHasIgloo()) {
                     System.out.println("An Igloo has been created!");
@@ -93,15 +93,13 @@ public class Eskimo extends PlayerBase {
                 }
             }
 
-        }
-
-        else
-        {
+        } else {
             System.out.println("No such direction, try again");
             return false;
         }
 
         return true;
-    }
 
+
+    }
 }
