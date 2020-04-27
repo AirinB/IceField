@@ -81,7 +81,9 @@ public class GameMain extends BasicGame {
         }
 
         Map map = new Map();
-        map.generateStaticMap(playersList);
+        //map.generateStaticMap(playersList);
+        map.loadMap();
+        map.showMap();
         Game game = new Game(playersList, map);
 
         System.out.println("If you want to load the inputs from file, enter 1");
