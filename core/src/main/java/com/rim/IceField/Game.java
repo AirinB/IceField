@@ -136,11 +136,11 @@ public class Game {
                 Blizzard.blow(players, map);
             }
             for (PlayerBase player : players) {
-                ArrayList<String> input = processInput();
+
                 player.isTurn = true;
 
                 try {
-                    Turn(player, input);
+                    Turn(player);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -154,7 +154,9 @@ public class Game {
     }
         //New game when the inputs come from a file
         //When calling the inputs will be received by calling method loadInputs(..).
-        public void newGame (ArrayList < PlayerBase > playersList, ArrayList < String > inputs) throws Exception {
+        public void newGameFromFile (ArrayList < PlayerBase > playersList, ArrayList<ArrayList<String>> inputs) throws Exception {
+            map.generateItemsOnMap();//Generating items on map
+
             int count = 0;
             //the case when the inputs are not comming from a file
             map.generateItemsOnMap();           //Generating items on map
@@ -167,14 +169,24 @@ public class Game {
                     Blizzard.blow(players, map);
                 }
                 for (PlayerBase player : players) {
-                    ArrayList<String> fourInputs = new ArrayList<String>();
-                    for (int i = 0; i < 4; i++) {
-                        fourInputs.add(inputs.get(count));
-                        count++;
-                    }
-                    Turn(player, fourInputs);
+                 player.isTurn = true;
+
+                 try{
+                     ArrayList<ArrayList<String>> fourInputs = new ArrayList<ArrayList<String>>();
+                     for(int i = 0; i<4; i++)
+                     {
+                         fourInputs.add(inputs.get(i+count));
+                         count++;
+                     }
+                     TurnFromFile(player, fourInputs);
+                 }
+                 catch(Exception e){
+                     e.printStackTrace();
+                 } finally{
+                     player.isTurn = false;
+                 }
                 }
-                currentRound++;
+
             }
 
             //there can be a limited number of rounds
@@ -186,12 +198,13 @@ public class Game {
      * @throws Exception if its not players turn, it trows a exception
      */
 
-        public void Turn (PlayerBase player, ArrayList<String> userInput) throws Exception {
+        public void Turn (PlayerBase player) throws Exception {
             if (!player.isTurn()) throw new Exception("It's not this player's turn");
             int round = 0;
             while (round < 4) {
                 try {
-                    if (UserInteraction(userInput, player)) {// the round increases only if the action was successful
+                    ArrayList<String> input = processInput();
+                    if (UserInteraction(input, player)) {// the round increases only if the action was successful
                         round++;
                     }
                 } catch (Exception e) {
@@ -199,6 +212,21 @@ public class Game {
                 }
             }
             //After the player makes their 4 moves we need to give the turn to the next player
+        }
+
+        public void TurnFromFile(PlayerBase player, ArrayList<ArrayList<String>> fileInputs) throws Exception
+        {
+            if (!player.isTurn()) throw new Exception("It's not this player's turn");
+            int round = 0;
+            while (round < 4) {
+                try {
+                    if (UserInteraction(fileInputs.get(round), player)) {// the round increases only if the action was successful
+                        round++;
+                    }
+                } catch (Exception e) {
+                    //end of turn
+                }
+            }
         }
 
 
@@ -286,17 +314,32 @@ public class Game {
             } else if (input.get(0).equals("inv")) {
                 System.out.println("Action accepted!");
                 printInventory(player);
+                return false;
             } else if (input.get(0).equals("help")) {
                 System.out.println("Action accepted!");
                 printHelp();
-                return true;
+                return false;
 
             } else if (input.get(0).equals("info")) {
                 int partsCollected = getPlayerInfo(player);
                 System.out.println("Parts collected:" + partsCollected);
-                return true;
+                System.out.println("Action accepted!");
+                return false;
 
-            } else {
+            }
+            else if(input.get(0).equals("exit")){
+                System.exit(0);
+                System.out.println("Action accepted!");
+                return false;
+            }
+            else if(input.get(0).equals("map"))
+            {
+                map.showMap();
+                System.out.println("Action accepted!");
+                return false;
+            }
+
+            else {
                 System.out.println("There is no such command. Enter 'help' to see available actions");
                 return false;
             }
@@ -391,7 +434,11 @@ public class Game {
             System.out.println("fire - will fire the gun if all conditions for firing it are met.");
             System.out.println("inv - will display all items in current player's inventory.");
             System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
+            System.out.println("exit - Will exit the game.");
+            System.out.println("map - will show the map to the user.");
         }
+
+        //Loads all inputs and returns them as a List
 
         public ArrayList<ArrayList<String>> loadInputs (String path) throws FileNotFoundException {
             File inputs = new File(path);
