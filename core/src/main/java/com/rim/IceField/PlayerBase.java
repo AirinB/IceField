@@ -393,10 +393,11 @@ public boolean checkDir(String str, Map map) {
      * from the iceberg
      */
     //Removes snow from the iceberg
-    public void removeSnow() {
-        if (currentIceberg.getAmountOfSnow() <= 0) return;
+    public boolean removeSnow() {
+        if (currentIceberg.getAmountOfSnow() <= 0) return false;
         int currentSnow = currentIceberg.getAmountOfSnow();
         currentIceberg.setAmountOfSnow(currentSnow - 1);     //amount of snow is decreased by 1
+        return true;
     }
 
     /**
