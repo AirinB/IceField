@@ -36,6 +36,17 @@ public class GameMain extends BasicGame {
 
 
     public static void main(String[] args) throws Exception {
+        ItemBase shovel = new Shovel();
+        ItemBase charge = new Charge();
+        ItemBase rope = new Rope();
+
+        ItemBase food = new Food();
+
+        ItemBase flare = new Food();
+
+        ItemBase divingSuit = new DivingSuit();
+
+        ItemBase gun = new Food();
 
 
         System.out.println("Introduce the number of players in the game: ");
@@ -50,23 +61,43 @@ public class GameMain extends BasicGame {
             switch (m) {
                 case 1:
                     Eskimo e = new Eskimo();
+                    e.inventory.addItem(food);
+                    e.inventory.addItem(flare);
+                    e.inventory.addItem(rope);
+                    e.inventory.addItem(charge);
                     playersList.add(e);
                     System.out.println("New Eskimo added.");
                     break;
                 case 2:
                     PolarExplorer pe = new PolarExplorer();
+                    pe.inventory.addItem(shovel);
+                    pe.inventory.addItem(divingSuit);
+                    pe.inventory.addItem(gun);
+
                     playersList.add(pe);
                     System.out.println("New Polar Explorer added.");
                     break;
             }
         }
+
         Map map = new Map();
-        //map.generateStaticMap();
-        map.loadMap();
-        map.showMap();
+        map.generateStaticMap(playersList);
         Game game = new Game(playersList, map);
 
-        game.newGame();
+        System.out.println("If you want to load the inputs from file, enter 1");
+
+        if( input.nextInt() == 1){
+            //newGame from file
+            Scanner scannerChoice = new Scanner(System.in);
+            System.out.println("Enter the path\n");
+            String path = scannerChoice.nextLine();
+            scannerChoice.close();
+            ArrayList<ArrayList<String>> inputsFromFile = game.loadInputs(path);
+            game.newGameFromFile(inputsFromFile );
+        }else{
+            game.newGame();
+        }
+
 
 
     }

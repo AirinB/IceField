@@ -3,7 +3,7 @@ package com.rim.IceField;
 public class Rope extends ItemBase {
     public Rope() {
         super();
-        tag = "Rope";
+        tag = "rope";
     }
 
     /**
@@ -14,7 +14,7 @@ public class Rope extends ItemBase {
      * inventory
      */
     @Override
-    public boolean useItem(PlayerBase player) throws Exception {
+    public boolean useItem(PlayerBase player){
         super.useItem(player);
         //we just return false, because we have the method save player that does this functionaity for the rope
         return false;

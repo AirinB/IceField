@@ -21,49 +21,39 @@ public abstract class ItemBase {
     }
 
     /**
-     *
      * @param player that wants to use the item
      * @return false if the item can't be used
-     * @throws Exception if item is not obtaines
-     * by the player or is not suitable for the usage
      */
-    public boolean useItem(PlayerBase player) throws Exception {
+    public boolean useItem(PlayerBase player) {
+        return false;
+    }
 
-        try {
-            //an item cannot be used if its not in the inventory or its not active
-            if (!obtained || !active) throw new Exception("the Item is not owned or not active");
-            return false;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+
+        public String getTag () {
+            return tag;
         }
 
-    }
+        public int getId () {
+            return id;
+        }
 
-    public String getTag() {
-        return tag;
-    }
+        public int getPosX () {
+            return posX;
+        }
 
-    public int getId() {
-        return id;
-    }
+        public int getPosY () {
+            return posY;
+        }
 
-    public int getPosX() {
-        return posX;
-    }
+        public boolean isObtained () {
+            return obtained;
+        }
 
-    public int getPosY() {
-        return posY;
-    }
+        public boolean isActive () {
+            return active;
+        }
 
-    public boolean isObtained() {
-        return obtained;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
 
 
 }

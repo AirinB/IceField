@@ -5,7 +5,7 @@ public class Food extends ItemBase {
 
     public Food() {
         super();
-        tag = "Food";
+        tag = "food";
     }
 
     /**
@@ -16,8 +16,8 @@ public class Food extends ItemBase {
      * Increases player's heat level by 1
      */
     @Override
-    public boolean useItem(PlayerBase player) throws Exception {
-        super.useItem(player);
+    public boolean useItem(PlayerBase player){
+
         try {
             //When the player used the item food
             // this would increase the heat level by 1

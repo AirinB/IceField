@@ -4,7 +4,7 @@ public class DivingSuit extends ItemBase {
 
     public DivingSuit() {
         super();
-        tag = "Diving Suit";
+        tag = "diving suit";
     }
 
     /**
@@ -15,7 +15,7 @@ public class DivingSuit extends ItemBase {
      * If player uses this item he won't die in the water
      */
     @Override
-    public boolean useItem(PlayerBase player) throws Exception {
+    public boolean useItem(PlayerBase player){
         super.useItem(player);
         try {
 

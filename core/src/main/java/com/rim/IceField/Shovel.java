@@ -3,7 +3,7 @@ package com.rim.IceField;
 public class Shovel extends ItemBase {
     public Shovel() {
         super();
-        tag = "Shovel";
+        tag = "shovel";
     }
 
     /**
@@ -14,8 +14,8 @@ public class Shovel extends ItemBase {
      * no item in the player's inventory
      */
     @Override
-    public boolean useItem(PlayerBase player) throws Exception {
-        super.useItem(player);
+    public boolean useItem(PlayerBase player) {
+
         try {
 
             //we get the current amount of snow and set it -2
