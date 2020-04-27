@@ -125,8 +125,10 @@ public class Map {
     public void showMap() {
         for (int Y = 0; Y < MAP_HEIGHT; Y++) {
             for (int X = 0; X < MAP_WIDTH; X++) {
-                if (Icebergs[Y][X].getAmountOfSnow() > 0)
-                    System.out.print("❅");
+                if (!Icebergs[Y][X].getCurrentPlayers().isEmpty())
+                    System.out.print("O ");
+                if (Icebergs[Y][X].getAmountOfSnow() > 0 && Icebergs[Y][X].getCurrentPlayers().isEmpty())
+                    System.out.print("- ");
                 else if (Icebergs[Y][X].getAmountOfSnow() == 0) {
                     if (Icebergs[Y][X].getItem().getTag().equals("Shovel")) {
                         System.out.print("/ ");
@@ -141,7 +143,7 @@ public class Map {
                     } else if (Icebergs[Y][X].getItem().getTag().equals("Food")) {
                         System.out.print("& ");
                     } else if (Icebergs[Y][X].getItem().getTag().equals("DivingSuit")) {
-                        System.out.print("/ ");
+                        System.out.print("<>");
                     }
                 }
             }
