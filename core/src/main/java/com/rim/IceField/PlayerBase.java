@@ -171,21 +171,22 @@ public boolean checkDir(String str, Map map) {
     }
 
     /**
-     * @param playerID the player that we want to save
+     *
      * @param dir direction where the player we want to save is located
      * @param map the map of the game
      * @return returns true if the action is succesful
      */
     //Method for saving the player.
-    public boolean SavePlayer(String playerID, String dir, Map map) {
+    public boolean SavePlayer(String dir, Map map) {
         //Check every item in the inventory to see if there's a rope.
-            if(!ContainsItem("Rope"))
+            if(!ContainsItem("rope"))
             {
                 System.out.println("You don't have a rope!");
                 return false;
             }
 
             ArrayList<PlayerBase> playerBases = new ArrayList<PlayerBase>();
+            if(!checkDir(dir, map)) return false;
 
             if(dir.equals("north")){
                playerBases = map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
@@ -201,8 +202,7 @@ public boolean checkDir(String str, Map map) {
         if (playerBases != null) {
             for (PlayerBase player : playerBases) {
                 //Find the drowning player in the list of all players.
-                if (player.getID() == Integer.parseInt(playerID)) {
-                    //Check if the player is drowning
+                //Check if the player is drowning
                     if (player.isDrowning) {
 
                             System.out.println(player.tag + " has been saved!");
@@ -210,14 +210,13 @@ public boolean checkDir(String str, Map map) {
                             player.timer.cancel();
                             player.currentIceberg = this.currentIceberg;
                             this.currentIceberg.Add_currentPlayers(player);
-                            break;
 
                     } else {
                         System.out.println("You are trying to save a player that is not in the water!");
 
                     }
 
-                }
+
             }
             return true;
         }
@@ -343,7 +342,7 @@ public boolean checkDir(String str, Map map) {
                 ;
             };
 
-            timer.scheduleAtFixedRate(tt, 0, 1000);
+            timer.scheduleAtFixedRate(tt, 0, 10000);
 
         }
     }
@@ -365,27 +364,33 @@ public boolean checkDir(String str, Map map) {
      * @throws Exception if there is snow on the iceberg
      */
     //PickItem method which return the item.
-    public ItemBase pickItem() throws Exception {
+    public boolean pickItem() throws Exception {
         if (currentIceberg.getAmountOfSnow() == 0) {
             if(currentIceberg.getItem() != null) {
+                String tagString = currentIceberg.getItem().getTag();
                 inventory.items.add(currentIceberg.getItem());
                 currentIceberg.DeletePickedItem(); // Will delete the item from the iceberg after it was picked
-                String tagString = currentIceberg.getItem().getTag();
+
                 try {
                     System.out.println(tagString + " was added to your inventory.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                System.out.println(currentIceberg.getItem().tag + " was added to your inventory.");
-                return currentIceberg.getItem();
+                System.out.println( tagString + " was added to your inventory.");
+                return true;
             }
-            else {System.out.println("Impossible to pick, no such item on the iceberg.");}
+            else {
+                System.out.println("Impossible to pick, no such item on the iceberg.");
+                return false;
+            }
         } else {
             System.out.println("Level of snow on iceberg is not 0!");
-            throw new Exception("There is snow on the iceberg");
+            System.out.println("There is snow on the iceberg");
+            return false;
+
         }
-       return null;
+
     }
 
     /**

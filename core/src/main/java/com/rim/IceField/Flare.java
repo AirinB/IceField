@@ -4,6 +4,6 @@ public class Flare extends ItemBase {
 
     public Flare() {
         super();
-        tag = "Flare";
+        tag = "flare";
     }
 }

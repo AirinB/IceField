@@ -4,11 +4,11 @@ public class DivingSuit extends ItemBase {
 
     public DivingSuit() {
         super();
-        tag = "Diving Suit";
+        tag = "diving suit";
     }
 
     @Override
-    public boolean useItem(PlayerBase player) throws Exception {
+    public boolean useItem(PlayerBase player){
         super.useItem(player);
         try {
 

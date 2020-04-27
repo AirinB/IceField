@@ -1,5 +1,6 @@
 package com.rim.IceField;
 
+//TODO close scanner
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ public class Game {
     private final int maxRounds = 10;
     private int currentRound;
     private boolean[] randomBlow; //if the array element is true, the wind would blow
+    private Scanner sc;
 
 
     /**
@@ -29,6 +31,7 @@ public class Game {
         this.map = map;
         this.players = players;
         currentRound = 0;
+        sc = new Scanner(System.in);
         randomBlow = new boolean[maxRounds];
         Random objGenerator = new Random(1);
         for (int i = 1; i < 10; i++) {
@@ -43,14 +46,11 @@ public class Game {
      */
     public ArrayList<String> processInput() {
         String s;
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter command: \n");
         s = sc.nextLine();
      //   System.out.println("You entered String " + s);
-        sc.close();
         return new ArrayList<String>(Arrays.asList(s.split(" ")));
     }
-
 
         /**
      * @return true if the game ends
@@ -87,7 +87,6 @@ public class Game {
         return false;
     }
 
-
         /**
      * @return true if the players win
      */
@@ -110,12 +109,12 @@ public class Game {
 
         //Checking if flare gun was collected
         if (playersCheck) {
-            if (Inventory.countGunItems == 3) {
-                System.out.println("The flare gun is collected");
-                return true;
-            }
+//            if (Inventory.countGunItems == 3) {
+//                System.out.println("The flare gun is collected");
+//                return true;
+//            }
         }
-        return false;
+        return true;
     }
 
 
@@ -126,7 +125,7 @@ public class Game {
      * giving them the turn to make 4 moves
      */
     public void newGame() throws Exception {
-        map.generateItemsOnMap();           //Generating items on map
+        //map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
         while (currentRound < maxRounds) {
             if (randomBlow[currentRound + 1]) {
@@ -136,13 +135,15 @@ public class Game {
                 Blizzard.blow(players, map);
             }
             for (PlayerBase player : players) {
-
                 player.isTurn = true;
 
                 try {
                     Turn(player);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    if(e.getMessage().equals("End of Turn and end of Game")){
+                        return;
+                    }
                 } finally {
                     player.isTurn = false;
                 }
@@ -203,12 +204,24 @@ public class Game {
             int round = 0;
             while (round < 4) {
                 try {
-                    ArrayList<String> input = processInput();
-                    if (UserInteraction(input, player)) {// the round increases only if the action was successful
+                    ArrayList<String> userInput = processInput();
+                    if (UserInteraction(userInput, player)) {// the round increases only if the action was successful
                         round++;
+                        if(GameOver()){
+                            throw new  Exception("End of the Game");
+                        }
                     }
                 } catch (Exception e) {
                     //end of turn
+
+                    if(e.getMessage().equals("End of the Game")){
+                        sc.close();
+                        throw new Exception("End of Turn and end of Game");
+                    }
+                    if (e.getMessage().equals("The player is drowning")){
+                        System.out.println("It's next players turn. Hurry!");
+                        return;
+                    }
                 }
             }
             //After the player makes their 4 moves we need to give the turn to the next player
@@ -238,9 +251,8 @@ public class Game {
      * @return true if the action was succsfull
      */
         //Will be continuously called in the game loop.
-        public boolean UserInteraction (ArrayList < String > input, PlayerBase player)
-        {
-            boolean check;
+        public boolean UserInteraction (ArrayList < String > input, PlayerBase player) throws Exception {
+            boolean check = false;
             //For these 3 inputs that also require a direction
             if (input.get(0).equals("move") || input.get(0).equals("apply") || input.get(0).equals("save")) {
                 //Check if the direction is valid
@@ -248,10 +260,16 @@ public class Game {
                     if (input.get(0).equals("move")) {
                         try {
                             check = player.move(input.get(1), this.getMap());
+                            if(player.isDrowning){
+                                throw new Exception("The player is in water");
+                            }
                             System.out.println("Action accepted!");
                             isGameLost();
                             return check;
                         } catch (Exception e) {
+                            if(e.getMessage().equals("The player is in water")){
+                                throw new Exception("The player is drowning");
+                            }
                             e.printStackTrace();
                         }
 
@@ -271,8 +289,11 @@ public class Game {
 
                     //Will distinguish between players based on their unique ID
                     else if (input.get(0).equals("save")) {
-                        check = player.SavePlayer(input.get(1), input.get(2), map);
-                        System.out.println("Action accepted!");
+                        if(validDirection(input)) {
+                            check = player.SavePlayer(input.get(1), map);
+                            System.out.println("Action accepted!");
+
+                        }
                         return check;
                     }
 
@@ -286,20 +307,24 @@ public class Game {
 
 
             } else if (input.get(0).equals("pick")) {
-                System.out.println("Would you like to pick " + player.currentIceberg.getItem() + "press 1 for yes, 2 for no");
+                if( player.currentIceberg.getItem() == null) {
+                    System.out.println("There is no item pn the iceberg");
+                    return check;
+                }
+                System.out.println("Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
                 Scanner input1 = new Scanner(System.in);
                 int y = input1.nextInt();
                 if (y == 1) {
                     try {
-                        player.pickItem();
+                        check =  player.pickItem();
                         System.out.println("Action accepted!");
-                        return true;
+                        return check;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 return false;
-            } else if (input.get(0).equals("remove snow")) {
+            } else if (input.get(0).equals("remove") && input.get(1).equals("snow") ) {
                 check = player.removeSnow();
                 System.out.println("Action accepted!");
                 return check;
@@ -352,10 +377,10 @@ public class Game {
 
     public boolean validDirection (ArrayList < String > input)
         {
-
-            return input.get(1).equals("NORTH") || input.get(1).equals("SOUTH") || input.get(1).equals("EAST") || input.get(1).equals("WEST") ||
-                    input.get(2).equals("NORTH") || input.get(2).equals("SOUTH") || input.get(2).equals("EAST") || input.get(1).equals("WEST");
-
+            return input.get(1).equals("north") || input.get(1).equals("south") ||
+                    input.get(1).equals("east") || input.get(1).equals("west") ||
+                    input.get(2).equals("north") || input.get(2).equals("south") ||
+                    input.get(2).equals("east") || input.get(1).equals("west");
         }
 
     /**
@@ -370,6 +395,12 @@ public class Game {
             int Gun = 0;
             int rope = 0;
             int shovel = 0;
+            System.out.println("Your inventory:");
+            if(player.getInventory().getItems().size() == 0){
+                System.out.println("Your inventory is empty");
+                return;
+            }
+
             for (int i = 0; i < player.getInventory().getItems().size(); i++) {
                 if (player.getInventory().getItemAt(i).tag.equals("Food")) {
                     numFood++;
@@ -386,9 +417,10 @@ public class Game {
                 } else if (player.getInventory().getItemAt(i).tag.equals("shovel")) {
                     shovel++;
                 }
-                System.out.println("You have: " + "Food - " + numFood + "Charge - " + charge + "Flare - " + Flare + "Diving suit - "
-                        + DivingSuit + "Gun - " + Gun + "Rope - " + rope + "shovel" + shovel);
+
             }
+            System.out.println("You have: " + "Food - " + numFood + "\nCharge - " + charge + "Flare - " + Flare + "\nDiving suit - "
+                    + DivingSuit + "\nGun - " + Gun + "\nRope - " + rope + "\nshovel" + shovel);
         }
 
     /**

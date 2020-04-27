@@ -1,10 +1,8 @@
 package com.rim.IceField;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 
 //Map class
@@ -224,7 +222,7 @@ public class Map {
 */
     }
 
-    public void generateStaticMap(){
+    public void generateStaticMap(ArrayList<PlayerBase> playerBase){
         items = new ArrayList<ItemBase>();
         Iceberg[][] map = new Iceberg[4][4];
         ItemBase shovel = new Shovel();
@@ -245,15 +243,16 @@ public class Map {
         items.add(gun);
 
         System.out.println("Items were generated!");
-        Iceberg first = new Iceberg(true, "stable", 20, false, 1, null);
+        Iceberg first = new Iceberg(true, "stable", 20, false, 1, rope);
+
 
         map[0][0] = first;
         first.y = 0;
         first.x = 0;
-        first.setItem(shovel);
+        first.setItem(rope);
 
 
-        Iceberg second = new Iceberg(true, "stable", 20, false, 2, rope);
+        Iceberg second = new Iceberg(true, "hole", 20, false, 2, rope);
         map[0][1] = second;
         second.y = 0;
         second.x = 1;
@@ -273,6 +272,10 @@ public class Map {
         map[1][2] = fifth;
         fifth.y = 1;
         fifth.x = 2;
+        for (PlayerBase p: playerBase) {
+            p.setCurrentIceberg(map[0][0]);
+            map[0][0].Add_currentPlayers(p);
+        }
         System.out.println("Icebergs were generated!");
         this.Icebergs = map;
     }
