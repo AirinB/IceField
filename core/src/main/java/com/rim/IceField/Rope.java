@@ -6,6 +6,13 @@ public class Rope extends ItemBase {
         tag = "Rope";
     }
 
+    /**
+     *
+     * @param player that wants to use the item
+     * @return false
+     * @throws Exception if no item found in player's
+     * inventory
+     */
     @Override
     public boolean useItem(PlayerBase player) throws Exception {
         super.useItem(player);
