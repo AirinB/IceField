@@ -13,22 +13,22 @@ import java.util.Scanner;
 public class Game {
 
     //Instance of Map, shared between the classes
-    private final Map map;
+    private Map map;
     private ArrayList<PlayerBase> players; // the players belong to the game
     private final int maxRounds = 10;
     private int currentRound;
     private boolean[] randomBlow; //if the array element is true, the wind would blow
 
 
-        /**
-     * @param players the player that are playing the game
+    /**
+     * @param players all the players of the game
+     * @param map the map of the game
      */
-    public Game(ArrayList<PlayerBase> players) {
-        //map.load
+    public Game(ArrayList<PlayerBase> players, Map map) {
+        this.map = map;
         this.players = players;
         currentRound = 0;
         randomBlow = new boolean[maxRounds];
-        //map = new Map();
         Random objGenerator = new Random(1);
         for (int i = 1; i < 10; i++) {
             randomBlow[i] = objGenerator.nextBoolean();
@@ -411,20 +411,20 @@ public class Game {
             System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
         }
 
-        public ArrayList<String[]> loadInputs (String path) throws FileNotFoundException {
+        public ArrayList<ArrayList<String>> loadInputs (String path) throws FileNotFoundException {
             File inputs = new File(path);
             Scanner sc = new Scanner(inputs);
-            ArrayList<String[]> fromFile = new ArrayList<String[]>();
+            ArrayList<ArrayList<String>> fromFile = new ArrayList<ArrayList<String>>();
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-
-                fromFile.add(line.split(" "));
+                ArrayList<String> newLine = new ArrayList<String>(Arrays.asList(line.split(" ")));
+                fromFile.add(newLine);
             }
             return fromFile;
         }
 
         public void writeToFile(String path, String output) throws IOException {
-            FileWriter outputFile = new FileWriter(path);
+            FileWriter outputFile = new FileWriter(path, true);
             outputFile.write(output + "\n");
             outputFile.close();
         }

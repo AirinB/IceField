@@ -66,8 +66,8 @@ public class GameMain extends BasicGame {
             }
         }
 
-        //Map map = new Map();
-        Game g1 = new Game(playersList);
+        Map map = new Map();
+        Game g1 = new Game(playersList, map);
 
         //Will create the items on icebergs and the icebergs themeselves. We have defined icebergs and items on the in class Map to use for the use cases.
         g1.getMap().generateItemsOnMap();
