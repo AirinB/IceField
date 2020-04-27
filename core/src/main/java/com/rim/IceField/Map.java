@@ -21,30 +21,40 @@ public class Map {
         return Icebergs;
     }
 
+
     /**
      * Loads the map using a file and sets the needed parameters
      * @param path of the file containing map initialization
      * @throws FileNotFoundException if the file on the
      * specified path does not exist
      */
-    public void loadMap(String path) throws FileNotFoundException {
-        File map = new File(path);
-        String[] icebergs;
-        String[] splitIcebergs;
-        Scanner sc = new Scanner(map);
-        int r = 0, c = 0;
-        while(sc.hasNextLine()) {
-            String line = sc.nextLine();
-            icebergs = line.split(" ");
-            for (String iceberg : icebergs) {
-                splitIcebergs = iceberg.split(":");
-                Icebergs[r][c] = new Iceberg(Boolean.parseBoolean(splitIcebergs[0]), splitIcebergs[1],
-                        Integer.parseInt(splitIcebergs[2]),false, ranSnow(),ranItem());
-                c++;
+
+    public void loadMap(/*String path*/) throws FileNotFoundException {
+//        File map = new File(path);
+//        String[] icebergs;
+//        String[] splitIcebergs;
+//        Scanner sc = new Scanner(map);
+//        int r = 0, c = 0;
+//        while(sc.hasNextLine()) {
+//            String line = sc.nextLine();
+//            icebergs = line.split(" ");
+//            for (String iceberg : icebergs) {
+//                splitIcebergs = iceberg.split(":");
+//                Icebergs[r][c] = new Iceberg(Boolean.parseBoolean(splitIcebergs[0]), splitIcebergs[1],
+//                        Integer.parseInt(splitIcebergs[2]),false, ranSnow(),ranItem());
+//                c++;
+//            }
+//            r++;
+//        }
+        for (int j = 0; j < MAP_HEIGHT; j++) {
+            for (int i = 0; i < MAP_WIDTH; i++) {
+                Icebergs[j][i] = new Iceberg(true, "Stable",
+                          3,false, ranSnow(),ranItem());
+
             }
-            r++;
         }
     }
+
 
     /**
      * Returns the item specified
@@ -66,6 +76,7 @@ public class Map {
      *
      * @return item based on the random selector
      */
+  
     //MAKE FUNCTION THAT RETURNS RANDOM ITEMS
     public ItemBase ranItem() {
         Random rand = new Random();
@@ -97,7 +108,8 @@ public class Map {
                     return new Gun();
                 }
             default:
-                return null;
+                return new ItemBase() {
+                };
         }
         //Check if flare parts were already given
         //No items on hole
@@ -140,6 +152,7 @@ public class Map {
                     }
                 }
             }
+            System.out.println();
         }
     }
 
