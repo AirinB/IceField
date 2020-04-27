@@ -1,9 +1,10 @@
 package com.rim.IceField;
 
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -23,7 +24,7 @@ public class Game {
      * @param players the player that are playing the game
      */
     public Game(ArrayList<PlayerBase> players) {
-        map = new Map();
+        //map.load
         this.players = players;
         currentRound = 0;
         randomBlow = new boolean[maxRounds];
@@ -79,12 +80,13 @@ public class Game {
      * @return true for lost game
      * if anyone is dead
      */
-    public boolean isGameLost() {
+    public boolean isGameLost(){
         //Checking if any of the player died, then the game is lost
         for (PlayerBase player : players) {
             if (player.isDead) {
                 System.out.println("Game lost!");
                 return true;
+
             }
         }
         return false;
@@ -100,15 +102,11 @@ public class Game {
         boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
         //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
 
-        /**
-         * Checking if all the players
-         * stand on the same iceberg
-         * and it's not a hole
-         */
         //MODIFIED TO 2 FOR TESTING PURPOSES
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
-                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole")) {
+                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size()
+                        && !map.Icebergs[i][j].getType().equals("hole")) {
                     playersCheck = true;
                     break;
                 }
@@ -214,7 +212,7 @@ public class Game {
         public void Turn (PlayerBase player, ArrayList < String > fourUserInput) throws Exception {
             if (!player.isTurn()) throw new Exception("It's not this player's turn");
             int round = 0;
-            while (round < 0) {
+            while (round < 4) {
                 try {
                     ArrayList<String> input = new ArrayList<String>(Arrays.asList(fourUserInput.get(round).split(" ")));
                     if (UserInteraction(input, player)) {
@@ -247,6 +245,7 @@ public class Game {
                         try {
                             player.move(input.get(1), this.getMap());
                             System.out.println("Action accepted!");
+                            isGameLost();
                             return true;
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -279,10 +278,7 @@ public class Game {
                 boolean check;
                 check = player.useItem(input.get(1));
                 System.out.println("Action accepted!");
-                if (check == true) {
-                    return true;
-                } else
-                    return false;
+                return check;
 
 
             } else if (input.get(0).equals("pick")) {
@@ -349,11 +345,8 @@ public class Game {
         public boolean validDirection (ArrayList < String > input)
         {
 
-            if (input.get(1).equals("NORTH") || input.get(1).equals("SOUTH") || input.get(1).equals("EAST") || input.get(1).equals("WEST") ||
-                    input.get(2).equals("NORTH") || input.get(2).equals("SOUTH") || input.get(2).equals("EAST") || input.get(1).equals("WEST")) {
-                return true;
-            } else
-                return false;
+            return input.get(1).equals("NORTH") || input.get(1).equals("SOUTH") || input.get(1).equals("EAST") || input.get(1).equals("WEST") ||
+                    input.get(2).equals("NORTH") || input.get(2).equals("SOUTH") || input.get(2).equals("EAST") || input.get(1).equals("WEST");
 
         }
 
@@ -436,21 +429,32 @@ public class Game {
             System.out.println("exit - Will exit the game.");
             System.out.println("map - will show the map to the user.");
         }
+
         //Loads all inputs and returns them as a List
-        public ArrayList<String> loadInputs (String path) throws FileNotFoundException {
+
+        public ArrayList<String[]> loadInputs (String path) throws FileNotFoundException {
+
             File inputs = new File(path);
             Scanner sc = new Scanner(inputs);
-            ArrayList<String> fromFile = new ArrayList<String>();
+            ArrayList<String[]> fromFile = new ArrayList<String[]>();
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                fromFile.add(line);
+
+                fromFile.add(line.split(" "));
             }
             return fromFile;
         }
 
-        public void writeOutputsFile (String path, String output) throws FileNotFoundException {
 
+        
+
+        public void writeToFile(String path, String output) throws IOException {
+            FileWriter outputFile = new FileWriter(path);
+            outputFile.write(output + "\n");
+            outputFile.close();
         }
+
+
     //for testing at this stage
 
     public  boolean isWinForTest() {

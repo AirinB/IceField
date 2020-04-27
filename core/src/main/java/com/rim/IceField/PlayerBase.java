@@ -248,6 +248,7 @@ public boolean checkDir(String str, Map map) {
     }
 
     //Increases the heat level of the player.
+    //Increases the heat level of the player.
     public void increaseHeatLevel() {
         this.heatLevel++;
     }
@@ -318,6 +319,7 @@ public boolean checkDir(String str, Map map) {
     //Player dies
     public void die() {
         isDead = true;
+
         System.out.println("You have died. RIP ):");
     }
 
