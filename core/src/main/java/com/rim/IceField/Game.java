@@ -25,8 +25,7 @@ public class Game {
         this.players = players;
         currentRound  = 0;
         randomBlow = new boolean[maxRounds];
-
-
+        //map = new Map();
         Random objGenerator = new Random(1);
         for (int i = 1; i < 10; i++) {
             randomBlow[i] = objGenerator.nextBoolean();
