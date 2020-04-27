@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class Game {
 
+
+
     //Instance of Map, shared between the classes
     private Map map;
     private ArrayList<PlayerBase> players; // the players belong to the game
@@ -22,9 +24,8 @@ public class Game {
 
     /**
      * @param players all the players of the game
-     * @param map the map of the game
      */
-    public Game(ArrayList<PlayerBase> players, Map map) {
+    public Game(ArrayList<PlayerBase> players, Map map ) {
         this.map = map;
         this.players = players;
         currentRound = 0;
@@ -43,17 +44,11 @@ public class Game {
     public ArrayList<String> processInput() {
         String s;
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a string: \n");
+        System.out.println("Enter command: \n");
         s = sc.nextLine();
-        System.out.println("You entered String " + s);
+     //   System.out.println("You entered String " + s);
         sc.close();
         return new ArrayList<String>(Arrays.asList(s.split(" ")));
-    }
-
-
-    //Getter for map
-    public Map getMap() {
-        return map;
     }
 
 
@@ -131,7 +126,6 @@ public class Game {
      * giving them the turn to make 4 moves
      */
     public void newGame() throws Exception {
-
         map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
         while (currentRound < maxRounds) {
@@ -142,10 +136,11 @@ public class Game {
                 Blizzard.blow(players, map);
             }
             for (PlayerBase player : players) {
+                ArrayList<String> input = processInput();
                 player.isTurn = true;
 
                 try {
-                    Turn(player);
+                    Turn(player, input);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -191,13 +186,12 @@ public class Game {
      * @throws Exception if its not players turn, it trows a exception
      */
 
-        public void Turn (PlayerBase player) throws Exception {
+        public void Turn (PlayerBase player, ArrayList<String> userInput) throws Exception {
             if (!player.isTurn()) throw new Exception("It's not this player's turn");
             int round = 0;
             while (round < 4) {
                 try {
-                    ArrayList<String> input = processInput();
-                    if (UserInteraction(input, player)) {// the round increases only if the action was successful
+                    if (UserInteraction(userInput, player)) {// the round increases only if the action was successful
                         round++;
                     }
                 } catch (Exception e) {
@@ -206,25 +200,6 @@ public class Game {
             }
             //After the player makes their 4 moves we need to give the turn to the next player
         }
-
-        //method overloading this one will only be called when the input is read from a file since in that case we don't ask the user for input.
-        //Will receive 4 user inputs that the player needs to act on.
-        public void Turn (PlayerBase player, ArrayList < String > fourUserInput) throws Exception {
-            if (!player.isTurn()) throw new Exception("It's not this player's turn");
-            int round = 0;
-            while (round < 4) {
-                try {
-                    ArrayList<String> input = new ArrayList<String>(Arrays.asList(fourUserInput.get(round).split(" ")));
-                    if (UserInteraction(input, player)) {
-                        round++;
-                    }
-                } catch (Exception e) {
-                    //end of turn
-
-                }
-            }
-        }
-
 
 
     /**
@@ -237,16 +212,17 @@ public class Game {
         //Will be continuously called in the game loop.
         public boolean UserInteraction (ArrayList < String > input, PlayerBase player)
         {
+            boolean check;
             //For these 3 inputs that also require a direction
             if (input.get(0).equals("move") || input.get(0).equals("apply") || input.get(0).equals("save")) {
                 //Check if the direction is valid
                 if (validDirection(input)) {
-                    if (input.get(0).equals("move ")) {
+                    if (input.get(0).equals("move")) {
                         try {
-                            player.move(input.get(1), this.getMap());
+                            check = player.move(input.get(1), this.getMap());
                             System.out.println("Action accepted!");
                             isGameLost();
-                            return true;
+                            return check;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -255,9 +231,9 @@ public class Game {
                     } else if (input.get(0).equals("apply")) {
 
                         try {
-                            player.useSkill(this.getMap(), input.get(1));
+                            check = player.useSkill(this.getMap(), input.get(1));
                             System.out.println("Action accepted!");
-                            return true;
+                            return check;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -267,15 +243,15 @@ public class Game {
 
                     //Will distinguish between players based on their unique ID
                     else if (input.get(0).equals("save")) {
-                        player.SavePlayer(input.get(1), input.get(2), map);
+                        check = player.SavePlayer(input.get(1), input.get(2), map);
                         System.out.println("Action accepted!");
-                        return true;
+                        return check;
                     }
 
                 }
             } else if (input.get(0).equals("use")) {
                 //Check if the item could be used, therefore understanding if it is a valid item;
-                boolean check;
+
                 check = player.useItem(input.get(1));
                 System.out.println("Action accepted!");
                 return check;
@@ -296,9 +272,9 @@ public class Game {
                 }
                 return false;
             } else if (input.get(0).equals("remove snow")) {
-                player.removeSnow();
+                check = player.removeSnow();
                 System.out.println("Action accepted!");
-                return true;
+                return check;
             } else if (input.get(0).equals("fire")) {
                 GameOver();
                 System.out.println("Action accepted!");
@@ -313,10 +289,12 @@ public class Game {
             } else if (input.get(0).equals("help")) {
                 System.out.println("Action accepted!");
                 printHelp();
+                return true;
 
             } else if (input.get(0).equals("info")) {
                 int partsCollected = getPlayerInfo(player);
                 System.out.println("Parts collected:" + partsCollected);
+                return true;
 
             } else {
                 System.out.println("There is no such command. Enter 'help' to see available actions");
@@ -325,7 +303,11 @@ public class Game {
             return false;
         }
 
-        public boolean validDirection (ArrayList < String > input)
+    private Map getMap() {
+            return map;
+    }
+
+    public boolean validDirection (ArrayList < String > input)
         {
 
             return input.get(1).equals("NORTH") || input.get(1).equals("SOUTH") || input.get(1).equals("EAST") || input.get(1).equals("WEST") ||
@@ -415,7 +397,7 @@ public class Game {
             File inputs = new File(path);
             Scanner sc = new Scanner(inputs);
             ArrayList<ArrayList<String>> fromFile = new ArrayList<ArrayList<String>>();
-            while (sc.hasNextLine()) {
+            while (sc.hasNextLine()){
                 String line = sc.nextLine();
                 ArrayList<String> newLine = new ArrayList<String>(Arrays.asList(line.split(" ")));
                 fromFile.add(newLine);

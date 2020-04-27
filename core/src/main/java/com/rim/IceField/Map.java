@@ -14,7 +14,7 @@ public class Map {
     public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];
     private boolean charge,flare,gun;
 
-    private final ArrayList<ItemBase> items;      //List of items
+    private ArrayList<ItemBase> items;      //List of items
 
     //Getter for list of icebergs
     public Iceberg[][] getIcebergs() {
@@ -225,6 +225,59 @@ public class Map {
         fifth.setNeighborIcebergs(neighbour5);
 
 */
+    }
+
+    public void generateStaticMap(){
+        items = new ArrayList<ItemBase>();
+        Iceberg[][] map = new Iceberg[4][4];
+        ItemBase shovel = new Shovel();
+
+        ItemBase rope = new Rope();
+        items.add(rope);
+
+        ItemBase food = new Food();
+        items.add(food);
+
+        ItemBase flare = new Food();
+        items.add(flare);
+
+        ItemBase divingSuit = new DivingSuit();
+        items.add(divingSuit);
+
+        ItemBase gun = new Food();
+        items.add(gun);
+
+        System.out.println("Items were generated!");
+        Iceberg first = new Iceberg(true, "stable", 20, false, 1, null);
+
+        map[0][0] = first;
+        first.y = 0;
+        first.x = 0;
+        first.setItem(shovel);
+
+
+        Iceberg second = new Iceberg(true, "stable", 20, false, 2, rope);
+        map[0][1] = second;
+        second.y = 0;
+        second.x = 1;
+
+
+        Iceberg third = new Iceberg(true, "stable", 20, false, 1, null);
+        map[1][0] = third;
+        third.y = 1;
+        third.x = 0;
+
+        Iceberg forth = new Iceberg(true, "instable", 1, false, 1, null);
+        map[1][1] = forth;
+        forth.y = 1;
+        forth.x = 1;
+
+        Iceberg fifth = new Iceberg(true, "hole", 0, false, 1, null);
+        map[1][2] = fifth;
+        fifth.y = 1;
+        fifth.x = 2;
+        System.out.println("Icebergs were generated!");
+        this.Icebergs = map;
     }
 
 }
