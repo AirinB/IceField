@@ -137,17 +137,30 @@ public class Iceberg {
         // System.out.println("Player was removed from  the iceberg number: " + num);
     }
 
+    /**
+     * @param p the player to be
+     * added to the list of players
+     * who are drowning
+     */
     public void Add_drowningPlayers(PlayerBase p) {
         drowningPlayers.add(p);
         System.out.println("The " + p.ID + "has fallen in the water");
 
     }
 
+    /**
+     * @param p the player to be
+     * removed the list of players
+     * who are drowning
+     */
     public void Remove_drowningPlayers(PlayerBase p) {
         drowningPlayers.remove(p);
         System.out.println("The player" + p.ID + " is saved. You are a hero!");
     }
 
+    /**
+     * Deletes picked item from the iceberg
+     */
     public void DeletePickedItem ()
     {
         this.item = null;

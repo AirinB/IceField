@@ -7,6 +7,13 @@ public class DivingSuit extends ItemBase {
         tag = "Diving Suit";
     }
 
+    /**
+     * @param player that uses diving suit item
+     * @return true if item was used successfully
+     * @throws Exception if there is now such item
+     * in the player's inventory
+     * If player uses this item he won't die in the water
+     */
     @Override
     public boolean useItem(PlayerBase player) throws Exception {
         super.useItem(player);

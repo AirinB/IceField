@@ -9,18 +9,23 @@ import java.util.Scanner;
 
 //Map class
 public class Map {
-    private final int MAP_HEIGHT = 10;
-    private final int MAP_WIDTH = 10;
-    public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];
-    private boolean charge,flare,gun;
-
-    private final ArrayList<ItemBase> items;      //List of items
+    private final int MAP_HEIGHT = 10;                                  //map's height
+    private final int MAP_WIDTH = 10;                                   //map's width
+    public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];   //icebergs declaration
+    private boolean charge,flare,gun;                                   //boolean for items existence on the map
+    private final ArrayList<ItemBase> items;                            //List of items
 
     //Getter for list of icebergs
     public Iceberg[][] getIcebergs() {
         return Icebergs;
     }
 
+    /**
+     * Loads the map using a file and sets the needed parameters
+     * @param path of the file containing map initialization
+     * @throws FileNotFoundException if the file on the
+     * specified path does not exist
+     */
     public void loadMap(String path) throws FileNotFoundException {
         File map = new File(path);
         String[] icebergs;
@@ -40,6 +45,11 @@ public class Map {
         }
     }
 
+    /**
+     * Returns the item specified
+     * @param tag of the item to be selected
+     * @return instance of an item
+     */
     public ItemBase returnItem(String tag) {
         if (new Shovel().tag.equals(tag)) return new Shovel();
         if (new Charge().tag.equals(tag)) return new Charge();
@@ -51,6 +61,10 @@ public class Map {
         return null;
     }
 
+    /**
+     *
+     * @return item based on the random selector
+     */
     //MAKE FUNCTION THAT RETURNS RANDOM ITEMS
     public ItemBase ranItem() {
         Random rand = new Random();
@@ -88,6 +102,10 @@ public class Map {
         //No items on hole
     }
 
+    /**
+     * Used for creating numbers
+     * @return a random number
+     */
     public int ranSnow() {
         Random rand = new Random();
         int upperBound = 4;
@@ -95,6 +113,9 @@ public class Map {
         return Ran;
     }
 
+    /**
+     * Displays the map in the console
+     */
     public void showMap() {
         for (int Y = 0; Y < MAP_HEIGHT; Y++) {
             for (int X = 0; X < MAP_WIDTH; X++) {
@@ -134,7 +155,9 @@ public class Map {
     }
 
 
-
+    /**
+     * Generates the map used for the tests
+     */
     //Method for generating icebergs and items on the map.
     public void generateItemsOnMap() {
 
