@@ -88,7 +88,12 @@ public class GameMain extends BasicGame {
 
         if( input.nextInt() == 1){
             //newGame from file
-
+            Scanner scannerChoice = new Scanner(System.in);
+            System.out.println("Enter the path\n");
+            String path = scannerChoice.nextLine();
+            scannerChoice.close();
+            ArrayList<ArrayList<String>> inputsFromFile = game.loadInputs(path);
+            game.newGameFromFile(inputsFromFile );
         }else{
             game.newGame();
         }

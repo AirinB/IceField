@@ -109,10 +109,10 @@ public class Game {
 
         //Checking if flare gun was collected
         if (playersCheck) {
-//            if (Inventory.countGunItems == 3) {
-//                System.out.println("The flare gun is collected");
-//                return true;
-//            }
+            if (Inventory.countGunItems == 3) {
+                System.out.println("The flare gun is collected");
+                return true;
+            }
         }
         return true;
     }
@@ -155,12 +155,12 @@ public class Game {
     }
         //New game when the inputs come from a file
         //When calling the inputs will be received by calling method loadInputs(..).
-        public void newGameFromFile (ArrayList < PlayerBase > playersList, ArrayList<ArrayList<String>> inputs) throws Exception {
-            map.generateItemsOnMap();//Generating items on map
+        public void newGameFromFile (ArrayList<ArrayList<String>> inputs) throws Exception {
+           // map.generateItemsOnMap();//Generating items on map
 
             int count = 0;
             //the case when the inputs are not comming from a file
-            map.generateItemsOnMap();           //Generating items on map
+          //  map.generateItemsOnMap();           //Generating items on map
             System.out.println("Game started!");
             while (currentRound < maxRounds) {
                 if (randomBlow[currentRound + 1]) {
@@ -201,13 +201,14 @@ public class Game {
 
         public void Turn (PlayerBase player) throws Exception {
             if (!player.isTurn()) throw new Exception("It's not this player's turn");
+            System.out.println("Its players  " + player.getTag()  + " turn number " + player.getID());
             int round = 0;
             while (round < 4) {
                 try {
                     ArrayList<String> userInput = processInput();
                     if (UserInteraction(userInput, player)) {// the round increases only if the action was successful
                         round++;
-                        if(GameOver()){
+                        if(isGameLost()){
                             throw new  Exception("End of the Game");
                         }
                     }
