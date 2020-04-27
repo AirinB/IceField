@@ -12,7 +12,7 @@ public class Map {
     private final int MAP_WIDTH = 10;                                   //map's width
     public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];   //icebergs declaration
     private boolean charge,flare,gun;                                   //boolean for items existence on the map
-    private final ArrayList<ItemBase> items;                            //List of items
+    private ArrayList<ItemBase> items;                            //List of items
 
     //Getter for list of icebergs
     public Iceberg[][] getIcebergs() {
@@ -20,12 +20,7 @@ public class Map {
     }
 
 
-    /**
-     * Loads the map using a file and sets the needed parameters
-     * @param path of the file containing map initialization
-     * @throws FileNotFoundException if the file on the
-     * specified path does not exist
-     */
+
 
     public void loadMap(/*String path*/) throws FileNotFoundException {
 //        File map = new File(path);
