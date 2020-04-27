@@ -411,14 +411,14 @@ public class Game {
             System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
         }
 
-        public ArrayList<String[]> loadInputs (String path) throws FileNotFoundException {
+        public ArrayList<ArrayList<String>> loadInputs (String path) throws FileNotFoundException {
             File inputs = new File(path);
             Scanner sc = new Scanner(inputs);
-            ArrayList<String[]> fromFile = new ArrayList<String[]>();
+            ArrayList<ArrayList<String>> fromFile = new ArrayList<ArrayList<String>>();
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-
-                fromFile.add(line.split(" "));
+                ArrayList<String> newLine = new ArrayList<String>(Arrays.asList(line.split(" ")));
+                fromFile.add(newLine);
             }
             return fromFile;
         }
