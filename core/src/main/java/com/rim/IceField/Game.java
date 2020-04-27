@@ -192,6 +192,7 @@ public class Game {
      * @param player the player whos turn it is
      * @throws Exception if its not players turn, it trows a exception
      */
+
         public void Turn (PlayerBase player) throws Exception {
             if (!player.isTurn()) throw new Exception("It's not this player's turn");
             int round = 0;
@@ -221,9 +222,12 @@ public class Game {
                     }
                 } catch (Exception e) {
                     //end of turn
+
                 }
             }
         }
+
+
 
     /**
      * @param input the input from the player,

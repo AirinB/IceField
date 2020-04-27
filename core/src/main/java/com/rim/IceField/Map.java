@@ -170,31 +170,33 @@ public class Map {
         //Creation of the icebergs on the map.
         //Different types of icebergs are generated(stable, instable, hole) with different amount of snow.
 
-        /*
-        Iceberg first = new Iceberg(true, 1, "stable", 20, false, 1, null);
+
+
+        Iceberg first = new Iceberg(true, "stable", 20, false, 1, null);
+
         Icebergs[0][0] = first;
         first.y = 0;
         first.x = 0;
         first.setItem(shovel);
 
 
-        Iceberg second = new Iceberg(true, 2, "stable", 20, false, 1, rope);
+        Iceberg second = new Iceberg(true, "stable", 20, false, 2, rope);
         Icebergs[0][1] = second;
         second.y = 0;
         second.x = 1;
 
 
-        Iceberg third = new Iceberg(true, 3, "stable", 20, false, 1, null);
+        Iceberg third = new Iceberg(true, "stable", 20, false, 1, null);
         Icebergs[1][0] = third;
         third.y = 1;
         third.x = 0;
 
-        Iceberg forth = new Iceberg(true, 1, "instable", 1, false, 1, null);
+        Iceberg forth = new Iceberg(true, "instable", 1, false, 1, null);
         Icebergs[1][1] = forth;
         forth.y = 1;
         forth.x = 1;
 
-        Iceberg fifth = new Iceberg(true, 5, "hole", 0, false, 1, null);
+        Iceberg fifth = new Iceberg(true, "hole", 0, false, 1, null);
         Icebergs[1][2] = fifth;
         fifth.y = 1;
         fifth.x = 2;
