@@ -10,7 +10,7 @@ public class Iceberg {
     //private int numOfPlayers; NO NEED, I JUST ADD THE LIST OF PLAYERS ON THE ICEBERG
     private String type;
     private int maxNumOfPlayers;
-    private boolean hasIgloo;
+    private boolean hasIgloo = false;
     private ArrayList<PlayerBase> drowningPlayers = new ArrayList<PlayerBase>();
     private ArrayList<PlayerBase> currentPlayers = new ArrayList<PlayerBase>(); //List I added
     private int amountOfSnow;

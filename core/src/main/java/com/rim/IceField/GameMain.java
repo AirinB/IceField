@@ -39,7 +39,9 @@ public class GameMain extends BasicGame {
     public static void main(String[] args) throws Exception {
 
 
-
+        Map mp = new Map();
+        mp.loadMap("assets/icefield.map");
+        //mp.showMap();
 
         System.out.println("Introduce the number of players in the game: ");
         Scanner input = new Scanner(System.in);

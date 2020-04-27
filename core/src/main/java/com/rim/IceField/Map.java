@@ -3,6 +3,7 @@ package com.rim.IceField;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -11,6 +12,7 @@ public class Map {
     private final int MAP_HEIGHT = 10;
     private final int MAP_WIDTH = 10;
     public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];
+    private boolean charge,flare,gun;
 
     private final ArrayList<ItemBase> items;      //List of items
 
@@ -30,17 +32,11 @@ public class Map {
             icebergs = line.split(" ");
             for (String iceberg : icebergs) {
                 splitIcebergs = iceberg.split(":");
-                Icebergs[r][c].setAmountOfSnow(Integer.parseInt(splitIcebergs[1]));
-                Icebergs[r][c].setItem(returnItem(splitIcebergs[2]));
-                if (splitIcebergs[0].equals("4")) {
-                    Icebergs[r][c].setIsStable(true);
-                } else if (splitIcebergs[0].equals("5")) {
-                    Icebergs[r][c].setIsStable(false);
-                }
+                Icebergs[r][c] = new Iceberg(Boolean.parseBoolean(splitIcebergs[0]), splitIcebergs[1],
+                        Integer.parseInt(splitIcebergs[2]),false, ranSnow(),ranItem());
                 c++;
             }
             r++;
-
         }
     }
 
@@ -54,8 +50,76 @@ public class Map {
         if (new Rope().tag.equals(tag)) return new Rope();
         return null;
     }
+
     //MAKE FUNCTION THAT RETURNS RANDOM ITEMS
-    //MAKE FUNCTION THAT FINDS ITEM FROM TAG
+    public ItemBase ranItem() {
+        Random rand = new Random();
+        int upperBound = 6;
+        int Ran = rand.nextInt(upperBound);
+
+        switch (Ran) {
+            case 0:
+                return new Shovel();
+            case 1:
+                return new DivingSuit();
+            case 2:
+                return new Food();
+            case 3:
+                return new Rope();
+            case 4:
+                if (!charge) {
+                    charge = true;
+                    return new Charge();
+                }
+            case 5:
+                if (!flare) {
+                    flare = true;
+                    return new Flare();
+                }
+            case 6:
+                if (!gun) {
+                    gun = true;
+                    return new Gun();
+                }
+            default:
+                return null;
+        }
+        //Check if flare parts were already given
+        //No items on hole
+    }
+
+    public int ranSnow() {
+        Random rand = new Random();
+        int upperBound = 4;
+        int Ran = rand.nextInt(upperBound) + 1;
+        return Ran;
+    }
+
+    public void showMap() {
+        for (int Y = 0; Y < MAP_HEIGHT; Y++) {
+            for (int X = 0; X < MAP_WIDTH; X++) {
+                if (Icebergs[Y][X].getAmountOfSnow() > 0)
+                    System.out.print("❅");
+                else if (Icebergs[Y][X].getAmountOfSnow() == 0) {
+                    if (Icebergs[Y][X].getItem().getTag().equals("Shovel")) {
+                        System.out.print("/ ");
+                    } else if (Icebergs[Y][X].getItem().getTag().equals("Rope")) {
+                        System.out.print("@ ");
+                    } else if (Icebergs[Y][X].getItem().getTag().equals("Gun")) {
+                        System.out.print("~ ");
+                    } else if (Icebergs[Y][X].getItem().getTag().equals("Flare")) {
+                        System.out.print("| ");
+                    } else if (Icebergs[Y][X].getItem().getTag().equals("Charge")) {
+                        System.out.print("* ");
+                    } else if (Icebergs[Y][X].getItem().getTag().equals("Food")) {
+                        System.out.print("& ");
+                    } else if (Icebergs[Y][X].getItem().getTag().equals("DivingSuit")) {
+                        System.out.print("/ ");
+                    }
+                }
+            }
+        }
+    }
 
 
     //Getter for list of items
@@ -107,7 +171,9 @@ public class Map {
         //Different types of icebergs are generated(stable, instable, hole) with different amount of snow.
 
 
+
         Iceberg first = new Iceberg(true, "stable", 20, false, 1, null);
+
         Icebergs[0][0] = first;
         first.y = 0;
         first.x = 0;
