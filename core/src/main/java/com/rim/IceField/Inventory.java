@@ -21,7 +21,7 @@ public class Inventory {
         try {
 
             // Flare, charge and gun cannot be used separately
-            if (!(it.tag.equals("Flare") || it.tag.equals("Charge") || it.tag.equals("Gun"))) {
+            if (!(it.tag.equals("flare") || it.tag.equals("charge") || it.tag.equals("gun"))) {
 
 
                 //all items can be activated after adding them to the inventory except the parts of the gun

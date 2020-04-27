@@ -403,15 +403,15 @@ public class Game {
             }
 
             for (int i = 0; i < player.getInventory().getItems().size(); i++) {
-                if (player.getInventory().getItemAt(i).tag.equals("Food")) {
+                if (player.getInventory().getItemAt(i).tag.equals("food")) {
                     numFood++;
-                } else if (player.getInventory().getItemAt(i).tag.equals("Charge")) {
+                } else if (player.getInventory().getItemAt(i).tag.equals("charge")) {
                     charge++;
-                } else if (player.getInventory().getItemAt(i).tag.equals("Flare")) {
+                } else if (player.getInventory().getItemAt(i).tag.equals("flare")) {
                     Flare++;
-                } else if (player.getInventory().getItemAt(i).tag.equals("DivingSuit")) {
+                } else if (player.getInventory().getItemAt(i).tag.equals("diving suit")) {
                     DivingSuit++;
-                } else if (player.getInventory().getItemAt(i).tag.equals("Gun")) {
+                } else if (player.getInventory().getItemAt(i).tag.equals("gun")) {
                     Gun++;
                 } else if (player.getInventory().getItemAt(i).tag.equals("rope")) {
                     rope++;
@@ -421,7 +421,7 @@ public class Game {
 
             }
             System.out.println("You have: " + "Food - " + numFood + "\nCharge - " + charge + "Flare - " + Flare + "\nDiving suit - "
-                    + DivingSuit + "\nGun - " + Gun + "\nRope - " + rope + "\nshovel" + shovel);
+                    + DivingSuit + "\nGun - " + Gun + "\nRope - " + rope + "\nShovel" + shovel);
         }
 
     /**
@@ -439,9 +439,9 @@ public class Game {
             for (PlayerBase playerBase : players) {
                 //we check every item in their inventory if it is a Gun, flare or charge
                 for (int j = 0; j < playerBase.getInventory().getItems().size(); j++) {
-                    if (playerBase.getInventory().getItems().get(j).getTag().equals("Gun") ||
-                            playerBase.getInventory().getItems().get(j).getTag().equals("Flare") ||
-                            playerBase.getInventory().getItems().get(j).getTag().equals("Charge")) {
+                    if (playerBase.getInventory().getItems().get(j).getTag().equals("gun") ||
+                            playerBase.getInventory().getItems().get(j).getTag().equals("flare") ||
+                            playerBase.getInventory().getItems().get(j).getTag().equals("charge")) {
                         partsCollected++;
                         //break;
                     }
@@ -458,7 +458,7 @@ public class Game {
      */
         private void printHelp () {
             // Show all possible inputs
-            System.out.println("Move NORTH / SOUTH / LEFT / RIGHT - will move the player in the corresponding direction.");
+            System.out.println("Move NORTH / SOUTH / WEST / EAST - will move the player in the corresponding direction.");
             System.out.println("use food / shovel / diving suit - will make use of the corresponding item if the user has it in the inventory.");
             System.out.println("pick - will pick the item from the iceberg that the player is on.");
             System.out.println("apply NORTH / SOUTH / WEST / EAST - will apply apply current player's skill in the corresponding direction");
