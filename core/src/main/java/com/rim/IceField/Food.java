@@ -8,6 +8,13 @@ public class Food extends ItemBase {
         tag = "food";
     }
 
+    /**
+     * @param player that uses food item
+     * @return true if item was used successfully
+     * @throws Exception if there is now such item
+     * in the player's inventory
+     * Increases player's heat level by 1
+     */
     @Override
     public boolean useItem(PlayerBase player){
 

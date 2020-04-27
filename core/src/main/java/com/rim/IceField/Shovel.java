@@ -6,6 +6,13 @@ public class Shovel extends ItemBase {
         tag = "shovel";
     }
 
+    /**
+     *
+     * @param player that wants to use the item
+     * @return true if item was used successfully
+     * @throws Exception no snow on the iceberg or
+     * no item in the player's inventory
+     */
     @Override
     public boolean useItem(PlayerBase player) {
 
