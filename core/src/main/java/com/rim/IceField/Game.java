@@ -15,7 +15,7 @@ public class Game {
 
 
     //Instance of Map, shared between the classes
-    private Map map;
+    private Map map = new Map();
     private ArrayList<PlayerBase> players; // the players belong to the game
     private final int maxRounds = 10;
     private int currentRound;

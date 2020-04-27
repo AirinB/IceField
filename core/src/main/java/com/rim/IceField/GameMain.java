@@ -61,8 +61,11 @@ public class GameMain extends BasicGame {
             }
         }
         Map map = new Map();
-        map.generateStaticMap();
+        //map.generateStaticMap();
+        map.loadMap();
+        map.showMap();
         Game game = new Game(playersList, map);
+
         game.newGame();
 
 
