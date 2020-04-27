@@ -161,9 +161,8 @@ public class Game {
     }
         //New game when the inputs come from a file
         //When calling the inputs will be received by calling method loadInputs(..).
-        public void newGame (ArrayList < PlayerBase > playersList, ArrayList < String > inputs) throws Exception {
+        public void newGame (ArrayList < PlayerBase > playersList, ArrayList <String> inputs) throws Exception {
             int count = 0;
-            //the case when the inputs are not comming from a file
             map.generateItemsOnMap();           //Generating items on map
             System.out.println("Game started!");
             while (currentRound < maxRounds) {
@@ -173,6 +172,7 @@ public class Game {
                 if (randomBlow[currentRound]) {
                     Blizzard.blow(players, map);
                 }
+                //Every player will get 4 actions to perform from the list of inputs.
                 for (PlayerBase player : players) {
                     ArrayList<String> fourInputs = new ArrayList<String>();
                     for (int i = 0; i < 4; i++) {
@@ -314,15 +314,32 @@ public class Game {
             } else if (input.get(0).equals("inv")) {
                 System.out.println("Action accepted!");
                 printInventory(player);
+                return false;
             } else if (input.get(0).equals("help")) {
                 System.out.println("Action accepted!");
                 printHelp();
+                return false;
 
             } else if (input.get(0).equals("info")) {
                 int partsCollected = getPlayerInfo(player);
                 System.out.println("Parts collected:" + partsCollected);
+                System.out.println("Action accepted!");
+                return false;
 
-            } else {
+            }
+            else if(input.get(0).equals("exit")){
+                System.exit(0);
+                System.out.println("Action accepted!");
+                return false;
+            }
+            else if(input.get(0).equals("map"))
+            {
+                map.showMap();
+                System.out.println("Action accepted!");
+                return false;
+            }
+
+            else {
                 System.out.println("There is no such command. Enter 'help' to see available actions");
                 return false;
             }
@@ -416,8 +433,10 @@ public class Game {
             System.out.println("fire - will fire the gun if all conditions for firing it are met.");
             System.out.println("inv - will display all items in current player's inventory.");
             System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
+            System.out.println("exit - Will exit the game.");
+            System.out.println("map - will show the map to the user.");
         }
-
+        //Loads all inputs and returns them as a List
         public ArrayList<String> loadInputs (String path) throws FileNotFoundException {
             File inputs = new File(path);
             Scanner sc = new Scanner(inputs);
@@ -429,8 +448,7 @@ public class Game {
             return fromFile;
         }
 
-        public void writeOutputs (String path, String output) throws FileNotFoundException {
-
+        public void writeOutputsFile (String path, String output) throws FileNotFoundException {
 
         }
     //for testing at this stage
