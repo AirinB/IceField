@@ -244,7 +244,7 @@ public boolean checkDir(String str, Map map) {
      */
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
     public boolean useSkill(Map map, String dir) throws Exception {
-        return false;
+        return true;
     }
 
     //Increases the heat level of the player.
