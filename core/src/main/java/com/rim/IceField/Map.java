@@ -104,7 +104,6 @@ public class Map {
                 return new ItemBase() {
                 };
         }
-        //Check if flare parts were already given
         //No items on hole
     }
 

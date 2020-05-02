@@ -1,9 +1,12 @@
 package com.rim.IceField;
 
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.ArrayList;
 
 public class Iceberg {
+    Texture tex = new Texture("mini2Dx.png");
     private boolean isStable;
     public int x;
     public int y;

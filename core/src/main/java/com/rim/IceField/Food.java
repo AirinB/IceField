@@ -1,7 +1,9 @@
 package com.rim.IceField;
 
-public class Food extends ItemBase {
+import com.badlogic.gdx.graphics.Texture;
 
+public class Food extends ItemBase {
+    Texture tex = new Texture("mini2Dx.png");
 
     public Food() {
         super();
