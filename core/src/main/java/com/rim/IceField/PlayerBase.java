@@ -17,13 +17,17 @@ public abstract class PlayerBase extends TimerTask {
     protected Inventory inventory;                //Instance of Inventory class (contains list of items)
     protected boolean isDrowning = false;         //Boolean for checking if the player is in the water and drowning
     Timer timer = new Timer();                    //Experiments with timer
-    protected boolean isTurn = false;            //Check if is the players turn
+    protected boolean isTurn = false;             //Check if is the players turn
+    protected int tileX, tileY;                   //Stores the X and Y position relative to the tiles
+    protected int offX = 0, offY = 0;             //Stores the X and Y offset of the player
+    protected int posX, posY;                     //Stores the X and Y position of the player (This gets multiplied by the tile size)
+
 
     public boolean isTurn() {
         return isTurn;
     }
-    public int getID()
-    {
+
+    public int getID() {
         return ID;
     }
 
@@ -50,42 +54,25 @@ public abstract class PlayerBase extends TimerTask {
         inventory = new Inventory();
     }
 
-public boolean checkDir(String str, Map map) {
-    if ("north".equals(str)) { //Up
-        currentIceberg.Remove_currentPlayers(this);
-        if (currentIceberg.y - 1 < 0) {
-            return false;
-        } else {
-            return true;
-        }
-    } else if ("south".equals(str)) {
+    public boolean checkDir(String str, Map map) {
+        if ("north".equals(str)) { //Up
+            currentIceberg.Remove_currentPlayers(this);
+            return currentIceberg.y - 1 >= 0;
+        } else if ("south".equals(str)) {
 
-        if (currentIceberg.y + 1 > 9) {
-            return false;
-        } else {
-            return true;
-        }
+            return currentIceberg.y + 1 <= 9;
 
-    } else if ("west".equals(str)) {
+        } else if ("west".equals(str)) {
 
-        if (currentIceberg.x - 1 < 0) {
-            return false;
-        } else {
-            return true;
-        }
-    } else if ("east".equals(str)) {
+            return currentIceberg.x - 1 >= 0;
+        } else if ("east".equals(str)) {
 
-        if (currentIceberg.x + 1 > 9) {
-            return false;
-        } else {
-            return true;
+            return currentIceberg.x + 1 <= 9;
+
         }
 
+        return true;
     }
-
-    return true;
-}
-
 
 
     public String getTag() {
@@ -171,7 +158,6 @@ public boolean checkDir(String str, Map map) {
     }
 
     /**
-     *
      * @param dir direction where the player we want to save is located
      * @param map the map of the game
      * @return returns true if the action is succesful
@@ -179,42 +165,41 @@ public boolean checkDir(String str, Map map) {
     //Method for saving the player.
     public boolean SavePlayer(String dir, Map map) {
         //Check every item in the inventory to see if there's a rope.
-            if(!ContainsItem("rope"))
-            {
-                System.out.println("You don't have a rope!");
-                return false;
-            }
+        if (!ContainsItem("rope")) {
+            System.out.println("You don't have a rope!");
+            return false;
+        }
 
-            ArrayList<PlayerBase> playerBases = new ArrayList<PlayerBase>();
-            if(!checkDir(dir, map)) return false;
+        ArrayList<PlayerBase> playerBases = new ArrayList<PlayerBase>();
+        if (!checkDir(dir, map)) return false;
 
-            if(dir.equals("north")){
-               playerBases = map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
-            }else if(dir.equals("south")){
-                playerBases = map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getCurrentPlayers();
-            }else if(dir.equals("west")){
-                playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getCurrentPlayers();
-            }else if(dir.equals("east")){
-                playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getCurrentPlayers();
-            }
+        if (dir.equals("north")) {
+            playerBases = map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
+        } else if (dir.equals("south")) {
+            playerBases = map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getCurrentPlayers();
+        } else if (dir.equals("west")) {
+            playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getCurrentPlayers();
+        } else if (dir.equals("east")) {
+            playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x + 1].getCurrentPlayers();
+        }
 
 
         if (playerBases != null) {
             for (PlayerBase player : playerBases) {
                 //Find the drowning player in the list of all players.
                 //Check if the player is drowning
-                    if (player.isDrowning) {
+                if (player.isDrowning) {
 
-                            System.out.println(player.tag + " has been saved!");
-                            player.isDrowning = false;  //player is saved , so it's not drowning anymore
-                            player.timer.cancel();
-                            player.currentIceberg = this.currentIceberg;
-                            this.currentIceberg.Add_currentPlayers(player);
+                    System.out.println(player.tag + " has been saved!");
+                    player.isDrowning = false;  //player is saved , so it's not drowning anymore
+                    player.timer.cancel();
+                    player.currentIceberg = this.currentIceberg;
+                    this.currentIceberg.Add_currentPlayers(player);
 
-                    } else {
-                        System.out.println("You are trying to save a player that is not in the water!");
+                } else {
+                    System.out.println("You are trying to save a player that is not in the water!");
 
-                    }
+                }
 
 
             }
@@ -227,8 +212,7 @@ public boolean checkDir(String str, Map map) {
     }
 
     //Checks if current player is on neighboring iceberg in savable distance from player in need.
-    public boolean checkSavableDistance(PlayerBase drowningPlayer)
-    {
+    public boolean checkSavableDistance(PlayerBase drowningPlayer) {
         int diffY = Math.abs(this.getCurrentIceberg().getY() - drowningPlayer.getCurrentIceberg().getY());
         int diffX = Math.abs(this.getCurrentIceberg().getX() - drowningPlayer.getCurrentIceberg().getX());
         return diffY <= 1 && diffX <= 1;
@@ -266,7 +250,7 @@ public boolean checkDir(String str, Map map) {
 
     /**
      * @param item name of the
-     * item that the player wants to use
+     *             item that the player wants to use
      * @return true if action is succesful
      */
     //Use the item specified in the parameter.
@@ -274,8 +258,8 @@ public boolean checkDir(String str, Map map) {
 
         if (ContainsItem(item)) {
             try {
-                for(int i = 0; i<inventory.items.size(); i++) {
-                    if(inventory.items.get(i).tag.equals(item)) {
+                for (int i = 0; i < inventory.items.size(); i++) {
+                    if (inventory.items.get(i).tag.equals(item)) {
                         inventory.items.get(i).useItem(this);
                         break;
                     }
@@ -292,9 +276,7 @@ public boolean checkDir(String str, Map map) {
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             System.out.println("Impossible to use the item or no such item exists!");
             return false;
         }
@@ -303,13 +285,13 @@ public boolean checkDir(String str, Map map) {
 
     /**
      * @param item the item that should be checked if
-     * it is present in the inventory
+     *             it is present in the inventory
      * @return true if the item is present in the inventory
      */
     private boolean ContainsItem(String item) {
 
-        for( ItemBase itemBase: inventory.items){
-            if(itemBase.tag.equals(item))return true;
+        for (ItemBase itemBase : inventory.items) {
+            if (itemBase.tag.equals(item)) return true;
         }
         return false;
     }
@@ -318,7 +300,6 @@ public boolean checkDir(String str, Map map) {
     //Player dies
     public void die() {
         isDead = true;
-
         System.out.println("You have died. RIP ):");
     }
 
@@ -338,8 +319,6 @@ public boolean checkDir(String str, Map map) {
                 public void run() {
                     decreaseHeatLevel();
                 }
-
-                ;
             };
 
             timer.scheduleAtFixedRate(tt, 0, 10000);
@@ -366,7 +345,7 @@ public boolean checkDir(String str, Map map) {
     //PickItem method which return the item.
     public boolean pickItem() throws Exception {
         if (currentIceberg.getAmountOfSnow() == 0) {
-            if(currentIceberg.getItem() != null) {
+            if (currentIceberg.getItem() != null) {
                 String tagString = currentIceberg.getItem().getTag();
                 inventory.items.add(currentIceberg.getItem());
                 currentIceberg.DeletePickedItem(); // Will delete the item from the iceberg after it was picked
@@ -377,10 +356,9 @@ public boolean checkDir(String str, Map map) {
                     e.printStackTrace();
                 }
 
-                System.out.println( tagString + " was added to your inventory.");
+                System.out.println(tagString + " was added to your inventory.");
                 return true;
-            }
-            else {
+            } else {
                 System.out.println("Impossible to pick, no such item on the iceberg.");
                 return false;
             }

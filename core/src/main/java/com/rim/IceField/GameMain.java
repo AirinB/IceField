@@ -1,5 +1,7 @@
 package com.rim.IceField;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -10,17 +12,14 @@ import java.util.Scanner;
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
-
-    //private Texture texture;
-
     @Override
     public void initialise() {
-        //texture = new Texture("mini2Dx.png");
+
     }
 
     @Override
     public void update(float delta) {
-        //Test
+
     }
 
     @Override
@@ -30,10 +29,8 @@ public class GameMain extends BasicGame {
 
     @Override
     public void render(Graphics g) {
-        //g.drawTexture(texture, 0f, 0f);
+
     }
-
-
 
     public static void main(String[] args) throws Exception {
         ItemBase shovel = new Shovel();

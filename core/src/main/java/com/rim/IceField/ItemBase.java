@@ -29,31 +29,29 @@ public abstract class ItemBase {
     }
 
 
+    public String getTag() {
+        return tag;
+    }
 
-        public String getTag () {
-            return tag;
-        }
+    public int getId() {
+        return id;
+    }
 
-        public int getId () {
-            return id;
-        }
+    public int getPosX() {
+        return posX;
+    }
 
-        public int getPosX () {
-            return posX;
-        }
+    public int getPosY() {
+        return posY;
+    }
 
-        public int getPosY () {
-            return posY;
-        }
+    public boolean isObtained() {
+        return obtained;
+    }
 
-        public boolean isObtained () {
-            return obtained;
-        }
-
-        public boolean isActive () {
-            return active;
-        }
-
+    public boolean isActive() {
+        return active;
+    }
 
 
 }
