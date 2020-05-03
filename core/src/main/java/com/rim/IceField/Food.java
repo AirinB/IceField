@@ -3,7 +3,6 @@ package com.rim.IceField;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Food extends ItemBase {
-    Texture tex = new Texture("mini2Dx.png");
 
     public Food() {
         super();
@@ -14,11 +13,11 @@ public class Food extends ItemBase {
      * @param player that uses food item
      * @return true if item was used successfully
      * @throws Exception if there is now such item
-     * in the player's inventory
-     * Increases player's heat level by 1
+     *                   in the player's inventory
+     *                   Increases player's heat level by 1
      */
     @Override
-    public boolean useItem(PlayerBase player){
+    public boolean useItem(PlayerBase player) {
 
         try {
             //When the player used the item food

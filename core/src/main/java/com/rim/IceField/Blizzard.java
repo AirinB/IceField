@@ -10,9 +10,9 @@ public class Blizzard {
 
     /**
      * @param players all the players in the game
-     * @param map the map of the game
-     * The Blizzard randomply blows and also randomly
-     * covers some icebergs with snow
+     * @param map     the map of the game
+     *                The Blizzard randomply blows and also randomly
+     *                covers some icebergs with snow
      */
     //Method performing Blow functionality.
     public static void blow(ArrayList<PlayerBase> players, Map map) {
@@ -25,7 +25,7 @@ public class Blizzard {
         }
         //Covering icebergs with snow
         //I set it to 2 *2 right now because we don't have 9*9 icebergs yet ( I can test the app this way)
-        for (int i = 0; i <2 ; i++) {
+        for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
 
                 int snow = map.Icebergs[i][j].getAmountOfSnow();

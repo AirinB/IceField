@@ -22,8 +22,10 @@ public class PolarExplorer extends PlayerBase {
 
     //Method useSkill performs the ability of PolarExplorer to get the max number of players that could stand on the current iceberg.
 
-    /** the method shows how many players
+    /**
+     * the method shows how many players
      * can stand on an iceberg
+     *
      * @param map map of the game
      * @param dir direction
      * @return true id the acction is succesful

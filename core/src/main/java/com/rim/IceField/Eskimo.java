@@ -6,15 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 public class Eskimo extends PlayerBase {
     //Boolean for checking if Eskimo has built the Igloo
     private boolean usedIgloo;
-    Texture texture;
 
     //Constructor
     public Eskimo() {
         super();
         this.tag = "Eskimo";    //Setting the name
         this.heatLevel = 5;     //Setting number of heat units
-        this.texture = new Texture("assets/mini2Dx.png");
-
     }
 
     /**

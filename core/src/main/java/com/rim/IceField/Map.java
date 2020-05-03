@@ -1,5 +1,7 @@
 package com.rim.IceField;
 
+import org.mini2Dx.core.graphics.Graphics;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,15 +13,13 @@ public class Map {
     private final int MAP_HEIGHT = 10;                                  //map's height
     private final int MAP_WIDTH = 10;                                   //map's width
     public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];   //icebergs declaration
-    private boolean charge,flare,gun;                                   //boolean for items existence on the map
+    private boolean charge, flare, gun;                                   //boolean for items existence on the map
     private ArrayList<ItemBase> items;                            //List of items
 
     //Getter for list of icebergs
     public Iceberg[][] getIcebergs() {
         return Icebergs;
     }
-
-
 
 
     public void loadMap(/*String path*/) throws FileNotFoundException {
@@ -42,7 +42,7 @@ public class Map {
         for (int j = 0; j < MAP_HEIGHT; j++) {
             for (int i = 0; i < MAP_WIDTH; i++) {
                 Icebergs[j][i] = new Iceberg(true, "Stable",
-                          3,false, ranSnow(),ranItem());
+                        3, false, ranSnow(), ranItem());
 
             }
         }
@@ -51,6 +51,7 @@ public class Map {
 
     /**
      * Returns the item specified
+     *
      * @param tag of the item to be selected
      * @return instance of an item
      */
@@ -66,10 +67,9 @@ public class Map {
     }
 
     /**
-     *
      * @return item based on the random selector
      */
-  
+
     //MAKE FUNCTION THAT RETURNS RANDOM ITEMS
     public ItemBase ranItem() {
         Random rand = new Random();
@@ -109,13 +109,13 @@ public class Map {
 
     /**
      * Used for creating numbers
+     *
      * @return a random number
      */
     public int ranSnow() {
         Random rand = new Random();
         int upperBound = 4;
-        int Ran = rand.nextInt(upperBound) + 1;
-        return Ran;
+        return rand.nextInt(upperBound) + 1;
     }
 
     /**
@@ -149,7 +149,6 @@ public class Map {
             System.out.println();
         }
     }
-
 
     //Getter for list of items
     public ArrayList<ItemBase> getItems() {
@@ -200,7 +199,6 @@ public class Map {
 
         //Creation of the icebergs on the map.
         //Different types of icebergs are generated(stable, instable, hole) with different amount of snow.
-
 
 
         Iceberg first = new Iceberg(true, "stable", 20, false, 1, null);
@@ -258,7 +256,7 @@ public class Map {
 */
     }
 
-    public void generateStaticMap(ArrayList<PlayerBase> playerBase){
+    public void generateStaticMap(ArrayList<PlayerBase> playerBase) {
         items = new ArrayList<ItemBase>();
         Iceberg[][] map = new Iceberg[4][4];
         ItemBase shovel = new Shovel();
@@ -308,7 +306,7 @@ public class Map {
         map[1][2] = fifth;
         fifth.y = 1;
         fifth.x = 2;
-        for (PlayerBase p: playerBase) {
+        for (PlayerBase p : playerBase) {
             p.setCurrentIceberg(map[0][0]);
             map[0][0].Add_currentPlayers(p);
         }

@@ -12,8 +12,6 @@ import java.util.Scanner;
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
-
-    //private Texture texture;
     @Override
     public void initialise() {
 
@@ -33,8 +31,6 @@ public class GameMain extends BasicGame {
     public void render(Graphics g) {
 
     }
-
-
 
     public static void main(String[] args) throws Exception {
         ItemBase shovel = new Shovel();

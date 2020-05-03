@@ -13,7 +13,7 @@ public class Inventory {
 
     /**
      * @param it the item added to the
-     * player's inventory
+     *           player's inventory
      * @return true if the item was
      * added to the inventory
      */
@@ -45,7 +45,7 @@ public class Inventory {
 
     /**
      * @param index the id of the item
-     * to be removes from the inventory
+     *              to be removes from the inventory
      * @return boolean if the item was
      * removed from the inventory
      */
@@ -84,8 +84,7 @@ public class Inventory {
      * @param index id of the item
      * @return the item selected
      */
-    public ItemBase getItemAt(int index)
-    {
+    public ItemBase getItemAt(int index) {
         return items.get(index);
     }
 
