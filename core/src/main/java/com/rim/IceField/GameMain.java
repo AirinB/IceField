@@ -77,6 +77,7 @@ public class GameMain extends BasicGame {
 
                     playersList.add(pe);
                     System.out.println("New Polar Explorer added.");
+
                     break;
             }
         }
