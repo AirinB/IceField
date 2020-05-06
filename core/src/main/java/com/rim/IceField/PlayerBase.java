@@ -50,6 +50,8 @@ public abstract class PlayerBase extends TimerTask {
 
     //The constructor for the PlayerBase instantiates inventory.
     public PlayerBase() {
+        this.posX = 0;
+        this.posY = 0;
         this.tag = "PlayerBase";
         inventory = new Inventory();
     }

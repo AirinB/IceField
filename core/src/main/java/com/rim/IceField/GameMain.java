@@ -11,14 +11,27 @@ import java.util.Scanner;
 
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
-
+    public PlayerBaseGUI playerBaseGUI;
     @Override
-    public void initialise() {
 
+    public void initialise() {
+        //initialize all var
+
+        playerBaseGUI = new PlayerBaseGUI(new Eskimo());
     }
 
     @Override
     public void update(float delta) {
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            playerBaseGUI.updateMove("south");
+        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            playerBaseGUI.updateMove("west");
+        }else if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            playerBaseGUI.updateMove("north");
+        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            playerBaseGUI.updateMove("east");
+        }
+
 
     }
 
@@ -29,6 +42,8 @@ public class GameMain extends BasicGame {
 
     @Override
     public void render(Graphics g) {
+        playerBaseGUI.render(g);
+
 
     }
 
@@ -84,19 +99,8 @@ public class GameMain extends BasicGame {
         map.showMap();
         Game game = new Game(playersList, map);
 
-        System.out.println("If you want to load the inputs from file, enter 1");
+        game.newGame();
 
-        if( input.nextInt() == 1){
-            //newGame from file
-            Scanner scannerChoice = new Scanner(System.in);
-            System.out.println("Enter the path\n");
-            String path = scannerChoice.nextLine();
-            scannerChoice.close();
-            ArrayList<ArrayList<String>> inputsFromFile = game.loadInputs(path);
-            game.newGameFromFile(inputsFromFile );
-        }else{
-            game.newGame();
-        }
 
 
 
