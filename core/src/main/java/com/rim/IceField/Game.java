@@ -381,7 +381,7 @@ public class Game {
         return false;
     }
 
-    private Map getMap() {
+    Map getMap() {
         return map;
     }
 

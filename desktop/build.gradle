@@ -3,15 +3,16 @@ apply plugin: "application"
 sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-mainClassName = "com.rim.IceField.desktop.DesktopLauncher"
+//mainClassName = "com.rim.IceField.desktop.DesktopLauncher"
+mainClassName = "com.rim.IceField.GameMain"
 project.ext.assetsDir = new File("$projectDir/../assets");
 
 sourceSets.main.resources.srcDirs = [project.ext.assetsDir.getAbsolutePath()]
 
 task launchDesktop(dependsOn: classes, type: JavaExec) {
+    standardInput = System.in
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
     workingDir = project.assetsDir
     ignoreExitValue = true
 }

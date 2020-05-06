@@ -1,6 +1,7 @@
 package com.rim.IceField;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 //Blizzard class
 public class Blizzard {
@@ -15,7 +16,7 @@ public class Blizzard {
      *                covers some icebergs with snow
      */
     //Method performing Blow functionality.
-    public static void blow(ArrayList<PlayerBase> players, Map map) {
+    public static void blow(ArrayList<PlayerBase> players,ArrayList<Iceberg> icebergs, Map map) {
         System.out.println("The blizzard is blowing, some icebergs are covered in snow and some people will lose body heat.");
 
         for (PlayerBase player : players) {
@@ -25,11 +26,11 @@ public class Blizzard {
         }
         //Covering icebergs with snow
         //I set it to 2 *2 right now because we don't have 9*9 icebergs yet ( I can test the app this way)
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-
-                int snow = map.Icebergs[i][j].getAmountOfSnow();
-                map.Icebergs[i][j].setAmountOfSnow(snow + 1);
+        Random objGenerator = new Random();
+        for (Iceberg iceberg: icebergs){
+            if(objGenerator.nextBoolean()){
+                int snow = iceberg.getAmountOfSnow();
+                iceberg.setAmountOfSnow(snow+1);
             }
         }
     }
