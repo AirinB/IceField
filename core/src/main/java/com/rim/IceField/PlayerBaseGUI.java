@@ -109,7 +109,7 @@ public class PlayerBaseGUI {
     public void render(Graphics g) {
         batch.begin();
         // Drawing goes here!
-        batch.draw(playerTexture, player.posX, player.posY, 50, 50);
+        batch.draw(Playertexture, player.posX, player.posY, 40, 40);
         if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
 
