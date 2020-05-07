@@ -243,6 +243,7 @@ public abstract class PlayerBase extends TimerTask {
     //Increases the heat level of the player.
     public void increaseHeatLevel() {
         this.heatLevel++;
+        System.out.println("Heat level increased, current head level" + getHeatLevel());
     }
 
     /**
@@ -271,6 +272,15 @@ public abstract class PlayerBase extends TimerTask {
                 for (int i = 0; i < inventory.items.size(); i++) {
                     if (inventory.items.get(i).tag.equals(item)) {
                         inventory.items.get(i).useItem(this);
+                        if (item.equals("food") || item.equals("diving suit")) {
+                            for (int j = 0; j < inventory.items.size(); j++) {
+                                if (item.equals(inventory.items.get(i).tag)) {
+                                    inventory.deleteItem(j);
+                                    return true;
+                                }
+                            }
+                        }
+
                         break;
                     }
                 }
@@ -278,14 +288,7 @@ public abstract class PlayerBase extends TimerTask {
                 e.printStackTrace();
             }
 
-            if (item.equals("Food") || item.equals("Diving Suit")) {
-                for (int i = 0; i < inventory.items.size(); i++) {
-                    if (item.equals(inventory.items.get(i).tag)) {
-                        inventory.deleteItem(i);
-                        return true;
-                    }
-                }
-            }
+
         } else {
             System.out.println("Impossible to use the item or no such item exists!");
             return false;
@@ -371,7 +374,6 @@ public abstract class PlayerBase extends TimerTask {
                     e.printStackTrace();
                 }
 
-                System.out.println(tagString + " was added to your inventory.");
                 return true;
             } else {
                 System.out.println("Impossible to pick, no such item on the iceberg.");
@@ -379,7 +381,6 @@ public abstract class PlayerBase extends TimerTask {
             }
         } else {
             System.out.println("Level of snow on iceberg is not 0!");
-            System.out.println("There is snow on the iceberg");
             return false;
 
         }

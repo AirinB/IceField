@@ -81,7 +81,9 @@ public class Game {
         for (PlayerBase player : players) {
             if (player.isDead) {
                 System.out.println("Game lost!");
-                writeToFile("C:\\Outputs.txt", "Game lost!");
+                for (PlayerBase playerBase:players) {
+                    playerBase.timer.cancel();
+                }
                 return true;
 
             }
@@ -136,7 +138,7 @@ public class Game {
                 System.out.println("The next round the Blizzard would come. Take care!");
             }
             if (randomBlow[currentRound]) {
-            //    Blizzard.blow(players,map.getIcebergs(),map);
+               Blizzard.blow(players,this.getMap().getIcebergs());
             }
 
             for (PlayerBase player : players){
@@ -292,8 +294,12 @@ public class Game {
         } else if (input.get(0).equals("pick")) {
             if (player.currentIceberg.getItem() == null) {
                 System.out.println("There is no item on the iceberg");
-                writeToFile("C:\\Outputs.txt", "There is no item on the iceberg");
-                return check;
+                return false;
+            }
+            if(player.currentIceberg.getAmountOfSnow()!=0)
+            {
+                System.out.println("There is snow on the iceberg");
+                return false;
             }
             System.out.println("Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
             writeToFile("C:\\Outputs.txt", "Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
