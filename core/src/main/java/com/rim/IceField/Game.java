@@ -278,7 +278,7 @@ public class Game {
 
                     try {
                         check = player.useSkill(this.getMap(), input.get(1));
-                        System.out.println("Action accepted!");
+                      if(check)  System.out.println("Action accepted!");
                         return check;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -291,7 +291,7 @@ public class Game {
                 else if (input.get(0).equals("save")) {
                     if (validDirection(input)) {
                         check = player.SavePlayer(input.get(1), map);
-                        System.out.println("Action accepted!");
+                       if(check) System.out.println("Action accepted!");
 
                     }
                     return check;
@@ -302,7 +302,7 @@ public class Game {
             //Check if the item could be used, therefore understanding if it is a valid item;
 
             check = player.useItem(input.get(1));
-            System.out.println("Action accepted!");
+           if(check) System.out.println("Action accepted!");
             return check;
 
 
@@ -323,7 +323,7 @@ public class Game {
             if (y == 1) {
                 try {
                     check = player.pickItem();
-                    System.out.println("Action accepted!");
+                 if(check)   System.out.println("Action accepted!");
                     return check;
                 } catch (Exception e) {
                     e.printStackTrace();
