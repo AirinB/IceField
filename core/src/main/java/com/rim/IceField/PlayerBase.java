@@ -19,7 +19,7 @@ public abstract class PlayerBase extends TimerTask {
     Timer timer = new Timer();                    //Experiments with timer
     protected boolean isTurn = false;             //Check if is the players turn
     protected int tileX, tileY;                   //Stores the X and Y position relative to the tiles
-    protected int offX = 0, offY = 0;             //Stores the X and Y offset of the player
+    protected int offX = 2, offY = 2;             //Stores the X and Y offset of the player
     protected int posX, posY;                     //Stores the X and Y position of the player (This gets multiplied by the tile size)
 
 

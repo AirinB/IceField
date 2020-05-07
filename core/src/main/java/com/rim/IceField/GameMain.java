@@ -12,12 +12,15 @@ import java.util.Scanner;
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
     public PlayerBaseGUI playerBaseGUI;
+    public BlizzardGUI blizzardGUI;
     @Override
 
     public void initialise() {
         //initialize all var
 
         playerBaseGUI = new PlayerBaseGUI(new Eskimo());
+        blizzardGUI = new BlizzardGUI();
+
     }
 
     @Override
@@ -32,6 +35,8 @@ public class GameMain extends BasicGame {
             playerBaseGUI.updateMove("east");
         }
 
+        blizzardGUI.update();
+
 
     }
 
@@ -43,6 +48,7 @@ public class GameMain extends BasicGame {
     @Override
     public void render(Graphics g) {
         playerBaseGUI.render(g);
+        blizzardGUI.render(g);
 
 
     }
