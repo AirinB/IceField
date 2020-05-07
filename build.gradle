@@ -66,6 +66,8 @@ project(":desktop") {
     dependencies {
         compile project(":core")
         compile "org.mini2Dx:mini2Dx-desktop:$mini2DxVersion"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
     parcl {
         exe {

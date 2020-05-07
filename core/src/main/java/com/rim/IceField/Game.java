@@ -1,10 +1,4 @@
 package com.rim.IceField;
-
-//TODO close scanner
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +59,8 @@ public class Game {
         //Checking if all the conditions are preserved for winning the game
         if (isWin()) {
             System.out.println("Game Over! You Win");
-            writeToFile("C:\\Outputs.txt", "Game Over! You Win");
+            String projectPath = System.getProperty("user.dir");
+            writeToFile("Outputs.txt", "Game Over! You Win");
             return true;
         }
 
@@ -115,7 +110,7 @@ public class Game {
         if (playersCheck) {
             if (Inventory.countGunItems == 3) {
                 System.out.println("The flare gun is collected");
-                writeToFile("C:\\Outputs.txt", "The flare gun is collected");
+                writeToFile("Outputs.txt", "The flare gun is collected");
                 return true;
             }
         }
@@ -153,7 +148,7 @@ public class Game {
                 } catch (Exception e) {
                     e.printStackTrace();
                     if (e.getMessage().equals("End of Turn and end of Game")) {
-                        writeToFile("C:\\Outputs.txt", "End of Turn and end of Game");
+                        writeToFile("Outputs.txt", "End of Turn and end of Game");
                         return;
                     }
                 } finally {
@@ -185,6 +180,10 @@ public class Game {
         int round = 0;
         while (round < 4) {
             try {
+
+                if (isGameLost()) {
+                    throw new Exception("End of the Game");
+                }
                 ArrayList<String> userInput = processInput();
                 if (UserInteraction(userInput, player)) {// the round increases only if the action was successful
                     round++;
@@ -201,7 +200,6 @@ public class Game {
                 }
                 if (e.getMessage().equals("The player is drowning")) {
                     System.out.println("It's next players turn. Hurry!");
-                    writeToFile("C:\\Outputs.txt", "It's next players turn. Hurry!");
                     return;
                 }
             }
@@ -247,7 +245,7 @@ public class Game {
                         if (player.isDrowning) {
                             throw new Exception("The player is in water");
                         }
-                        if(check==true)
+                        if(check)
                         System.out.println("Action accepted!");
                         isGameLost();
                         return check;
@@ -302,7 +300,7 @@ public class Game {
                 return false;
             }
             System.out.println("Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
-            writeToFile("C:\\Outputs.txt", "Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
+            writeToFile("Outputs.txt", "Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
             Scanner input1 = new Scanner(System.in);
             int y = input1.nextInt();
             if (y == 1) {
@@ -317,7 +315,7 @@ public class Game {
             return false;
         } else if (input.get(0).equals("remove") && input.get(1).equals("snow")) {
             check = player.removeSnow();
-            if(check==true)
+            if(check)
             System.out.println("Action accepted!");
             else  System.out.println("There is no snow on the iceberg");
             return check;
@@ -326,7 +324,7 @@ public class Game {
             System.out.println("Action accepted!");
             if (!GameOver()) {
                 System.out.println("You can't fire the gun, work more!");
-                writeToFile("C:\\Outputs.txt", "You can't fire the gun, work more!");
+                writeToFile("Outputs.txt", "You can't fire the gun, work more!");
 
                 return false;
             }
@@ -343,7 +341,7 @@ public class Game {
         } else if (input.get(0).equals("info")) {
             int partsCollected = getPlayerInfo(player);
             System.out.println("Parts collected:" + partsCollected);
-            writeToFile("C:\\Outputs.txt", "Parts collected:" + partsCollected);
+            writeToFile("Outputs.txt", "Parts collected:" + partsCollected);
             System.out.println("Action accepted!");
             return false;
 
@@ -357,7 +355,7 @@ public class Game {
             return false;
         } else {
             System.out.println("There is no such command. Enter 'help' to see available actions");
-            writeToFile("C:\\Outputs.txt", "There is no such command. Enter 'help' to see available actions");
+            writeToFile("Outputs.txt", "There is no such command. Enter 'help' to see available actions");
             return false;
         }
         return false;
@@ -387,7 +385,7 @@ public class Game {
         int rope = 0;
         int shovel = 0;
         System.out.println("Your inventory:");
-        writeToFile("C:\\Outputs.txt", "Your inventory:");
+        writeToFile("Outputs.txt", "Your inventory:");
         if (player.getInventory().getItems().size() == 0) {
             System.out.println("Your inventory is empty");
             return;
