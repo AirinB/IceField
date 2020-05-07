@@ -1,16 +1,9 @@
 package com.rim.IceField;
-
-//TODO close scanner
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-
-import static com.rim.IceField.FileManager.writeToFile;
 
 public class Game {
 
@@ -252,7 +245,7 @@ public class Game {
                         if (player.isDrowning) {
                             throw new Exception("The player is in water");
                         }
-                        if(check==true)
+                        if(check)
                         System.out.println("Action accepted!");
                         isGameLost();
                         return check;
@@ -322,7 +315,7 @@ public class Game {
             return false;
         } else if (input.get(0).equals("remove") && input.get(1).equals("snow")) {
             check = player.removeSnow();
-            if(check==true)
+            if(check)
             System.out.println("Action accepted!");
             else  System.out.println("There is no snow on the iceberg");
             return check;
