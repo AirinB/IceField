@@ -54,20 +54,11 @@ public class GameMain extends BasicGame {
     }
 
     public static void main(String[] args) throws Exception {
-        ItemBase shovel = new Shovel();
-        ItemBase charge = new Charge();
-        ItemBase rope = new Rope();
 
-        ItemBase food = new Food();
-
-        ItemBase flare = new Food();
-
-        ItemBase divingSuit = new DivingSuit();
-
-        ItemBase gun = new Food();
 
 
         System.out.println("Introduce the number of players in the game: ");
+
         Scanner input = new Scanner(System.in);
         int numberOfPlayers = input.nextInt();
         //List of players.
@@ -79,19 +70,11 @@ public class GameMain extends BasicGame {
             switch (m) {
                 case 1:
                     Eskimo e = new Eskimo();
-                    e.inventory.addItem(food);
-                    e.inventory.addItem(flare);
-                    e.inventory.addItem(rope);
-                    e.inventory.addItem(charge);
                     playersList.add(e);
                     System.out.println("New Eskimo added.");
                     break;
                 case 2:
                     PolarExplorer pe = new PolarExplorer();
-                    pe.inventory.addItem(shovel);
-                    pe.inventory.addItem(divingSuit);
-                    pe.inventory.addItem(gun);
-
                     playersList.add(pe);
                     System.out.println("New Polar Explorer added.");
 
@@ -99,13 +82,37 @@ public class GameMain extends BasicGame {
             }
         }
 
-        Map map = new Map();
-        //map.generateStaticMap(playersList);
-        map.loadMap();
-        map.showMap();
-        Game game = new Game(playersList, map);
+        Game game = new Game(playersList);
+        for (PlayerBase player:playersList) {
+            player.setGame(game);
+        }
+        //TEST
+        Rope rp = new Rope();
+        Food fd1 = new Food();
+        Food fd2 = new Food();
+        Food fd3 = new Food();
+        Food fd4 = new Food();
+        Food fd5 = new Food();
 
-        game.newGame();
+     playersList.get(1).inventory.addItem(rp);
+   /*  playersList.get(0).inventory.addItem(fd1);
+        playersList.get(0).inventory.addItem(fd2);
+        playersList.get(0).inventory.addItem(fd3);
+        playersList.get(0).inventory.addItem(fd4);
+        playersList.get(0).inventory.addItem(fd5);*/
+        game.getMap().Icebergs[0][0].setItem(fd1);
+//TEST
+        //System.out.println("If you want to load the inputs from file, enter 1");
+
+       // int a = input.nextInt();
+    /*    if( a == 1){
+            //newGame from file
+            Scanner scannerChoice = new Scanner(System.in);
+            System.out.println("Enter the path\n");
+            String path = scannerChoice.nextLine();
+            scannerChoice.close();
+        }*/
+            game.newGame();
 
 
 
