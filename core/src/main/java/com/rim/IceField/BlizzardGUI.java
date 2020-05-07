@@ -6,8 +6,8 @@ import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.graphics.Sprite;
 
 public class BlizzardGUI {
-
-    Sprite sprite;
+    private SpriteBatch batch;
+    private Sprite sprite;
     Texture texture1;
     Texture texture2;
     Texture texture3;
@@ -17,7 +17,7 @@ public class BlizzardGUI {
     Texture windRight2;
     Texture windRight3;
     Texture windRight4;
-    private SpriteBatch batch;
+
     int positionX1;
     int positionX2;
     int positionX3;
@@ -33,10 +33,10 @@ public class BlizzardGUI {
 
     public BlizzardGUI() {
         screenWidth = 640;
-        positionX1 = 0;
-        positionX2 = 0;
-        positionX3 = 0;
-        positionX4 = 0;
+        positionX1 = -100;
+        positionX2 = -100;
+        positionX3 = -100;
+        positionX4 = -100;
 
         posX1 = screenWidth;
         posX2 = screenWidth;
@@ -67,6 +67,7 @@ public class BlizzardGUI {
 
     }
 
+
     public void update() {
         if(positionX1 <= screenWidth) positionX1 += 1;
         if(positionX2 <= screenWidth) positionX2 += 2;
@@ -77,6 +78,25 @@ public class BlizzardGUI {
         if(posX2 >= -110) posX2 -= 1.4;
         if(posX3 >= -110) posX3 -= 2.333;
         if(posX4 >= -110) posX4 -= 3.2345;
+
+        if( positionX1 >= screenWidth && positionX2 >= screenWidth
+                &&positionX3 >= screenWidth &&positionX4 >= screenWidth
+                && posX1 <= 110 && posX2 <= 110 && posX3 <= 110 && posX4 <= 110){
+            resetBlow();
+        }
+    }
+
+    //reset the coordinates to the initial ones
+    public void resetBlow(){
+        positionX1 = -100;
+        positionX2 = -100;
+        positionX3 = -100;
+        positionX4 = -100;
+
+        posX1 = screenWidth;
+        posX2 = screenWidth;
+        posX3 = screenWidth;
+        posX4 = screenWidth;
 
     }
 

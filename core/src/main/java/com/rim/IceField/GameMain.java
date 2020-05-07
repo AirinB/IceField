@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
+
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
     public PlayerBaseGUI playerBaseGUI;
@@ -33,6 +34,15 @@ public class GameMain extends BasicGame {
             playerBaseGUI.updateMove("north");
         }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             playerBaseGUI.updateMove("east");
+        }
+
+        // draw the igloo
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            playerBaseGUI.updateIgloo("south");
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.I)){
+            playerBaseGUI.updateMaxlpayers(5);
         }
 
         blizzardGUI.update();
