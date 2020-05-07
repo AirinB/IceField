@@ -15,7 +15,7 @@ public class Game {
 
 
     //Instance of Map, shared between the classes
-    private Map map;
+    private Map map ;
     private ArrayList<PlayerBase> players; // the players belong to the game
     private final int maxRounds = 10;
     private int currentRound;
@@ -26,8 +26,9 @@ public class Game {
     /**
      * @param players all the players of the game
      */
-    public Game(ArrayList<PlayerBase> players, Map map) {
-        this.map = map;
+    public Game(ArrayList<PlayerBase> players) {
+        this.map = new Map();
+        map.generateMap();
         this.players = players;
         currentRound = 0;
         sc = new Scanner(System.in);
@@ -129,14 +130,18 @@ public class Game {
     public void newGame() throws Exception {
         //map.generateItemsOnMap();           //Generating items on map
         System.out.println("Game started!");
-        writeToFile("C:\\Outputs.txt", "Game started!");
+
         while (currentRound < maxRounds) {
             if (randomBlow[currentRound + 1]) {
                 System.out.println("The next round the Blizzard would come. Take care!");
-                writeToFile("C:\\Outputs.txt", "The next round the Blizzard would come. Take care!");
             }
             if (randomBlow[currentRound]) {
-                Blizzard.blow(players, map);
+            //    Blizzard.blow(players,map.getIcebergs(),map);
+            }
+
+            for (PlayerBase player : players){
+                player.currentIceberg = this.getMap().Icebergs[0][0];
+                this.getMap().Icebergs[0][0].Add_currentPlayers(player);
             }
             for (PlayerBase player : players) {
                 player.isTurn = true;
@@ -159,46 +164,10 @@ public class Game {
         }
     }
 
+
+
     //New game when the inputs come from a file
     //When calling the inputs will be received by calling method loadInputs(..).
-    public void newGameFromFile(ArrayList<ArrayList<String>> inputs) throws Exception {
-        // map.generateItemsOnMap();//Generating items on map
-
-        int count = 0;
-        //the case when the inputs are not comming from a file
-        //  map.generateItemsOnMap();           //Generating items on map
-        System.out.println("Game started!");
-        writeToFile("C:\\Outputs.txt", "Game started!");
-        while (currentRound < maxRounds) {
-            if (randomBlow[currentRound + 1]) {
-                System.out.println("The next round the Blizzard would come. Take care!");
-                writeToFile("C:\\Outputs.txt", "The next round the Blizzard would come. Take care!");
-            }
-            if (randomBlow[currentRound]) {
-                Blizzard.blow(players, map);
-            }
-            for (PlayerBase player : players) {
-                player.isTurn = true;
-
-                try {
-                    ArrayList<ArrayList<String>> fourInputs = new ArrayList<ArrayList<String>>();
-                    for (int i = 0; i < 4; i++) {
-                        fourInputs.add(inputs.get(i + count));
-
-                    }
-                    TurnFromFile(player, fourInputs);
-                    count += 4;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    player.isTurn = false;
-                }
-            }
-
-        }
-
-        //there can be a limited number of rounds
-    }
 
 
     /**
@@ -208,8 +177,9 @@ public class Game {
 
     public void Turn(PlayerBase player) throws Exception {
         if (!player.isTurn()) throw new Exception("It's not this player's turn");
+
         System.out.println("Its players  " + player.getTag() + " turn number " + player.getID());
-        writeToFile("C:\\Outputs.txt", "Its players  " + player.getTag() + " turn number " + player.getID());
+        //writeToFile("C:\\Outputs.txt", "Its players  " + player.getTag() + " turn number " + player.getID());
         int round = 0;
         while (round < 4) {
             try {
@@ -235,6 +205,9 @@ public class Game {
             }
         }
         //After the player makes their 4 moves we need to give the turn to the next player
+    }
+
+    private void writeToFile(String s, String s1) {
     }
 
     public void TurnFromFile(PlayerBase player, ArrayList<ArrayList<String>> fileInputs) throws Exception {
@@ -272,6 +245,7 @@ public class Game {
                         if (player.isDrowning) {
                             throw new Exception("The player is in water");
                         }
+                        if(check==true)
                         System.out.println("Action accepted!");
                         isGameLost();
                         return check;
@@ -337,7 +311,9 @@ public class Game {
             return false;
         } else if (input.get(0).equals("remove") && input.get(1).equals("snow")) {
             check = player.removeSnow();
+            if(check==true)
             System.out.println("Action accepted!");
+            else  System.out.println("There is no snow on the iceberg");
             return check;
         } else if (input.get(0).equals("fire")) {
             GameOver();
@@ -480,25 +456,7 @@ public class Game {
         System.out.println("map - will show the map to the user.");
     }
 
-    //Loads all inputs and returns them as a List
 
-    public ArrayList<ArrayList<String>> loadInputs(String path) throws FileNotFoundException {
-        File inputs = new File(path);
-        Scanner sc = new Scanner(inputs);
-        ArrayList<ArrayList<String>> fromFile = new ArrayList<ArrayList<String>>();
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine();
-            ArrayList<String> newLine = new ArrayList<String>(Arrays.asList(line.split(" ")));
-            fromFile.add(newLine);
-        }
-        return fromFile;
-    }
-
-    public void writeToFile(String path, String output) throws IOException {
-        FileWriter outputFile = new FileWriter(path, true);
-        outputFile.write(output + "\n");
-        outputFile.close();
-    }
 
 
     //for testing at this stage

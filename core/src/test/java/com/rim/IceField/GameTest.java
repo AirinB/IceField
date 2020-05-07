@@ -18,7 +18,7 @@ class GameTest {
        Eskimo e1 = new Eskimo();
        Eskimo e2 = new Eskimo();
        Map map = new Map();
-       Game game = new Game(playersList, map);
+       Game game = new Game(playersList);
        playersList.add(e1);
        playersList.add(e2);
        PolarExplorer p1 = new PolarExplorer();

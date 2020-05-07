@@ -17,7 +17,11 @@ public class PolarExplorer extends PlayerBase {
      */
     @Override
     public void run() {
-        decreaseHeatLevel();
+        try {
+            decreaseHeatLevel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //Method useSkill performs the ability of PolarExplorer to get the max number of players that could stand on the current iceberg.
