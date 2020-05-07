@@ -11,12 +11,12 @@ public class Blizzard {
     public static int numOfRounds; //Blizzard blows
     /**
      * @param players all the players in the game
-     * @param map     the map of the game
+    // * @param map     the map of the game
      *                The Blizzard randomply blows and also randomly
      *                covers some icebergs with snow
      */
     //Method performing Blow functionality.
-    public  void blow(ArrayList<PlayerBase> players,Iceberg[][] icebergs, Map map, Game game) throws IOException {
+    public  static void blow(ArrayList<PlayerBase> players,Iceberg[][] icebergs) throws IOException {
         System.out.println("The blizzard is blowing, some icebergs are covered in snow and some people will lose body heat.");
 
         for (PlayerBase player : players) {

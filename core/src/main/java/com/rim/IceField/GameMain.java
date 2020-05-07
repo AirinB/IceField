@@ -67,20 +67,32 @@ public class GameMain extends BasicGame {
         }
         //TEST
         Rope rp = new Rope();
-     playersList.get(1).inventory.addItem(rp);
-//TEST
-        System.out.println("If you want to load the inputs from file, enter 1");
+        Food fd1 = new Food();
+        Food fd2 = new Food();
+        Food fd3 = new Food();
+        Food fd4 = new Food();
+        Food fd5 = new Food();
 
-        int a = input.nextInt();
-        if( a == 1){
+     playersList.get(1).inventory.addItem(rp);
+   /*  playersList.get(0).inventory.addItem(fd1);
+        playersList.get(0).inventory.addItem(fd2);
+        playersList.get(0).inventory.addItem(fd3);
+        playersList.get(0).inventory.addItem(fd4);
+        playersList.get(0).inventory.addItem(fd5);*/
+        game.getMap().Icebergs[0][0].setItem(fd1);
+//TEST
+        //System.out.println("If you want to load the inputs from file, enter 1");
+
+       // int a = input.nextInt();
+    /*    if( a == 1){
             //newGame from file
             Scanner scannerChoice = new Scanner(System.in);
             System.out.println("Enter the path\n");
             String path = scannerChoice.nextLine();
             scannerChoice.close();
-        }else{
+        }*/
             game.newGame();
-        }
+
 
 
 
