@@ -339,7 +339,7 @@ public abstract class PlayerBase extends TimerTask {
                 }
             };
 
-            timer.scheduleAtFixedRate(tt, 0, 5000);
+            timer.scheduleAtFixedRate(tt, 0, 1000000000);
 
         }
     }

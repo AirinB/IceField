@@ -65,7 +65,6 @@ public class Game {
         //Checking if all the conditions are preserved for winning the game
         if (isWin()) {
             System.out.println("Game Over! You Win");
-            writeToFile("C:\\Outputs.txt", "Game Over! You Win");
             return true;
         }
 
@@ -101,11 +100,19 @@ public class Game {
         //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
 
         //MODIFIED TO 2 FOR TESTING PURPOSES
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size()
-                        && !map.Icebergs[i][j].getType().equals("hole")) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+
+
+                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size())
+                {
+
                     playersCheck = true;
+                    if(map.Icebergs[i][j].getType().equals("hole"))
+                    {
+                        playersCheck = false;
+
+                    }
                     break;
                 }
             }
@@ -115,11 +122,10 @@ public class Game {
         if (playersCheck) {
             if (Inventory.countGunItems == 3) {
                 System.out.println("The flare gun is collected");
-                writeToFile("C:\\Outputs.txt", "The flare gun is collected");
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
 
@@ -141,10 +147,10 @@ public class Game {
                Blizzard.blow(players,this.getMap().getIcebergs());
             }
 
-            for (PlayerBase player : players){
-                player.currentIceberg = this.getMap().Icebergs[0][0];
-                this.getMap().Icebergs[0][0].Add_currentPlayers(player);
-            }
+          /*  for (PlayerBase player : players){
+                player.currentIceberg = this.getMap().Icebergs[5][5];
+                this.getMap().Icebergs[5][5].Add_currentPlayers(player);
+            }*/
             for (PlayerBase player : players) {
                 player.isTurn = true;
 
@@ -185,6 +191,9 @@ public class Game {
         int round = 0;
         while (round < 4) {
             try {
+                System.out.println("---------------------------------------------------------------------\n\n");
+                System.out.println("Player " + player.getTag()+" is on iceberg " + player.getCurrentIceberg().y + player.getCurrentIceberg().x );
+                System.out.println("---------------------------------------------------------------------\n\n");
                 ArrayList<String> userInput = processInput();
                 if (UserInteraction(userInput, player)) {// the round increases only if the action was successful
                     round++;
@@ -192,8 +201,15 @@ public class Game {
                         throw new Exception("End of the Game");
                     }
                 }
-            } catch (Exception e) {
+                System.out.println("---------------------------------------------------------------------\n\n");
+                System.out.println("Player " + player.getTag()+" is on iceberg " + player.getCurrentIceberg().y + player.getCurrentIceberg().x );
+                System.out.println("---------------------------------------------------------------------\n\n");
+            }
+            catch (Exception e) {
                 //end of turn
+                System.out.println("---------------------------------------------------------------------\n\n");
+                System.out.println("Player " + player.getTag()+" is on iceberg " + player.getCurrentIceberg().y + player.getCurrentIceberg().x );
+                System.out.println("---------------------------------------------------------------------\n\n");
 
                 if (e.getMessage().equals("End of the Game")) {
                     sc.close();
@@ -302,7 +318,7 @@ public class Game {
                 return false;
             }
             System.out.println("Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
-            writeToFile("C:\\Outputs.txt", "Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
+           // writeToFile("C:\\Outputs.txt", "Would you like to pick " + player.currentIceberg.getItem().getTag() + "press 1 for yes, 2 for no");
             Scanner input1 = new Scanner(System.in);
             int y = input1.nextInt();
             if (y == 1) {
@@ -323,11 +339,9 @@ public class Game {
             return check;
         } else if (input.get(0).equals("fire")) {
             GameOver();
-            System.out.println("Action accepted!");
+           if( GameOver()) System.out.println("Action accepted!");
             if (!GameOver()) {
                 System.out.println("You can't fire the gun, work more!");
-                writeToFile("C:\\Outputs.txt", "You can't fire the gun, work more!");
-
                 return false;
             }
             return true;
@@ -492,7 +506,7 @@ public class Game {
         return false;
     }
 
-    public boolean GameOverForTest() {
+   public boolean GameOverForTest() {
         //Checking if all the conditions are preserved for winning the game
         if (isWinForTest()) {
             System.out.println("Game Over! You Win");

@@ -64,6 +64,8 @@ public class GameMain extends BasicGame {
         Game game = new Game(playersList);
         for (PlayerBase player:playersList) {
             player.setGame(game);
+            player.currentIceberg = game.getMap().Icebergs[0][0];
+            game.getMap().Icebergs[0][0].Add_currentPlayers(player);
         }
         //TEST
         Rope rp = new Rope();
@@ -72,8 +74,14 @@ public class GameMain extends BasicGame {
         Food fd3 = new Food();
         Food fd4 = new Food();
         Food fd5 = new Food();
+        Flare flare = new Flare();
+        Gun gun = new Gun();
+        Charge charge = new Charge();
 
      playersList.get(1).inventory.addItem(rp);
+     playersList.get(1).inventory.addItem(flare);
+        playersList.get(1).inventory.addItem(gun);
+        playersList.get(1).inventory.addItem(gun);
    /*  playersList.get(0).inventory.addItem(fd1);
         playersList.get(0).inventory.addItem(fd2);
         playersList.get(0).inventory.addItem(fd3);
