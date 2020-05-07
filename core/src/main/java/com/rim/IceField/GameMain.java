@@ -62,8 +62,13 @@ public class GameMain extends BasicGame {
         }
 
         Game game = new Game(playersList);
-
-
+        for (PlayerBase player:playersList) {
+            player.setGame(game);
+        }
+        //TEST
+        Rope rp = new Rope();
+     playersList.get(1).inventory.addItem(rp);
+//TEST
         System.out.println("If you want to load the inputs from file, enter 1");
 
         int a = input.nextInt();

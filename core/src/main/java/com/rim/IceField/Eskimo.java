@@ -2,6 +2,8 @@ package com.rim.IceField;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.io.IOException;
+
 //Eskimo class
 public class Eskimo extends PlayerBase {
     //Boolean for checking if Eskimo has built the Igloo
@@ -20,7 +22,11 @@ public class Eskimo extends PlayerBase {
      */
     @Override
     public void run() {
-        decreaseHeatLevel();
+        try {
+            decreaseHeatLevel();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //Method useSkill performs the ability of Eskimo to construct the Igloo
