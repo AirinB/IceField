@@ -201,6 +201,7 @@ public abstract class PlayerBase extends TimerTask {
                     System.out.println(player.tag + " has been saved!");
                     player.isDrowning = false;  //player is saved , so it's not drowning anymore
                     player.timer.cancel();
+                    player.timer = new Timer();
                     player.currentIceberg = this.currentIceberg;
                     this.currentIceberg.Add_currentPlayers(player);
 
