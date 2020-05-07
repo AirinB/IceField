@@ -18,6 +18,7 @@ public class PlayerBaseGUI {
     Sprite sprite;
     Texture playerTexture;
     Texture iglooTexture;
+    Texture lifeTexture;
     BitmapFont font;
     //not used for now
     //Label label1;
@@ -40,6 +41,7 @@ public class PlayerBaseGUI {
             playerTexture = new Texture("assets/polarExp.png");
 
         iglooTexture = new Texture("assets/igloo.png");
+        lifeTexture = new Texture("assets/5fullbattery.png");
         sprite = new Sprite(playerTexture, 100, 100, 100, 100);
         sprite.setPosition(40, 40);
         batch = new SpriteBatch();
@@ -66,8 +68,30 @@ public class PlayerBaseGUI {
 //        label1.setPosition(0,Gdx.graphics.getHeight()-(Gdx.graphics.getWidth() / 12)*2);
 //        label1.setAlignment(Align.center);
 
+    }
 
+    public void updatePlayerLife(int lifeLeft){
+        switch (lifeLeft) {
+            case 5:
+                lifeTexture = new Texture("assets/5fullbattery.png");
+                break;
+            case 4:
+                lifeTexture = new Texture("assets/4battery.png");
+                break;
+            case 3:
+                lifeTexture = new Texture("assets/3battery.png");
+                break;
+            case 2:
+                lifeTexture = new Texture("assets/2battery.png");
+                break;
+            case 1:
+                lifeTexture = new Texture("assets/1battery.png");
+                break;
+            case 0:
+                lifeTexture = new Texture("assets/0battery.png");
+                break;
 
+        }
 
     }
 
@@ -106,10 +130,12 @@ public class PlayerBaseGUI {
         showTextFlag = 1;
     }
 
+
     public void render(Graphics g) {
         batch.begin();
         // Drawing goes here!
         batch.draw(playerTexture, player.posX, player.posY, 40, 40);
+        batch.draw(lifeTexture, 50, 400,30, 30 );
         if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
 

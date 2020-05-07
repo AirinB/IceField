@@ -68,6 +68,7 @@ public class GameMain extends BasicGame {
         divingSuit.update(400, 120);
         shovel.update(295, 200);
         gun.update(289, 266);
+        playerBaseGUI.updatePlayerLife(0);
         blizzardGUI.update();
 
 
