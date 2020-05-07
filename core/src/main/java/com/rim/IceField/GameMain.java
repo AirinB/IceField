@@ -14,13 +14,28 @@ public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
     public PlayerBaseGUI playerBaseGUI;
     public BlizzardGUI blizzardGUI;
+    public ItemBaseGUI rope;
+    public ItemBaseGUI food;
+    public ItemBaseGUI charge;
+    public ItemBaseGUI divingSuit;
+    public ItemBaseGUI flare;
+    public ItemBaseGUI gun;
+    public ItemBaseGUI shovel;
     @Override
 
     public void initialise() {
         //initialize all var
 
         playerBaseGUI = new PlayerBaseGUI(new Eskimo());
+        rope = new ItemBaseGUI(new Rope());
+        food = new ItemBaseGUI(new Food());
+        charge = new ItemBaseGUI(new Charge());
+        flare = new ItemBaseGUI(new Flare());
+        gun = new ItemBaseGUI(new Gun());
+        shovel = new ItemBaseGUI(new Shovel());
+        divingSuit =  new ItemBaseGUI(new DivingSuit());
         blizzardGUI = new BlizzardGUI();
+
 
     }
 
@@ -45,6 +60,14 @@ public class GameMain extends BasicGame {
             playerBaseGUI.updateMaxlpayers(5);
         }
 
+
+        food.update(140, 160);
+        rope.update(220, 190);
+        charge.update(300, 100);
+        flare.update(111, 275);
+        divingSuit.update(400, 120);
+        shovel.update(295, 200);
+        gun.update(289, 266);
         blizzardGUI.update();
 
 
@@ -57,8 +80,16 @@ public class GameMain extends BasicGame {
 
     @Override
     public void render(Graphics g) {
+        food.render(g);
+        rope.render(g);
+        charge.render(g);
+        flare.render(g);
+        shovel.render(g);
+        gun.render(g);
+        divingSuit.render(g);
         playerBaseGUI.render(g);
         blizzardGUI.render(g);
+
 
 
     }

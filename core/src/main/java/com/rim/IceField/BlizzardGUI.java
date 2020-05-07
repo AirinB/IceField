@@ -103,15 +103,15 @@ public class BlizzardGUI {
     public void render(Graphics g) {
         batch.begin();
         // Drawing goes here!
-        batch.draw(texture1, positionX1, 200, 100, 100);
-        batch.draw(texture2, positionX2, 240, 100, 100);
-        batch.draw(texture3, positionX3, 50, 100, 100);
+        batch.draw(texture1, positionX1, 200, 80, 80);
+        batch.draw(texture2, positionX2, 240, 71, 71);
+        batch.draw(texture3, positionX3, 50, 90, 90);
         batch.draw(texture4, positionX4, 110, 100, 100);
 
         batch.draw(windRight1, posX1, 110, 100, 100);
-        batch.draw(windRight2, posX2, 50, 100, 100);
-        batch.draw(windRight3, posX3, 222, 100, 100);
-        batch.draw(windRight4, posX4, 350, 100, 100);
+        batch.draw(windRight2, posX2, 50, 110, 110);
+        batch.draw(windRight3, posX3, 222, 78, 78);
+        batch.draw(windRight4, posX4, 350, 67, 67);
         // g.drawTexture(texture, player.posX, player.posY);
 
 

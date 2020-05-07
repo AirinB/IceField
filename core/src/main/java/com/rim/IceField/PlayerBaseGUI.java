@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.graphics.Sprite;
 
-//TODO need to heighit the iceberg
+//TODO need to highlight the iceberg
 // that is selected by the Polar Explorer
 
 public class PlayerBaseGUI {
     PlayerBase player;
     Sprite sprite;
-    Texture Playertexture;
+    Texture playerTexture;
     Texture iglooTexture;
     BitmapFont font;
     //not used for now
@@ -35,12 +35,12 @@ public class PlayerBaseGUI {
 
     public void initialize() {
         if (player.getTag().equals("Eskimo"))
-            Playertexture = new Texture("assets/eskimo.png");
+            playerTexture = new Texture("assets/eskimo.png");
         if (player.getTag().equals("PolarExplorer"))
-            Playertexture = new Texture("assets/polarExp.png");
+            playerTexture = new Texture("assets/polarExp.png");
 
         iglooTexture = new Texture("assets/igloo.png");
-        sprite = new Sprite(Playertexture, 100, 100, 100, 100);
+        sprite = new Sprite(playerTexture, 100, 100, 100, 100);
         sprite.setPosition(40, 40);
         batch = new SpriteBatch();
 
@@ -109,7 +109,7 @@ public class PlayerBaseGUI {
     public void render(Graphics g) {
         batch.begin();
         // Drawing goes here!
-        batch.draw(Playertexture, player.posX, player.posY, 40, 40);
+        batch.draw(playerTexture, player.posX, player.posY, 50, 50);
         if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
 
