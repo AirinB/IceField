@@ -25,7 +25,7 @@ public class Blizzard {
             System.out.println(player + "Your body temperature has decreased.");
         }
         //Covering icebergs with snow
-        //I set it to 2 *2 right now because we don't have 9*9 icebergs yet ( I can test the app this way)
+        //I set it to 10 *10 right now because we don't have 9*9 icebergs yet ( I can test the app this way)
         Random objGenerator = new Random();
         for (int i =0;i<icebergs.length;i++)
         {
