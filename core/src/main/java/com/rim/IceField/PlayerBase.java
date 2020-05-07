@@ -248,6 +248,9 @@ public abstract class PlayerBase extends TimerTask {
         System.out.println("Heat level increased, current head level" + getHeatLevel());
     }
 
+    public void decreaseHeatByOne(){
+        this.heatLevel --;
+    }
     /**
      * is decreasing the
      * heat level of the player
@@ -341,7 +344,7 @@ public abstract class PlayerBase extends TimerTask {
                 }
             };
 
-            timer.scheduleAtFixedRate(tt, 0, 5000);
+            timer.scheduleAtFixedRate(tt, 0, 1000000000);
 
         }
     }

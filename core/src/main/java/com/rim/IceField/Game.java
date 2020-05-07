@@ -1,4 +1,7 @@
 package com.rim.IceField;
+
+
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,11 +99,19 @@ public class Game {
         //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
 
         //MODIFIED TO 2 FOR TESTING PURPOSES
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size()
-                        && !map.Icebergs[i][j].getType().equals("hole")) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+
+
+                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size())
+                {
+
                     playersCheck = true;
+                    if(map.Icebergs[i][j].getType().equals("hole"))
+                    {
+                        playersCheck = false;
+
+                    }
                     break;
                 }
             }
@@ -114,7 +125,7 @@ public class Game {
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
 
@@ -136,10 +147,7 @@ public class Game {
                Blizzard.blow(players,this.getMap().getIcebergs());
             }
 
-            for (PlayerBase player : players){
-                player.currentIceberg = this.getMap().Icebergs[0][0];
-                this.getMap().Icebergs[0][0].Add_currentPlayers(player);
-            }
+
             for (PlayerBase player : players) {
                 player.isTurn = true;
 
@@ -156,7 +164,7 @@ public class Game {
                 }
 
             }
-
+            currentRound ++;
             //there can be a limited number of rounds
         }
     }
@@ -180,10 +188,9 @@ public class Game {
         int round = 0;
         while (round < 4) {
             try {
-
-                if (isGameLost()) {
-                    throw new Exception("End of the Game");
-                }
+                System.out.println("---------------------------------------------------------------------\n\n");
+                System.out.println("Player " + player.getTag()+" is on iceberg " + player.getCurrentIceberg().y + player.getCurrentIceberg().x );
+                System.out.println("---------------------------------------------------------------------\n\n");
                 ArrayList<String> userInput = processInput();
                 if (UserInteraction(userInput, player)) {// the round increases only if the action was successful
                     round++;
@@ -191,8 +198,15 @@ public class Game {
                         throw new Exception("End of the Game");
                     }
                 }
-            } catch (Exception e) {
+                System.out.println("---------------------------------------------------------------------\n\n");
+                System.out.println("Player " + player.getTag()+" is on iceberg " + player.getCurrentIceberg().y + player.getCurrentIceberg().x );
+                System.out.println("---------------------------------------------------------------------\n\n");
+            }
+            catch (Exception e) {
                 //end of turn
+                System.out.println("---------------------------------------------------------------------\n\n");
+                System.out.println("Player " + player.getTag()+" is on iceberg " + player.getCurrentIceberg().y + player.getCurrentIceberg().x );
+                System.out.println("---------------------------------------------------------------------\n\n");
 
                 if (e.getMessage().equals("End of the Game")) {
                     sc.close();
@@ -210,19 +224,6 @@ public class Game {
     private void writeToFile(String s, String s1) {
     }
 
-    public void TurnFromFile(PlayerBase player, ArrayList<ArrayList<String>> fileInputs) throws Exception {
-        if (!player.isTurn()) throw new Exception("It's not this player's turn");
-        int round = 0;
-        while (round < 4) {
-            try {
-                if (UserInteraction(fileInputs.get(round), player)) {// the round increases only if the action was successful
-                    round++;
-                }
-            } catch (Exception e) {
-                //end of turn
-            }
-        }
-    }
 
 
     /**
@@ -261,7 +262,7 @@ public class Game {
 
                     try {
                         check = player.useSkill(this.getMap(), input.get(1));
-                        System.out.println("Action accepted!");
+                      if(check)  System.out.println("Action accepted!");
                         return check;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -274,7 +275,7 @@ public class Game {
                 else if (input.get(0).equals("save")) {
                     if (validDirection(input)) {
                         check = player.SavePlayer(input.get(1), map);
-                        System.out.println("Action accepted!");
+                       if(check) System.out.println("Action accepted!");
 
                     }
                     return check;
@@ -285,7 +286,7 @@ public class Game {
             //Check if the item could be used, therefore understanding if it is a valid item;
 
             check = player.useItem(input.get(1));
-            System.out.println("Action accepted!");
+           if(check) System.out.println("Action accepted!");
             return check;
 
 
@@ -306,7 +307,7 @@ public class Game {
             if (y == 1) {
                 try {
                     check = player.pickItem();
-                    System.out.println("Action accepted!");
+                 if(check)   System.out.println("Action accepted!");
                     return check;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -315,13 +316,13 @@ public class Game {
             return false;
         } else if (input.get(0).equals("remove") && input.get(1).equals("snow")) {
             check = player.removeSnow();
-            if(check)
+            if(check==true)
             System.out.println("Action accepted!");
             else  System.out.println("There is no snow on the iceberg");
             return check;
         } else if (input.get(0).equals("fire")) {
             GameOver();
-            System.out.println("Action accepted!");
+           if( GameOver()) System.out.println("Action accepted!");
             if (!GameOver()) {
                 System.out.println("You can't fire the gun, work more!");
                 writeToFile("Outputs.txt", "You can't fire the gun, work more!");

@@ -210,14 +210,16 @@ public class Map {
         Icebergs[4][3].setType("hole");
         Icebergs[4][3].setMaxNumOfPlayers(0);
 
+        Icebergs[2][0].setType("hole");
+
         Icebergs[2][6].setType("hole");
         Icebergs[2][6].setMaxNumOfPlayers(0);
 
         Icebergs[6][1].setType("hole");
         Icebergs[6][1].setMaxNumOfPlayers(0);
 
-        Icebergs[7][5].setType("hole");
-        Icebergs[7][5].setMaxNumOfPlayers(0);
+       // Icebergs[7][5].setType("hole");
+       // Icebergs[7][5].setMaxNumOfPlayers(0);
 
         Icebergs[0][1].setType("hole");
         Icebergs[0][1].setMaxNumOfPlayers(0);
