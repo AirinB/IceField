@@ -9,7 +9,7 @@ import java.util.Random;
 
 //Map class
 public class Map {
-
+    public Game game;
     private final int MAP_HEIGHT = 10;                                  //map's height
     private final int MAP_WIDTH = 10;                                   //map's width
     public Iceberg[][] Icebergs = new Iceberg[MAP_HEIGHT][MAP_WIDTH];   //icebergs declaration
@@ -86,7 +86,8 @@ public class Map {
             case 3:
                 return new Rope();
             case 4:
-                if (!charge) {
+                if (!charge)
+                {
                     charge = true;
                     return new Charge();
                 }
@@ -158,7 +159,17 @@ public class Map {
 
     //Constructor for Map
     public Map() {
-        this.items = new ArrayList<ItemBase>();
+     for(int i =0;i<10;i++)
+     {
+         this.game = game;
+         for(int j = 0;j<10;j++)
+         {
+             Icebergs[i][j] = new Iceberg();
+             Icebergs[i][j].y = i;
+             Icebergs[i][j].x = j;
+         }
+     }
+
     }
 
 
@@ -166,152 +177,57 @@ public class Map {
      * Generates the map used for the tests
      */
     //Method for generating icebergs and items on the map.
-    public void generateItemsOnMap() {
+    public void generateMap() { //hardcode
 
-        // - - - - - - - - - - - - - - - - - - - - - Items - - - - - - - - - - - - - - - - - - - - -
+        Food food1 = new Food();
+        Food food2 = new Food();
+        Food food3 = new Food();
+        Food food4 = new Food();
+        Food food5 = new Food();
+        DivingSuit divingSuit = new DivingSuit();
+        Rope rope1 = new Rope();
+        Rope rope2 = new Rope();
+        Shovel shovel1 = new Shovel();
+        Shovel shovel2 = new Shovel();
+        Flare flare = new Flare();
+        Charge charge = new Charge();
+        Gun gun = new Gun();
 
-        //This is done for the test-cases needed in this iteration.
-        //Creation of different items on the map.
+        Icebergs[1][1].setItem(shovel1);
+        Icebergs[6][6].setItem(shovel2);
+        Icebergs[4][8].setItem(rope1);
+        Icebergs[7][9].setItem(rope2);
+        Icebergs[2][7].setItem(charge);
+        Icebergs[4][5].setItem(flare);
+        Icebergs[9][9].setItem(gun);
+        Icebergs[4][1].setItem(divingSuit);
+        Icebergs[6][3].setItem(food1);
+        Icebergs[5][5].setItem(food2);
+        Icebergs[3][2].setItem(food3);
+        Icebergs[9][4].setItem(food4);
+        Icebergs[8][5].setItem(food5);
+//---------------------------------------------------------
+        Icebergs[4][3].setType("hole");
+        Icebergs[4][3].setMaxNumOfPlayers(0);
 
-        ItemBase shovel = new Shovel();
-        items.add(shovel);
+        Icebergs[2][6].setType("hole");
+        Icebergs[2][6].setMaxNumOfPlayers(0);
 
-        ItemBase rope = new Rope();
-        items.add(rope);
+        Icebergs[6][1].setType("hole");
+        Icebergs[6][1].setMaxNumOfPlayers(0);
 
-        ItemBase food = new Food();
-        items.add(food);
+        Icebergs[7][5].setType("hole");
+        Icebergs[7][5].setMaxNumOfPlayers(0);
 
-        ItemBase flare = new Food();
-        items.add(flare);
+        Icebergs[0][1].setType("hole");
+        Icebergs[0][1].setMaxNumOfPlayers(0);
+        Icebergs[0][1].setIsStable(false);
 
-        ItemBase divingSuit = new DivingSuit();
-        items.add(divingSuit);
-
-        ItemBase gun = new Food();
-        items.add(gun);
-
-        System.out.println("Items were generated!");
-
-
-        // - - - - - - - - - - - - - - - - - - - - - Icebergs - - - - - - - - - - - - - - - - - - - - -
-
-
-        //Creation of the icebergs on the map.
-        //Different types of icebergs are generated(stable, instable, hole) with different amount of snow.
-
-
-        Iceberg first = new Iceberg(true, "stable", 20, false, 1, null);
-
-        Icebergs[0][0] = first;
-        first.y = 0;
-        first.x = 0;
-        first.setItem(shovel);
-
-
-        Iceberg second = new Iceberg(true, "stable", 20, false, 2, rope);
-        Icebergs[0][1] = second;
-        second.y = 0;
-        second.x = 1;
-
-
-        Iceberg third = new Iceberg(true, "stable", 20, false, 1, null);
-        Icebergs[1][0] = third;
-        third.y = 1;
-        third.x = 0;
-
-        Iceberg forth = new Iceberg(true, "instable", 1, false, 1, null);
-        Icebergs[1][1] = forth;
-        forth.y = 1;
-        forth.x = 1;
-
-        Iceberg fifth = new Iceberg(true, "hole", 0, false, 1, null);
-        Icebergs[1][2] = fifth;
-        fifth.y = 1;
-        fifth.x = 2;
-        System.out.println("Icebergs were generated!");
+        Icebergs[1][0].setType("instable");
+        Icebergs[1][0].setMaxNumOfPlayers(1);
+        Icebergs[1][0].setIsStable(false);
 
 
-        //Setting the neighboring icebergs.
-        /*ArrayList<Iceberg> neighbour1 = new ArrayList<Iceberg>();
-        neighbour1.add(second);
-        first.setNeighborIcebergs(neighbour1);
 
-        ArrayList<Iceberg> neighbour2 = new ArrayList<Iceberg>();
-        neighbour2.add(third);
-        second.setNeighborIcebergs(neighbour2);
-
-        ArrayList<Iceberg> neighbour3 = new ArrayList<Iceberg>();
-        neighbour3.add(forth);
-        third.setNeighborIcebergs(neighbour3);
-
-        ArrayList<Iceberg> neighbour4 = new ArrayList<Iceberg>();
-        neighbour4.add(fifth);
-        forth.setNeighborIcebergs(neighbour4);
-
-        ArrayList<Iceberg> neighbour5 = new ArrayList<Iceberg>();
-        neighbour5.add(first);
-        fifth.setNeighborIcebergs(neighbour5);
-
-*/
     }
-
-    public void generateStaticMap(ArrayList<PlayerBase> playerBase) {
-        items = new ArrayList<ItemBase>();
-        Iceberg[][] map = new Iceberg[4][4];
-        ItemBase shovel = new Shovel();
-
-        ItemBase rope = new Rope();
-        items.add(rope);
-
-        ItemBase food = new Food();
-        items.add(food);
-
-        ItemBase flare = new Food();
-        items.add(flare);
-
-        ItemBase divingSuit = new DivingSuit();
-        items.add(divingSuit);
-
-        ItemBase gun = new Food();
-        items.add(gun);
-
-        System.out.println("Items were generated!");
-        Iceberg first = new Iceberg(true, "stable", 20, false, 1, rope);
-
-
-        map[0][0] = first;
-        first.y = 0;
-        first.x = 0;
-        first.setItem(rope);
-
-
-        Iceberg second = new Iceberg(true, "hole", 20, false, 2, rope);
-        map[0][1] = second;
-        second.y = 0;
-        second.x = 1;
-
-
-        Iceberg third = new Iceberg(true, "stable", 20, false, 1, null);
-        map[1][0] = third;
-        third.y = 1;
-        third.x = 0;
-
-        Iceberg forth = new Iceberg(true, "instable", 1, false, 1, null);
-        map[1][1] = forth;
-        forth.y = 1;
-        forth.x = 1;
-
-        Iceberg fifth = new Iceberg(true, "hole", 0, false, 1, null);
-        map[1][2] = fifth;
-        fifth.y = 1;
-        fifth.x = 2;
-        for (PlayerBase p : playerBase) {
-            p.setCurrentIceberg(map[0][0]);
-            map[0][0].Add_currentPlayers(p);
-        }
-        System.out.println("Icebergs were generated!");
-        this.Icebergs = map;
-    }
-
 }

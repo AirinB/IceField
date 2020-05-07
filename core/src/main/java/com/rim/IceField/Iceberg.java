@@ -38,6 +38,18 @@ public class Iceberg {
 
     }
 
+    public Iceberg()
+    {
+        this.isStable = true;
+        this.type = "stable";
+        this.maxNumOfPlayers = 100;
+        this.hasIgloo = false;
+        this.amountOfSnow = 3;
+        this.item = null;
+    }
+
+
+
     public int getX() {
         return x;
     }
@@ -97,16 +109,6 @@ public class Iceberg {
 
     }
 
-   /* public int getNum() {
-        System.out.println("getNum()");
-        return num;
-    }
-
-    public void setNum(int n) {
-
-        System.out.println("setNum()");
-        num = n;
-    }*/
 
     public boolean getIsStable() {
         return isStable;

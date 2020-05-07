@@ -29,8 +29,8 @@ class PlayerBaseTest {
         playersList.add(p1);
         playersList.add(p2);
         map = new Map();
-        game = new Game(playersList, map);
-        map.generateItemsOnMap();
+        game = new Game(playersList);
+      //  map.generateItemsOnMap();
     }
 
 
