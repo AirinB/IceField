@@ -155,10 +155,15 @@ public class Game {
                     e.printStackTrace();
                     if (e.getMessage().equals("End of Turn and end of Game")) {
                         writeToFile("Outputs.txt", "End of Turn and end of Game");
-                        return;
+                            int count_drown = 0;
+                            for (PlayerBase p: players) {
+                                if(p.isDrowning)count_drown++;
+                            }
+                            if(count_drown==players.size()) throw new Exception("End of the Game");
                     }
                 } finally {
                     player.isTurn = false;
+
                 }
 
             }
@@ -182,7 +187,29 @@ public class Game {
         if (!player.isTurn()) throw new Exception("It's not this player's turn");
 
         System.out.println("Its players  " + player.getTag() + " turn number " + player.getID());
-        //writeToFile("C:\\Outputs.txt", "Its players  " + player.getTag() + " turn number " + player.getID());
+
+        try
+        {
+            int count_drown = 0;
+            for (PlayerBase p: players) {
+                if(p.isDrowning)count_drown++;
+            }
+            if(count_drown==players.size()) throw new Exception("End of the Game");
+           else if(player.isDrowning) throw new Exception("The player is drowning");
+
+        }
+
+        catch (Exception e) {
+            if (e.getMessage().equals("The player is drowning")) {
+                System.out.println("It's next players turn. Hurry!");
+                return;
+
+            }
+            else  if (e.getMessage().equals("End of the Game")) {
+                sc.close();
+                throw new Exception("End of Turn and end of Game");
+            }
+        }
         int round = 0;
         while (round < 4) {
             try {
@@ -214,6 +241,7 @@ public class Game {
                     System.out.println("It's next players turn. Hurry!");
                     return;
                 }
+
             }
         }
         //After the player makes their 4 moves we need to give the turn to the next player
@@ -257,8 +285,7 @@ public class Game {
                         if (player.isDrowning) {
                             throw new Exception("The player is in water");
                         }
-                        if(check)
-                        System.out.println("Action accepted!");
+                        if(check) System.out.println("Action accepted!");
                         isGameLost();
                         return check;
                     } catch (Exception e) {

@@ -22,7 +22,7 @@ public class Blizzard {
         for (PlayerBase player : players) {
             if (!(player.currentIceberg.getHasIgloo()))  //Checking if Eskimo hasn't Igloo (Igloo protects him from decrease of heat units)
                 player.decreaseHeatByOne();  //Decreasing heatLevel of players
-            System.out.println(player + "Your body temperature has decreased.");
+            System.out.println(player.tag + "Your body temperature has decreased.");
         }
         //Covering icebergs with snow
         //I set it to 10 *10 right now because we don't have 9*9 icebergs yet ( I can test the app this way)
