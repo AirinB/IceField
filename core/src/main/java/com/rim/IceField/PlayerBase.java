@@ -250,7 +250,7 @@ public abstract class PlayerBase extends TimerTask {
 
     public void decreaseHeatByOne() throws IOException {
         this.heatLevel --;
-        this.die();
+        if(this.getHeatLevel()==0)this.die();
     }
     /**
      * is decreasing the
@@ -278,7 +278,7 @@ public abstract class PlayerBase extends TimerTask {
                 for (int i = 0; i < inventory.items.size(); i++) {
                     if (inventory.items.get(i).tag.equals(item)) {
                         inventory.items.get(i).useItem(this);
-                        if (item.equals("food") || item.equals("diving suit")) {
+                        if (item.equals("food") || item.equals("diving suit")||item.equals("shovel")) {
                             for (int j = 0; j < inventory.items.size(); j++) {
                                 if (item.equals(inventory.items.get(i).tag)) {
                                     inventory.deleteItem(j);
