@@ -36,7 +36,7 @@ public class ItemBaseGUI {
             height = 25;
         }else if (item.getTag().equals("diving suit")) {
             itemTexture = new Texture("assets/diving-suit.png");
-            width = 40;
+            width =40;
             height = 40;
         }else if (item.getTag().equals("gun")) {
             itemTexture = new Texture("assets/gun.png");

@@ -21,18 +21,17 @@ public class Blizzard {
 
         for (PlayerBase player : players) {
             if (!(player.currentIceberg.getHasIgloo()))  //Checking if Eskimo hasn't Igloo (Igloo protects him from decrease of heat units)
-                player.decreaseHeatLevel();  //Decreasing heatLevel of players
+                player.decreaseHeatByOne();  //Decreasing heatLevel of players
             System.out.println(player + "Your body temperature has decreased.");
         }
         //Covering icebergs with snow
         //I set it to 10 *10 right now because we don't have 9*9 icebergs yet ( I can test the app this way)
         Random objGenerator = new Random();
-        for (int i =0;i<icebergs.length;i++)
-        {
-            for(int j = 0;j<icebergs.length;j++) {
+        for (Iceberg[] iceberg : icebergs) {
+            for (int j = 0; j < icebergs.length; j++) {
                 if (objGenerator.nextBoolean()) {
-                    int snow = icebergs[i][j].getAmountOfSnow();
-                    icebergs[i][j].setAmountOfSnow(snow + 1);
+                    int snow = iceberg[j].getAmountOfSnow();
+                    iceberg[j].setAmountOfSnow(snow + 1);
                 }
             }
         }

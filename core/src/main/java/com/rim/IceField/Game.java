@@ -1,10 +1,7 @@
 package com.rim.IceField;
 
-//TODO close scanner
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,7 +164,7 @@ public class Game {
                 }
 
             }
-
+            currentRound ++;
             //there can be a limited number of rounds
         }
     }
@@ -227,19 +224,6 @@ public class Game {
     private void writeToFile(String s, String s1) {
     }
 
-    public void TurnFromFile(PlayerBase player, ArrayList<ArrayList<String>> fileInputs) throws Exception {
-        if (!player.isTurn()) throw new Exception("It's not this player's turn");
-        int round = 0;
-        while (round < 4) {
-            try {
-                if (UserInteraction(fileInputs.get(round), player)) {// the round increases only if the action was successful
-                    round++;
-                }
-            } catch (Exception e) {
-                //end of turn
-            }
-        }
-    }
 
 
     /**
@@ -262,7 +246,7 @@ public class Game {
                         if (player.isDrowning) {
                             throw new Exception("The player is in water");
                         }
-                        if(check==true)
+                        if(check)
                         System.out.println("Action accepted!");
                         isGameLost();
                         return check;
