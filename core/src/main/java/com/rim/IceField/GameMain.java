@@ -25,8 +25,9 @@ public class GameMain extends BasicGame {
 
     public void initialise() {
         //initialize all var
-
-        playerBaseGUI = new PlayerBaseGUI(new PolarExplorer());
+        PlayerBase p = new Eskimo();
+        p.isTurn = true;
+        playerBaseGUI = new PlayerBaseGUI(p);
         rope = new ItemBaseGUI(new Rope());
         food = new ItemBaseGUI(new Food());
         charge = new ItemBaseGUI(new Charge());

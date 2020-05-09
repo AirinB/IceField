@@ -166,8 +166,8 @@ public class PlayerBaseGUI {
         //player
         batch.draw(playerTexture, player.posX, player.posY, 50, 50);
         //life
-        font2.draw(batch, "player1", 20, 448);
-        batch.draw(lifeTexture, 120, 430,30, 30 );
+        font2.draw(batch, "player1", 20, 458);
+        batch.draw(lifeTexture, 120, 440,30, 30 );
 
         //inv
         inventoryGUI.render(batch);
