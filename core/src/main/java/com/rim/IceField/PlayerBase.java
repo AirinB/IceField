@@ -248,8 +248,9 @@ public abstract class PlayerBase extends TimerTask {
         System.out.println("Heat level increased, current head level" + getHeatLevel());
     }
 
-    public void decreaseHeatByOne(){
+    public void decreaseHeatByOne() throws IOException {
         this.heatLevel --;
+        this.die();
     }
     /**
      * is decreasing the
