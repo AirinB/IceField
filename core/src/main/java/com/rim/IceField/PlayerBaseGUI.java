@@ -10,22 +10,31 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.graphics.Sprite;
 
-//TODO need to heighit the iceberg
+//TODO need to highlight the iceberg
 // that is selected by the Polar Explorer
 
 public class PlayerBaseGUI {
     PlayerBase player;
     Sprite sprite;
-    Texture Playertexture;
-    Texture iglooTexture;
-    BitmapFont font;
-    //not used for now
-    //Label label1;
-    private SpriteBatch batch;
+    Texture playerTexture;  //display the texture
+
+    Texture iglooTexture; //display the igloo
     int iglooX;
     int iglooY;
+
+    Texture lifeTexture; //dislay the life left
+    BitmapFont font2; // text near the life left
+
+    BitmapFont font; //display the polar explorer skill
     String printAmountOfPlayers;
-    int showTextFlag = 0;
+    int showTextFlag = 0; // if the flag is 0 the text is diplayed otherwise its not
+
+    //not used for now
+    //Label label1;
+    private SpriteBatch batch; // used for drawing
+    private InventoryGUI inventoryGUI;
+
+
 
 
     public PlayerBaseGUI(PlayerBase p) {
@@ -35,17 +44,19 @@ public class PlayerBaseGUI {
 
     public void initialize() {
         if (player.getTag().equals("Eskimo"))
-            Playertexture = new Texture("assets/eskimo.png");
+            playerTexture = new Texture("assets/eskimo.png");
         if (player.getTag().equals("PolarExplorer"))
-            Playertexture = new Texture("assets/polarExp.png");
+            playerTexture = new Texture("assets/polarExp.png");
 
         iglooTexture = new Texture("assets/igloo.png");
-        sprite = new Sprite(Playertexture, 100, 100, 100, 100);
+        lifeTexture = new Texture("assets/5fullbattery.png");
+        sprite = new Sprite(playerTexture, 100, 100, 100, 100);
         sprite.setPosition(40, 40);
         batch = new SpriteBatch();
+        inventoryGUI = new InventoryGUI(player);
 
 
-        //font
+        //font1
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 12;
@@ -57,6 +68,20 @@ public class PlayerBaseGUI {
         font = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
+        //font2
+        FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter1.size = 12;
+        parameter1.borderWidth = 1;
+        parameter1.color = Color.WHITE;
+        parameter1.shadowOffsetX = 1;
+        parameter1.shadowOffsetY = 1;
+        parameter1.shadowColor = new Color(0, 0.5f, 0, 0.75f);
+        font2 = generator1.generateFont(parameter1); // font size 12 pixels
+        generator1.dispose(); // don't forget to dispose to avoid memory leaks!
+
+
+
         //label style
 //        Label.LabelStyle label1Style = new Label.LabelStyle();
 //        label1Style.font = font;
@@ -66,19 +91,47 @@ public class PlayerBaseGUI {
 //        label1.setPosition(0,Gdx.graphics.getHeight()-(Gdx.graphics.getWidth() / 12)*2);
 //        label1.setAlignment(Align.center);
 
+    }
 
+    public void updatePlayerLife(int lifeLeft){
+        switch (lifeLeft) {
+            case 5:
+                lifeTexture = new Texture("assets/5fullbattery.png");
+                break;
+            case 4:
+                lifeTexture = new Texture("assets/4battery.png");
+                break;
+            case 3:
+                lifeTexture = new Texture("assets/3battery.png");
+                break;
+            case 2:
+                lifeTexture = new Texture("assets/2battery.png");
+                break;
+            case 1:
+                lifeTexture = new Texture("assets/1battery.png");
+                break;
+            case 0:
+                lifeTexture = new Texture("assets/0battery.png");
+                break;
 
+        }
 
     }
 
     public void updateMove(String dir) {
+
+
         if(dir.equals("east")){
+            if(player.posX >= Gdx.graphics.getWidth() - 30) return;
             player.posX += player.offX;
         }else if(dir.equals("west")){
+            if(player.posX <= 0) return;
             player.posX -= player.offX;
         }else if(dir.equals(("north"))){
+            if ( player.posY >= Gdx.graphics.getHeight() - 30) return;
             player.posY += player.offY;
         }else if(dir.equals("south")){
+            if(player.posY <= 0) return;
             player.posY -= player.offY;
         }
     }
@@ -106,14 +159,24 @@ public class PlayerBaseGUI {
         showTextFlag = 1;
     }
 
+
     public void render(Graphics g) {
         batch.begin();
         // Drawing goes here!
-        batch.draw(Playertexture, player.posX, player.posY, 50, 50);
+        //player
+        batch.draw(playerTexture, player.posX, player.posY, 50, 50);
+        //life
+        font2.draw(batch, "player1", 20, 458);
+        batch.draw(lifeTexture, 120, 440,30, 30 );
+
+        //inv
+        inventoryGUI.render(batch);
+
+        //igloo
         if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
 
-        if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 70, 460);
+        if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 , 460);
 
        // g.drawTexture(texture, player.posX, player.posY);
 

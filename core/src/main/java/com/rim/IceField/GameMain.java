@@ -25,8 +25,9 @@ public class GameMain extends BasicGame {
 
     public void initialise() {
         //initialize all var
-
-        playerBaseGUI = new PlayerBaseGUI(new Eskimo());
+        PlayerBase p = new Eskimo();
+        p.isTurn = true;
+        playerBaseGUI = new PlayerBaseGUI(p);
         rope = new ItemBaseGUI(new Rope());
         food = new ItemBaseGUI(new Food());
         charge = new ItemBaseGUI(new Charge());
@@ -68,6 +69,7 @@ public class GameMain extends BasicGame {
         divingSuit.update(400, 120);
         shovel.update(295, 200);
         gun.update(289, 266);
+       // playerBaseGUI.updatePlayerLife(0);
         blizzardGUI.update();
 
 

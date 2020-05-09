@@ -142,7 +142,7 @@ public class Game {
                 System.out.println("The next round the Blizzard would come. Take care!");
             }
             if (randomBlow[currentRound]) {
-               Blizzard.blow(players,this.getMap());
+               Blizzard.blow(players,this.getMap().getIcebergs());
             }
 
 
@@ -162,7 +162,7 @@ public class Game {
                 }
 
             }
-
+            currentRound ++;
             //there can be a limited number of rounds
         }
     }
@@ -257,7 +257,7 @@ public class Game {
                         if (player.isDrowning) {
                             throw new Exception("The player is in water");
                         }
-                        if(check==true)
+                        if(check)
                         System.out.println("Action accepted!");
                         isGameLost();
                         return check;
@@ -365,8 +365,6 @@ public class Game {
             map.showMap();
             System.out.println("Action accepted!");
             return false;
-        } else if (input.get(0).equals("position")) {
-            player.getPosition();
         } else {
             System.out.println("There is no such command. Enter 'help' to see available actions");
             writeToFile("Outputs.txt", "There is no such command. Enter 'help' to see available actions");
@@ -477,7 +475,42 @@ public class Game {
 
 
 
+    //for testing at this stage
 
+    public boolean isWinForTest() {
+        //Checking if all the conditions are preserved for winning the game
+
+        boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
+        //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
+
+        //Checking if all the players stand on the same iceberg and it's not a hole
+        //MODIFIED TO 2 FOR TESTING PURPOSES
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole"))
+                    playersCheck = true;
+            }
+        }
+
+        //Checking if flare gun was collected
+        if (playersCheck) {
+            if (Inventory.countGunItems == 3) {
+                System.out.println("The flare gun is collected");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean GameOverForTest() {
+        //Checking if all the conditions are preserved for winning the game
+        if (isWinForTest()) {
+            System.out.println("Game Over! You Win");
+            return true;
+        }
+
+        return false;
+    }
 }
 
 
