@@ -147,9 +147,16 @@ public class GameMain extends BasicGame {
             String path = scannerChoice.nextLine();
             scannerChoice.close();
         }*/
+        try {
             game.newGame();
 
-
+        }
+        catch (Exception e)
+        {
+            if (e.getMessage().equals("End of Turn and end of Game"))
+                System.out.println("Game is over");
+            return;
+        }
 
 
     }
