@@ -1,7 +1,5 @@
 package com.rim.IceField;
 
-import org.mini2Dx.core.graphics.Graphics;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -211,6 +209,7 @@ public class Map {
         Icebergs[4][3].setMaxNumOfPlayers(0);
 
         Icebergs[2][0].setType("hole");
+        Icebergs[2][0].setMaxNumOfPlayers(0);
 
         Icebergs[2][6].setType("hole");
         Icebergs[2][6].setMaxNumOfPlayers(0);
@@ -228,8 +227,6 @@ public class Map {
         Icebergs[1][0].setType("instable");
         Icebergs[1][0].setMaxNumOfPlayers(1);
         Icebergs[1][0].setIsStable(false);
-
-
 
     }
 }

@@ -13,7 +13,6 @@ class PlayerBaseTest {
     PlayerBase p1;
     PlayerBase p2;
     ArrayList<PlayerBase> playersList;
-    Map map;
     Game game;
 
     /**
@@ -28,9 +27,10 @@ class PlayerBaseTest {
         playersList = new ArrayList<PlayerBase>();
         playersList.add(p1);
         playersList.add(p2);
-        map = new Map();
         game = new Game(playersList);
-      //  map.generateItemsOnMap();
+        for (PlayerBase player:playersList) {
+            player.setGame(game);
+        }
     }
 
 
@@ -58,25 +58,14 @@ class PlayerBaseTest {
         p1.inventory.addItem(shovel);
         Iceberg ice1 = new Iceberg(true, "stable", 1,true, 4, null);
         ice1.Add_currentPlayers(p1);
-        try {
-            shovel.useItem(p1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        p1.useItem("shovel");
         assertEquals(2, ice1.getAmountOfSnow());
 
-        try {
-            shovel.useItem(p1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        p1.useItem("shovel");
         assertEquals(0, ice1.getAmountOfSnow());
 
-        try {
-            shovel.useItem(p1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertFalse(p1.useItem("shovel"));
         assertEquals(0, ice1.getAmountOfSnow());
 
 
@@ -99,15 +88,16 @@ class PlayerBaseTest {
     @Test
     void fallWithoutDS() throws Exception {
         assertEquals(4, p1.heatLevel);
-        map.Icebergs[1][1].Add_currentPlayers(p1);
-        try {
-            p1.move("east",  map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        game.getMap().Icebergs[4][2].Add_currentPlayers(p1);
+        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
+
+        p1.move("east", game.getMap());
+          System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
         assertTrue(p1.isDrowning);
         try {
-            Thread.sleep(40000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -134,27 +124,25 @@ class PlayerBaseTest {
     @Test
     void fallWithDS() throws Exception {
         assertEquals(4, p1.heatLevel);
-        map.Icebergs[1][0].Add_currentPlayers(p1);
-        map.Icebergs[1][0].Add_currentPlayers(p2);
-        DivingSuit ds = new DivingSuit();
-        p1.inventory.addItem(ds);
-        try {
-            ds.useItem(p1);
-        } catch (Exception e) {
-            e.printStackTrace();
+        game.getMap().Icebergs[4][1].Add_currentPlayers(p1);
+        game.getMap().Icebergs[4][1].Add_currentPlayers(p2);
+          System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+        System.out.println(p2.currentIceberg.getX() + " " +  p2.currentIceberg.getY());
+        assertEquals("diving suit", game.getMap().Icebergs[4][1].getItem().tag);
+        for (int i = 0; i < 3; i++) {
+            p1.removeSnow();
         }
+        p1.pickItem();
+        p1.useItem("diving suit");
 
-        try {
-            p1.move("east", map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertEquals("instable", p1.getCurrentIceberg().getType());
-        try {
-            p1.move("east", map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        p1.move("east", game.getMap());
+          System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
+        assertEquals("stable", p1.getCurrentIceberg().getType());
+
+        p1.move("east", game.getMap());
+          System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
         assertEquals("hole", p1.getCurrentIceberg().getType());
 
         assertTrue(p1.isWearingDSuit);
@@ -162,19 +150,18 @@ class PlayerBaseTest {
         assertFalse(p2.isDrowning);
         assertEquals(4, p1.heatLevel);
 
-        try {
-            p2.move("east", map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertEquals("instable", p2.getCurrentIceberg().getType());
+
+        p2.move("east", game.getMap());
+        System.out.println(p2.currentIceberg.getX() + " " +  p2.currentIceberg.getY());
+
+        assertEquals("stable", p2.getCurrentIceberg().getType());
 
 
         /**
          *Test-case 7: couldn't save player - no rope
          */
         //Test-case 7: couldn't save player - no rope
-        p2.SavePlayer( "east", map);
+        p2.SavePlayer( "east", game.getMap());
         assertTrue( p1.isDrowning);
 
         /**
@@ -182,7 +169,9 @@ class PlayerBaseTest {
          */
         Rope rope = new Rope();
         p2.inventory.addItem(rope);
-        p2.SavePlayer("east", map);
+        System.out.println("rope was added to your inventory");
+        p2.useItem("rope");
+        p2.SavePlayer("east", game.getMap());
         assertFalse(p1.isDrowning);
     }
 
@@ -190,35 +179,53 @@ class PlayerBaseTest {
      * Test-case 8: Save player (player is saved)
      */
     @Test
-    void savePlayer()  {
+    void savePlayer() throws Exception {
 
         assertEquals(4, p1.heatLevel);
-        map.Icebergs[1][1].Add_currentPlayers(p1);
-        map.Icebergs[1][1].Add_currentPlayers(p2);
-        try {
-            p1.move("east", map);
-        } catch (Exception e) {
-            e.printStackTrace();
+        game.getMap().Icebergs[4][2].Add_currentPlayers(p1);
+        game.getMap().Icebergs[4][8].Add_currentPlayers(p2);
+        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+        System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+        for (int i = 0; i < 3; i++){
+            p2.removeSnow();
         }
+        assertEquals("rope", p2.getCurrentIceberg().getItem().getTag());
+        p2.pickItem();
+
+        for (int i = 0; i < 4; i++){
+            p2.move("west", game.getMap());
+            System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+        }
+
+        p1.move("east", game.getMap());
+
         assertFalse(p1.isWearingDSuit);
         assertTrue(p1.isDrowning);
         assertFalse(p2.isDrowning);
-       // assertEquals(3, p1.heatLevel);
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //assertEquals(2, p1.heatLevel);
+        assertEquals(2, p1.heatLevel);
 
         assertEquals("hole", p1.getCurrentIceberg().getType());
-        assertEquals("instable", p2.getCurrentIceberg().getType());
+        assertEquals("stable", p2.getCurrentIceberg().getType());
+        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+        System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
 
 
-        Rope rope = new Rope();
-        p2.inventory.addItem(rope);
-        p2.SavePlayer("east", map);
+        p2.SavePlayer("west", game.getMap());
         assertFalse(p1.isDrowning);
+        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
+
+        //Second player is drowning
+        p2.move("west", game.getMap());
+        assertTrue(p2.isDrowning);
+        System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+
+
       }
 
 
@@ -231,33 +238,25 @@ class PlayerBaseTest {
         Food food = new Food();
         Iceberg ice1 = new Iceberg(true, "stable", 1,true, 1, food);
         ice1.Add_currentPlayers(p1);
-        try {
-            p1.pickItem();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        p1.pickItem();
+
         assertEquals(0, p1.inventory.getItems().size());
 
         /**
          *Test-case 11 Impossible to pick the item if there is snow
          */
         p1.removeSnow();
-        try {
-            p1.pickItem();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        p1.pickItem();
+
         assertEquals(1, p1.inventory.getItems().size());
         /**
          *Test case 12: Impossible to pick the item because it doesn't exists
          */
         Iceberg ice2 = new Iceberg(true, "stable", 1,true, 5, null);
-        ice2.Add_currentPlayers(p1);
-        try {
-            p2.pickItem();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ice2.Add_currentPlayers(p2);
+
+        p2.pickItem();
         assertEquals(0, p2.inventory.getItems().size());
     }
 
@@ -267,13 +266,40 @@ class PlayerBaseTest {
      */
     @Test
     void stepHole() throws Exception {
-        map.Icebergs[1][1].Add_currentPlayers(p1);
-        try {
-            p1.move("east", map);
-        } catch (Exception e) {
-                e.printStackTrace();
-            }
-        assertTrue(p1.isDrowning);
+       game.getMap().Icebergs[4][4].Add_currentPlayers(p1);
+       game.getMap().Icebergs[4][4].Add_currentPlayers(p2);
+       System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+       System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+
+       assertFalse(game.isWin());
+
+
+       p1.move("west", game.getMap());
+       System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+       assertEquals("hole", p1.getCurrentIceberg().getType());
+       assertTrue(p1.isDrowning);
+
+        Gun gun = new Gun();
+        p2.inventory.addItem(gun);
+        Flare flare = new Flare();
+        p2.inventory.addItem(flare);
+        Charge charge = new Charge();
+        p2.inventory.addItem(charge);
+
+        assertEquals(3, Inventory.countGunItems);
+        assertFalse(game.isWin());
+
+        p2.move("west", game.getMap());
+        System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+        assertEquals("hole", p2.getCurrentIceberg().getType());
+        assertTrue(p2.isDrowning);
+
+       assertFalse(game.isWin());
+
+       Thread.sleep(5000);
+       assertTrue(game.isGameLost());
+       assertTrue(game.GameOver());
+
     }
 
     /**
@@ -281,16 +307,22 @@ class PlayerBaseTest {
      */
     @Test
     void stepUnstable() throws Exception {
-        map.Icebergs[1][1].Add_currentPlayers(p1);
-        map.Icebergs[1][0].Add_currentPlayers(p2);
-        try {
-            p2.move("east", map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+       game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
+       game.getMap().Icebergs[1][0].Add_currentPlayers(p2);
+       assertEquals("instable", p2.getCurrentIceberg().getType());
+       assertEquals(1, p2.getCurrentIceberg().getMaxNumOfPlayers());
+       System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+       System.out.println(p2.currentIceberg.getX() + " " +  p2.currentIceberg.getY());
+
+       p1.move("south", game.getMap());
+         System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
         assertTrue(p2.isDrowning);
         assertTrue(p1.isDrowning);
-        assertEquals("hole", map.Icebergs[1][1].getType());
+        assertEquals("instable", p1.getCurrentIceberg().getType());
+        assertEquals("instable", p2.getCurrentIceberg().getType());
+        assertTrue(game.isGameLost());
+        assertTrue(game.GameOver());
     }
 
     /**
@@ -298,15 +330,21 @@ class PlayerBaseTest {
      * Player's heat level must be increased
      */
     @Test
-    void eatFood() {
-        Food food = new Food();
-        p1.inventory.addItem(food);
+    void eatFood() throws Exception{
+        game.getMap().Icebergs[6][2].Add_currentPlayers(p1);
+          System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
         assertEquals(4,p1.heatLevel);
-        try {
-        food.useItem(p1);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        p1.move("east", game.getMap());
+          System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
+        for (int i = 0; i < 3; i++){
+            p1.removeSnow();
         }
+        System.out.println(p1.currentIceberg.getItem().getTag());
+        assertEquals("food", p1.getCurrentIceberg().getItem().getTag());
+        p1.pickItem();
+        p1.useItem("food");
         assertEquals(5,p1.heatLevel);
      }
 
@@ -315,33 +353,21 @@ class PlayerBaseTest {
      */
      @Test
      void polarSkill() throws Exception {
-         map.Icebergs[1][0].Add_currentPlayers(p1);
-         try {
-         p1.useSkill(map, "east");
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-         assertEquals("instable", map.Icebergs[1][1].getType());
+       game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
+       p1.useSkill(game.getMap(), "south");
+       assertEquals("instable", game.getMap().Icebergs[1][0].getType());
+       assertEquals(1, game.getMap().Icebergs[1][0].getMaxNumOfPlayers());
 
-         try {
-             p1.useSkill(map, "north");
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-         assertEquals("stable", map.Icebergs[1][0].getType());
+       p1.useSkill(game.getMap(), "east");
+       assertEquals("hole", game.getMap().Icebergs[0][1].getType());
+       assertEquals(0, game.getMap().Icebergs[0][1].getMaxNumOfPlayers());
 
-         try {
-             p1.move("east",map);
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
 
-         try {
-             p1.useSkill(map, "east");
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-         assertEquals("hole", map.Icebergs[1][2].getType());
+       p1.move("south", game.getMap());
+       System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+       p1.useSkill(game.getMap(), "east");
+       assertEquals("stable", game.getMap().Icebergs[1][1].getType());
+       assertEquals(100, game.getMap().Icebergs[1][1].getMaxNumOfPlayers());
      }
 
 
@@ -350,12 +376,13 @@ class PlayerBaseTest {
      */
     @Test
     public void mapEdge() throws Exception {
-        map.Icebergs[1][0].Add_currentPlayers(p1);
-        try {
-            p1.move("west",map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
+        p1.move("west", game.getMap());
+
+        game.getMap().Icebergs[9][9].Add_currentPlayers(p2);
+        p2.move("south", game.getMap());
+        p2.move("east", game.getMap());
+
     }
 
     /**
@@ -363,25 +390,59 @@ class PlayerBaseTest {
      */
     @Test
     public void winScenario() throws Exception {
-        map.Icebergs[0][0].Add_currentPlayers(p1);
-        map.Icebergs[0][1].Add_currentPlayers(p2);
-        Charge charge = new Charge();
-        Gun gun = new Gun();
-        Flare flare = new Flare();
-        p1.inventory.addItem(charge);
-        p1.inventory.addItem(gun);
-        p2.inventory.addItem(flare);
-        try {
-            p1.move("east",map);
-        } catch (Exception e) {
-            e.printStackTrace();
+        game.getMap().Icebergs[9][9].Add_currentPlayers(p1);
+        game.getMap().Icebergs[2][7].Add_currentPlayers(p2);
+        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+        System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+        for(int i = 0; i < 3; i++) {
+         p1.removeSnow();
         }
-        assertTrue(game.isWinForTest());
-        assertTrue(game.GameOverForTest());
+        assertEquals("gun", p1.getCurrentIceberg().getItem().getTag());
+        p1.pickItem();
+        assertEquals("gun", p1.getInventory().getItem("gun").getTag());
+
+        for(int i = 0; i < 3; i++) {
+            p2.removeSnow();
+        }
+        assertEquals("charge", p2.getCurrentIceberg().getItem().getTag());
+        p2.pickItem();
+        assertEquals("charge", p2.getInventory().getItem("charge").getTag());
+
+        for (int i = 0; i < 5; i++){
+            p1.move("north", game.getMap());
+        }
+
+
+        for (int i = 0; i < 4; i++){
+            p1.move("west", game.getMap());
+        }
+
+        for(int i = 0; i < 3; i++) {
+            p1.removeSnow();
+        }
+        assertEquals("flare", p1.getCurrentIceberg().getItem().getTag());
+        p1.pickItem();
+        assertEquals("flare", p1.getInventory().getItem("flare").getTag());
+
+        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
+       assertEquals(3, Inventory.countGunItems);
+
+        for (int i = 0; i < 2; i++){
+            p2.move("south", game.getMap());
+        }
+       // System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+
+        for (int i = 0; i < 2; i++){
+            p2.move("west", game.getMap());
+        }
+        System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
+
+
+        game.GameOver();
+        assertTrue(game.isWin());
+        assertTrue(game.GameOver());
 
 
     }
-
-
-
 }
