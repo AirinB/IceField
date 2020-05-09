@@ -153,8 +153,8 @@ public class GameMain extends BasicGame {
         }
         catch (Exception e)
         {
-            if (e.getMessage().equals("End of Turn and end of Game"))
-                System.out.println("Game is over");
+            if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
+            else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
             return;
         }
 
