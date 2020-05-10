@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -20,53 +21,66 @@ class BlizzardTest {
         ArrayList<PlayerBase> playersList = new ArrayList<PlayerBase>();
         playersList.add(e1);
         playersList.add(e2);
-        Map map = new Map();
         Game game = new Game(playersList);
-        map.generateMap();
-        map.Icebergs[0][0].Add_currentPlayers(e1);
-        map.Icebergs[1][0].Add_currentPlayers(e2);
+        for (PlayerBase player:playersList) {
+            player.setGame(game);
+        }
+        game.getMap().Icebergs[2][3].Add_currentPlayers(e1);
+        game.getMap().Icebergs[2][3].Add_currentPlayers(e2);
 
 
-        Assertions.assertEquals(1,map.Icebergs[0][0].getAmountOfSnow());
-        Assertions.assertEquals(1,map.Icebergs[1][0].getAmountOfSnow());
+        Assertions.assertEquals(3, e1.getCurrentIceberg().getAmountOfSnow());
+        Assertions.assertEquals(3, e2.getCurrentIceberg().getAmountOfSnow());
 
-     //   Blizzard.blow(playersList, map);
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(4,e1.heatLevel);
-        Assertions.assertEquals(2,map.Icebergs[0][0].getAmountOfSnow());
-
+        //Assertions.assertEquals(4,e1.getCurrentIceberg().getAmountOfSnow());
         Assertions.assertEquals(4,e2.heatLevel);
-        Assertions.assertEquals(2,map.Icebergs[1][0].getAmountOfSnow());
+        //Assertions.assertEquals(4,e2.getCurrentIceberg().getAmountOfSnow());
 
         /**
          * Test-case 16: Eskimo skill
          * Constructing the igloo and check if the heat unit doesn't decrease
          */
-        e1.useSkill(map,"east");
-        try {
-            e1.move("east", map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //Blizzard.blow(playersList, map);
+        e1.useSkill(game.getMap(),"east");
+        e1.move("east", game.getMap());
+
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(4,e1.heatLevel);
-        Assertions.assertEquals(4, map.Icebergs[0][1].getAmountOfSnow());
+       // Assertions.assertEquals(4,e1.getCurrentIceberg().getAmountOfSnow());
         Assertions.assertEquals(3,e2.heatLevel);
-        Assertions.assertEquals(3, map.Icebergs[1][0].getAmountOfSnow());
+        //Assertions.assertEquals(3,e2.getCurrentIceberg().getAmountOfSnow());
 
         /**
          * Test-case 18: Heat level reaches 0
          * Testing the death of a character due to 0 heat units
          */
-      //  Blizzard.blow(playersList,  map);
-     //   Blizzard.blow(playersList,  map);
-      //  Blizzard.blow(playersList,  map);
+        for (int i = 0; i < 2; i++){
+            Blizzard.blow(playersList, game.getMap().getIcebergs());
+        }
+
         Assertions.assertEquals(4,e1.heatLevel);
+        Assertions.assertEquals(1,e2.heatLevel);
+
+        e2.useSkill(game.getMap(),"east");
+        e2.move("east", game.getMap());
+
+        assertEquals(2, e1.getCurrentIceberg().getCurrentPlayers().size());
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
+
+        Assertions.assertEquals(1,e2.heatLevel);
+
+
+        e2.move("west", game.getMap());
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(0,e2.heatLevel);
+
         assertTrue(e2.isDead);
         /**
          * Test-case 20: Lose scenario of the game because of Blizzard
          */
         assertTrue(game.isGameLost());
+        assertTrue(game.GameOver());
 
 
     }

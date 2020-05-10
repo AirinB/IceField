@@ -1,6 +1,6 @@
 package com.rim.IceField;
 
-
+//TODO close scanner
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,7 +98,6 @@ public class Game {
         boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
         //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
 
-        //MODIFIED TO 2 FOR TESTING PURPOSES
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
 
@@ -110,7 +109,6 @@ public class Game {
                     if(map.Icebergs[i][j].getType().equals("hole"))
                     {
                         playersCheck = false;
-
                     }
                     break;
                 }
@@ -252,6 +250,19 @@ public class Game {
     private void writeToFile(String s, String s1) {
     }
 
+    public void TurnFromFile(PlayerBase player, ArrayList<ArrayList<String>> fileInputs) throws Exception {
+        if (!player.isTurn()) throw new Exception("It's not this player's turn");
+        int round = 0;
+        while (round < 4) {
+            try {
+                if (UserInteraction(fileInputs.get(round), player)) {// the round increases only if the action was successful
+                    round++;
+                }
+            } catch (Exception e) {
+                //end of turn
+            }
+        }
+    }
 
 
     /**

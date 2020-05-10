@@ -48,6 +48,9 @@ public abstract class PlayerBase extends TimerTask {
         currentIceberg = iceberg;
     }
 
+    public void getPosition(){
+        System.out.println(this.currentIceberg.getX() + " " + this.currentIceberg.getY());
+    }
 
     //The constructor for the PlayerBase instantiates inventory.
     public PlayerBase() {
@@ -148,7 +151,7 @@ public abstract class PlayerBase extends TimerTask {
 
         else if ("east".equals(dir)) {
 
-            if (currentIceberg.x + 1 < 0) {
+            if ((currentIceberg.x + 1 > 9) ){
                 System.out.println("Sorry, you are on the edge of the map, no way to move right");
                 return false;
             } else {
@@ -321,6 +324,8 @@ public abstract class PlayerBase extends TimerTask {
         isDead = true;
         System.out.println("You have died. RIP ):");
         this.game.GameOver();
+
+
     }
 
 
@@ -346,6 +351,8 @@ public abstract class PlayerBase extends TimerTask {
             };
 
             timer.scheduleAtFixedRate(tt, 0, 1000000000);
+            //FOR TESTS
+            //timer.scheduleAtFixedRate(tt, 0, 1000);
 
         }
     }
@@ -371,7 +378,8 @@ public abstract class PlayerBase extends TimerTask {
         if (currentIceberg.getAmountOfSnow() == 0) {
             if (currentIceberg.getItem() != null) {
                 String tagString = currentIceberg.getItem().getTag();
-                inventory.items.add(currentIceberg.getItem());
+               // inventory.items.add(currentIceberg.getItem());
+                inventory.addItem(currentIceberg.getItem());
                 currentIceberg.DeletePickedItem(); // Will delete the item from the iceberg after it was picked
 
                 try {
