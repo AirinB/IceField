@@ -229,4 +229,12 @@ public class Map {
         Icebergs[1][0].setIsStable(false);
 
     }
+
+    public int getMAP_HEIGHT() {
+        return MAP_HEIGHT;
+    }
+
+    public int getMAP_WIDTH() {
+        return MAP_WIDTH;
+    }
 }

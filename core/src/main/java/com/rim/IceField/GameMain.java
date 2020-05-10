@@ -19,13 +19,16 @@ public class GameMain extends BasicGame {
     public ItemBaseGUI flare;
     public ItemBaseGUI gun;
     public ItemBaseGUI shovel;
+    public Map map;
+    public MapGUI mapgui;
+
+
     PlayerBase player;
     Game game;
     ArrayList<PlayerBase> playersList;
 
 
     @Override
-
     public void initialise() {
         //initialize all var
         playersList = new ArrayList<PlayerBase>();
@@ -45,12 +48,23 @@ public class GameMain extends BasicGame {
         shovel = new ItemBaseGUI(new Shovel());
         divingSuit =  new ItemBaseGUI(new DivingSuit());
         blizzardGUI = new BlizzardGUI();
-
+        map = new Map();
+        mapgui = new MapGUI(map);
+        mapgui.initialise();
 
     }
 
     @Override
     public void update(float delta) {
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            playerBaseGUI.updateMove("south");
+        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            playerBaseGUI.updateMove("west");
+        }else if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            playerBaseGUI.updateMove("north");
+        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            playerBaseGUI.updateMove("east");
+        }
 
         try {
             playerBaseGUI.input(player);
@@ -85,7 +99,7 @@ public class GameMain extends BasicGame {
         divingSuit.update(400, 120);
         shovel.update(295, 200);
         gun.update(289, 266);
-       // playerBaseGUI.updatePlayerLife(0);
+        // playerBaseGUI.updatePlayerLife(0);
         blizzardGUI.update();
 
 
@@ -98,6 +112,7 @@ public class GameMain extends BasicGame {
 
     @Override
     public void render(Graphics g) {
+        mapgui.render(g);
         food.render(g);
         rope.render(g);
         charge.render(g);
