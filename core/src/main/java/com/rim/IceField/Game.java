@@ -20,6 +20,7 @@ public class Game {
     private Scanner sc;
 
 
+
     /**
      * @param players all the players of the game
      */
@@ -34,7 +35,10 @@ public class Game {
         for (int i = 1; i < 10; i++) {
             randomBlow[i] = objGenerator.nextBoolean();
         }
+
     }
+
+
 
     /**
      * @return userInputList
@@ -538,6 +542,7 @@ public class Game {
 
         return false;
     }
+
 }
 
 

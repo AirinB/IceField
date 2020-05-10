@@ -1,7 +1,5 @@
 package com.rim.IceField;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -21,13 +19,24 @@ public class GameMain extends BasicGame {
     public ItemBaseGUI flare;
     public ItemBaseGUI gun;
     public ItemBaseGUI shovel;
+    PlayerBase player;
+    Game game;
+    ArrayList<PlayerBase> playersList;
+
+
     @Override
 
     public void initialise() {
         //initialize all var
-        PlayerBase p = new Eskimo();
-        p.isTurn = true;
-        playerBaseGUI = new PlayerBaseGUI(p);
+        playersList = new ArrayList<PlayerBase>();
+        game = new Game(playersList);
+        playersList.add(player);
+        player = new Eskimo();
+        player.setGame(game);
+        player.currentIceberg = game.getMap().Icebergs[0][0];
+        game.getMap().Icebergs[0][0].Add_currentPlayers(player);
+        player.isTurn = true;
+        playerBaseGUI = new PlayerBaseGUI(player);
         rope = new ItemBaseGUI(new Rope());
         food = new ItemBaseGUI(new Food());
         charge = new ItemBaseGUI(new Charge());
@@ -42,24 +51,31 @@ public class GameMain extends BasicGame {
 
     @Override
     public void update(float delta) {
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            playerBaseGUI.updateMove("south");
-        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            playerBaseGUI.updateMove("west");
-        }else if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            playerBaseGUI.updateMove("north");
-        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            playerBaseGUI.updateMove("east");
-        }
 
-        // draw the igloo
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            playerBaseGUI.updateIgloo("south");
+        try {
+            playerBaseGUI.input(player);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.I)){
-            playerBaseGUI.updateMaxlpayers(5);
-        }
+//        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+//            playerBaseGUI.updateMove("south");
+//        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+//            playerBaseGUI.updateMove("west");
+//        }else if((Gdx.input.isKeyPressed(Input.Keys.UP)) && Gdx.input.isKeyPressed(Input.Keys.A)){
+//            playerBaseGUI.updateMove("north");
+//        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+//            playerBaseGUI.updateMove("east");
+//        }
+//
+//
+//        // draw the igloo
+//        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+//            playerBaseGUI.updateIgloo("south");
+//        }
+//
+//        if(Gdx.input.isKeyPressed(Input.Keys.I)){
+//            playerBaseGUI.updateMaxlpayers(5);
+//        }
 
 
         food.update(140, 160);

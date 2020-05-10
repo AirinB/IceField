@@ -2,6 +2,8 @@ package com.rim.IceField;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,7 +15,7 @@ import org.mini2Dx.core.graphics.Sprite;
 //TODO need to highlight the iceberg
 // that is selected by the Polar Explorer
 
-public class PlayerBaseGUI {
+public class PlayerBaseGUI implements InputProcessor {
     PlayerBase player;
     Sprite sprite;
     Texture playerTexture;  //display the texture
@@ -33,8 +35,6 @@ public class PlayerBaseGUI {
     //Label label1;
     private SpriteBatch batch; // used for drawing
     private InventoryGUI inventoryGUI;
-
-
 
 
     public PlayerBaseGUI(PlayerBase p) {
@@ -81,7 +81,6 @@ public class PlayerBaseGUI {
         generator1.dispose(); // don't forget to dispose to avoid memory leaks!
 
 
-
         //label style
 //        Label.LabelStyle label1Style = new Label.LabelStyle();
 //        label1Style.font = font;
@@ -93,7 +92,7 @@ public class PlayerBaseGUI {
 
     }
 
-    public void updatePlayerLife(int lifeLeft){
+    public void updatePlayerLife(int lifeLeft) {
         switch (lifeLeft) {
             case 5:
                 lifeTexture = new Texture("assets/5fullbattery.png");
@@ -121,40 +120,40 @@ public class PlayerBaseGUI {
     public void updateMove(String dir) {
 
 
-        if(dir.equals("east")){
-            if(player.posX >= Gdx.graphics.getWidth() - 30) return;
+        if (dir.equals("east")) {
+            if (player.posX >= Gdx.graphics.getWidth() - 30) return;
             player.posX += player.offX;
-        }else if(dir.equals("west")){
-            if(player.posX <= 0) return;
+        } else if (dir.equals("west")) {
+            if (player.posX <= 0) return;
             player.posX -= player.offX;
-        }else if(dir.equals(("north"))){
-            if ( player.posY >= Gdx.graphics.getHeight() - 30) return;
+        } else if (dir.equals(("north"))) {
+            if (player.posY >= Gdx.graphics.getHeight() - 30) return;
             player.posY += player.offY;
-        }else if(dir.equals("south")){
-            if(player.posY <= 0) return;
+        } else if (dir.equals("south")) {
+            if (player.posY <= 0) return;
             player.posY -= player.offY;
         }
     }
 
-    public void updateIgloo(String dir){
+    public void updateIgloo(String dir) {
         //the offX and offY might need to be changed with the width of the tile(iceberg
 
-        if(dir.equals("east")){
-            iglooX = player.posX+ player.offX;
+        if (dir.equals("east")) {
+            iglooX = player.posX + player.offX;
             iglooY = player.posY;
-        }else if(dir.equals("west")){
-            iglooX = player.posX -  player.offX;
+        } else if (dir.equals("west")) {
+            iglooX = player.posX - player.offX;
             iglooY = player.posY;
-        }else if(dir.equals(("north"))){
+        } else if (dir.equals(("north"))) {
             iglooY = player.posY + player.offY;
             iglooX = player.posX;
-        }else if(dir.equals("south")){
+        } else if (dir.equals("south")) {
             iglooY = player.posY - player.offY;
             iglooX = player.posX;
         }
     }
 
-    public void updateMaxlpayers(int amountOfPlayers){
+    public void updateMaxlpayers(int amountOfPlayers) {
         printAmountOfPlayers = "The highlited iceberg\n can hold " + amountOfPlayers + " players.";
         showTextFlag = 1;
     }
@@ -167,18 +166,18 @@ public class PlayerBaseGUI {
         batch.draw(playerTexture, player.posX, player.posY, 50, 50);
         //life
         font2.draw(batch, "player1", 20, 458);
-        batch.draw(lifeTexture, 120, 440,30, 30 );
+        batch.draw(lifeTexture, 120, 440, 30, 30);
 
         //inv
         inventoryGUI.render(batch);
 
         //igloo
-        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
+        if (iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
 
-        if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 , 460);
+        if (showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth() / 2, 460);
 
-       // g.drawTexture(texture, player.posX, player.posY);
+        // g.drawTexture(texture, player.posX, player.posY);
 
         batch.end();
 
@@ -188,5 +187,154 @@ public class PlayerBaseGUI {
         batch.dispose();
         font.dispose();
     }
+
+
+    //F1 - use DivingSuit
+    //F2 - use Food
+    //F3 - use Rope
+    //F4 - use Shovel
+    //P -  pick item
+    //R - remove snow
+    //S + up/down/left/right save player
+    //A  + up/down/left/right apply skill
+    //space - fire gun
+    public void input(PlayerBase player) throws Exception {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            if (player.move("north", player.game.getMap())) updateMove("north");
+        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            if (player.move("south", player.game.getMap())) updateMove("south");
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            if (player.move("west", player.game.getMap())) updateMove("west");
+        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            if (player.move("east", player.game.getMap())) updateMove("east");
+        } else if (Gdx.input.isKeyPressed(Input.Keys.P)) {
+            player.pickItem();
+        } else if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+            player.removeSnow();
+        } else if (Gdx.input.isKeyPressed(Input.Keys.F1)) {
+            player.useItem("diving suit");
+        } else if (Gdx.input.isKeyPressed(Input.Keys.F2)) {
+            player.useItem("food");
+        } else if (Gdx.input.isKeyPressed(Input.Keys.F3)) {
+            player.useItem("rope");
+        } else if (Gdx.input.isKeyPressed(Input.Keys.F4)) {
+            player.useItem("shovel");
+
+
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            player.SavePlayer("north", player.game.getMap());
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            player.SavePlayer("south", player.game.getMap());
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            player.SavePlayer("west", player.game.getMap());
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            player.SavePlayer("east", player.game.getMap());
+
+
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            if ((player.useSkill(player.game.getMap(), "north") && player.getTag().equals("eskimo"))){
+                updateIgloo("north");
+            }
+
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+           if ((player.useSkill(player.game.getMap(), "south") && player.getTag().equals("eskimo"))){
+               updateIgloo("south");
+           }
+
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            if((player.useSkill(player.game.getMap(), "west") && player.getTag().equals("eskimo"))){
+                updateIgloo("west");
+            }
+
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            if((player.useSkill(player.game.getMap(), "east") && player.getTag().equals("eskimo"))){
+                updateIgloo("east");
+            }
+
+        }else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            if (player.game.isWin()) player.game.GameOver();
+
+        }else if(Gdx.input.isKeyPressed(Input.Keys.C)) {
+            player.getPosition();
+        }
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        switch (keycode) {
+            case Input.Keys.W:
+                try {
+                    if (player.move("north", player.game.getMap())) updateMove("north");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case Input.Keys.S:
+                try {
+                    if (player.move("south", player.game.getMap())) updateMove("south");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case Input.Keys.A:
+                try {
+                    if (player.move("west", player.game.getMap())) updateMove("west");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case Input.Keys.D:
+                try {
+                    if (player.move("east", player.game.getMap())) updateMove("east");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case Input.Keys.P:
+                try {
+                    player.pickItem();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+
 
 }
