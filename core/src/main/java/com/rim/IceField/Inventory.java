@@ -1,12 +1,14 @@
 package com.rim.IceField;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Inventory {
 
     //items in the inventory of each player
     protected ArrayList<ItemBase> items = new ArrayList<ItemBase>();
+    protected HashMap<String, Integer> itemsMap = new HashMap<String, Integer>();
     //We check if players collected the parts of the gun, it hasn't to be one player.
     public static int countGunItems = 0; //how many items are in the inventory
 
@@ -17,7 +19,8 @@ public class Inventory {
      * @return true if the item was
      * added to the inventory
      */
-    public boolean addItem(ItemBase it) {
+    public boolean addItem(ItemBase it){
+
         try {
 
             // Flare, charge and gun cannot be used separately
