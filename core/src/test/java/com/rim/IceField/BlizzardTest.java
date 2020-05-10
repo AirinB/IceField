@@ -32,7 +32,7 @@ class BlizzardTest {
         Assertions.assertEquals(3, e1.getCurrentIceberg().getAmountOfSnow());
         Assertions.assertEquals(3, e2.getCurrentIceberg().getAmountOfSnow());
 
-        Blizzard.blow(playersList, game.getMap());
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(4,e1.heatLevel);
         //Assertions.assertEquals(4,e1.getCurrentIceberg().getAmountOfSnow());
         Assertions.assertEquals(4,e2.heatLevel);
@@ -45,7 +45,7 @@ class BlizzardTest {
         e1.useSkill(game.getMap(),"east");
         e1.move("east", game.getMap());
 
-        Blizzard.blow(playersList, game.getMap());
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(4,e1.heatLevel);
        // Assertions.assertEquals(4,e1.getCurrentIceberg().getAmountOfSnow());
         Assertions.assertEquals(3,e2.heatLevel);
@@ -56,7 +56,7 @@ class BlizzardTest {
          * Testing the death of a character due to 0 heat units
          */
         for (int i = 0; i < 2; i++){
-            Blizzard.blow(playersList, game.getMap());
+            Blizzard.blow(playersList, game.getMap().getIcebergs());
         }
 
         Assertions.assertEquals(4,e1.heatLevel);
@@ -66,13 +66,13 @@ class BlizzardTest {
         e2.move("east", game.getMap());
 
         assertEquals(2, e1.getCurrentIceberg().getCurrentPlayers().size());
-        Blizzard.blow(playersList, game.getMap());
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
 
         Assertions.assertEquals(1,e2.heatLevel);
 
 
         e2.move("west", game.getMap());
-        Blizzard.blow(playersList, game.getMap());
+        Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(0,e2.heatLevel);
 
         assertTrue(e2.isDead);
