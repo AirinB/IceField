@@ -232,4 +232,12 @@ public class Map {
 
 
     }
+
+    public int getMAP_HEIGHT() {
+        return MAP_HEIGHT;
+    }
+
+    public int getMAP_WIDTH() {
+        return MAP_WIDTH;
+    }
 }

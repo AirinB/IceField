@@ -21,8 +21,11 @@ public class GameMain extends BasicGame {
     public ItemBaseGUI flare;
     public ItemBaseGUI gun;
     public ItemBaseGUI shovel;
-    @Override
+    public Map map;
+    public MapGUI mapgui;
 
+
+    @Override
     public void initialise() {
         //initialize all var
         PlayerBase p = new Eskimo();
@@ -36,7 +39,9 @@ public class GameMain extends BasicGame {
         shovel = new ItemBaseGUI(new Shovel());
         divingSuit =  new ItemBaseGUI(new DivingSuit());
         blizzardGUI = new BlizzardGUI();
-
+        map = new Map();
+        mapgui = new MapGUI(map);
+        mapgui.initialise();
 
     }
 
@@ -69,7 +74,7 @@ public class GameMain extends BasicGame {
         divingSuit.update(400, 120);
         shovel.update(295, 200);
         gun.update(289, 266);
-       // playerBaseGUI.updatePlayerLife(0);
+        // playerBaseGUI.updatePlayerLife(0);
         blizzardGUI.update();
 
 
@@ -82,6 +87,7 @@ public class GameMain extends BasicGame {
 
     @Override
     public void render(Graphics g) {
+        mapgui.render(g);
         food.render(g);
         rope.render(g);
         charge.render(g);
@@ -91,7 +97,6 @@ public class GameMain extends BasicGame {
         divingSuit.render(g);
         playerBaseGUI.render(g);
         blizzardGUI.render(g);
-
 
 
     }
@@ -139,7 +144,7 @@ public class GameMain extends BasicGame {
 //TEST
         //System.out.println("If you want to load the inputs from file, enter 1");
 
-       // int a = input.nextInt();
+        // int a = input.nextInt();
     /*    if( a == 1){
             //newGame from file
             Scanner scannerChoice = new Scanner(System.in);
@@ -148,7 +153,7 @@ public class GameMain extends BasicGame {
             scannerChoice.close();
         }*/
         try {
-            game.newGame();
+        game.newGame();
 
         }
         catch (Exception e)
@@ -161,9 +166,3 @@ public class GameMain extends BasicGame {
 
     }
 }
-
-
-
-
-
-
