@@ -11,6 +11,7 @@ public abstract class PlayerBase extends TimerTask {
     protected Iceberg currentIceberg;             //Iceberg the player stands on
     protected String tag;                         //Type of the player: Eskimo, PolarExplorer
     protected int ID;                             //ID of the player
+    private static int idGenerator = 0;
     protected boolean isWearingDSuit = false;     //Boolean for checking if diving suit is on
     protected int heatLevel;                      //Heat level of the player: Eskimo - 5, PolarExplorer - 4
     protected boolean isDead = false;             //Boolean if the player has died
@@ -54,6 +55,8 @@ public abstract class PlayerBase extends TimerTask {
 
     //The constructor for the PlayerBase instantiates inventory.
     public PlayerBase() {
+        this.ID = idGenerator;
+        idGenerator ++;
         this.posX = 0;
         this.posY = 0;
         this.tag = "PlayerBase";

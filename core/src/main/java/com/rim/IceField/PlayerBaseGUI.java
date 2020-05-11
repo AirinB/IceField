@@ -10,15 +10,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import org.mini2Dx.core.graphics.Graphics;
-import org.mini2Dx.core.graphics.Sprite;
 
 //TODO need to highlight the iceberg
 // that is selected by the Polar Explorer
 
 public class PlayerBaseGUI implements InputProcessor {
     PlayerBase player;
-    Sprite sprite;
     Texture playerTexture;  //display the texture
+    int sizePlayerX;
+    int sizePlayerY;
 
     Texture iglooTexture; //display the igloo
     int iglooX;
@@ -43,16 +43,22 @@ public class PlayerBaseGUI implements InputProcessor {
     }
 
     public void initialize() {
-        if (player.getTag().equals("Eskimo"))
+        if (player.getTag().equals("Eskimo")) {
             playerTexture = new Texture("assets/eskimo.png");
-        if (player.getTag().equals("PolarExplorer"))
+            sizePlayerX = 30;
+            sizePlayerY = 40;
+        }else if(player.getTag().equals("PolarExplorer")) {
             playerTexture = new Texture("assets/polarExp.png");
+            sizePlayerX = 30;
+            sizePlayerY = 40;
+        }
 
         iglooTexture = new Texture("assets/igloo.png");
-        lifeTexture = new Texture("assets/5fullbattery.png");
-        sprite = new Sprite(playerTexture, 100, 100, 100, 100);
-        sprite.setPosition(40, 40);
+
+
+
         batch = new SpriteBatch();
+
         inventoryGUI = new InventoryGUI(player);
 
 
@@ -68,18 +74,6 @@ public class PlayerBaseGUI implements InputProcessor {
         font = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
-        //font2
-        FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter1.size = 12;
-        parameter1.borderWidth = 1;
-        parameter1.color = Color.WHITE;
-        parameter1.shadowOffsetX = 1;
-        parameter1.shadowOffsetY = 1;
-        parameter1.shadowColor = new Color(0, 0.5f, 0, 0.75f);
-        font2 = generator1.generateFont(parameter1); // font size 12 pixels
-        generator1.dispose(); // don't forget to dispose to avoid memory leaks!
-
 
         //label style
 //        Label.LabelStyle label1Style = new Label.LabelStyle();
@@ -92,70 +86,56 @@ public class PlayerBaseGUI implements InputProcessor {
 
     }
 
-    public void updatePlayerLife(int lifeLeft) {
-        switch (lifeLeft) {
-            case 5:
-                lifeTexture = new Texture("assets/5fullbattery.png");
-                break;
-            case 4:
-                lifeTexture = new Texture("assets/4battery.png");
-                break;
-            case 3:
-                lifeTexture = new Texture("assets/3battery.png");
-                break;
-            case 2:
-                lifeTexture = new Texture("assets/2battery.png");
-                break;
-            case 1:
-                lifeTexture = new Texture("assets/1battery.png");
-                break;
-            case 0:
-                lifeTexture = new Texture("assets/0battery.png");
-                break;
-
-        }
-
-    }
 
     public void updateMove(String dir) {
 
 
-        if (dir.equals("east")) {
-            if (player.posX >= Gdx.graphics.getWidth() - 30) return;
+        if(dir.equals("east")){
+            if(player.posX >= Gdx.graphics.getWidth() - 30) return;
             player.posX += player.offX;
-        } else if (dir.equals("west")) {
-            if (player.posX <= 0) return;
+        }else if(dir.equals("west")){
+            if(player.posX <= 0) return;
             player.posX -= player.offX;
-        } else if (dir.equals(("north"))) {
-            if (player.posY >= Gdx.graphics.getHeight() - 30) return;
+        }else if(dir.equals(("north"))){
+            if ( player.posY >= Gdx.graphics.getHeight() - 30) return;
             player.posY += player.offY;
-        } else if (dir.equals("south")) {
-            if (player.posY <= 0) return;
+        }else if(dir.equals("south")){
+            if(player.posY <= 0) return;
             player.posY -= player.offY;
         }
     }
 
-    public void updateIgloo(String dir) {
+    public void updateIgloo(String dir){
         //the offX and offY might need to be changed with the width of the tile(iceberg
 
-        if (dir.equals("east")) {
-            iglooX = player.posX + player.offX;
+        if(dir.equals("east")){
+            iglooX = player.posX+ player.offX;
             iglooY = player.posY;
-        } else if (dir.equals("west")) {
-            iglooX = player.posX - player.offX;
+        }else if(dir.equals("west")){
+            iglooX = player.posX -  player.offX;
             iglooY = player.posY;
-        } else if (dir.equals(("north"))) {
+        }else if(dir.equals(("north"))){
             iglooY = player.posY + player.offY;
             iglooX = player.posX;
-        } else if (dir.equals("south")) {
+        }else if(dir.equals("south")){
             iglooY = player.posY - player.offY;
             iglooX = player.posX;
         }
     }
 
-    public void updateMaxlpayers(int amountOfPlayers) {
+    public void updateMaxlpayers(int amountOfPlayers){
         printAmountOfPlayers = "The highlited iceberg\n can hold " + amountOfPlayers + " players.";
         showTextFlag = 1;
+    }
+
+    public  void updatedPlayerState(){
+        if(player.isDrowning && player.getTag().equals("PolarExplorer")){
+            playerTexture = new Texture("assets/polarExpInWater.png");
+            sizePlayerY = 20;
+        }else if (player.isDrowning && player.getTag().equals("Eskimo")){
+            playerTexture = new Texture("assets/eskimoInWater.png");
+            sizePlayerY = 30;
+        }
     }
 
 
@@ -163,21 +143,16 @@ public class PlayerBaseGUI implements InputProcessor {
         batch.begin();
         // Drawing goes here!
         //player
-        batch.draw(playerTexture, player.posX, player.posY, 50, 50);
-        //life
-        font2.draw(batch, "player1", 20, 458);
-        batch.draw(lifeTexture, 120, 440, 30, 30);
+        updatedPlayerState();
+        batch.draw(playerTexture, player.posX, player.posY, sizePlayerX, sizePlayerY);
 
         //inv
         inventoryGUI.render(batch);
 
         //igloo
-        if (iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
+        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
-
-        if (showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth() / 2, 460);
-
-        // g.drawTexture(texture, player.posX, player.posY);
+        if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
 
         batch.end();
 

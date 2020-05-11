@@ -30,11 +30,11 @@ public class InventoryGUI {
     }
     public void  initialize(){
         //the inventory
-        charge = new Texture("assets/security.png");
-        flare =  new Texture("assets/flare.png");
+        charge = new Texture("assets/securityNotCollected.png");
+        flare =  new Texture("assets/flareNotCollected.png");
         food =  new Texture("assets/food.png");
         divingSuit =  new Texture("assets/diving-suit.png");
-        gun = new Texture("assets/gun.png");
+        gun = new Texture("assets/gunNotCollected.png");
         rope =  new Texture("assets/rope.png");
         shovel =  new Texture("assets/shovel.png");
 
@@ -51,8 +51,11 @@ public class InventoryGUI {
         generator1.dispose(); // don't forget to dispose to avoid memory leaks!
     }
 
-    public void update(){
+    public void updateGoal(){
+        if(Inventory.isGunCollected) gun = new Texture("assets/gun.png");
 
+        if(Inventory.isChargeCollected) charge = new Texture("assets/security.png");
+        if(Inventory.isFlareCollected) flare = new Texture("assets/flare.png");
     }
 
     public void render(SpriteBatch batch){
@@ -60,16 +63,16 @@ public class InventoryGUI {
         //render the useful items
         // 20  px difference on y
         batch.draw(food,570, 450, 15, 15 );
-        font.draw(batch, " x6", 580, 460);
+        font.draw(batch, " x" + inventory.countItem("food"), 580, 460);
 
         batch.draw(rope,570, 430, 15, 15 );
-        font.draw(batch, " x2", 580, 440);
+        font.draw(batch, " x" + inventory.countItem("rope"), 580, 440);
 
         batch.draw(shovel,570, 410, 15, 15 );
-        font.draw(batch, " x0", 580, 420);
+        font.draw(batch, " x" + inventory.countItem("shovel"), 580, 420);
 
-        batch.draw(divingSuit,570, 390, 20, 20);
-        font.draw(batch, " x0", 580, 400);
+        batch.draw(divingSuit,570, 390, 15, 20);
+        font.draw(batch, " x" + inventory.countItem("diving suit"), 580, 400);
 
       //  batch.draw(charge,570, 410, 15, 15 );
       //  font.draw(batch, " x0", 580, 420);
@@ -78,10 +81,11 @@ public class InventoryGUI {
         //this part should be taken from here to the map
         //or to the player, can be left here anyway
         font.draw(batch, "GOAL", 530, 50);
+        updateGoal();
         //display the collected parts for the gun
         batch.draw(gun,590, 10, 25, 25 );
         batch.draw(flare,550, 10, 25, 25 );
-        batch.draw(charge,510, 10, 25, 25 );
+        batch.draw(charge,510, 14, 20, 10 );
 
 
 

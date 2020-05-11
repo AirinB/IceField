@@ -25,7 +25,7 @@ public class ItemBaseGUI {
         if (item.getTag().equals("charge")) {
             itemTexture = new Texture("assets/security.png");
             width = 20;
-            height = 20;
+            height = 10;
         }else if (item.getTag().equals("flare")) {
             itemTexture = new Texture("assets/flare.png");
             width = 25;
@@ -36,16 +36,16 @@ public class ItemBaseGUI {
             height = 25;
         }else if (item.getTag().equals("diving suit")) {
             itemTexture = new Texture("assets/diving-suit.png");
-            width =40;
-            height = 40;
+            width =20;
+            height = 30;
         }else if (item.getTag().equals("gun")) {
             itemTexture = new Texture("assets/gun.png");
             width = 30;
-            height = 30;
+            height = 25;
         }else if (item.getTag().equals("rope")) {
             itemTexture = new Texture("assets/rope.png");
-            width = 30;
-            height = 30;
+            width = 25;
+            height = 25;
         }else if (item.getTag().equals("shovel")) {
             itemTexture = new Texture("assets/shovel.png");
             width = 30;

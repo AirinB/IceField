@@ -1,5 +1,7 @@
 package com.rim.IceField;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -22,6 +24,8 @@ public class GameMain extends BasicGame {
     public Map map;
     public MapGUI mapgui;
 
+    public HealthPanelGUI healthPanelGUI;
+
 
     PlayerBase player;
     Game game;
@@ -40,6 +44,16 @@ public class GameMain extends BasicGame {
         game.getMap().Icebergs[0][0].Add_currentPlayers(player);
         player.isTurn = true;
         playerBaseGUI = new PlayerBaseGUI(player);
+        PlayerBase p = new Eskimo();
+        PlayerBase p1 = new PolarExplorer();
+        p1.heatLevel = 2;
+
+        players = new ArrayList<PlayerBase>();
+        players.add(p);
+        players.add(p1);
+
+        p.isTurn = true;
+        playerBaseGUI = new PlayerBaseGUI(p);
         rope = new ItemBaseGUI(new Rope());
         food = new ItemBaseGUI(new Food());
         charge = new ItemBaseGUI(new Charge());
@@ -48,6 +62,8 @@ public class GameMain extends BasicGame {
         shovel = new ItemBaseGUI(new Shovel());
         divingSuit =  new ItemBaseGUI(new DivingSuit());
         blizzardGUI = new BlizzardGUI();
+        healthPanelGUI = new HealthPanelGUI(players, 20, 450);
+
         map = new Map();
         mapgui = new MapGUI(map);
         mapgui.initialise();
@@ -102,6 +118,10 @@ public class GameMain extends BasicGame {
         // playerBaseGUI.updatePlayerLife(0);
         blizzardGUI.update();
 
+        healthPanelGUI.render();
+
+
+
 
     }
 
@@ -122,6 +142,7 @@ public class GameMain extends BasicGame {
         divingSuit.render(g);
         playerBaseGUI.render(g);
         blizzardGUI.render(g);
+        healthPanelGUI.render();
 
     }
 
@@ -184,15 +205,8 @@ public class GameMain extends BasicGame {
         {
             if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
             else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
-            return;
         }
 
 
     }
 }
-
-
-
-
-
-
