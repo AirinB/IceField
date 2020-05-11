@@ -94,6 +94,7 @@ public class GameMain extends BasicGame {
 
 
 
+
     }
 
     @Override
@@ -176,7 +177,6 @@ public class GameMain extends BasicGame {
         {
             if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
             else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
-            return;
         }
 
 

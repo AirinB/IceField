@@ -11,7 +11,9 @@ public class Inventory {
     protected HashMap<String, Integer> itemsMap = new HashMap<String, Integer>();
     //We check if players collected the parts of the gun, it hasn't to be one player.
     public static int countGunItems = 0; //how many items are in the inventory
-
+    public static boolean isGunCollected = false;
+    public static boolean isFlareCollected = false;
+    public static boolean isChargeCollected = false;
 
     /**
      * @param it the item added to the
@@ -31,6 +33,9 @@ public class Inventory {
                 it.active = true;
 
             } else {
+                if(it.tag.equals("flare")) isFlareCollected = true;
+                if(it.tag.equals("charge")) isChargeCollected = true;
+                if(it.tag.equals("gun")) isGunCollected = true;
                 countGunItems++;
             }
             it.obtained = true;
@@ -82,6 +87,17 @@ public class Inventory {
         }
         return null;
     }
+
+    public int countItem(String string){
+        int count = 0;
+        for (ItemBase i: items) {
+            if( i.getTag().equals(string)){
+                count ++;
+            }
+        }
+        return count;
+    }
+
 
     /**
      * @param index id of the item

@@ -15,6 +15,8 @@ import org.mini2Dx.core.graphics.Graphics;
 public class PlayerBaseGUI {
     PlayerBase player;
     Texture playerTexture;  //display the texture
+    int sizePlayerX;
+    int sizePlayerY;
 
     Texture iglooTexture; //display the igloo
     int iglooX;
@@ -39,10 +41,15 @@ public class PlayerBaseGUI {
     }
 
     public void initialize() {
-        if (player.getTag().equals("Eskimo"))
+        if (player.getTag().equals("Eskimo")) {
             playerTexture = new Texture("assets/eskimo.png");
-        if (player.getTag().equals("PolarExplorer"))
+            sizePlayerX = 30;
+            sizePlayerY = 40;
+        }else if(player.getTag().equals("PolarExplorer")) {
             playerTexture = new Texture("assets/polarExp.png");
+            sizePlayerX = 30;
+            sizePlayerY = 40;
+        }
 
         iglooTexture = new Texture("assets/igloo.png");
 
@@ -119,12 +126,23 @@ public class PlayerBaseGUI {
         showTextFlag = 1;
     }
 
+    public  void updatedPlayerState(){
+        if(player.isDrowning && player.getTag().equals("PolarExplorer")){
+            playerTexture = new Texture("assets/polarExpInWater.png");
+            sizePlayerY = 20;
+        }else if (player.isDrowning && player.getTag().equals("Eskimo")){
+            playerTexture = new Texture("assets/eskimoInWater.png");
+            sizePlayerY = 30;
+        }
+    }
+
 
     public void render(Graphics g) {
         batch.begin();
         // Drawing goes here!
         //player
-        batch.draw(playerTexture, player.posX, player.posY, 40, 50);
+        updatedPlayerState();
+        batch.draw(playerTexture, player.posX, player.posY, sizePlayerX, sizePlayerY);
 
         //inv
         inventoryGUI.render(batch);
@@ -132,7 +150,7 @@ public class PlayerBaseGUI {
         //igloo
         if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
-        if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 , 460);
+        if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
 
         batch.end();
 
