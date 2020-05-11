@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class GameMain extends BasicGame {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
+    public ArrayList<PlayerBase> players;
+
     public PlayerBaseGUI playerBaseGUI;
     public BlizzardGUI blizzardGUI;
     public ItemBaseGUI rope;
@@ -24,11 +26,20 @@ public class GameMain extends BasicGame {
     public Map map;
     public MapGUI mapgui;
 
+    public HealthPanelGUI healthPanelGUI;
+
 
     @Override
     public void initialise() {
         //initialize all var
         PlayerBase p = new Eskimo();
+        PlayerBase p1 = new PolarExplorer();
+        p1.heatLevel = 2;
+
+        players = new ArrayList<PlayerBase>();
+        players.add(p);
+        players.add(p1);
+
         p.isTurn = true;
         playerBaseGUI = new PlayerBaseGUI(p);
         rope = new ItemBaseGUI(new Rope());
@@ -39,6 +50,8 @@ public class GameMain extends BasicGame {
         shovel = new ItemBaseGUI(new Shovel());
         divingSuit =  new ItemBaseGUI(new DivingSuit());
         blizzardGUI = new BlizzardGUI();
+        healthPanelGUI = new HealthPanelGUI(players, 20, 450);
+
         map = new Map();
         mapgui = new MapGUI(map);
         mapgui.initialise();
@@ -77,6 +90,9 @@ public class GameMain extends BasicGame {
         // playerBaseGUI.updatePlayerLife(0);
         blizzardGUI.update();
 
+        healthPanelGUI.render();
+
+
 
     }
 
@@ -97,6 +113,7 @@ public class GameMain extends BasicGame {
         divingSuit.render(g);
         playerBaseGUI.render(g);
         blizzardGUI.render(g);
+        healthPanelGUI.render();
 
     }
 

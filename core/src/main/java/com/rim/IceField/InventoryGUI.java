@@ -68,7 +68,7 @@ public class InventoryGUI {
         batch.draw(shovel,570, 410, 15, 15 );
         font.draw(batch, " x0", 580, 420);
 
-        batch.draw(divingSuit,570, 390, 20, 20);
+        batch.draw(divingSuit,570, 390, 15, 20);
         font.draw(batch, " x0", 580, 400);
 
       //  batch.draw(charge,570, 410, 15, 15 );
@@ -81,7 +81,7 @@ public class InventoryGUI {
         //display the collected parts for the gun
         batch.draw(gun,590, 10, 25, 25 );
         batch.draw(flare,550, 10, 25, 25 );
-        batch.draw(charge,510, 10, 25, 25 );
+        batch.draw(charge,510, 14, 20, 10 );
 
 
 
