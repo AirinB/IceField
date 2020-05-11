@@ -52,7 +52,6 @@ public class GameMain extends BasicGame {
         blizzardGUI = new BlizzardGUI();
         healthPanelGUI = new HealthPanelGUI(players, 20, 450);
 
-        p.getInventory().addItem(new Flare());
         map = new Map();
         mapgui = new MapGUI(map);
         mapgui.initialise();
@@ -178,7 +177,6 @@ public class GameMain extends BasicGame {
         {
             if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
             else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
-            return;
         }
 
 
