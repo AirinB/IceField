@@ -131,6 +131,9 @@ public class Game {
     }
 
 
+
+
+
     /**
      * @throws Exception if its not the
      *                   player's turn to make the move
@@ -468,12 +471,12 @@ public class Game {
         System.out.print(4 - player.numOfMoves);
         int partsCollected = 0;
         //for every player
-        for (PlayerBase playerBase : players) {
+        for (PlayerBase PlayerBase : players) {
             //we check every item in their inventory if it is a Gun, flare or charge
-            for (int j = 0; j < playerBase.getInventory().getItems().size(); j++) {
-                if (playerBase.getInventory().getItems().get(j).getTag().equals("gun") ||
-                        playerBase.getInventory().getItems().get(j).getTag().equals("flare") ||
-                        playerBase.getInventory().getItems().get(j).getTag().equals("charge")) {
+            for (int j = 0; j < PlayerBase.getInventory().getItems().size(); j++) {
+                if (PlayerBase.getInventory().getItems().get(j).getTag().equals("gun") ||
+                        PlayerBase.getInventory().getItems().get(j).getTag().equals("flare") ||
+                        PlayerBase.getInventory().getItems().get(j).getTag().equals("charge")) {
                     partsCollected++;
                     //break;
                 }
@@ -501,46 +504,6 @@ public class Game {
         System.out.println("info - will display current player's heat level, number of moves left and the number of gun parts collected by the team.");
         System.out.println("exit - Will exit the game.");
         System.out.println("map - will show the map to the user.");
-    }
-
-
-
-
-    //for testing at this stage
-
-    public boolean isWinForTest() {
-        //Checking if all the conditions are preserved for winning the game
-
-        boolean playersCheck = false;    //Boolean for check if all the players stay on the same iceberg
-        //boolean flareGunCheck = false;   //Boolean to check if all the parts of flare gun are collected
-
-        //Checking if all the players stand on the same iceberg and it's not a hole
-        //MODIFIED TO 2 FOR TESTING PURPOSES
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (map.Icebergs[i][j].getCurrentPlayers().size() == players.size() && !map.Icebergs[i][j].getType().equals("hole"))
-                    playersCheck = true;
-            }
-        }
-
-        //Checking if flare gun was collected
-        if (playersCheck) {
-            if (Inventory.countGunItems == 3) {
-                System.out.println("The flare gun is collected");
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean GameOverForTest() {
-        //Checking if all the conditions are preserved for winning the game
-        if (isWinForTest()) {
-            System.out.println("Game Over! You Win");
-            return true;
-        }
-
-        return false;
     }
 
 }

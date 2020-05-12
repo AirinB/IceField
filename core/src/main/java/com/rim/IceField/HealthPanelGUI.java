@@ -16,13 +16,13 @@ public class HealthPanelGUI {
     int posX;
     int posY;
 
-    public HealthPanelGUI(ArrayList<PlayerBase> players, int X, int Y) {
+    public HealthPanelGUI(ArrayList<PlayerBaseGUI> players, int X, int Y) {
         //add the health descriptors for all the players
         batch = new SpriteBatch();
         healthDescriptors = new ArrayList<HealthGUI>();
 
-        for (PlayerBase p: players) {
-            HealthGUI h = new HealthGUI(p);
+        for (PlayerBaseGUI p: players) {
+            HealthGUI h = new HealthGUI(p.player);
             healthDescriptors.add(h);
         }
 

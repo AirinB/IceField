@@ -139,6 +139,7 @@ public class PlayerBaseGUI implements InputProcessor {
     }
 
 
+
     public void render(Graphics g) {
         batch.begin();
         // Drawing goes here!
@@ -150,11 +151,13 @@ public class PlayerBaseGUI implements InputProcessor {
         inventoryGUI.render(batch);
 
         //igloo
-        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
+        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 20, 20);
 
         if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
 
         batch.end();
+
+        Gdx.input.setInputProcessor(this);
 
     }
 
@@ -164,115 +167,165 @@ public class PlayerBaseGUI implements InputProcessor {
     }
 
 
-    //F1 - use DivingSuit
-    //F2 - use Food
-    //F3 - use Rope
-    //F4 - use Shovel
-    //P -  pick item
-    //R - remove snow
-    //S + up/down/left/right save player
-    //A  + up/down/left/right apply skill
-    //space - fire gun
-    public void input(PlayerBase player) throws Exception {
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            if (player.move("north", player.game.getMap())) updateMove("north");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            if (player.move("south", player.game.getMap())) updateMove("south");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            if (player.move("west", player.game.getMap())) updateMove("west");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (player.move("east", player.game.getMap())) updateMove("east");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.P)) {
-            player.pickItem();
-        } else if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            player.removeSnow();
-        } else if (Gdx.input.isKeyPressed(Input.Keys.F1)) {
-            player.useItem("diving suit");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.F2)) {
-            player.useItem("food");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.F3)) {
-            player.useItem("rope");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.F4)) {
-            player.useItem("shovel");
-
-
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            player.SavePlayer("north", player.game.getMap());
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player.SavePlayer("south", player.game.getMap());
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            player.SavePlayer("west", player.game.getMap());
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.S)) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            player.SavePlayer("east", player.game.getMap());
-
-
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            if ((player.useSkill(player.game.getMap(), "north") && player.getTag().equals("eskimo"))){
-                updateIgloo("north");
+    public boolean input(PlayerBase player) throws Exception {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            if (player.move("north", player.game.getMap())) {
+                updateMove("north");
+                return true;
             }
 
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-           if ((player.useSkill(player.game.getMap(), "south") && player.getTag().equals("eskimo"))){
-               updateIgloo("south");
-           }
-
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            if((player.useSkill(player.game.getMap(), "west") && player.getTag().equals("eskimo"))){
-                updateIgloo("west");
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            if (player.move("south", player.game.getMap())) {
+                updateMove("south");
+                return true;
             }
 
-        } else if ((Gdx.input.isKeyPressed(Input.Keys.A)) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if((player.useSkill(player.game.getMap(), "east") && player.getTag().equals("eskimo"))){
-                updateIgloo("east");
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            if (player.move("west", player.game.getMap())) {
+                updateMove("west");
+                return true;
             }
 
-        }else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            if (player.move("east", player.game.getMap())) {
+                updateMove("east");
+                return true;
+            }
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            if (player.pickItem()) {
+                return true;
+            }
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            if (player.removeSnow()) {
+                return true;
+            }
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
+            if (player.useItem("diving suit")) {
+                return true;
+            }
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
+            if (player.useItem("food")) {
+                return true;
+            }
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
+            if  (player.useItem("rope")) {
+                return true;
+            }
+
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.F4)) {
+            if (player.useItem("shovel")) {
+                return true;
+            }
+
+        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            if (player.SavePlayer("north", player.game.getMap())) {
+                return true;
+            }
+
+        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            if (player.SavePlayer("south", player.game.getMap())) {
+                return true;
+            }
+
+        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            if (player.SavePlayer("west", player.game.getMap())) {
+                return true;
+            }
+
+        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            if (player.SavePlayer("east", player.game.getMap())) {
+                return true;
+            }
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "south") && player.getTag().equals("Eskimo"))) {
+                    this.updateIgloo("south");
+                    return true;
+                }
+            }
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "north") && player.getTag().equals("Eskimo"))) {
+                    this.updateIgloo("north");
+                    return true;
+                }
+            }
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "west") && player.getTag().equals("Eskimo"))) {
+                    this.updateIgloo("west");
+                    return true;
+                }
+            }
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "east") && player.getTag().equals("Eskimo"))) {
+                    this.updateIgloo("east");
+                    return true;
+                }
+            }
+
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "south") && player.getTag().equals("PolarExplorer"))) {
+                    System.out.println("polar skill");
+                    return true;
+                }
+            }
+
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "north") && player.getTag().equals("PolarExplorer"))) {
+                    System.out.println("polar skill");
+                    return true;
+                }
+            }
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "west") && player.getTag().equals("PolarExplorer"))) {
+                    System.out.println("polar skill");
+                    return true;
+                }
+            }
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if ((player.useSkill(player.game.getMap(), "east") && player.getTag().equals("PolarExplorer"))) {
+                    System.out.println("polar skill");
+                    return true;
+                }
+            }
+
+        }else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (player.game.isWin()) player.game.GameOver();
+            return true;
 
-        }else if(Gdx.input.isKeyPressed(Input.Keys.C)) {
+        }else if(Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             player.getPosition();
+            return true;
         }
+
+        return false;
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        switch (keycode) {
-            case Input.Keys.W:
-                try {
-                    if (player.move("north", player.game.getMap())) updateMove("north");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case Input.Keys.S:
-                try {
-                    if (player.move("south", player.game.getMap())) updateMove("south");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case Input.Keys.A:
-                try {
-                    if (player.move("west", player.game.getMap())) updateMove("west");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case Input.Keys.D:
-                try {
-                    if (player.move("east", player.game.getMap())) updateMove("east");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case Input.Keys.P:
-                try {
-                    player.pickItem();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-        }
-        return true;
+
+        return false;
     }
 
     @Override
