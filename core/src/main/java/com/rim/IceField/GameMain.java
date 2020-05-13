@@ -1,7 +1,5 @@
 package com.rim.IceField;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -9,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-
 public class GameMain extends BasicGame {
-    public static final String GAME_IDENTIFIER = "com.rim.IceField";
-    public ArrayList<PlayerBase> players;
 
-    public PlayerBaseGUI playerBaseGUI;
+    public int count = 0;
+    public int round = 0;
+    public static final String GAME_IDENTIFIER = "com.rim.IceField";
+
     public BlizzardGUI blizzardGUI;
     public ItemBaseGUI rope;
     public ItemBaseGUI food;
@@ -25,58 +23,85 @@ public class GameMain extends BasicGame {
     public ItemBaseGUI shovel;
     public Map map;
     public MapGUI mapgui;
-
     public HealthPanelGUI healthPanelGUI;
+
+
+    public Game game;
+    ArrayList<PlayerBaseGUI> playersList;
+    ArrayList<PlayerBase> players;
+    public PlayerBaseGUI playerBaseGUI1;
+    public PlayerBaseGUI playerBaseGUI2;
 
 
     @Override
     public void initialise() {
-        //initialize all var
-        PlayerBase p = new Eskimo();
-        PlayerBase p1 = new PolarExplorer();
-        p1.heatLevel = 2;
+
+        playerBaseGUI1 = new PlayerBaseGUI(new Eskimo());
+        playerBaseGUI2 = new PlayerBaseGUI(new PolarExplorer());
+
+        playersList = new ArrayList<PlayerBaseGUI>();
+        playersList.add(playerBaseGUI1);
+        playersList.add(playerBaseGUI2);
+
 
         players = new ArrayList<PlayerBase>();
-        players.add(p);
-        players.add(p1);
+        players.add(playerBaseGUI1.player);
+        players.add(playerBaseGUI2.player);
 
-        p.isTurn = true;
-        playerBaseGUI = new PlayerBaseGUI(p);
+
+        game = new Game(players);
+        playerBaseGUI1.player.setGame(game);
+        playerBaseGUI2.player.setGame(game);
+
+
+        playerBaseGUI1.player.currentIceberg = game.getMap().Icebergs[0][0];
+        game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI1.player);
+        playerBaseGUI1.player.isTurn = true;
+
+        playerBaseGUI2.player.currentIceberg = game.getMap().Icebergs[0][0];
+        game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI2.player);
+        playerBaseGUI1.player.isTurn = true;
+
+
         rope = new ItemBaseGUI(new Rope());
         food = new ItemBaseGUI(new Food());
         charge = new ItemBaseGUI(new Charge());
         flare = new ItemBaseGUI(new Flare());
         gun = new ItemBaseGUI(new Gun());
         shovel = new ItemBaseGUI(new Shovel());
-        divingSuit =  new ItemBaseGUI(new DivingSuit());
+        divingSuit = new ItemBaseGUI(new DivingSuit());
         blizzardGUI = new BlizzardGUI();
-        healthPanelGUI = new HealthPanelGUI(players, 20, 450);
+        healthPanelGUI = new HealthPanelGUI(playersList, 20, 450);
 
         map = new Map();
         mapgui = new MapGUI(map);
         mapgui.initialise();
 
+
     }
 
     @Override
     public void update(float delta) {
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            playerBaseGUI.updateMove("south");
-        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            playerBaseGUI.updateMove("west");
-        }else if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            playerBaseGUI.updateMove("north");
-        }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            playerBaseGUI.updateMove("east");
-        }
 
-        // draw the igloo
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            playerBaseGUI.updateIgloo("south");
-        }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.I)){
-            playerBaseGUI.updateMaxlpayers(5);
+        if (count == 2) count = 0;
+        try {
+            playersList.get(count).player.isTurn = true;
+            if (!(playersList.get(count).player.isDrowning)) {
+                if (playersList.get(count).input(playersList.get(count).player)) {
+                    round++;
+                    playersList.get(count).player.isTurn = false;
+                }
+            } else if (playersList.get(count).player.isDrowning) {
+                round = 4;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (round == 4) {
+            count++;
+            round = 0;
         }
 
 
@@ -87,12 +112,9 @@ public class GameMain extends BasicGame {
         divingSuit.update(400, 120);
         shovel.update(295, 200);
         gun.update(289, 266);
-        // playerBaseGUI.updatePlayerLife(0);
         blizzardGUI.update();
 
         healthPanelGUI.render();
-
-
 
 
     }
@@ -112,14 +134,15 @@ public class GameMain extends BasicGame {
         shovel.render(g);
         gun.render(g);
         divingSuit.render(g);
-        playerBaseGUI.render(g);
+        playerBaseGUI1.render(g);
+        playerBaseGUI2.render(g);
         blizzardGUI.render(g);
         healthPanelGUI.render();
+
 
     }
 
     public static void main(String[] args) throws Exception {
-
 
 
         System.out.println("Introduce the number of players in the game: ");
@@ -170,13 +193,14 @@ public class GameMain extends BasicGame {
             scannerChoice.close();
         }*/
         try {
-        game.newGame();
+            game.newGame();
 
         }
         catch (Exception e)
         {
             if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
             else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
+            return;
         }
 
 

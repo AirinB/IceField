@@ -220,13 +220,13 @@ public class Map {
        // Icebergs[7][5].setType("hole");
        // Icebergs[7][5].setMaxNumOfPlayers(0);
 
-        Icebergs[0][1].setType("hole");
-        Icebergs[0][1].setMaxNumOfPlayers(0);
-        Icebergs[0][1].setIsStable(false);
-
-        Icebergs[1][0].setType("instable");
-        Icebergs[1][0].setMaxNumOfPlayers(1);
-        Icebergs[1][0].setIsStable(false);
+//        Icebergs[0][1].setType("hole");
+//        Icebergs[0][1].setMaxNumOfPlayers(0);
+//        Icebergs[0][1].setIsStable(false);
+//
+//        Icebergs[1][0].setType("instable");
+//        Icebergs[1][0].setMaxNumOfPlayers(1);
+//        Icebergs[1][0].setIsStable(false);
 
     }
 
