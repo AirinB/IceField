@@ -471,12 +471,12 @@ public class Game {
         System.out.print(4 - player.numOfMoves);
         int partsCollected = 0;
         //for every player
-        for (PlayerBase PlayerBase : players) {
+        for (PlayerBase p : players) {
             //we check every item in their inventory if it is a Gun, flare or charge
-            for (int j = 0; j < PlayerBase.getInventory().getItems().size(); j++) {
-                if (PlayerBase.getInventory().getItems().get(j).getTag().equals("gun") ||
-                        PlayerBase.getInventory().getItems().get(j).getTag().equals("flare") ||
-                        PlayerBase.getInventory().getItems().get(j).getTag().equals("charge")) {
+            for (int j = 0; j < p.getInventory().getItems().size(); j++) {
+                if (p.getInventory().getItems().get(j).getTag().equals("gun") ||
+                        p.getInventory().getItems().get(j).getTag().equals("flare") ||
+                        p.getInventory().getItems().get(j).getTag().equals("charge")) {
                     partsCollected++;
                     //break;
                 }
