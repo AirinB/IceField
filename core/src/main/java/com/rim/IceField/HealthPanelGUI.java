@@ -2,44 +2,33 @@ package com.rim.IceField;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.rim.IceField.Textures.LifeBarTexture;
 
 import java.util.ArrayList;
 
 public class HealthPanelGUI {
     SpriteBatch batch;
-    ArrayList<HealthGUI> healthDescriptors;
-   // ArrayList<PlayerBase> players;
-    int posX;
-    int posY;
+    ArrayList<PlayerHealthPanel> healthPanels;
 
-    public HealthPanelGUI(ArrayList<PlayerBaseGUI> players, int X, int Y) {
-        //add the health descriptors for all the players
+    public HealthPanelGUI(ArrayList<PlayerBase> players, int X, int Y) {
         batch = new SpriteBatch();
-        healthDescriptors = new ArrayList<HealthGUI>();
+        healthPanels = new ArrayList<PlayerHealthPanel>();
 
-        for (PlayerBaseGUI p: players) {
-            HealthGUI h = new HealthGUI(p.player);
-            healthDescriptors.add(h);
+        int offsetY = 0;
+        for (PlayerBase p: players) {
+            PlayerHealthPanel h = new PlayerHealthPanel(p, X, Y - offsetY);
+            healthPanels.add(h);
+            offsetY += 25;
         }
-
-        posX = X;
-        posY = Y;
     }
 
     public void render(){
         batch.begin();
-       // int offsetX = 0;
-        //is negative, go down on the y axis
-        int offsetY = 0;
-
-        for (HealthGUI h: healthDescriptors) {
-            h.updatePlayerLife();
-            h.render(batch, posX, posY - offsetY);
-            offsetY += 25;
+        for (PlayerHealthPanel h: healthPanels) {
+            h.render(batch);
         }
         batch.end();
     }
@@ -49,77 +38,52 @@ public class HealthPanelGUI {
 
     }
 
-
-    public static class HealthGUI {
+    public static class PlayerHealthPanel {
         PlayerBase player;
+        private int fontSize = 12;
+        private int posX = 0;
+        private int posY = 0;
 
-        Texture lifeTexture; //dislay the life left
-        BitmapFont font2; // text near the life left
+        LifeBarTexture lifeBarTexture; //dislay the life left
+        BitmapFont text; // text near the life left
 
-        public HealthGUI(PlayerBase p) {
+
+
+
+
+
+        public PlayerHealthPanel(PlayerBase p, int posX, int posY) {
             player = p;
+            this.posX = posX;
+            this.posY = posY;
+
             initialize();
         }
 
         public void initialize() {
-            lifeTexture = new Texture("assets/5fullbattery.png");
-            //font2
-            FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
-            FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-            parameter1.size = 12;
-            parameter1.borderWidth = 1;
-            parameter1.color = Color.WHITE;
-            parameter1.shadowOffsetX = 1;
-            parameter1.shadowOffsetY = 1;
-            parameter1.shadowColor = new Color(0, 0.5f, 0, 0.75f);
-            font2 = generator1.generateFont(parameter1); // font size 12 pixels
-            generator1.dispose(); // don't forget to dispose to avoid memory leaks!
-
-
+            lifeBarTexture = new LifeBarTexture(Math.max(4, player.heatLevel), this.posX + 110, this.posY);
+            FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
+            FreeTypeFontGenerator.FreeTypeFontParameter options = new FreeTypeFontGenerator.FreeTypeFontParameter();
+            options.size = fontSize;
+            options.borderWidth = 1;
+            options.color = Color.WHITE;
+            options.shadowOffsetX = 1;
+            options.shadowOffsetY = 1;
+            options.shadowColor = new Color(0, 0.5f, 0, 0.75f);
+            text = fontGenerator.generateFont(options); // font size 12 pixels
+            fontGenerator.dispose(); // don't forget to dispose to avoid memory leaks!
         }
 
-        public void updatePlayerLife(){
-            if(player.getTag().equals("PolarExplorer") && player.heatLevel == 4){
-                lifeTexture = new Texture("assets/5fullbattery.png");
-                return;
-            }
 
-            switch (player.heatLevel) {
-                case 5:
-                    lifeTexture = new Texture("assets/5fullbattery.png");
-                    break;
-                case 4:
-                    lifeTexture = new Texture("assets/4battery.png");
-                    break;
-                case 3:
-                    lifeTexture = new Texture("assets/3battery.png");
-                    break;
-                case 2:
-                    lifeTexture = new Texture("assets/2battery.png");
-                    break;
-                case 1:
-                    lifeTexture = new Texture("assets/1battery.png");
-                    break;
-                case 0:
-                    lifeTexture = new Texture("assets/0battery.png");
-                    break;
-
-            }
-        }
-
-        public void render(SpriteBatch batch, int posX, int posY){
-            updatePlayerLife();
-            //life
-            //font x  , y + 13
-            //lifetexture 100 + x, y
-            font2.draw(batch, "player " + player.getID(), posX, posY + 13);
-            batch.draw(lifeTexture, posX + 110, posY,25, 15 );
+        public void render(SpriteBatch batch){
+            // We need to render on Y with posY + fontSize because Render originY for text is top.
+            text.draw(batch, "Player " + player.getID(), this.posX, posY + fontSize);
+            lifeBarTexture.render(batch, player.heatLevel);
 
         }
 
         public void dispose() {
-            font2.dispose();
-            lifeTexture.dispose();
+            text.dispose();
         }
 
     }

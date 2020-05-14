@@ -1,5 +1,7 @@
 package com.rim.IceField;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -21,9 +23,37 @@ public abstract class PlayerBase extends TimerTask {
     Timer timer = new Timer();                    //Experiments with timer
     protected boolean isTurn = false;             //Check if is the players turn
     protected int tileX, tileY;                   //Stores the X and Y position relative to the tiles
+
     protected int offX = 33, offY = 33;             //Stores the X and Y offset of the player
     protected int posX, posY;                     //Stores the X and Y position of the player (This gets multiplied by the tile size)
-     protected Game game;
+    protected Game game;
+    protected String direction = "south";
+    protected Boolean isMoving = false;
+
+    public  int targetX = 0;
+    public  int targetY = 0;
+    public  String movingDir = "south";
+
+
+    public void setMoving(Boolean moving) {
+        isMoving = moving;
+    }
+
+    public Boolean getMovingState() {
+        return isMoving;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
 
 
     public boolean isTurn() {
@@ -99,6 +129,7 @@ public abstract class PlayerBase extends TimerTask {
      */
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
     public boolean move(String dir, Map map) throws Exception {
+        this.direction = dir;
         // up-> y--, down-> y++, left--> x--, right--> x++;
         if ("north".equals(dir)) { //Up
 
@@ -417,7 +448,6 @@ public abstract class PlayerBase extends TimerTask {
         }
 
     }
-
     /**
      * remove one unit of snow
      * from the iceberg

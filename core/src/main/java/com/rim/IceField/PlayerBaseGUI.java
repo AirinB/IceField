@@ -2,15 +2,20 @@ package com.rim.IceField;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.rim.IceField.Animations.PlayerAnimation;
 import org.mini2Dx.core.graphics.Graphics;
 
-//TODO need to highlight the iceberg
-// that is selected by the Polar Explorer
+import java.util.HashMap;
+
+
 
 public class PlayerBaseGUI {
     PlayerBase player;
@@ -21,9 +26,8 @@ public class PlayerBaseGUI {
     Texture iglooTexture; //display the igloo
     int iglooX;
     int iglooY;
+    private int moveSpeed = 33;
 
-    Texture lifeTexture; //dislay the life left
-    BitmapFont font2; // text near the life left
 
     BitmapFont font; //display the polar explorer skill
     String printAmountOfPlayers;
@@ -33,6 +37,11 @@ public class PlayerBaseGUI {
     //Label label1;
     private SpriteBatch batch; // used for drawing
     private InventoryGUI inventoryGUI;
+    private PlayerAnimation playerAnimation;
+
+
+    // A variable for tracking elapsed time for the animation
+    float stateTime;
 
 
     public PlayerBaseGUI(PlayerBase p) {
@@ -40,7 +49,9 @@ public class PlayerBaseGUI {
         initialize();
     }
 
+
     public void initialize() {
+        playerAnimation = new PlayerAnimation(moveSpeed, player);
         if (player.getTag().equals("Eskimo")) {
             playerTexture = new Texture("assets/eskimo.png");
             sizePlayerX = 30;
@@ -72,51 +83,49 @@ public class PlayerBaseGUI {
         font = generator.generateFont(parameter); // font size 12 pixels
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
-
-        //label style
-//        Label.LabelStyle label1Style = new Label.LabelStyle();
-//        label1Style.font = font;
-//
-//        label1 = new Label("Title (BitmapFont)",label1Style);
-//        label1.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getWidth() / 12);
-//        label1.setPosition(0,Gdx.graphics.getHeight()-(Gdx.graphics.getWidth() / 12)*2);
-//        label1.setAlignment(Align.center);
-
     }
 
 
     public void updateMove(String dir) {
+        //this part can be used for continous moving
+//        if(player.targetX == player.posX && player.targetY == player.posY) {
+//           player.setMoving(false);
+//           return;
+//        }
 
-
+        //TODO need to change this to the move method
+        player.setMoving(true);
+        player.direction = dir;
         if(dir.equals("east")){
             if(player.posX >= Gdx.graphics.getWidth() - 30) return;
-            player.posX += player.offX;
+            player.posX += moveSpeed;
         }else if(dir.equals("west")){
             if(player.posX <= 0) return;
-            player.posX -= player.offX;
+            player.posX -= moveSpeed;
         }else if(dir.equals(("north"))){
             if ( player.posY >= Gdx.graphics.getHeight() - 30) return;
-            player.posY += player.offY;
+            player.posY += moveSpeed;
         }else if(dir.equals("south")){
             if(player.posY <= 0) return;
-            player.posY -= player.offY;
+            player.posY -= moveSpeed;
         }
+
     }
 
     public void updateIgloo(String dir){
         //the offX and offY might need to be changed with the width of the tile(iceberg
 
         if(dir.equals("east")){
-            iglooX = player.posX+ player.offX;
+            iglooX = player.posX+ moveSpeed;
             iglooY = player.posY;
         }else if(dir.equals("west")){
-            iglooX = player.posX -  player.offX;
+            iglooX = player.posX -  moveSpeed;
             iglooY = player.posY;
         }else if(dir.equals(("north"))){
-            iglooY = player.posY + player.offY;
+            iglooY = player.posY + moveSpeed;
             iglooX = player.posX;
         }else if(dir.equals("south")){
-            iglooY = player.posY - player.offY;
+            iglooY = player.posY - moveSpeed;
             iglooX = player.posX;
         }
     }
@@ -126,6 +135,8 @@ public class PlayerBaseGUI {
         showTextFlag = 1;
     }
 
+
+    //TODO NOT WORKING NEED TO BE CHANGED
     public  void updatedPlayerState(){
         if(player.isDrowning && player.getTag().equals("PolarExplorer")){
             playerTexture = new Texture("assets/polarExpInWater.png");
@@ -137,35 +148,28 @@ public class PlayerBaseGUI {
     }
 
 
-
     public void render(Graphics g) {
+        //inv
+        inventoryGUI.render();
+
         batch.begin();
         // Drawing goes here!
-        //player
-        updatedPlayerState();
-        batch.draw(playerTexture, player.posX, player.posY, sizePlayerX, sizePlayerY);
 
-        //inv
-        inventoryGUI.render(batch);
 
         //igloo
-        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 20, 20);
+        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
         if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
 
         batch.end();
 
-        //Gdx.input.setInputProcessor(this);
-
+        playerAnimation.render();
+        player.setMoving(false);
     }
 
     public void dispose() {
         batch.dispose();
         font.dispose();
     }
-
-
-
-
 
 }

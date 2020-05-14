@@ -5,20 +5,27 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.rim.IceField.Textures.ClickableImage;
 
 public class InventoryGUI {
+    Stage stage;
     PlayerBase player;
     Inventory inventory;
 
     //The inventory
-    Texture food;
     Texture rope;
     Texture shovel;
     Texture divingSuit;
     Texture charge;
     Texture flare;
     Texture gun;
+    SpriteBatch batch;
+    ClickableImage foodButton;
+    ClickableImage ropeButton;
 
     BitmapFont font; // text near the life left
 
@@ -28,15 +35,32 @@ public class InventoryGUI {
         initialize();
 
     }
+
     public void  initialize(){
+        stage = new Stage(new ScreenViewport());
         //the inventory
         charge = new Texture("assets/securityNotCollected.png");
         flare =  new Texture("assets/flareNotCollected.png");
-        food =  new Texture("assets/food.png");
         divingSuit =  new Texture("assets/diving-suit.png");
         gun = new Texture("assets/gunNotCollected.png");
         rope =  new Texture("assets/rope.png");
         shovel =  new Texture("assets/shovel.png");
+
+        foodButton = new ClickableImage("assets/food_1x.png", 570, 450, stage);
+        foodButton.addListener(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Hope it works!");
+            }
+        });
+
+        ropeButton =  new ClickableImage("assets/rope_1x.png", 570, 430, stage);
+        ropeButton.addListener(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Rope clicked!");
+            }
+        });
 
         //font2
         FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
@@ -49,6 +73,8 @@ public class InventoryGUI {
         parameter1.shadowColor = new Color(0, 0.5f, 0, 0.75f);
         font = generator1.generateFont(parameter1); // font size 12 pixels
         generator1.dispose(); // don't forget to dispose to avoid memory leaks!
+
+        batch = new SpriteBatch();
     }
 
     public void updateGoal(){
@@ -58,14 +84,18 @@ public class InventoryGUI {
         if(Inventory.isFlareCollected) flare = new Texture("assets/flare.png");
     }
 
-    public void render(SpriteBatch batch){
+    public void render(){
         if(!player.isTurn) return;
         //render the useful items
         // 20  px difference on y
-        batch.draw(food,570, 450, 15, 15 );
+//        batch.draw(food,570, 450, 15, 15 );
+//        foodButton.render();
+//        ropeButton.render();
+        stage.draw();
+        batch.begin();
         font.draw(batch, " x" + inventory.countItem("food"), 580, 460);
 
-        batch.draw(rope,570, 430, 15, 15 );
+//        batch.draw(rope,570, 430, 15, 15 );
         font.draw(batch, " x" + inventory.countItem("rope"), 580, 440);
 
         batch.draw(shovel,570, 410, 15, 15 );
@@ -86,11 +116,7 @@ public class InventoryGUI {
         batch.draw(gun,590, 10, 25, 25 );
         batch.draw(flare,550, 10, 25, 25 );
         batch.draw(charge,510, 14, 20, 10 );
-
-
-
-
-
+        batch.end();
     }
 
 

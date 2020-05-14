@@ -9,6 +9,8 @@ import org.mini2Dx.core.graphics.Graphics;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO move is not working
+// Inventroy needs to be refactored
 
 public class GameMain extends BasicGame implements InputProcessor{
 
@@ -17,6 +19,10 @@ public class GameMain extends BasicGame implements InputProcessor{
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
     public BlizzardGUI blizzardGUI;
+    public Map map;
+    public MapGUI mapgui;
+
+
     public ItemBaseGUI rope;
     public ItemBaseGUI food;
     public ItemBaseGUI charge;
@@ -24,8 +30,7 @@ public class GameMain extends BasicGame implements InputProcessor{
     public ItemBaseGUI flare;
     public ItemBaseGUI gun;
     public ItemBaseGUI shovel;
-    public Map map;
-    public MapGUI mapgui;
+
     public HealthPanelGUI healthPanelGUI;
 
 
@@ -35,22 +40,32 @@ public class GameMain extends BasicGame implements InputProcessor{
     public PlayerBaseGUI playerBaseGUI1;
     public PlayerBaseGUI playerBaseGUI2;
 
+    public PlayerBase  p1;
+    public  PlayerBase p2;
+
 
     @Override
     public void initialise() {
 
-        playerBaseGUI1 = new PlayerBaseGUI(new Eskimo());
-        playerBaseGUI2 = new PlayerBaseGUI(new PolarExplorer());
+        p1 = new Eskimo();
+        p2 = new PolarExplorer();
+        playerBaseGUI1 = new PlayerBaseGUI(p1);
+        playerBaseGUI2 = new PlayerBaseGUI(p2);
 
         playersList = new ArrayList<PlayerBaseGUI>();
         playersList.add(playerBaseGUI1);
         playersList.add(playerBaseGUI2);
 
 
+
+
         players = new ArrayList<PlayerBase>();
         players.add(playerBaseGUI1.player);
         players.add(playerBaseGUI2.player);
 
+        System.out.println(Gdx.graphics.getWidth());
+
+        healthPanelGUI = new HealthPanelGUI(players, 20, Gdx.graphics.getHeight() - 20);
 
         game = new Game(players);
         playerBaseGUI1.player.setGame(game);
@@ -73,8 +88,9 @@ public class GameMain extends BasicGame implements InputProcessor{
         gun = new ItemBaseGUI(new Gun());
         shovel = new ItemBaseGUI(new Shovel());
         divingSuit = new ItemBaseGUI(new DivingSuit());
+
+        //the blizzard
         blizzardGUI = new BlizzardGUI();
-        healthPanelGUI = new HealthPanelGUI(playersList, 20, 450);
 
         map = new Map();
         mapgui = new MapGUI(map);
@@ -86,6 +102,7 @@ public class GameMain extends BasicGame implements InputProcessor{
     @Override
     public void update(float delta) {
 
+//-------------------------------------
 
         if (count == 2) count = 0;
         try {
@@ -107,6 +124,33 @@ public class GameMain extends BasicGame implements InputProcessor{
             round = 0;
         }
 
+//-------------------------------------------------------------------
+
+        //if(p1.isMoving) playerBaseGUI1.updateMove(p1.movingDir);
+
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+//            p1.targetX = p1.posX;
+//            p1.targetY = p1.posY + p1.offY;
+//            playerBaseGUI1.updateMove("north");
+//
+//
+//            }else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
+//            p1.targetX = p1.posX;
+//            p1.targetY = p1.posY - p1.offX;
+//            playerBaseGUI1.updateMove("south");
+//        }else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
+//
+//            playerBaseGUI1.updateMove("west");
+//
+//        }else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
+//
+//            playerBaseGUI1.updateMove("east");
+//
+//        }
+
+
+
+
 
         food.update(140, 160);
         rope.update(220, 190);
@@ -115,10 +159,9 @@ public class GameMain extends BasicGame implements InputProcessor{
         divingSuit.update(400, 120);
         shovel.update(295, 200);
         gun.update(289, 266);
+
+
         blizzardGUI.update();
-
-        healthPanelGUI.render();
-
 
     }
 
@@ -130,17 +173,25 @@ public class GameMain extends BasicGame implements InputProcessor{
     @Override
     public void render(Graphics g) {
         mapgui.render(g);
+
         food.render(g);
         rope.render(g);
         charge.render(g);
+        divingSuit.render(g);
+
+
         flare.render(g);
         shovel.render(g);
         gun.render(g);
-        divingSuit.render(g);
+
+
         playerBaseGUI1.render(g);
         playerBaseGUI2.render(g);
-        blizzardGUI.render(g);
+
+
         healthPanelGUI.render();
+
+        blizzardGUI.render(g);
 
 
     }
@@ -381,17 +432,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
 
 
-//TEST
-        //System.out.println("If you want to load the inputs from file, enter 1");
 
-        // int a = input.nextInt();
-    /*    if( a == 1){
-            //newGame from file
-            Scanner scannerChoice = new Scanner(System.in);
-            System.out.println("Enter the path\n");
-            String path = scannerChoice.nextLine();
-            scannerChoice.close();
-        }*/
         try {
             game.newGame();
 
@@ -400,7 +441,6 @@ public class GameMain extends BasicGame implements InputProcessor{
         {
             if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
             else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
-            return;
         }
 
 
