@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.graphics.Sprite;
 
+import java.util.Random;
+
 public class BlizzardGUI {
     private SpriteBatch batch;
     private Sprite sprite;
@@ -49,22 +51,12 @@ public class BlizzardGUI {
 
     public void initialize() {
         texture1 = new Texture("assets/wind.png");
-        texture2 = new Texture("assets/wind.png");
-        texture3 = new Texture("assets/wind.png");
-        texture4 = new Texture("assets/wind.png");
 
         windRight1 = new Texture("assets/windRight.png");
-        windRight2 = new Texture("assets/windRight.png");
-        windRight3 = new Texture("assets/windRight.png");
-        windRight4 = new Texture("assets/windRight.png");
 
         sprite = new Sprite(texture1, 100, 100, 100, 100);
         sprite.setPosition(40, 40);
         batch = new SpriteBatch();
-
-
-
-
     }
 
 
@@ -100,23 +92,34 @@ public class BlizzardGUI {
 
     }
 
+    public int getRandInt(int min, int max) {
+        Random rand = new Random();
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        return rand.nextInt((max - min) + 1) + min;
+    }
+
     public void render(Graphics g) {
+        int positionY;
+        int size;
+
         batch.begin();
         // Drawing goes here!
+
         batch.draw(texture1, positionX1, 200, 80, 60);
-        batch.draw(texture2, positionX2, 240, 71, 71);
-        batch.draw(texture3, positionX3, 50, 90, 90);
-        batch.draw(texture4, positionX4, 110, 90, 70);
+        batch.draw(texture1, positionX2, 240, 71, 71);
+        batch.draw(texture1, positionX3, 50, 90, 90);
+        batch.draw(texture1, positionX4, 110, 90, 70);
 
         batch.draw(windRight1, posX1, 110, 90, 60);
-        batch.draw(windRight2, posX2, 50, 90, 70);
-        batch.draw(windRight3, posX3, 222, 78, 78);
-        batch.draw(windRight4, posX4, 350, 67, 67);
+        batch.draw(windRight1, posX2, 50, 90, 70);
+        batch.draw(windRight1, posX3, 222, 78, 78);
+        batch.draw(windRight1, posX4, 350, 67, 67);
         // g.drawTexture(texture, player.posX, player.posY);
 
 
         batch.end();
-
     }
 
 }
