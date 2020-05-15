@@ -2,7 +2,6 @@ package com.rim.IceField;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -52,13 +51,11 @@ public class PlayerBaseGUI {
     public void initialize() {
         playerAnimation = new PlayerAnimation(moveSpeed, player);
         if (player.getTag().equals("Eskimo")) {
-            playerTexture = new Texture("resources/assets/eskimo.png");
-            sizePlayerX = 30;
-            sizePlayerY = 40;
+            playerTexture = new Texture("resources/assets/eskimo_in_water.png");
+
         }else if(player.getTag().equals("PolarExplorer")) {
-            playerTexture = new Texture("resources/assets/polarExp.png");
-            sizePlayerX = 30;
-            sizePlayerY = 40;
+            playerTexture = new Texture("resources/assets/explorer_in_water.png");
+
         }
 
         iglooTexture = new Texture("resources/assets/igloo.png");
@@ -142,17 +139,6 @@ public class PlayerBaseGUI {
     }
 
 
-    //TODO NOT WORKING NEED TO BE CHANGED
-    public  void updatedPlayerState(){
-        if(player.isDrowning && player.getTag().equals("PolarExplorer")){
-            playerTexture = new Texture("resources/assets/polarExpInWater.png");
-            sizePlayerY = 20;
-        }else if (player.isDrowning && player.getTag().equals("Eskimo")){
-            playerTexture = new Texture("resources/assets/eskimoInWater.png");
-            sizePlayerY = 30;
-        }
-    }
-
 
     public void render(Graphics g) {
         updatePlayerPositionIfNeeded();
@@ -167,10 +153,13 @@ public class PlayerBaseGUI {
         if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
         if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
-
+        if(player.isDrowning) batch.draw(playerTexture, player.posX, player.posY);
         batch.end();
 
-        playerAnimation.render();
+
+        if(!player.isDrowning) {
+            playerAnimation.render();
+        }
     }
 
     public void dispose() {

@@ -13,7 +13,8 @@ public class ItemBaseGUI {
     int width;
     int height;
 
-    public ItemBaseGUI(ItemBase Item) {
+    //change to receive x and y
+    public ItemBaseGUI(ItemBase Item){
         this.item = Item;
         initialize();
     }
