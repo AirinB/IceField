@@ -95,6 +95,10 @@ public abstract class PlayerBase extends TimerTask {
 
     }
 
+    public boolean isDrowning() {
+        return isDrowning;
+    }
+
     public boolean checkDir(String str, Map map) {
         if ("north".equals(str)) { //Up
             currentIceberg.Remove_currentPlayers(this);
@@ -145,7 +149,7 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
 
                 if (currentIceberg.getType().equals("hole")) this.fall();
-                else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                else if (currentIceberg.getType().equals("unstable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                     this.fall();
                     throw new Exception("This iceberg falls...");
                 }
@@ -165,7 +169,7 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
 
                 if (currentIceberg.getType().equals("hole")) this.fall();
-                else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                else if (currentIceberg.getType().equals("unstable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                     this.fall();
                     throw new Exception("This iceberg falls...");
                 }
@@ -185,7 +189,7 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
 
                 if (currentIceberg.getType().equals("hole")) this.fall();
-                else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                else if (currentIceberg.getType().equals("unstable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                     this.fall();
                     throw new Exception("This iceberg falls...");
                 }
@@ -208,7 +212,7 @@ public abstract class PlayerBase extends TimerTask {
                 currentIceberg.Add_currentPlayers(this);
 
                 if (currentIceberg.getType().equals("hole")) this.fall();
-                else if (currentIceberg.getType().equals("instable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
+                else if (currentIceberg.getType().equals("unstable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
                     this.fall();
                     throw new Exception("This iceberg falls...");
                 }
