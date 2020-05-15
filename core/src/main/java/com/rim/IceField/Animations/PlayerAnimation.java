@@ -1,12 +1,10 @@
 package com.rim.IceField.Animations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rim.IceField.InventoryGUI;
 import com.rim.IceField.PlayerBase;
 
 import java.util.HashMap;
@@ -72,6 +70,9 @@ public class PlayerAnimation {
 
         spriteBatch.begin();
         spriteBatch.draw(currentFrame, player.getPosX(), player.getPosY()); // Draw current frame at (50, 50)
+        System.out.println(player.getPosY() + " " + player.getPosX());
         spriteBatch.end();
+
+
     }
 }

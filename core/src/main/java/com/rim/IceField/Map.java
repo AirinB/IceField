@@ -191,7 +191,7 @@ public class Map {
         Charge charge = new Charge();
         Gun gun = new Gun();
 
-        Icebergs[1][1].setItem(shovel1);
+        //Icebergs[0][0].setItem(shovel1);
         Icebergs[6][6].setItem(shovel2);
         Icebergs[4][8].setItem(rope1);
         Icebergs[7][9].setItem(rope2);
@@ -220,6 +220,7 @@ public class Map {
        // Icebergs[7][5].setType("hole");
        // Icebergs[7][5].setMaxNumOfPlayers(0);
 
+//
 //        Icebergs[0][1].setType("hole");
 //        Icebergs[0][1].setMaxNumOfPlayers(0);
 //        Icebergs[0][1].setIsStable(false);

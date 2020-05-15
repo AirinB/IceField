@@ -20,6 +20,11 @@ public abstract class ItemBase {
         this.active = false;  //the item that does not belong to the inventory, cannot be used
     }
 
+    public void updatePosition(){
+        posX = 0;
+        posY = 0;
+    }
+
     /**
      * @param player that wants to use the item
      * @return false if the item can't be used

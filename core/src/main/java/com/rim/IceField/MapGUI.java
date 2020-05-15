@@ -1,14 +1,11 @@
 package com.rim.IceField;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import org.mini2Dx.core.graphics.Graphics;
-import org.mini2Dx.core.graphics.Sprite;
 
 import java.awt.*;
 
@@ -51,7 +48,7 @@ public class MapGUI {
     private Point getCoordinate(int row, int col) {
         int x = col * TILE_SIZE + col * padding;
         int y = row * TILE_SIZE + row * padding;
-        return new Point(x ,y);
+        return new Point(y ,x);
     }
 
     public void render(Graphics g) {
@@ -68,15 +65,30 @@ public class MapGUI {
 //            }
 //        }
 
+
         for (int row = 0; row < map.getMAP_WIDTH(); row++) {
             for (int col = 0; col < map.getMAP_HEIGHT(); col++) {
+                //System.out.println(row +  " " + col + " " +  map.Icebergs[row][col].getType() + " " + map.Icebergs[row][col].getMaxNumOfPlayers());
+
                 coordinate = getCoordinate(row, col);
-                if (map.Icebergs[row][col].getIsStable()) {
+                if (map.Icebergs[row][col].getType().equals("hole")) {
+                   System.out.println("icebergs  " + map.Icebergs[row][col].getY() +  " " + map.Icebergs[row][col].getX());
+                   System.out.println(map.Icebergs[row][col].getType());
+                   System.out.println(" coordinates  " +  coordinate.y +  " " + coordinate.x);
+               }
+                else if (map.Icebergs[row][col].getType().equals("stable")) {
                     sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
+
                 }
-                else if (map.Icebergs[row][col].getAmountOfSnow() > 0) {
+                else if (map.Icebergs[row][col].getType().equals("instable")) {
+                    sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
+                    System.out.println("icebergs  " + map.Icebergs[row][col].getY() +  " " + map.Icebergs[row][col].getX());
+                }
+                if (map.Icebergs[row][col].getAmountOfSnow() > 0) {
                     sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
                 }
+
+
                 /*else if (map.Icebergs[Y][X].)
                     g.drawTexture(tiles[1], X * TILE_SIZE, Y * TILE_SIZE);*/
             }
@@ -87,4 +99,7 @@ public class MapGUI {
     public void dispose() {
         sBatch.dispose();
     }
+
+
+
 }

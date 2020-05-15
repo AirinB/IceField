@@ -2,7 +2,6 @@ package com.rim.IceField;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.rim.IceField.Animations.PlayerAnimation;
 import org.mini2Dx.core.graphics.Graphics;
-
 
 
 public class PlayerBaseGUI {
@@ -83,6 +81,7 @@ public class PlayerBaseGUI {
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
     }
+
 
 
     public void updateMove(String dir) {
