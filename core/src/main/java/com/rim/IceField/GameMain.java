@@ -9,14 +9,19 @@ import org.mini2Dx.core.graphics.Graphics;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO move is not working
+// Inventroy needs to be refactored
 
 public class GameMain extends BasicGame implements InputProcessor{
-
     public int count = 0;
     public int round = 0;
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
     public BlizzardGUI blizzardGUI;
+    public Map map;
+    public MapGUI mapgui;
+
+
     public ItemBaseGUI rope;
     public ItemBaseGUI food;
     public ItemBaseGUI charge;
@@ -24,8 +29,7 @@ public class GameMain extends BasicGame implements InputProcessor{
     public ItemBaseGUI flare;
     public ItemBaseGUI gun;
     public ItemBaseGUI shovel;
-    public Map map;
-    public MapGUI mapgui;
+
     public HealthPanelGUI healthPanelGUI;
 
 
@@ -35,22 +39,30 @@ public class GameMain extends BasicGame implements InputProcessor{
     public PlayerBaseGUI playerBaseGUI1;
     public PlayerBaseGUI playerBaseGUI2;
 
+    public PlayerBase  p1;
+    public  PlayerBase p2;
+    private PlayerBaseGUI currentPlayerGUI;
+
 
     @Override
     public void initialise() {
-
-        playerBaseGUI1 = new PlayerBaseGUI(new Eskimo());
-        playerBaseGUI2 = new PlayerBaseGUI(new PolarExplorer());
+        p1 = new Eskimo();
+        p2 = new PolarExplorer();
+        playerBaseGUI1 = new PlayerBaseGUI(p1);
+        playerBaseGUI2 = new PlayerBaseGUI(p2);
 
         playersList = new ArrayList<PlayerBaseGUI>();
         playersList.add(playerBaseGUI1);
         playersList.add(playerBaseGUI2);
 
 
+
+
         players = new ArrayList<PlayerBase>();
         players.add(playerBaseGUI1.player);
         players.add(playerBaseGUI2.player);
 
+        healthPanelGUI = new HealthPanelGUI(players, 20, Gdx.graphics.getHeight() - 20);
 
         game = new Game(players);
         playerBaseGUI1.player.setGame(game);
@@ -73,53 +85,59 @@ public class GameMain extends BasicGame implements InputProcessor{
         gun = new ItemBaseGUI(new Gun());
         shovel = new ItemBaseGUI(new Shovel());
         divingSuit = new ItemBaseGUI(new DivingSuit());
+
+        //the blizzard
         blizzardGUI = new BlizzardGUI();
-        healthPanelGUI = new HealthPanelGUI(playersList, 20, 450);
 
         map = new Map();
         mapgui = new MapGUI(map);
         mapgui.initialise();
+    }
 
+    private void nextPlayer() {
+        if (count == playersList.size()) count = 0;
 
+        if (currentPlayerGUI != null) {
+            currentPlayerGUI.player.isTurn = false;
+        }
+
+        currentPlayerGUI = playersList.get(count);
+        currentPlayerGUI.player.isTurn = true;
+        round = 0;
+        count++;
     }
 
     @Override
     public void update(float delta) {
+        if (round == 4) {
+            nextPlayer();
+        }
+        if (currentPlayerGUI == null) nextPlayer();
 
-
-        if (count == 2) count = 0;
         try {
-            playersList.get(count).player.isTurn = true;
-            if (!(playersList.get(count).player.isDrowning)) {
-                if (input(playersList.get(count).player, playersList.get(count))) {
-                    round++;
-                    playersList.get(count).player.isTurn = false;
-                }
-            } else if (playersList.get(count).player.isDrowning) {
-                round = 4;
+            if (currentPlayerGUI.player.isDrowning) {
+                nextPlayer();
+                return;
             }
 
+            if (readPlayerActions()) {
+                round++;
+                return;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (round == 4) {
-            count++;
-            round = 0;
-        }
+
+//        food.update(140, 160);
+//        rope.update(220, 190);
+//        charge.update(300, 100);
+//        flare.update(111, 275);
+//        divingSuit.update(400, 120);
+//        shovel.update(295, 200);
+//        gun.update(289, 266);
 
 
-        food.update(140, 160);
-        rope.update(220, 190);
-        charge.update(300, 100);
-        flare.update(111, 275);
-        divingSuit.update(400, 120);
-        shovel.update(295, 200);
-        gun.update(289, 266);
-        blizzardGUI.update();
-
-        healthPanelGUI.render();
-
-
+//        blizzardGUI.update();
     }
 
     @Override
@@ -130,126 +148,138 @@ public class GameMain extends BasicGame implements InputProcessor{
     @Override
     public void render(Graphics g) {
         mapgui.render(g);
+
         food.render(g);
         rope.render(g);
         charge.render(g);
+        divingSuit.render(g);
+
+
         flare.render(g);
         shovel.render(g);
         gun.render(g);
-        divingSuit.render(g);
+
+
         playerBaseGUI1.render(g);
         playerBaseGUI2.render(g);
-        blizzardGUI.render(g);
+
+
         healthPanelGUI.render();
+
+        blizzardGUI.render(g);
 
 
     }
 
-    public boolean input(PlayerBase player, PlayerBaseGUI playerGUI) throws Exception {
+    public boolean readPlayerActions() throws Exception {
+        boolean playerIsMoving = currentPlayerGUI.player.getMovingState();
+        if (playerIsMoving) {
+            return false;
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            if (player.move("north", player.game.getMap())) {
-                playerGUI.updateMove("north");
+            if (currentPlayerGUI.player.move("north")) {
+                currentPlayerGUI.updateMove("north");
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            if (player.move("south", player.game.getMap())) {
-                playerGUI.updateMove("south");
+            if (currentPlayerGUI.player.move("south")) {
+                currentPlayerGUI.updateMove("south");
                 return true;
             }
 
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            if (player.move("west", player.game.getMap())) {
-                playerGUI.updateMove("west");
+            if (currentPlayerGUI.player.move("west")) {
+                currentPlayerGUI.updateMove("west");
                 return true;
             }
 
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            if (player.move("east", player.game.getMap())) {
-                playerGUI.updateMove("east");
+            if (currentPlayerGUI.player.move("east")) {
+                currentPlayerGUI.updateMove("east");
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-            if (player.pickItem()) {
+            if (currentPlayerGUI.player.pickItem()) {
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            if (player.removeSnow()) {
+            if (currentPlayerGUI.player.removeSnow()) {
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
-            if (player.useItem("diving suit")) {
+            if (currentPlayerGUI.player.useItem("diving suit")) {
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
-            if (player.useItem("food")) {
+            if (currentPlayerGUI.player.useItem("food")) {
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
-            if  (player.useItem("rope")) {
+            if  (currentPlayerGUI.player.useItem("rope")) {
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F4)) {
-            if (player.useItem("shovel")) {
+            if (currentPlayerGUI.player.useItem("shovel")) {
                 return true;
             }
 
         } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            if (player.SavePlayer("north", player.game.getMap())) {
+            if (currentPlayerGUI.player.SavePlayer("north")) {
                 return true;
             }
 
         } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            if (player.SavePlayer("south", player.game.getMap())) {
+            if (currentPlayerGUI.player.SavePlayer("south")) {
                 return true;
             }
 
         } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            if (player.SavePlayer("west", player.game.getMap())) {
+            if (currentPlayerGUI.player.SavePlayer("west")) {
                 return true;
             }
 
         } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            if (player.SavePlayer("east", player.game.getMap())) {
+            if (currentPlayerGUI.player.SavePlayer("east")) {
                 return true;
             }
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "south") && player.getTag().equals("Eskimo"))) {
-                    playerGUI.updateIgloo("south");
+                if ((currentPlayerGUI.player.useSkill("south") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
+                    currentPlayerGUI.updateIgloo("south");
                     return true;
                 }
             }
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "north") && player.getTag().equals("Eskimo"))) {
-                    playerGUI.updateIgloo("north");
+                if ((currentPlayerGUI.player.useSkill("north") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
+                    currentPlayerGUI.updateIgloo("north");
                     return true;
                 }
             }
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "west") && player.getTag().equals("Eskimo"))) {
-                    playerGUI.updateIgloo("west");
+                if ((currentPlayerGUI.player.useSkill("west") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
+                    currentPlayerGUI.updateIgloo("west");
                     return true;
                 }
             }
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "east") && player.getTag().equals("Eskimo"))) {
-                    playerGUI.updateIgloo("east");
+                if ((currentPlayerGUI.player.useSkill("east") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
+                    currentPlayerGUI.updateIgloo("east");
                     return true;
                 }
             }
@@ -257,7 +287,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "south") && player.getTag().equals("PolarExplorer"))) {
+                if ((currentPlayerGUI.player.useSkill("south") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
                     System.out.println("polar skill");
                     return true;
                 }
@@ -266,7 +296,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "north") && player.getTag().equals("PolarExplorer"))) {
+                if ((currentPlayerGUI.player.useSkill("north") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
                     System.out.println("polar skill");
                     return true;
                 }
@@ -274,7 +304,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "west") && player.getTag().equals("PolarExplorer"))) {
+                if ((currentPlayerGUI.player.useSkill("west") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
                     System.out.println("polar skill");
                     return true;
                 }
@@ -282,18 +312,18 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((player.useSkill(player.game.getMap(), "east") && player.getTag().equals("PolarExplorer"))) {
+                if ((currentPlayerGUI.player.useSkill("east") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
                     System.out.println("polar skill");
                     return true;
                 }
             }
 
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if (player.game.isWin()) player.game.GameOver();
+            if (currentPlayerGUI.player.game.isWin()) currentPlayerGUI.player.game.GameOver();
             return true;
 
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-            player.getPosition();
+            currentPlayerGUI.player.getPosition();
             return true;
         }
 
@@ -381,17 +411,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
 
 
-//TEST
-        //System.out.println("If you want to load the inputs from file, enter 1");
 
-        // int a = input.nextInt();
-    /*    if( a == 1){
-            //newGame from file
-            Scanner scannerChoice = new Scanner(System.in);
-            System.out.println("Enter the path\n");
-            String path = scannerChoice.nextLine();
-            scannerChoice.close();
-        }*/
         try {
             game.newGame();
 
@@ -400,7 +420,6 @@ public class GameMain extends BasicGame implements InputProcessor{
         {
             if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
             else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
-            return;
         }
 
 
