@@ -9,6 +9,8 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.awt.*;
 
+import java.awt.*;
+
 public class MapGUI {
     private GameConfig gameConfig = new GameConfig();
     private final int TILE_SIZE = gameConfig.mapTileSize;
@@ -52,6 +54,7 @@ public class MapGUI {
     }
 
     public void render(Graphics g) {
+
         Point coordinate;
         sBatch.begin();
         sBatch.draw(waterTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

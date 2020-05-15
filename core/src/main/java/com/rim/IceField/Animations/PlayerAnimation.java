@@ -35,9 +35,10 @@ public class PlayerAnimation {
             // Load the sprite sheet as a Texture
             walkSheet = new Texture(Gdx.files.internal("resources/assets/explorer_1x.png"));
 
-        } else if (player.getTag().equals("PolarExplorer")) {
+        }else if(player.getTag().equals("PolarExplorer")) {
             // Load the sprite sheet as a Texture
             walkSheet = new Texture(Gdx.files.internal("resources/assets/eskimo_1xd.png"));
+
         }
 
 
