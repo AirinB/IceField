@@ -10,13 +10,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.graphics.Sprite;
 
+import java.awt.*;
+
 public class MapGUI {
-    private final int TILE_SIZE = 32;               //Defines the size of the tile in pixels
+    private GameConfig gameConfig = new GameConfig();
+    private final int TILE_SIZE = gameConfig.mapTileSize;
+
+    private Point coordinate;
     private Map map;
+    private int padding = gameConfig.mapTilePadding;
+    private Texture waterTexture;
     Texture tile1;
     Texture tile2;
     Texture tile3;
-    Sprite sprite;
     private SpriteBatch sBatch;
     private TiledMap tMap;
     private OrthogonalTiledMapRenderer renderer;
@@ -28,14 +34,13 @@ public class MapGUI {
 
 
     public void initialise() {
-        //tMap = new TmxMapLoader().load("assets/map.tmx");
-        //tiles = new Texture("assets/iceberg32.png","assets/water.jpg","assets/snow.png")[3];
-        tile1 = new Texture("assets/iceberg32.png");
-        tile2 = new Texture("assets/water.jpg");
-        tile3 = new Texture("assets/snow.png");
+        //tMap = new TmxMapLoader().load("resources/map.tmx");
+        //tiles = new Texture("resources/assets/iceberg32.png","resources/assets/water.jpg","resources/assets/snow.png")[3];
+        waterTexture = new Texture("resources/assets/water_big.jpeg");
+        tile1 = new Texture("resources/assets/iceberg_new.png");
+        tile2 = new Texture("resources/assets/water.jpg");
+        tile3 = new Texture("resources/assets/snow.png");
 
-        sprite = new Sprite(tile1, 100, 100, 100, 100);
-        sprite.setPosition(40, 40);
         sBatch = new SpriteBatch();
     }
 
@@ -43,21 +48,34 @@ public class MapGUI {
 
     }
 
+    private Point getCoordinate(int row, int col) {
+        int x = col * TILE_SIZE + col * padding;
+        int y = row * TILE_SIZE + row * padding;
+        return new Point(x ,y);
+    }
+
     public void render(Graphics g) {
+
         //Gdx.gl.glClearColor(0,0,0,1);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //renderer.render();
+        Point coordinate;
         sBatch.begin();
+        sBatch.draw(waterTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        for(int waterRow = 0; waterRow < waterRows; waterRow++) {
+//            for(int waterCol = 0; waterCol < waterCols; waterCol++) {
+//
+//            }
+//        }
 
-        for (int Y = 0; Y < map.getMAP_WIDTH(); Y++) {
-            for (int X = 0; X < map.getMAP_HEIGHT(); X++) {
-                if (map.Icebergs[Y][X].getIsStable()) {
-                    //g.drawTexture(tile1, X * TILE_SIZE, Y * TILE_SIZE);
-                    sBatch.draw(tile1,X * TILE_SIZE, Y * TILE_SIZE, 32, 32);
+        for (int row = 0; row < map.getMAP_WIDTH(); row++) {
+            for (int col = 0; col < map.getMAP_HEIGHT(); col++) {
+                coordinate = getCoordinate(row, col);
+                if (map.Icebergs[row][col].getIsStable()) {
+                    sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
                 }
-                else if (map.Icebergs[Y][X].getAmountOfSnow() > 0) {
-                    //g.drawTexture(tile3, X * TILE_SIZE, Y * TILE_SIZE);
-                    sBatch.draw(tile3, X * TILE_SIZE, Y * TILE_SIZE, 32, 32);
+                else if (map.Icebergs[row][col].getAmountOfSnow() > 0) {
+                    sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
                 }
                 /*else if (map.Icebergs[Y][X].)
                     g.drawTexture(tiles[1], X * TILE_SIZE, Y * TILE_SIZE);*/

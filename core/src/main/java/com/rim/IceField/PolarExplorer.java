@@ -30,14 +30,13 @@ public class PolarExplorer extends PlayerBase {
      * the method shows how many players
      * can stand on an iceberg
      *
-     * @param map map of the game
      * @param dir direction
      * @return true id the acction is succesful
      * @throws Exception
      */
     @Override
-    public boolean useSkill(Map map, String dir) throws Exception {
-
+    public boolean useSkill(String dir) throws Exception {
+        Map map = game.getMap();
         if ("north".equals(dir)) { //Up
 
             if (currentIceberg.y - 1 < 0) {

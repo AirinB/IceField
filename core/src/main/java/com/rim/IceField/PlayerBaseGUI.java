@@ -5,19 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.rim.IceField.Animations.PlayerAnimation;
 import org.mini2Dx.core.graphics.Graphics;
 
-import java.util.HashMap;
-
 
 
 public class PlayerBaseGUI {
+    private GameConfig gameConfig = new GameConfig();
     PlayerBase player;
     Texture playerTexture;  //display the texture
     int sizePlayerX;
@@ -26,7 +23,9 @@ public class PlayerBaseGUI {
     Texture iglooTexture; //display the igloo
     int iglooX;
     int iglooY;
-    private int moveSpeed = 33;
+    private int moveSpeed = gameConfig.playerMoveSpeed;
+    private int tileSize = gameConfig.mapMoveDistance;
+    private int moveTarget = 0;
 
 
     BitmapFont font; //display the polar explorer skill
@@ -53,16 +52,16 @@ public class PlayerBaseGUI {
     public void initialize() {
         playerAnimation = new PlayerAnimation(moveSpeed, player);
         if (player.getTag().equals("Eskimo")) {
-            playerTexture = new Texture("assets/eskimo.png");
+            playerTexture = new Texture("resources/assets/eskimo.png");
             sizePlayerX = 30;
             sizePlayerY = 40;
         }else if(player.getTag().equals("PolarExplorer")) {
-            playerTexture = new Texture("assets/polarExp.png");
+            playerTexture = new Texture("resources/assets/polarExp.png");
             sizePlayerX = 30;
             sizePlayerY = 40;
         }
 
-        iglooTexture = new Texture("assets/igloo.png");
+        iglooTexture = new Texture("resources/assets/igloo.png");
 
 
 
@@ -72,7 +71,7 @@ public class PlayerBaseGUI {
 
 
         //font1
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("resources/fonts/8bitFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 12;
         parameter.borderWidth = 1;
@@ -87,29 +86,36 @@ public class PlayerBaseGUI {
 
 
     public void updateMove(String dir) {
-        //this part can be used for continous moving
-//        if(player.targetX == player.posX && player.targetY == player.posY) {
-//           player.setMoving(false);
-//           return;
-//        }
-
-        //TODO need to change this to the move method
         player.setMoving(true);
         player.direction = dir;
-        if(dir.equals("east")){
-            if(player.posX >= Gdx.graphics.getWidth() - 30) return;
-            player.posX += moveSpeed;
-        }else if(dir.equals("west")){
-            if(player.posX <= 0) return;
-            player.posX -= moveSpeed;
-        }else if(dir.equals(("north"))){
-            if ( player.posY >= Gdx.graphics.getHeight() - 30) return;
-            player.posY += moveSpeed;
-        }else if(dir.equals("south")){
-            if(player.posY <= 0) return;
-            player.posY -= moveSpeed;
+        moveTarget = tileSize;
+    }
+
+    private void updatePlayerPositionIfNeeded() {
+        boolean isMoving = player.getMovingState();
+        if (moveTarget <= 0 || !isMoving) {
+            moveTarget = 0;
+            player.setMoving(false);
+            return;
         }
 
+        String dir = player.getDirection();
+        int currentSpeed = Math.min(moveTarget, moveSpeed);
+
+        if(dir.equals("east")){
+            if(player.posX >= Gdx.graphics.getWidth() - 30) return;
+            player.posX += currentSpeed;
+        }else if(dir.equals("west")){
+            if(player.posX <= 0) return;
+            player.posX -= currentSpeed;
+        }else if(dir.equals(("north"))){
+            if ( player.posY >= Gdx.graphics.getHeight() - 30) return;
+            player.posY += currentSpeed;
+        }else if(dir.equals("south")){
+            if(player.posY <= 0) return;
+            player.posY -= currentSpeed;
+        }
+        moveTarget -= currentSpeed;
     }
 
     public void updateIgloo(String dir){
@@ -139,16 +145,17 @@ public class PlayerBaseGUI {
     //TODO NOT WORKING NEED TO BE CHANGED
     public  void updatedPlayerState(){
         if(player.isDrowning && player.getTag().equals("PolarExplorer")){
-            playerTexture = new Texture("assets/polarExpInWater.png");
+            playerTexture = new Texture("resources/assets/polarExpInWater.png");
             sizePlayerY = 20;
         }else if (player.isDrowning && player.getTag().equals("Eskimo")){
-            playerTexture = new Texture("assets/eskimoInWater.png");
+            playerTexture = new Texture("resources/assets/eskimoInWater.png");
             sizePlayerY = 30;
         }
     }
 
 
     public void render(Graphics g) {
+        updatePlayerPositionIfNeeded();
         //inv
         inventoryGUI.render();
 
@@ -164,7 +171,6 @@ public class PlayerBaseGUI {
         batch.end();
 
         playerAnimation.render();
-        player.setMoving(false);
     }
 
     public void dispose() {

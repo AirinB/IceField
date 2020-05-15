@@ -23,31 +23,31 @@ public class ItemBaseGUI {
         positionX = 0;
         positionY = 0;
         if (item.getTag().equals("charge")) {
-            itemTexture = new Texture("assets/security.png");
+            itemTexture = new Texture("resources/assets/security.png");
             width = 20;
             height = 10;
         }else if (item.getTag().equals("flare")) {
-            itemTexture = new Texture("assets/flare.png");
+            itemTexture = new Texture("resources/assets/flare.png");
             width = 25;
             height = 25;
         }else if (item.getTag().equals("food")) {
-            itemTexture = new Texture("assets/food.png");
+            itemTexture = new Texture("resources/assets/food.png");
             width = 25;
             height = 25;
         }else if (item.getTag().equals("diving suit")) {
-            itemTexture = new Texture("assets/diving-suit.png");
+            itemTexture = new Texture("resources/assets/diving-suit.png");
             width =20;
             height = 30;
         }else if (item.getTag().equals("gun")) {
-            itemTexture = new Texture("assets/gun.png");
+            itemTexture = new Texture("resources/assets/gun.png");
             width = 30;
             height = 25;
         }else if (item.getTag().equals("rope")) {
-            itemTexture = new Texture("assets/rope.png");
+            itemTexture = new Texture("resources/assets/rope.png");
             width = 25;
             height = 25;
         }else if (item.getTag().equals("shovel")) {
-            itemTexture = new Texture("assets/shovel.png");
+            itemTexture = new Texture("resources/assets/shovel.png");
             width = 30;
             height = 30;
         }

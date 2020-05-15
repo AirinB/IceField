@@ -288,7 +288,7 @@ public class Game {
             if (validDirection(input)) {
                 if (input.get(0).equals("move")) {
                     try {
-                        check = player.move(input.get(1), this.getMap());
+                        check = player.move(input.get(1));
                         if (player.isDrowning) {
                             throw new Exception("The player is in water");
                         }
@@ -306,7 +306,7 @@ public class Game {
                 } else if (input.get(0).equals("apply")) {
 
                     try {
-                        check = player.useSkill(this.getMap(), input.get(1));
+                        check = player.useSkill(input.get(1));
                       if(check)  System.out.println("Action accepted!");
                         return check;
                     } catch (Exception e) {
@@ -319,7 +319,7 @@ public class Game {
                 //Will distinguish between players based on their unique ID
                 else if (input.get(0).equals("save")) {
                     if (validDirection(input)) {
-                        check = player.SavePlayer(input.get(1), map);
+                        check = player.SavePlayer(input.get(1));
                        if(check) System.out.println("Action accepted!");
 
                     }

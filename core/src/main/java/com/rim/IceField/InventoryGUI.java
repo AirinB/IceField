@@ -39,14 +39,14 @@ public class InventoryGUI {
     public void  initialize(){
         stage = new Stage(new ScreenViewport());
         //the inventory
-        charge = new Texture("assets/securityNotCollected.png");
-        flare =  new Texture("assets/flareNotCollected.png");
-        divingSuit =  new Texture("assets/diving-suit.png");
-        gun = new Texture("assets/gunNotCollected.png");
-        rope =  new Texture("assets/rope.png");
-        shovel =  new Texture("assets/shovel.png");
+        charge = new Texture("resources/assets/securityNotCollected.png");
+        flare =  new Texture("resources/assets/flareNotCollected.png");
+        divingSuit =  new Texture("resources/assets/diving-suit.png");
+        gun = new Texture("resources/assets/gunNotCollected.png");
+        rope =  new Texture("resources/assets/rope.png");
+        shovel =  new Texture("resources/assets/shovel.png");
 
-        foodButton = new ClickableImage("assets/food_1x.png", 570, 450, stage);
+        foodButton = new ClickableImage("resources/assets/food_1x.png", 570, 450, stage);
         foodButton.addListener(new Runnable() {
             @Override
             public void run() {
@@ -54,7 +54,7 @@ public class InventoryGUI {
             }
         });
 
-        ropeButton =  new ClickableImage("assets/rope_1x.png", 570, 430, stage);
+        ropeButton =  new ClickableImage("resources/assets/rope_1x.png", 570, 430, stage);
         ropeButton.addListener(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +63,7 @@ public class InventoryGUI {
         });
 
         //font2
-        FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
+        FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("resources/fonts/8bitFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter1.size = 12;
         parameter1.borderWidth = 1;
@@ -78,10 +78,10 @@ public class InventoryGUI {
     }
 
     public void updateGoal(){
-        if(Inventory.isGunCollected) gun = new Texture("assets/gun.png");
+        if(Inventory.isGunCollected) gun = new Texture("resources/assets/gun.png");
 
-        if(Inventory.isChargeCollected) charge = new Texture("assets/security.png");
-        if(Inventory.isFlareCollected) flare = new Texture("assets/flare.png");
+        if(Inventory.isChargeCollected) charge = new Texture("resources/assets/security.png");
+        if(Inventory.isFlareCollected) flare = new Texture("resources/assets/flare.png");
     }
 
     public void render(){
