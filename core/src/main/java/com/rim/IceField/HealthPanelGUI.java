@@ -62,7 +62,7 @@ public class HealthPanelGUI {
 
         public void initialize() {
             lifeBarTexture = new LifeBarTexture(Math.max(4, player.heatLevel), this.posX + 110, this.posY);
-            FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("assets/8bitFont.ttf"));
+            FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("resources/fonts/8bitFont.ttf"));
             FreeTypeFontGenerator.FreeTypeFontParameter options = new FreeTypeFontGenerator.FreeTypeFontParameter();
             options.size = fontSize;
             options.borderWidth = 1;

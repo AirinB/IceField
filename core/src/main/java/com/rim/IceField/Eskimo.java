@@ -34,12 +34,12 @@ public class Eskimo extends PlayerBase {
     /**
      * Constructs the igloo in the showed direction
      *
-     * @param map map of the game
      * @param dir direction
      * @return true if the action was successful
      */
     @Override
-    public boolean useSkill(Map map, String dir) {
+    public boolean useSkill(String dir) {
+        Map map = game.getMap();
         if (usedIgloo == false) {
 
             usedIgloo = true;

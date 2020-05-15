@@ -1,28 +1,30 @@
 package com.rim.IceField.Animations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rim.IceField.InventoryGUI;
+import com.google.common.io.ByteStreams;
 import com.rim.IceField.PlayerBase;
 
 import java.util.HashMap;
 
-public class PlayerAnimation {
+public class TravelerAnimation {
     private static final int FRAME_COLS = 4, FRAME_ROWS = 4;
 
     Animation<TextureRegion> walkAnimation; // Must declare frame type (TextureRegion)
+    Animation<TextureRegion> idleAnimation; // Must declare frame type (TextureRegion)
+    Animation<TextureRegion> jumpAnimation; // Must declare frame type (TextureRegion)
     HashMap<String, Animation<TextureRegion>> walkAnimations = new HashMap<String, Animation<TextureRegion>>();
+    TextureRegion currentFrame;
     Texture walkSheet;
     SpriteBatch spriteBatch;
     int moveSpeed;
     float stateTime;
     PlayerBase player;
 
-    public PlayerAnimation(int moveSpeed, PlayerBase player) {
+    public TravelerAnimation(int moveSpeed, PlayerBase player) {
         this.moveSpeed = moveSpeed;
         this.player = player;
         this.initializeAnimation();
@@ -39,6 +41,12 @@ public class PlayerAnimation {
             walkSheet = new Texture(Gdx.files.internal("resources/assets/eskimo_1xd.png"));
 
         }
+
+        try {
+            walkAnimation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, ByteStreams.toByteArray(Gdx.files.internal("resources/assets/traveler/walk.gif").read()));
+            idleAnimation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, ByteStreams.toByteArray(Gdx.files.internal("resources/assets/traveler/idle.gif").read()));
+            jumpAnimation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, ByteStreams.toByteArray(Gdx.files.internal("resources/assets/traveler/jump.gif").read()));
+        } catch (Exception e) {}
 
 
         // Use the split utility method to create a 2D array of TextureRegions. This is
@@ -62,12 +70,12 @@ public class PlayerAnimation {
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
 
         // Get current frame of animation for the current stateTime
-        TextureRegion currentFrame;
         if (isMoving) {
-            currentFrame = walkAnimations.get(player.getDirection()).getKeyFrame(stateTime, true);
+            currentFrame = jumpAnimation.getKeyFrame(stateTime, true);
         } else {
             int standingStateFrame = 2;
-            currentFrame = walkAnimations.get(player.getDirection()).getKeyFrame(standingStateFrame, true);
+            jumpAnimation.setFrameDuration(0.03f);
+            currentFrame = jumpAnimation.getKeyFrame(stateTime, true);
         }
 
         spriteBatch.begin();

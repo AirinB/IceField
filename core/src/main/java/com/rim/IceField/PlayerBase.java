@@ -10,6 +10,7 @@ import java.util.TimerTask;
 
 //Abstract PlayerBase class
 public abstract class PlayerBase extends TimerTask {
+    private GameConfig gameConfig = new GameConfig();
     protected Iceberg currentIceberg;             //Iceberg the player stands on
     protected String tag;                         //Type of the player: Eskimo, PolarExplorer
     protected int ID;                             //ID of the player
@@ -24,7 +25,6 @@ public abstract class PlayerBase extends TimerTask {
     protected boolean isTurn = false;             //Check if is the players turn
     protected int tileX, tileY;                   //Stores the X and Y position relative to the tiles
 
-    protected int offX = 33, offY = 33;             //Stores the X and Y offset of the player
     protected int posX, posY;                     //Stores the X and Y position of the player (This gets multiplied by the tile size)
     protected Game game;
     protected String direction = "south";
@@ -88,8 +88,8 @@ public abstract class PlayerBase extends TimerTask {
     public PlayerBase() {
         this.ID = idGenerator;
         idGenerator ++;
-        this.posX = 0;
-        this.posY = 300;
+        this.posX = gameConfig.playerInitialCoordinates.x;
+        this.posY = gameConfig.playerInitialCoordinates.y;
         this.tag = "PlayerBase";
         inventory = new Inventory();
 
@@ -123,12 +123,12 @@ public abstract class PlayerBase extends TimerTask {
 
     /**
      * @param dir the direction of movement
-     * @param map the map of the game
      * @return returns true if the action was succesful
      * @throws Exception if the player falls
      */
     //Move method implements the movement of a player on the map. Takes as the parameter the direction of the move(up,left,down,right).
-    public boolean move(String dir, Map map) throws Exception {
+    public boolean move(String dir) throws Exception {
+        Map map = game.getMap();
         this.direction = dir;
         // up-> y--, down-> y++, left--> x--, right--> x++;
         if ("north".equals(dir)) { //Up
@@ -221,11 +221,11 @@ public abstract class PlayerBase extends TimerTask {
 
     /**
      * @param dir direction where the player we want to save is located
-     * @param map the map of the game
      * @return returns true if the action is succesful
      */
     //Method for saving the player.
-    public boolean SavePlayer(String dir, Map map) {
+    public boolean SavePlayer(String dir) {
+        Map map = game.getMap();
         //Check every item in the inventory to see if there's a rope.
         if (!ContainsItem("rope")) {
             System.out.println("You don't have a rope!");
@@ -282,13 +282,13 @@ public abstract class PlayerBase extends TimerTask {
     }
 
     /**
-     * @param map map of the game
      * @param dir direction
      * @return true if the acction is succesfull
      * @throws Exception
      */
     //UseSkill method.It is overridden in Eskimo and PolarExplorer classes.
-    public boolean useSkill(Map map, String dir) throws Exception {
+    public boolean useSkill(String dir) throws Exception {
+        Map map = game.getMap();
         return true;
     }
 

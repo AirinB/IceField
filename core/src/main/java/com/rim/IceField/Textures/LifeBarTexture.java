@@ -32,7 +32,7 @@ public class LifeBarTexture {
 
     private void initializeAnimation() {
         // Load the sprite sheet as a Texture
-        lifeBarSheet = new Texture(Gdx.files.internal("assets/lifeBar.png"));
+        lifeBarSheet = new Texture(Gdx.files.internal("resources/assets/lifeBar.png"));
 
         int maxWidth = this.maxLives * frameWidth;
 

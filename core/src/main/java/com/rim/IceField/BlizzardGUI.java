@@ -50,9 +50,9 @@ public class BlizzardGUI {
     }
 
     public void initialize() {
-        texture1 = new Texture("assets/wind.png");
+        texture1 = new Texture("resources/assets/wind.png");
 
-        windRight1 = new Texture("assets/windRight.png");
+        windRight1 = new Texture("resources/assets/windRight.png");
 
         sprite = new Sprite(texture1, 100, 100, 100, 100);
         sprite.setPosition(40, 40);
