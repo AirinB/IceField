@@ -42,8 +42,8 @@ class BlizzardTest {
          * Test-case 16: Eskimo skill
          * Constructing the igloo and check if the heat unit doesn't decrease
          */
-        e1.useSkill(game.getMap(),"east");
-        e1.move("east", game.getMap());
+        e1.useSkill("east");
+        e1.move("east");
 
         Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(4,e1.heatLevel);
@@ -62,8 +62,8 @@ class BlizzardTest {
         Assertions.assertEquals(4,e1.heatLevel);
         Assertions.assertEquals(1,e2.heatLevel);
 
-        e2.useSkill(game.getMap(),"east");
-        e2.move("east", game.getMap());
+        e2.useSkill("east");
+        e2.move("east");
 
         assertEquals(2, e1.getCurrentIceberg().getCurrentPlayers().size());
         Blizzard.blow(playersList, game.getMap().getIcebergs());
@@ -71,7 +71,7 @@ class BlizzardTest {
         Assertions.assertEquals(1,e2.heatLevel);
 
 
-        e2.move("west", game.getMap());
+        e2.move("west");
         Blizzard.blow(playersList, game.getMap().getIcebergs());
         Assertions.assertEquals(0,e2.heatLevel);
 

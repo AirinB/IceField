@@ -26,7 +26,6 @@ public class Game {
      */
     public Game(ArrayList<PlayerBase> players) {
         this.map = new Map();
-        map.generateMap();
         this.players = players;
         currentRound = 0;
         sc = new Scanner(System.in);
@@ -35,7 +34,6 @@ public class Game {
         for (int i = 1; i < 10; i++) {
             randomBlow[i] = objGenerator.nextBoolean();
         }
-
     }
 
 

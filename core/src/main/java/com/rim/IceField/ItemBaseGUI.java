@@ -2,7 +2,8 @@ package com.rim.IceField;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import org.mini2Dx.core.graphics.Graphics;
+
+import java.awt.*;
 
 public class ItemBaseGUI {
     ItemBase item;
@@ -13,15 +14,16 @@ public class ItemBaseGUI {
     int width;
     int height;
 
-    public ItemBaseGUI(ItemBase Item) {
+    //change to receive x and y
+    public ItemBaseGUI(ItemBase Item, Point position){
         this.item = Item;
-        initialize();
+        initialize(position);
     }
 
-    public void initialize() {
+    public void initialize(Point position) {
         batch = new SpriteBatch();
-        positionX = 0;
-        positionY = 0;
+        positionX = position.x;
+        positionY = position.y;
         if (item.getTag().equals("charge")) {
             itemTexture = new Texture("resources/assets/security.png");
             width = 20;
@@ -59,7 +61,7 @@ public class ItemBaseGUI {
         positionY = y;
     }
 
-    public void render(Graphics g) {
+    public void render() {
         batch.begin();
         //if the position is 0, 0 then don't render
         if(positionY != 0 | positionX != 0) batch.draw(itemTexture, positionX, positionY, width, height);

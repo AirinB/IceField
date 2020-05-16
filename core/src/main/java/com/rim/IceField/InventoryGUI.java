@@ -119,5 +119,9 @@ public class InventoryGUI {
         batch.end();
     }
 
+    public void dispose() {
+
+        font.dispose();
+    }
 
 }

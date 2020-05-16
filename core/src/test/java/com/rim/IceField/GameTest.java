@@ -36,45 +36,45 @@ class GameTest {
         System.out.println("Polar 2: y = " + p2.currentIceberg.getY() + " x = " +  p2.currentIceberg.getX());
         System.out.println("______________________________________________________________________________");
 
-        e1.move("south", game.getMap());
+        e1.move("south");
         System.out.println("Eskimo 1: y = " + e1.currentIceberg.getY() + " x = " + e1.currentIceberg.getX());
-        e1.move("east", game.getMap());
+        e1.move("east");
         System.out.println("Eskimo 1: y = " + e1.currentIceberg.getY() + " x = " + e1.currentIceberg.getX());
         e1.removeSnow();
-        e1.useSkill(game.getMap(),"south");
-        e1.move("south", game.getMap());
+        e1.useSkill("south");
+        e1.move("south");
         System.out.println("Eskimo 1: y = " + e1.currentIceberg.getY() + " x = " + e1.currentIceberg.getX());
         assertTrue(e1.currentIceberg.getHasIgloo());
         assertEquals(5,e1.heatLevel);
         System.out.println("______________________________________________________________________________");
 
-        e2.move("north", game.getMap());
+        e2.move("north");
         System.out.println("Eskimo 2: y = " + e2.currentIceberg.getY() + " x = " +  e2.currentIceberg.getX());
-        e2.move("east", game.getMap());
+        e2.move("east");
         System.out.println("Eskimo 2: y = " + e2.currentIceberg.getY() + " x = " +  e2.currentIceberg.getX());
         assertTrue(e2.isDrowning);
         assertFalse(e2.isDead);
         System.out.println("______________________________________________________________________________");
 
-        p1.move("south", game.getMap());
+        p1.move("south");
         System.out.println("Polar 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
-        p1.move("east", game.getMap());
+        p1.move("east");
         System.out.println("Polar 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
         p1.removeSnow();
         p1.removeSnow();
         assertEquals(0, p1.currentIceberg.getAmountOfSnow());
-        p1.useSkill(game.getMap(), "south");
+        p1.useSkill( "south");
         System.out.println("______________________________________________________________________________");
 
         Rope rope = new Rope();
         p2.inventory.addItem(rope);
-        p2.SavePlayer("east", game.getMap());
-        p2.move("south",game.getMap());
+        p2.SavePlayer("east");
+        p2.move("south");
         System.out.println("Polar 2: y = " + p2.currentIceberg.getY() + " x = " +  p2.currentIceberg.getX());
-        p2.SavePlayer("south", game.getMap());
+        p2.SavePlayer("south");
         assertFalse(e2.isDrowning);
         assertFalse(e2.isDead);
-        p2.move("east", game.getMap());
+        p2.move("east");
         System.out.println("Polar 2: y = " + p2.currentIceberg.getY() + " x = " +  p2.currentIceberg.getX());
         p2.pickItem();
         assertEquals(2,p2.getInventory().getItems().size());
@@ -91,25 +91,25 @@ class GameTest {
         assertEquals(3, p1.heatLevel);
         System.out.println("______________________________________________________________________________");
 
-        e1.move("south", game.getMap());
+        e1.move("south");
         System.out.println("Eskimo 1: y = " + e1.currentIceberg.getY() + " x = " + e1.currentIceberg.getX());
-        e1.move("south", game.getMap());
+        e1.move("south");
         System.out.println("Eskimo 1: y = " + e1.currentIceberg.getY() + " x = " + e1.currentIceberg.getX());
-        e1.move("east", game.getMap());
+        e1.move("east");
         System.out.println("Eskimo 1: y = " + e1.currentIceberg.getY() + " x = " + e1.currentIceberg.getX());
         e1.pickItem();
         System.out.println("______________________________________________________________________________");
 
 
-        e2.move("south", game.getMap());
+        e2.move("south");
         System.out.println("Eskimo 2: y = " + e2.currentIceberg.getY() + " x = " +  e2.currentIceberg.getX());
-        e2.move("east", game.getMap());
+        e2.move("east");
         System.out.println("Eskimo 2: y = " + e2.currentIceberg.getY() + " x = " +  e2.currentIceberg.getX());
-        e2.move("south", game.getMap());
+        e2.move("south");
         System.out.println("Eskimo 2: y = " + e2.currentIceberg.getY() + " x = " +  e2.currentIceberg.getX());
-        e2.move("south", game.getMap());
+        e2.move("south");
         System.out.println("Eskimo 2: y = " + e2.currentIceberg.getY() + " x = " +  e2.currentIceberg.getX());
-        e2.move("east", game.getMap());
+        e2.move("east");
         System.out.println("Eskimo 2: y = " + e2.currentIceberg.getY() + " x = " +  e2.currentIceberg.getX());
         e2.pickItem();
         e2.removeSnow();

@@ -9,7 +9,6 @@ import org.mini2Dx.core.graphics.Graphics;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//TODO move is not working
 // Inventroy needs to be refactored
 
 public class GameMain extends BasicGame implements InputProcessor{
@@ -78,14 +77,6 @@ public class GameMain extends BasicGame implements InputProcessor{
         playerBaseGUI1.player.isTurn = true;
 
 
-        rope = new ItemBaseGUI(new Rope());
-        food = new ItemBaseGUI(new Food());
-        charge = new ItemBaseGUI(new Charge());
-        flare = new ItemBaseGUI(new Flare());
-        gun = new ItemBaseGUI(new Gun());
-        shovel = new ItemBaseGUI(new Shovel());
-        divingSuit = new ItemBaseGUI(new DivingSuit());
-
         //the blizzard
         blizzardGUI = new BlizzardGUI();
 
@@ -148,16 +139,6 @@ public class GameMain extends BasicGame implements InputProcessor{
     @Override
     public void render(Graphics g) {
         mapgui.render(g);
-
-        food.render(g);
-        rope.render(g);
-        charge.render(g);
-        divingSuit.render(g);
-
-
-        flare.render(g);
-        shovel.render(g);
-        gun.render(g);
 
 
         playerBaseGUI1.render(g);
