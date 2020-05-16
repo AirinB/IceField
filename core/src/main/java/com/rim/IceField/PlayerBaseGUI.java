@@ -151,11 +151,11 @@ public class PlayerBaseGUI {
         if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
 
         if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
-        if(player.isDrowning) batch.draw(playerTexture, player.posX, player.posY);
-        batch.end();
-
-
-        if(!player.isDrowning) {
+        if(player.isDrowning && !player.getMovingState()) {
+            batch.draw(playerTexture, player.posX, player.posY);
+            batch.end();
+        } else {
+            batch.end();
             playerAnimation.render();
         }
     }

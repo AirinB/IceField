@@ -85,7 +85,7 @@ project(":desktop") {
             applicationCategory = "public.app-category.adventure-games"
             displayName = "IceField"
             identifier = "IceField"
-            copyright = "Copyright 2020 Your Company Name"
+            copyright = "Copyright 2020 RainInMoldova"
         }
         linux {
             vmArgs = ["-Xmx1g"]
