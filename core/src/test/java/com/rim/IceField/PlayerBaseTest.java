@@ -319,7 +319,7 @@ class PlayerBaseTest {
     void stepUnstable() throws Exception {
        game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
        game.getMap().Icebergs[1][0].Add_currentPlayers(p2);
-       assertEquals("instable", p2.getCurrentIceberg().getType());
+       assertEquals("unstable", p2.getCurrentIceberg().getType());
        assertEquals(1, p2.getCurrentIceberg().getMaxNumOfPlayers());
        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
        System.out.println("Player 2: y = " + p2.currentIceberg.getY() + " x = " + p2.currentIceberg.getX());
@@ -331,8 +331,8 @@ class PlayerBaseTest {
         assertTrue(p2.isDrowning);
         assertTrue(p1.isDrowning);
 
-        assertEquals("instable", p1.getCurrentIceberg().getType());
-        assertEquals("instable", p2.getCurrentIceberg().getType());
+        assertEquals("unstable", p1.getCurrentIceberg().getType());
+        assertEquals("unstable", p2.getCurrentIceberg().getType());
 
         //SMTH SIMILAR AS TURN
         int count = 0;
@@ -374,7 +374,9 @@ class PlayerBaseTest {
      void polarSkill() throws Exception {
        game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
        p1.useSkill( "south");
+
        assertEquals("instable", game.getMap().Icebergs[1][0].getType());
+
        assertEquals(1, game.getMap().Icebergs[1][0].getMaxNumOfPlayers());
 
        p1.useSkill( "east");
@@ -384,7 +386,10 @@ class PlayerBaseTest {
 
        p1.move("south");
        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
+
        p1.useSkill("east");
+
+
        assertEquals("stable", game.getMap().Icebergs[1][1].getType());
        assertEquals(100, game.getMap().Icebergs[1][1].getMaxNumOfPlayers());
      }

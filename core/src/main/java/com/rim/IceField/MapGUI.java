@@ -9,10 +9,12 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.awt.*;
 
+
 public class MapGUI {
     private GameConfig gameConfig = new GameConfig();
     private final int TILE_SIZE = gameConfig.mapTileSize;
 
+    private ItemBaseGUI[][] itemsOnMap = new ItemBaseGUI[10][10];
     private Point coordinate;
     private Map map;
     private int padding = gameConfig.mapTilePadding;
@@ -27,6 +29,20 @@ public class MapGUI {
     public MapGUI(Map map) {
         this.map = map;
         initialise();
+
+        for (int row = 0; row < map.getMAP_HEIGHT(); row++) {
+            for (int col = 0; col < map.getMAP_WIDTH(); col++) {
+                int invertedY = map.getMAP_HEIGHT() - row - 1;
+                Iceberg tmpIceberg = map.Icebergs[invertedY][col];
+                ItemBase tmpItem = tmpIceberg.getItem();
+                if (tmpItem.getTag() != null) {
+                    Point tmpPosition = getCoordinate(row, col);
+                    tmpPosition.y += 5;
+                    tmpPosition.x += 5;
+                    this.itemsOnMap[row][col] = new ItemBaseGUI(tmpItem, tmpPosition);
+                }
+            }
+        }
     }
 
 
@@ -46,54 +62,41 @@ public class MapGUI {
     }
 
     private Point getCoordinate(int row, int col) {
-        int x = col * TILE_SIZE + col * padding;
-        int y = row * TILE_SIZE + row * padding;
-        return new Point(y ,x);
+
+
+    private void renderItem(int row, int col) {
+        if (this.itemsOnMap[row][col] != null) {
+            this.itemsOnMap[row][col].render();
+        }
+
     }
 
     public void render(Graphics g) {
 
-        //Gdx.gl.glClearColor(0,0,0,1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //renderer.render();
         Point coordinate;
         sBatch.begin();
         sBatch.draw(waterTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        for(int waterRow = 0; waterRow < waterRows; waterRow++) {
-//            for(int waterCol = 0; waterCol < waterCols; waterCol++) {
-//
-//            }
-//        }
 
+        sBatch.end();
 
-        for (int row = 0; row < map.getMAP_WIDTH(); row++) {
-            for (int col = 0; col < map.getMAP_HEIGHT(); col++) {
-                //System.out.println(row +  " " + col + " " +  map.Icebergs[row][col].getType() + " " + map.Icebergs[row][col].getMaxNumOfPlayers());
-
-                coordinate = getCoordinate(row, col);
-                if (map.Icebergs[row][col].getType().equals("hole")) {
-                   System.out.println("icebergs  " + map.Icebergs[row][col].getY() +  " " + map.Icebergs[row][col].getX());
-                   System.out.println(map.Icebergs[row][col].getType());
-                   System.out.println(" coordinates  " +  coordinate.y +  " " + coordinate.x);
-               }
-                else if (map.Icebergs[row][col].getType().equals("stable")) {
-                    sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
-
-                }
-                else if (map.Icebergs[row][col].getType().equals("instable")) {
-                    sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
-                    System.out.println("icebergs  " + map.Icebergs[row][col].getY() +  " " + map.Icebergs[row][col].getX());
-                }
-                if (map.Icebergs[row][col].getAmountOfSnow() > 0) {
-                    sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
+        for (int row = 0; row < map.getMAP_HEIGHT(); row++) {
+            for (int col = 0; col < map.getMAP_WIDTH(); col++) {
+                int invertedY = map.getMAP_HEIGHT() - row - 1;
+                Iceberg tmpIceberg = map.Icebergs[invertedY][col];
+                if (!tmpIceberg.getType().equals("hole")) {
+                    coordinate = getCoordinate(row, col);
+                    sBatch.begin();
+                    if (tmpIceberg.getIsStable()) {
+                        sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
+                    } else if (tmpIceberg.getAmountOfSnow() > 0) {
+                        sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
+                    }
+                    sBatch.end();
+                    renderItem(row, col);
                 }
 
-
-                /*else if (map.Icebergs[Y][X].)
-                    g.drawTexture(tiles[1], X * TILE_SIZE, Y * TILE_SIZE);*/
             }
         }
-        sBatch.end();
     }
 
     public void dispose() {

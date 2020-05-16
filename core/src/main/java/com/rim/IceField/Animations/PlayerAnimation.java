@@ -16,6 +16,8 @@ public class PlayerAnimation {
     HashMap<String, Animation<TextureRegion>> walkAnimations = new HashMap<String, Animation<TextureRegion>>();
     Texture walkSheet;
     SpriteBatch spriteBatch;
+    int tileHeight;
+    int tileWidth;
     int moveSpeed;
     float stateTime;
     PlayerBase player;
@@ -33,7 +35,6 @@ public class PlayerAnimation {
 
         }else if(player.getTag().equals("PolarExplorer")) {
             // Load the sprite sheet as a Texture
-
             walkSheet = new Texture(Gdx.files.internal("resources/assets/eskimo_1xd.png"));
 
         }
@@ -42,13 +43,13 @@ public class PlayerAnimation {
         // Use the split utility method to create a 2D array of TextureRegions. This is
         // possible because this sprite sheet contains frames of equal size and they are
         // all aligned.
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-                walkSheet.getWidth() / FRAME_COLS,
-                walkSheet.getHeight() / FRAME_ROWS);
+        tileHeight = walkSheet.getHeight() / FRAME_ROWS;
+        tileWidth = walkSheet.getWidth() / FRAME_COLS;
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet, tileWidth, tileHeight);
 
-        String[] directions = { "south", "west", "east", "north" };
+        String[] directions = {"south", "west", "east", "north"};
         for (int i = 0; i < FRAME_ROWS; i++) {
-            walkAnimations.put(directions[i], new Animation<TextureRegion>(0.2f/moveSpeed, tmp[i]));
+            walkAnimations.put(directions[i], new Animation<TextureRegion>(0.2f / moveSpeed, tmp[i]));
         }
 
         spriteBatch = new SpriteBatch();
@@ -65,7 +66,8 @@ public class PlayerAnimation {
             currentFrame = walkAnimations.get(player.getDirection()).getKeyFrame(stateTime, true);
         } else {
             int standingStateFrame = 2;
-            currentFrame = walkAnimations.get(player.getDirection()).getKeyFrame(standingStateFrame, true);
+            currentFrame = walkAnimations.get(player.getDirection()).getKeyFrames()[2];
+
         }
 
         spriteBatch.begin();

@@ -4,7 +4,7 @@ Icefield
 
 In the game the players control (3 or more) different figures on an icefield surrounded by sea where they have to survive. The figures can be either eskimos or polar explorers, and they operate in rounds.
 
-The icefield consists of tabular icebergs. There are stable icebergs that can hold any number of figures, and there are instable icebergs that capsize when too many figures try to stand on them, in which case every figure on the iceberg falls into the water. The icebergs are covered in different amounts of snow at the beginning.
+The icefield consists of tabular icebergs. There are stable icebergs that can hold any number of figures, and there are unstable icebergs that capsize when too many figures try to stand on them, in which case every figure on the iceberg falls into the water. The icebergs are covered in different amounts of snow at the beginning.
 
 In some of the icebergs objects can be found: shovel, rope, diving suit, food, etc. These frozen in objects can only be seen and retrieved, when the iceberg is clean of snow. Between the icebergs there might be holes covered with snow. If a figure steps on such a hole, they will slip into the water. Figures in the water can only survive if either they wear a diving suit or a nearby figure helps with a rope.
 
