@@ -374,7 +374,9 @@ class PlayerBaseTest {
      void polarSkill() throws Exception {
        game.getMap().Icebergs[0][0].Add_currentPlayers(p1);
        p1.useSkill( "south");
-       assertEquals("unstable", game.getMap().Icebergs[1][0].getType());
+
+       assertEquals("instable", game.getMap().Icebergs[1][0].getType());
+
        assertEquals(1, game.getMap().Icebergs[1][0].getMaxNumOfPlayers());
 
        p1.useSkill( "east");
@@ -384,7 +386,10 @@ class PlayerBaseTest {
 
        p1.move("south");
        System.out.println("Player 1: y = " + p1.currentIceberg.getY() + " x = " + p1.currentIceberg.getX());
-       p1.useSkill( "east");
+
+       p1.useSkill("east");
+
+
        assertEquals("stable", game.getMap().Icebergs[1][1].getType());
        assertEquals(100, game.getMap().Icebergs[1][1].getMaxNumOfPlayers());
      }

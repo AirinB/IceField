@@ -1,11 +1,10 @@
 package com.rim.IceField;
 
-import com.badlogic.gdx.Gdx;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 
 //Abstract PlayerBase class
@@ -223,12 +222,29 @@ public abstract class PlayerBase extends TimerTask {
         return true;
     }
 
+
+    public void updateSave(ArrayList<PlayerBase> players){
+
+        if (players != null){
+            for (PlayerBase player: players) {
+                System.out.println("Update save");
+                System.out.println(player.getTag()  + " " +  player.getPosY() + " " + player.getPosX());
+                player.posY = this.getPosY();
+                player.posX = this.getPosX();
+                //System.out.println(player.getTag()  + " " +  player.getPosY() + " " + player.getPosX());
+            }
+
+        }
+    }
+
+
     /**
      * @param dir direction where the player we want to save is located
      * @return returns true if the action is succesful
      */
     //Method for saving the player.
     public boolean SavePlayer(String dir) {
+        System.out.println("Save player");
         Map map = game.getMap();
         //Check every item in the inventory to see if there's a rope.
         if (!ContainsItem("rope")) {
@@ -242,6 +258,7 @@ public abstract class PlayerBase extends TimerTask {
         if (dir.equals("north")) {
             playerBases = map.Icebergs[currentIceberg.y - 1][currentIceberg.x].getCurrentPlayers();
         } else if (dir.equals("south")) {
+            playerBases = map.Icebergs[currentIceberg.y + 1][currentIceberg.x].getCurrentPlayers();
         } else if (dir.equals("west")) {
             playerBases = map.Icebergs[currentIceberg.y][currentIceberg.x - 1].getCurrentPlayers();
         } else if (dir.equals("east")) {
@@ -269,6 +286,7 @@ public abstract class PlayerBase extends TimerTask {
 
 
             }
+
             return true;
         }
 
@@ -433,6 +451,7 @@ public abstract class PlayerBase extends TimerTask {
                // inventory.items.add(currentIceberg.getItem());
                 inventory.addItem(currentIceberg.getItem());
                 currentIceberg.DeletePickedItem(); // Will delete the item from the iceberg after it was picked
+
 
                 try {
                     System.out.println(tagString + " was added to your inventory.");

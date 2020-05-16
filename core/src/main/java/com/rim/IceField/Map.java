@@ -142,6 +142,67 @@ public class Map {
     }
 
 
+    /**
+     * Generates the map used for the tests
+     */
+    //Method for generating icebergs and items on the map.
+    public void generateMap() { //hardcode
+
+        Food food1 = new Food();
+        Food food2 = new Food();
+        Food food3 = new Food();
+        Food food4 = new Food();
+        Food food5 = new Food();
+        DivingSuit divingSuit = new DivingSuit();
+        Rope rope1 = new Rope();
+        Rope rope2 = new Rope();
+        Shovel shovel1 = new Shovel();
+        Shovel shovel2 = new Shovel();
+        Flare flare = new Flare();
+        Charge charge = new Charge();
+        Gun gun = new Gun();
+
+        //Icebergs[0][0].setItem(shovel1);
+        Icebergs[6][6].setItem(shovel2);
+        Icebergs[4][8].setItem(rope1);
+        Icebergs[7][9].setItem(rope2);
+        Icebergs[2][7].setItem(charge);
+        Icebergs[4][5].setItem(flare);
+        Icebergs[9][9].setItem(gun);
+        Icebergs[4][1].setItem(divingSuit);
+        Icebergs[6][3].setItem(food1);
+        Icebergs[5][5].setItem(food2);
+        Icebergs[3][2].setItem(food3);
+        Icebergs[9][4].setItem(food4);
+        Icebergs[8][5].setItem(food5);
+//---------------------------------------------------------
+        Icebergs[4][3].setType("hole");
+        Icebergs[4][3].setMaxNumOfPlayers(0);
+
+        Icebergs[2][0].setType("hole");
+        Icebergs[2][0].setMaxNumOfPlayers(0);
+
+        Icebergs[2][6].setType("hole");
+        Icebergs[2][6].setMaxNumOfPlayers(0);
+
+        Icebergs[6][1].setType("hole");
+        Icebergs[6][1].setMaxNumOfPlayers(0);
+
+       // Icebergs[7][5].setType("hole");
+       // Icebergs[7][5].setMaxNumOfPlayers(0);
+
+//
+//        Icebergs[0][1].setType("hole");
+//        Icebergs[0][1].setMaxNumOfPlayers(0);
+//        Icebergs[0][1].setIsStable(false);
+//
+//        Icebergs[1][0].setType("instable");
+//        Icebergs[1][0].setMaxNumOfPlayers(1);
+//        Icebergs[1][0].setIsStable(false);
+
+    }
+
+
     public int getMAP_HEIGHT() {
         return MAP_HEIGHT;
     }

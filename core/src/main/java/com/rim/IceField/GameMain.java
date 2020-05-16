@@ -55,8 +55,6 @@ public class GameMain extends BasicGame implements InputProcessor{
         playersList.add(playerBaseGUI2);
 
 
-
-
         players = new ArrayList<PlayerBase>();
         players.add(playerBaseGUI1.player);
         players.add(playerBaseGUI2.player);
@@ -80,8 +78,8 @@ public class GameMain extends BasicGame implements InputProcessor{
         //the blizzard
         blizzardGUI = new BlizzardGUI();
 
-        map = new Map();
-        mapgui = new MapGUI(map);
+       // map = new Map();
+        mapgui = new MapGUI(game.getMap());
         mapgui.initialise();
     }
 
@@ -119,13 +117,15 @@ public class GameMain extends BasicGame implements InputProcessor{
             e.printStackTrace();
         }
 
-//        food.update(140, 160);
-//        rope.update(220, 190);
-//        charge.update(300, 100);
-//        flare.update(111, 275);
-//        divingSuit.update(400, 120);
-//        shovel.update(295, 200);
-//        gun.update(289, 266);
+
+
+        food.update(140, 160);
+        rope.update(220, 190);
+        charge.update(300, 100);
+        flare.update(111, 275);
+        divingSuit.update(400, 120);
+        shovel.update(0, 300);
+        gun.update(289, 266);
 
 
 //        blizzardGUI.update();
@@ -153,6 +153,8 @@ public class GameMain extends BasicGame implements InputProcessor{
     }
 
     public boolean readPlayerActions() throws Exception {
+
+
         boolean playerIsMoving = currentPlayerGUI.player.getMovingState();
         if (playerIsMoving) {
             return false;
@@ -184,7 +186,10 @@ public class GameMain extends BasicGame implements InputProcessor{
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+
             if (currentPlayerGUI.player.pickItem()) {
+               // currentPlayerGUI.player.currentIceberg.getItem().updatePosition();
+
                 return true;
             }
 
@@ -195,6 +200,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F1)) {
             if (currentPlayerGUI.player.useItem("diving suit")) {
+
                 return true;
             }
 
@@ -213,24 +219,40 @@ public class GameMain extends BasicGame implements InputProcessor{
                 return true;
             }
 
-        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            if (currentPlayerGUI.player.SavePlayer("north")) {
-                return true;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            if (Gdx.input.isKeyPressed(Input.Keys.L)) {
+                if (currentPlayerGUI.player.SavePlayer("north")) {
+                    System.out.println(currentPlayerGUI.player.getPosY() + " " + currentPlayerGUI.player.getPosX());
+
+                    currentPlayerGUI.player.updateSave(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()-1][currentPlayerGUI.player.currentIceberg.getX()].getCurrentPlayers());
+
+                    return true;
+                }
             }
 
-        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            if (currentPlayerGUI.player.SavePlayer("south")) {
-                return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)){
+            if (Gdx.input.isKeyPressed(Input.Keys.L)) {
+                if (currentPlayerGUI.player.SavePlayer("south")) {
+                    currentPlayerGUI.player.updateSave(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()+1][currentPlayerGUI.player.currentIceberg.getX()].getCurrentPlayers());
+                    return true;
+                }
+
             }
 
-        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            if (currentPlayerGUI.player.SavePlayer("west")) {
-                return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.A)){
+            if (Gdx.input.isKeyPressed(Input.Keys.L)) {
+                if (currentPlayerGUI.player.SavePlayer("west")) {
+                    currentPlayerGUI.player.updateSave(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX() - 1].getCurrentPlayers());
+                    return true;
+                }
             }
 
-        } else if ((Gdx.input.isKeyJustPressed(Input.Keys.L)) && Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            if (currentPlayerGUI.player.SavePlayer("east")) {
-                return true;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
+            if (Gdx.input.isKeyPressed(Input.Keys.L)) {
+                if (currentPlayerGUI.player.SavePlayer("east")) {
+                    currentPlayerGUI.player.updateSave(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX() + 1].getCurrentPlayers());
+                    return true;
+                }
             }
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
