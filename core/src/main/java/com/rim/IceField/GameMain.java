@@ -59,18 +59,18 @@ public class GameMain extends BasicGame implements InputProcessor{
         playerBaseGUI1.player.setGame(game);
         playerBaseGUI2.player.setGame(game);
 
-//        Shovel shovel = new Shovel();
-//        ItemBase rope = new Rope();
-//        DivingSuit ds = new DivingSuit();
-//        Food food = new Food();
-//        playerBaseGUI1.player.inventory.addItem(rope);
-//        playerBaseGUI2.player.inventory.addItem(rope);
-//        playerBaseGUI1.player.inventory.addItem(shovel);
-//        playerBaseGUI2.player.inventory.addItem(shovel);
-//        playerBaseGUI1.player.inventory.addItem(ds);
-//        playerBaseGUI2.player.inventory.addItem(ds);
-//        playerBaseGUI1.player.inventory.addItem(food);
-//        playerBaseGUI2.player.inventory.addItem(food);
+        Shovel shovel = new Shovel();
+        ItemBase rope = new Rope();
+        DivingSuit ds = new DivingSuit();
+        Food food = new Food();
+        playerBaseGUI1.player.inventory.addItem(rope);
+        playerBaseGUI2.player.inventory.addItem(rope);
+        playerBaseGUI1.player.inventory.addItem(shovel);
+        playerBaseGUI2.player.inventory.addItem(shovel);
+        playerBaseGUI1.player.inventory.addItem(ds);
+        playerBaseGUI2.player.inventory.addItem(ds);
+        playerBaseGUI1.player.inventory.addItem(food);
+        playerBaseGUI2.player.inventory.addItem(food);
 
         playerBaseGUI1.player.currentIceberg = game.getMap().Icebergs[0][0];
         game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI1.player);
@@ -95,6 +95,8 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         if (count == playersList.size()) {
             count = 0;
+
+
             if (ran == 2) {
                 blow = true;
                 try {
@@ -166,6 +168,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         playerBaseGUI2.render(g);
         healthPanelGUI.render();
         blizzardGUI.render(g);
+        //playerBaseGUI1.updateMaxlpayers(2);
     }
 
 
@@ -177,7 +180,8 @@ public class GameMain extends BasicGame implements InputProcessor{
     //F3 - use rope
     //F4 - use shovel
     //W/S/A/D + L - save player
-    //W/S/A/D + U - use skill
+    //W/S/A/D + U - use skill eskimo
+    //W/S/A/D + y - use skill explorer
     //SPACE - fire gun
 
     public boolean readPlayerActions() throws Exception {
@@ -185,6 +189,8 @@ public class GameMain extends BasicGame implements InputProcessor{
         if (playerIsMoving) {
             return false;
         }
+
+        //--------------------------------------------------------------Move player------------------------------------------
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             if (currentPlayerGUI.player.move("north")) {
                 currentPlayerGUI.updateMove("north");
@@ -247,6 +253,8 @@ public class GameMain extends BasicGame implements InputProcessor{
                 return true;
             }
 
+         //-----------------------------------------------------Save player----------------------------------------------------------------
+
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
             if (Gdx.input.isKeyPressed(Input.Keys.L)) {
                 if (currentPlayerGUI.player.SavePlayer("north")) {
@@ -281,25 +289,40 @@ public class GameMain extends BasicGame implements InputProcessor{
                 }
             }
 
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("south") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
-                    currentPlayerGUI.updateIgloo("south");
-                    return true;
-                }
-            }
 
+       // --------------------------------------------------------Skills-------------------------------------------------------------
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("north") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
+                if (currentPlayerGUI.player.getTag().equals("PolarExplorer") && (currentPlayerGUI.player.useSkill("north"))) {
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()+1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
+                    return true;
+                }
+                else if (currentPlayerGUI.player.getTag().equals("Eskimo") && (currentPlayerGUI.player.useSkill("north"))) {
                     currentPlayerGUI.updateIgloo("north");
                     return true;
                 }
             }
 
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
+            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
+                if (currentPlayerGUI.player.getTag().equals("PolarExplorer") && (currentPlayerGUI.player.useSkill("south"))) {
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()-1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
+                    return true;
+                }
+                else  if (currentPlayerGUI.player.getTag().equals("Eskimo") && (currentPlayerGUI.player.useSkill("south"))) {
+                    currentPlayerGUI.updateIgloo("south");
+                    return true;
+                }
+            }
+
+
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("west") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
+                if (currentPlayerGUI.player.getTag().equals("PolarExplorer") && (currentPlayerGUI.player.useSkill("west"))) {
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX()-1].getMaxNumOfPlayers());
+                    return true;
+                }
+                else if (currentPlayerGUI.player.getTag().equals("Eskimo") && (currentPlayerGUI.player.useSkill("west"))) {
                     currentPlayerGUI.updateIgloo("west");
                     return true;
                 }
@@ -307,45 +330,17 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("east") && currentPlayerGUI.player.getTag().equals("Eskimo"))) {
+                if (currentPlayerGUI.player.getTag().equals("PolarExplorer") && (currentPlayerGUI.player.useSkill("east"))) {
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX()+1].getMaxNumOfPlayers());
+                    return true;
+                }
+                else if (currentPlayerGUI.player.getTag().equals("Eskimo") && (currentPlayerGUI.player.useSkill("east"))) {
                     currentPlayerGUI.updateIgloo("east");
                     return true;
                 }
             }
 
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("south") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()-1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
-                    return true;
-                }
-            }
-
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("north") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()+1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
-                    return true;
-                }
-            }
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("west") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX()-1].getMaxNumOfPlayers());
-                    return true;
-                }
-            }
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            if (Gdx.input.isKeyPressed(Input.Keys.U)) {
-                if ((currentPlayerGUI.player.useSkill("east") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX()+1].getMaxNumOfPlayers());
-                    return true;
-                }
-            }
+        //------------------------------------------------------------------------------------------------------------
 
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (currentPlayerGUI.player.game.isWin()) {

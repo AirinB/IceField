@@ -110,17 +110,21 @@ public class PlayerBaseGUI {
         //the offX and offY might need to be changed with the width of the tile(iceberg
 
         if(dir.equals("east")){
-            iglooX = player.posX+ moveSpeed;
+            iglooX = player.posX + moveSpeed;
             iglooY = player.posY;
+            System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }else if(dir.equals("west")){
             iglooX = player.posX -  moveSpeed;
             iglooY = player.posY;
+            System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }else if(dir.equals(("north"))){
             iglooY = player.posY + moveSpeed;
             iglooX = player.posX;
+            System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }else if(dir.equals("south")){
             iglooY = player.posY - moveSpeed;
             iglooX = player.posX;
+            System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }
     }
 
