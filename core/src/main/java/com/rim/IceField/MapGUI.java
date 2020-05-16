@@ -9,12 +9,12 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.awt.*;
 
-import java.awt.*;
 
 public class MapGUI {
     private GameConfig gameConfig = new GameConfig();
     private final int TILE_SIZE = gameConfig.mapTileSize;
 
+    private ItemBaseGUI[][] itemsOnMap = new ItemBaseGUI[10][10];
     private Point coordinate;
     private Map map;
     private int padding = gameConfig.mapTilePadding;
@@ -29,6 +29,20 @@ public class MapGUI {
     public MapGUI(Map map) {
         this.map = map;
         initialise();
+
+        for (int row = 0; row < map.getMAP_HEIGHT(); row++) {
+            for (int col = 0; col < map.getMAP_WIDTH(); col++) {
+                int invertedY = map.getMAP_HEIGHT() - row - 1;
+                Iceberg tmpIceberg = map.Icebergs[invertedY][col];
+                ItemBase tmpItem = tmpIceberg.getItem();
+                if (tmpItem.getTag() != null) {
+                    Point tmpPosition = getCoordinate(row, col);
+                    tmpPosition.y += 5;
+                    tmpPosition.x += 5;
+                    this.itemsOnMap[row][col] = new ItemBaseGUI(tmpItem, tmpPosition);
+                }
+            }
+        }
     }
 
 
@@ -53,28 +67,36 @@ public class MapGUI {
         return new Point(x, y);
     }
 
+    private void renderItem(int row, int col) {
+        if (this.itemsOnMap[row][col] != null) {
+            this.itemsOnMap[row][col].render();
+        }
+    }
+
     public void render(Graphics g) {
 
         Point coordinate;
         sBatch.begin();
         sBatch.draw(waterTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sBatch.end();
 
         for (int row = 0; row < map.getMAP_HEIGHT(); row++) {
             for (int col = 0; col < map.getMAP_WIDTH(); col++) {
                 int invertedY = map.getMAP_HEIGHT() - row - 1;
-                if (map.Icebergs[invertedY][col].getType().equals("hole")) {
-                    continue;
-                } else {
+                Iceberg tmpIceberg = map.Icebergs[invertedY][col];
+                if (!tmpIceberg.getType().equals("hole")) {
                     coordinate = getCoordinate(row, col);
-                    if (map.Icebergs[row][col].getIsStable()) {
+                    sBatch.begin();
+                    if (tmpIceberg.getIsStable()) {
                         sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
-                    } else if (map.Icebergs[row][col].getAmountOfSnow() > 0) {
+                    } else if (tmpIceberg.getAmountOfSnow() > 0) {
                         sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
                     }
+                    sBatch.end();
+                    renderItem(row, col);
                 }
             }
         }
-        sBatch.end();
     }
 
     public void dispose() {
