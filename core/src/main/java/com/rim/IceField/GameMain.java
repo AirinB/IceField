@@ -317,7 +317,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
                 if ((currentPlayerGUI.player.useSkill("south") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    System.out.println("polar skill");
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()-1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
                     return true;
                 }
             }
@@ -326,7 +326,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
                 if ((currentPlayerGUI.player.useSkill("north") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    System.out.println("polar skill");
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()+1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
                     return true;
                 }
             }
@@ -334,7 +334,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
                 if ((currentPlayerGUI.player.useSkill("west") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    System.out.println("polar skill");
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX()-1].getMaxNumOfPlayers());
                     return true;
                 }
             }
@@ -342,7 +342,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
                 if ((currentPlayerGUI.player.useSkill("east") && currentPlayerGUI.player.getTag().equals("PolarExplorer"))) {
-                    System.out.println("polar skill");
+                    currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX()+1].getMaxNumOfPlayers());
                     return true;
                 }
             }
