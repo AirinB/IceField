@@ -56,13 +56,8 @@ public class PlayerBaseGUI {
         }
 
         iglooTexture = new Texture("resources/assets/igloo.png");
-
-
-
         batch = new SpriteBatch();
-
         inventoryGUI = new InventoryGUI(player);
-
 
         //font1
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("resources/fonts/8bitFont.ttf"));
@@ -77,8 +72,6 @@ public class PlayerBaseGUI {
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
     }
-
-
 
     public void updateMove(String dir) {
         player.setMoving(true);
@@ -147,7 +140,7 @@ public class PlayerBaseGUI {
 
 
         //igloo
-        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 65, 65);
+        if(iglooY != 0 | iglooX != 0) batch.draw(iglooTexture, iglooX, iglooY, 30, 30);
 
         if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
         if(player.isDrowning && !player.getMovingState()) {

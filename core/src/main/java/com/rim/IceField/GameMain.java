@@ -1,12 +1,13 @@
 package com.rim.IceField;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 // Inventroy needs to be refactored
@@ -17,21 +18,9 @@ public class GameMain extends BasicGame implements InputProcessor{
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
     public BlizzardGUI blizzardGUI;
-    public Map map;
+
     public MapGUI mapgui;
-
-
-    public ItemBaseGUI rope;
-    public ItemBaseGUI food;
-    public ItemBaseGUI charge;
-    public ItemBaseGUI divingSuit;
-    public ItemBaseGUI flare;
-    public ItemBaseGUI gun;
-    public ItemBaseGUI shovel;
-
     public HealthPanelGUI healthPanelGUI;
-
-
     public Game game;
     ArrayList<PlayerBaseGUI> playersList;
     ArrayList<PlayerBase> players;
@@ -41,6 +30,11 @@ public class GameMain extends BasicGame implements InputProcessor{
     public PlayerBase  p1;
     public  PlayerBase p2;
     private PlayerBaseGUI currentPlayerGUI;
+
+    public boolean blow = false;
+    float setTime = 0;
+    int ran = 0;
+
 
 
     @Override
@@ -65,6 +59,18 @@ public class GameMain extends BasicGame implements InputProcessor{
         playerBaseGUI1.player.setGame(game);
         playerBaseGUI2.player.setGame(game);
 
+//        Shovel shovel = new Shovel();
+//        ItemBase rope = new Rope();
+//        DivingSuit ds = new DivingSuit();
+//        Food food = new Food();
+//        playerBaseGUI1.player.inventory.addItem(rope);
+//        playerBaseGUI2.player.inventory.addItem(rope);
+//        playerBaseGUI1.player.inventory.addItem(shovel);
+//        playerBaseGUI2.player.inventory.addItem(shovel);
+//        playerBaseGUI1.player.inventory.addItem(ds);
+//        playerBaseGUI2.player.inventory.addItem(ds);
+//        playerBaseGUI1.player.inventory.addItem(food);
+//        playerBaseGUI2.player.inventory.addItem(food);
 
         playerBaseGUI1.player.currentIceberg = game.getMap().Icebergs[0][0];
         game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI1.player);
@@ -81,25 +87,51 @@ public class GameMain extends BasicGame implements InputProcessor{
        // map = new Map();
         mapgui = new MapGUI(game.getMap());
         mapgui.initialise();
+
     }
 
     private void nextPlayer() {
-        if (count == playersList.size()) count = 0;
+        Random objGenerator = new Random();
+
+        if (count == playersList.size()) {
+            count = 0;
+            if (ran == 2) {
+                blow = true;
+                try {
+                    Blizzard.blow(players, game.getMap().getIcebergs());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            ran = objGenerator.nextInt(3);
+            System.out.println("//////////////////////////////////////////////////////////" + ran);
+            if (ran == 2) System.out.println("Next round blizzard will blow");
+        }
 
         if (currentPlayerGUI != null) {
             currentPlayerGUI.player.isTurn = false;
         }
-
         currentPlayerGUI = playersList.get(count);
         currentPlayerGUI.player.isTurn = true;
         round = 0;
         count++;
     }
 
+
     @Override
     public void update(float delta) {
+
+        if (blow == true) setTime += delta;
+        if (setTime >= 12.5 ) {
+            blow = false;
+            setTime = 0;
+        }
+
         if (round == 4) {
+
             nextPlayer();
+
         }
         if (currentPlayerGUI == null) nextPlayer();
 
@@ -112,23 +144,14 @@ public class GameMain extends BasicGame implements InputProcessor{
             if (readPlayerActions()) {
                 round++;
                 return;
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+          if (blow == true) blizzardGUI.update();
 
-
-        food.update(140, 160);
-        rope.update(220, 190);
-        charge.update(300, 100);
-        flare.update(111, 275);
-        divingSuit.update(400, 120);
-        shovel.update(0, 300);
-        gun.update(289, 266);
-
-
-//        blizzardGUI.update();
     }
 
     @Override
@@ -139,22 +162,25 @@ public class GameMain extends BasicGame implements InputProcessor{
     @Override
     public void render(Graphics g) {
         mapgui.render(g);
-
-
         playerBaseGUI1.render(g);
         playerBaseGUI2.render(g);
-
-
         healthPanelGUI.render();
-
         blizzardGUI.render(g);
-
-
     }
 
+
+    //up/down/left/right - move
+    //P - pick item
+    //R - remove item
+    //F1 - use diving suit
+    //F2 - use food
+    //F3 - use rope
+    //F4 - use shovel
+    //W/S/A/D + L - save player
+    //W/S/A/D + U - use skill
+    //SPACE - fire gun
+
     public boolean readPlayerActions() throws Exception {
-
-
         boolean playerIsMoving = currentPlayerGUI.player.getMovingState();
         if (playerIsMoving) {
             return false;
@@ -188,7 +214,6 @@ public class GameMain extends BasicGame implements InputProcessor{
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
 
             if (currentPlayerGUI.player.pickItem()) {
-               // currentPlayerGUI.player.currentIceberg.getItem().updatePosition();
 
                 return true;
             }
@@ -206,24 +231,25 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F2)) {
             if (currentPlayerGUI.player.useItem("food")) {
+
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
             if  (currentPlayerGUI.player.useItem("rope")) {
+
                 return true;
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F4)) {
             if (currentPlayerGUI.player.useItem("shovel")) {
+
                 return true;
             }
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
             if (Gdx.input.isKeyPressed(Input.Keys.L)) {
                 if (currentPlayerGUI.player.SavePlayer("north")) {
-                    System.out.println(currentPlayerGUI.player.getPosY() + " " + currentPlayerGUI.player.getPosX());
-
                     currentPlayerGUI.player.updateSave(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()-1][currentPlayerGUI.player.currentIceberg.getX()].getCurrentPlayers());
 
                     return true;
@@ -322,8 +348,11 @@ public class GameMain extends BasicGame implements InputProcessor{
             }
 
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if (currentPlayerGUI.player.game.isWin()) currentPlayerGUI.player.game.GameOver();
-            return true;
+            if (currentPlayerGUI.player.game.isWin()) {
+                currentPlayerGUI.player.game.GameOver();
+                return true;
+            }
+
 
         }else if(Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             currentPlayerGUI.player.getPosition();
