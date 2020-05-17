@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+//TODO move is not working
 // Inventroy needs to be refactored
 
 public class GameMain extends BasicGame implements InputProcessor{
@@ -17,10 +18,14 @@ public class GameMain extends BasicGame implements InputProcessor{
     public int round = 0;
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
-    public BlizzardGUI blizzardGUI;
 
     public MapGUI mapgui;
     public HealthPanelGUI healthPanelGUI;
+    public BlizzardGUI blizzardGUI;
+
+    public StartMenuGUI startMenuGUI;
+
+
     public Game game;
     ArrayList<PlayerBaseGUI> playersList;
     ArrayList<PlayerBase> players;
@@ -44,18 +49,47 @@ public class GameMain extends BasicGame implements InputProcessor{
         playerBaseGUI1 = new PlayerBaseGUI(p1);
         playerBaseGUI2 = new PlayerBaseGUI(p2);
 
+
+        if(GameState.getGameState() == false) {
+
+            startMenuGUI = new StartMenuGUI();
+
+        }
+
+        //else {
+
+
         playersList = new ArrayList<PlayerBaseGUI>();
+
+//            for (int i = 0; i < startMenuGUI.getEskimos(); i++) {
+//                playerBaseGUI1 = new PlayerBaseGUI(new Eskimo());
+//                playersList.add(playerBaseGUI1);
+//            }
+//            for (int i = 0; i < startMenuGUI.getExplorers(); i++) {
+//                playerBaseGUI2 = new PlayerBaseGUI(new PolarExplorer());
+//                playersList.add(playerBaseGUI2);
+//            }
+
         playersList.add(playerBaseGUI1);
         playersList.add(playerBaseGUI2);
 
 
         players = new ArrayList<PlayerBase>();
+
+//            for (int i = 0; i < playersList.size(); i++) {
+//                players.add(playersList.get(i).player);
+//            }
         players.add(playerBaseGUI1.player);
         players.add(playerBaseGUI2.player);
 
         healthPanelGUI = new HealthPanelGUI(players, 20, Gdx.graphics.getHeight() - 20);
 
         game = new Game(players);
+
+//            for (int i = 0; i < players.size(); i++) {
+//                players.get(i).setGame(game);
+//            }
+
         playerBaseGUI1.player.setGame(game);
         playerBaseGUI2.player.setGame(game);
 
@@ -72,6 +106,11 @@ public class GameMain extends BasicGame implements InputProcessor{
         playerBaseGUI1.player.inventory.addItem(food);
         playerBaseGUI2.player.inventory.addItem(food);
 
+//            for (int i = 0; i < players.size(); i++) {
+//                players.get(i).currentIceberg = game.getMap().Icebergs[0][0];
+//                game.getMap().Icebergs[0][0].Add_currentPlayers(players.get(i));
+//                players.get(i).isTurn = true;
+//            }
         playerBaseGUI1.player.currentIceberg = game.getMap().Icebergs[0][0];
         game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI1.player);
         playerBaseGUI1.player.isTurn = true;
@@ -171,6 +210,22 @@ public class GameMain extends BasicGame implements InputProcessor{
         //playerBaseGUI1.updateMaxlpayers(2);
     }
 
+        if(GameState.getGameState() == false) {
+            startMenuGUI.render(g);
+        }
+        else {
+            mapgui.render(g);
+
+
+
+            playerBaseGUI1.render(g);
+            playerBaseGUI2.render(g);
+
+
+            healthPanelGUI.render();
+
+            blizzardGUI.render(g);
+        }
 
     //up/down/left/right - move
     //P - pick item
@@ -434,10 +489,6 @@ public class GameMain extends BasicGame implements InputProcessor{
             game.getMap().Icebergs[0][0].Add_currentPlayers(player);
         }
         //TEST
-
-
-
-
 
         try {
             game.newGame();
