@@ -72,7 +72,6 @@ public class PlayerAnimation {
 
         spriteBatch.begin();
         spriteBatch.draw(currentFrame, player.getPosX(), player.getPosY()); // Draw current frame at (50, 50)
-        System.out.println(player.getPosY() + " " + player.getPosX());
         spriteBatch.end();
 
 

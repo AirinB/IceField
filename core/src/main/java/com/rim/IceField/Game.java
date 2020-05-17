@@ -10,6 +10,12 @@ import java.util.Scanner;
 
 public class Game {
 
+    private enum STATE {
+        MENU,
+        GAME;
+    }
+
+    private STATE startMenu = STATE.MENU;
 
     //Instance of Map, shared between the classes
     private Map map ;
