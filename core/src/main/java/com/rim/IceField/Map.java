@@ -50,7 +50,6 @@ public class Map {
     }
 
     private String getAreaType (int row, int col) {
-        System.out.println("row: " + row + ", col: " + col + ", type: " + mapAreaConfig[row][col]);
         return mapAreaType[mapAreaConfig[row][col]];
     }
 

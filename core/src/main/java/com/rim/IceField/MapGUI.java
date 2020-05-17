@@ -62,13 +62,15 @@ public class MapGUI {
     }
 
     private Point getCoordinate(int row, int col) {
-
+        int x = col * TILE_SIZE + col * padding; //+100
+        int y = row * TILE_SIZE + row * padding; // + 30
+        return new Point(x, y);
+    }
 
     private void renderItem(int row, int col) {
         if (this.itemsOnMap[row][col] != null) {
             this.itemsOnMap[row][col].render();
         }
-
     }
 
     public void render(Graphics g) {

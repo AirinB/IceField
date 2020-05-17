@@ -8,25 +8,33 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.rim.IceField.GameStage;
 
 public class ClickableImage {
     private Texture texture;
-    private TextureRegion textureRegion;
-    private TextureRegionDrawable myTexRegionDrawable;
     private ImageButton button;
-    private Stage stage;
     private InputListener inputListener;
 
-    public ClickableImage(String texturePath, int posX, int posY, Stage stage) {
-        this.stage = stage;
+    public ClickableImage(String texturePath, int posX, int posY) {
         texture = new Texture(texturePath);
-        textureRegion = new TextureRegion(texture);
-        myTexRegionDrawable = new TextureRegionDrawable(textureRegion);
+        TextureRegion textureRegion = new TextureRegion(texture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(textureRegion);
         button = new ImageButton(myTexRegionDrawable); //Set the button up
         button.setPosition(posX, posY);
 
-        stage.addActor(button); //Add the button to the stage to perform rendering and take input.
-        Gdx.input.setInputProcessor(stage); //Start taking input from the ui
+        GameStage.stage.addActor(button); //Add the button to the stage to perform rendering and take input.
+        Gdx.input.setInputProcessor(GameStage.stage); //Start taking input from the ui
+    }
+
+    public ClickableImage(String texturePath, int posX, int posY, int width, int height) {
+        texture = new Texture(texturePath);
+        TextureRegion textureRegion = new TextureRegion(texture, width, height);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(textureRegion);
+        button = new ImageButton(myTexRegionDrawable); //Set the button up
+        button.setPosition(posX, posY);
+
+        GameStage.stage.addActor(button); //Add the button to the stage to perform rendering and take input.
+        Gdx.input.setInputProcessor(GameStage.stage); //Start taking input from the ui
     }
 
     public void addListener(final Runnable callback) {
@@ -49,6 +57,7 @@ public class ClickableImage {
     }
 
     public void dispose() {
+        button.remove();
         button.removeListener(inputListener);
         texture.dispose();
     }

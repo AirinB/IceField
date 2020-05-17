@@ -3,6 +3,7 @@ package com.rim.IceField.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 //import com.rim.IceField.IcefieldGame;
+import com.rim.IceField.NewGameMain;
 import org.mini2Dx.desktop.DesktopMini2DxConfig;
 
 import com.badlogic.gdx.backends.lwjgl.DesktopMini2DxGame;

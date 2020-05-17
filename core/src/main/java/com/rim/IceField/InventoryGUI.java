@@ -7,12 +7,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.rim.IceField.Textures.ClickableImage;
 
 public class InventoryGUI {
-    Stage stage;
     PlayerBase player;
     Inventory inventory;
 
@@ -37,7 +35,6 @@ public class InventoryGUI {
     }
 
     public void  initialize(){
-        stage = new Stage(new ScreenViewport());
         //the inventory
         charge = new Texture("resources/assets/securityNotCollected.png");
         flare =  new Texture("resources/assets/flareNotCollected.png");
@@ -46,7 +43,7 @@ public class InventoryGUI {
         rope =  new Texture("resources/assets/rope.png");
         shovel =  new Texture("resources/assets/shovel.png");
 
-        foodButton = new ClickableImage("resources/assets/food_1x.png", 570, 450, stage);
+        foodButton = new ClickableImage("resources/assets/food_1x.png", 570, 450);
         foodButton.addListener(new Runnable() {
             @Override
             public void run() {
@@ -54,7 +51,7 @@ public class InventoryGUI {
             }
         });
 
-        ropeButton =  new ClickableImage("resources/assets/rope_1x.png", 570, 430, stage);
+        ropeButton =  new ClickableImage("resources/assets/rope_1x.png", 570, 430);
         ropeButton.addListener(new Runnable() {
             @Override
             public void run() {
@@ -91,7 +88,6 @@ public class InventoryGUI {
 //        batch.draw(food,570, 450, 15, 15 );
 //        foodButton.render();
 //        ropeButton.render();
-        stage.draw();
         batch.begin();
         font.draw(batch, " x" + inventory.countItem("food"), 580, 460);
 

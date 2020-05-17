@@ -228,7 +228,6 @@ public abstract class PlayerBase extends TimerTask {
         if (players != null){
             for (PlayerBase player: players) {
                 System.out.println("Update save");
-                System.out.println(player.getTag()  + " " +  player.getPosY() + " " + player.getPosX());
                 player.posY = this.getPosY();
                 player.posX = this.getPosX();
                 //System.out.println(player.getTag()  + " " +  player.getPosY() + " " + player.getPosX());
@@ -434,8 +433,6 @@ public abstract class PlayerBase extends TimerTask {
 
     //Checking if the player is drowning
     public boolean checkDrowning() {
-        System.out.println("checkDrowning()");
-        System.out.println(isDrowning);
         return isDrowning;
     }
 

@@ -158,7 +158,6 @@ class PlayerBaseTest {
 
 
         p2.move("east");
-        System.out.println(p2.currentIceberg.getX() + " " +  p2.currentIceberg.getY());
 
         assertEquals("stable", p2.getCurrentIceberg().getType());
 
