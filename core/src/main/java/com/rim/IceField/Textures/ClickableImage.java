@@ -26,17 +26,6 @@ public class ClickableImage {
         Gdx.input.setInputProcessor(GameStage.stage); //Start taking input from the ui
     }
 
-    public ClickableImage(String texturePath, int posX, int posY, int width, int height) {
-        texture = new Texture(texturePath);
-        TextureRegion textureRegion = new TextureRegion(texture, width, height);
-        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(textureRegion);
-        button = new ImageButton(myTexRegionDrawable); //Set the button up
-        button.setPosition(posX, posY);
-
-        GameStage.stage.addActor(button); //Add the button to the stage to perform rendering and take input.
-        Gdx.input.setInputProcessor(GameStage.stage); //Start taking input from the ui
-    }
-
     public void addListener(final Runnable callback) {
         inputListener = new InputListener(){
             @Override
