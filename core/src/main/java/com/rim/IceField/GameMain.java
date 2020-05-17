@@ -1,5 +1,9 @@
 package com.rim.IceField;
 
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -20,6 +24,8 @@ public class GameMain extends BasicGame implements InputProcessor{
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
 
 
+    public Map map;
+
     public MapGUI mapgui;
     public HealthPanelGUI healthPanelGUI;
     public BlizzardGUI blizzardGUI;
@@ -33,13 +39,20 @@ public class GameMain extends BasicGame implements InputProcessor{
     public PlayerBaseGUI playerBaseGUI1;
     public PlayerBaseGUI playerBaseGUI2;
 
+
+
+
     public PlayerBase  p1;
     public  PlayerBase p2;
+
+
     private PlayerBaseGUI currentPlayerGUI;
 
     public boolean blow = false;
     float setTime = 0;
     int ran = 0;
+
+
 
 
 
@@ -55,23 +68,37 @@ public class GameMain extends BasicGame implements InputProcessor{
         System.out.println("explorerCount: " + explorerCount);
         p1 = new Eskimo();
         p2 = new PolarExplorer();
+
+
         playerBaseGUI1 = new PlayerBaseGUI(p1);
         playerBaseGUI2 = new PlayerBaseGUI(p2);
 
-        playersList = new ArrayList<PlayerBaseGUI>();
 
+        if(GameState.getGameState() == false) {
+
+            startMenuGUI = new StartMenuGUI();
+
+        }
+
+        //else {
+
+
+        playersList = new ArrayList<PlayerBaseGUI>();
         playersList.add(playerBaseGUI1);
         playersList.add(playerBaseGUI2);
 
 
         players = new ArrayList<PlayerBase>();
+
+//            for (int i = 0; i < playersList.size(); i++) {
+//                players.add(playersList.get(i).player);
+//            }
         players.add(playerBaseGUI1.player);
         players.add(playerBaseGUI2.player);
 
         healthPanelGUI = new HealthPanelGUI(players, 20, Gdx.graphics.getHeight() - 20);
 
         game = new Game(players);
-
         playerBaseGUI1.player.setGame(game);
         playerBaseGUI2.player.setGame(game);
 
@@ -89,7 +116,6 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         mapgui = new MapGUI(game.getMap());
         mapgui.initialise();
-
     }
 
     private void nextPlayer() {
@@ -168,19 +194,11 @@ public class GameMain extends BasicGame implements InputProcessor{
 
     @Override
     public void render(Graphics g) {
-        mapgui.render(g);
-        playerBaseGUI1.render(g);
-        playerBaseGUI2.render(g);
-        healthPanelGUI.render();
-        blizzardGUI.render(g);
-        //playerBaseGUI1.updateMaxlpayers(2);
-    }
-
         if(GameState.getGameState() == false) {
             startMenuGUI.render(g);
-        } else {
+        }
+        else {
             mapgui.render(g);
-
 
 
             playerBaseGUI1.render(g);
@@ -191,19 +209,8 @@ public class GameMain extends BasicGame implements InputProcessor{
 
             blizzardGUI.render(g);
         }
-        GameStage.stage.draw();
 
-    //up/down/left/right - move
-    //P - pick item
-    //R - remove item
-    //F1 - use diving suit
-    //F2 - use food
-    //F3 - use rope
-    //F4 - use shovel
-    //W/S/A/D + L - save player
-    //W/S/A/D + U - use skill eskimo
-    //W/S/A/D + y - use skill explorer
-    //SPACE - fire gun
+    }
 
     public boolean readPlayerActions() throws Exception {
         boolean playerIsMoving = currentPlayerGUI.player.getMovingState();
@@ -412,6 +419,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         return false;
     }
 
+
     @Override
     public boolean scrolled(int amount) {
         return false;
@@ -464,4 +472,6 @@ public class GameMain extends BasicGame implements InputProcessor{
 
 
     }
+
+
 }
