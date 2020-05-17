@@ -104,6 +104,10 @@ project(":desktop") {
     }
 }
 
+dependencies {
+//    implementation 'org.junit.jupiter:junit-jupiter'
+}
+
 tasks.eclipse.doLast {
     delete ".project"
 }
