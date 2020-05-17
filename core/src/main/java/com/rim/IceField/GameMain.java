@@ -1,5 +1,8 @@
 package com.rim.IceField;
 
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,8 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-// TODO: move is not working
-// Inventroy needs to be refactored
+
 
 public class GameMain extends BasicGame implements InputProcessor{
     public int count = 0;
@@ -43,8 +45,13 @@ public class GameMain extends BasicGame implements InputProcessor{
     public PlayerBaseGUI playerBaseGUI1;
     public PlayerBaseGUI playerBaseGUI2;
 
+
+
+
     public PlayerBase  p1;
     public  PlayerBase p2;
+
+
     private PlayerBaseGUI currentPlayerGUI;
 
 
@@ -64,6 +71,16 @@ public class GameMain extends BasicGame implements InputProcessor{
         playerBaseGUI2 = new PlayerBaseGUI(p2);
 
         playersList = new ArrayList<PlayerBaseGUI>();
+
+
+//            for (int i = 0; i < startMenuGUI.getEskimos(); i++) {
+//                playerBaseGUI1 = new PlayerBaseGUI(new Eskimo());
+//                playersList.add(playerBaseGUI1);
+//            }
+//            for (int i = 0; i < startMenuGUI.getExplorers(); i++) {
+//                playerBaseGUI2 = new PlayerBaseGUI(new PolarExplorer());
+//                playersList.add(playerBaseGUI2);
+//            }
 
         playersList.add(playerBaseGUI1);
         playersList.add(playerBaseGUI2);
@@ -132,6 +149,17 @@ public class GameMain extends BasicGame implements InputProcessor{
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+//        food.update(140, 160);
+//        rope.update(220, 190);
+//        charge.update(300, 100);
+//        flare.update(111, 275);
+//        divingSuit.update(400, 120);
+//        shovel.update(295, 200);
+//        gun.update(289, 266);
+
+
+//        blizzardGUI.update();
     }
 
     @Override
@@ -157,6 +185,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         GameStage.stage.draw();
 
     }
+//--------------------------------------------------------------------------------------------------------------------
 
     public boolean readPlayerActions() throws Exception {
 
@@ -373,6 +402,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         return false;
     }
 
+
     @Override
     public boolean scrolled(int amount) {
         return false;
@@ -425,4 +455,6 @@ public class GameMain extends BasicGame implements InputProcessor{
 
 
     }
+
+
 }
