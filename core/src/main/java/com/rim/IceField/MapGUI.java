@@ -52,7 +52,7 @@ public class MapGUI {
         waterTexture = new Texture("resources/assets/water_big.jpeg");
         tile1 = new Texture("resources/assets/iceberg_new.png");
         tile2 = new Texture("resources/assets/water.jpg");
-        tile3 = new Texture("resources/assets/snow.png");
+        tile3 = new Texture("resources/assets/snow_mask_1x.png");
 
         sBatch = new SpriteBatch();
     }
@@ -62,11 +62,15 @@ public class MapGUI {
     }
 
     private Point getCoordinate(int row, int col) {
-
+        int x = col * TILE_SIZE + col * padding; //+100
+        int y = row * TILE_SIZE + row * padding; // + 30
+        return new Point(x, y);
+    }
 
     private void renderItem(int row, int col) {
         if (this.itemsOnMap[row][col] != null) {
-            this.itemsOnMap[row][col].render();
+            if (!(this.itemsOnMap[row][col].item.isObtained())) this.itemsOnMap[row][col].render();
+
         }
 
     }
@@ -83,17 +87,17 @@ public class MapGUI {
             for (int col = 0; col < map.getMAP_WIDTH(); col++) {
                 int invertedY = map.getMAP_HEIGHT() - row - 1;
                 Iceberg tmpIceberg = map.Icebergs[invertedY][col];
-                if (!tmpIceberg.getType().equals("hole")) {
                     coordinate = getCoordinate(row, col);
                     sBatch.begin();
-                    if (tmpIceberg.getIsStable()) {
+                    if (tmpIceberg.getMaxNumOfPlayers()>=1 && tmpIceberg.getAmountOfSnow() == 0) {
                         sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
-                    } else if (tmpIceberg.getAmountOfSnow() > 0) {
+                    } if (tmpIceberg.getAmountOfSnow() > 0) {
                         sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
                     }
                     sBatch.end();
-                    renderItem(row, col);
-                }
+                    if (tmpIceberg.getAmountOfSnow() == 0) {
+                        renderItem(row, col);
+                    }
 
             }
         }
