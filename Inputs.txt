@@ -1,0 +1,10 @@
+move NORTH
+move SOUTH
+inv
+help
+move WEST
+move EAST
+pick
+apply NORTH
+use shovel
+use food
