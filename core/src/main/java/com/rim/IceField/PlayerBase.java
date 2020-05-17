@@ -228,6 +228,7 @@ public abstract class PlayerBase extends TimerTask {
         if (players != null){
             for (PlayerBase player: players) {
                 System.out.println("Update save");
+               // System.out.println(player.getTag()  + " " +  player.getPosY() + " " + player.getPosX());
                 player.posY = this.getPosY();
                 player.posX = this.getPosX();
                 //System.out.println(player.getTag()  + " " +  player.getPosY() + " " + player.getPosX());
@@ -405,6 +406,8 @@ public abstract class PlayerBase extends TimerTask {
     //Player falls into water
     public void fall() {
         currentIceberg.setType("hole");
+        currentIceberg.setAmountOfSnow(0);
+        currentIceberg.setMaxNumOfPlayers(0);
         isDrowning = true;
         if (!isWearingDSuit) {    //check if the player hasn't his diving suit on
             System.out.println("You fell in the water. Ask for help to get back!");
@@ -419,9 +422,9 @@ public abstract class PlayerBase extends TimerTask {
                 }
             };
 
-            timer.scheduleAtFixedRate(tt, 0, 1000000000);
+            //timer.scheduleAtFixedRate(tt, 0, 1000000000);
             //FOR TESTS
-            //timer.scheduleAtFixedRate(tt, 0, 1000);
+            timer.scheduleAtFixedRate(tt, 0, 4000);
 
         }
     }
@@ -433,6 +436,8 @@ public abstract class PlayerBase extends TimerTask {
 
     //Checking if the player is drowning
     public boolean checkDrowning() {
+        System.out.println("checkDrowning()");
+        System.out.println(isDrowning);
         return isDrowning;
     }
 
