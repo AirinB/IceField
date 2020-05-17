@@ -96,10 +96,10 @@ public class GameMain extends BasicGame implements InputProcessor {
         System.out.println("explorerCount: " + explorerCount);
         p1 = new Eskimo();
         p2 = new PolarExplorer();
-
-
+        p1.isWearingDSuit = true;
         playerBaseGUI1 = new PlayerBaseGUI(p1);
         playerBaseGUI2 = new PlayerBaseGUI(p2);
+
 
         playersList = new ArrayList<PlayerBaseGUI>();
         playersList.add(playerBaseGUI1);

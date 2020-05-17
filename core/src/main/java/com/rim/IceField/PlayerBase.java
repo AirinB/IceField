@@ -46,6 +46,10 @@ public abstract class PlayerBase extends TimerTask {
         return direction;
     }
 
+    public boolean isWearingDSuit() {
+        return isWearingDSuit;
+    }
+
     public int getPosX() {
         return posX;
     }

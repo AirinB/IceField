@@ -29,14 +29,18 @@ public class PlayerAnimation {
     }
 
     private void initializeAnimation() {
-        if (player.getTag().equals("Eskimo")) {
-            // Load the sprite sheet as a Texture
-            walkSheet = new Texture(Gdx.files.internal("resources/assets/explorer_1x.png"));
+        if(player.isWearingDSuit()) {
+            walkSheet = new Texture(Gdx.files.internal("resources/assets/dsuit.png"));
+        }else {
+            if (player.getTag().equals("Eskimo")) {
+                // Load the sprite sheet as a Texture
+                walkSheet = new Texture(Gdx.files.internal("resources/assets/explorer_1x.png"));
 
-        }else if(player.getTag().equals("PolarExplorer")) {
-            // Load the sprite sheet as a Texture
-            walkSheet = new Texture(Gdx.files.internal("resources/assets/eskimo_1xd.png"));
+            } else if (player.getTag().equals("PolarExplorer")) {
+                // Load the sprite sheet as a Texture
+                walkSheet = new Texture(Gdx.files.internal("resources/assets/eskimo_1xd.png"));
 
+            }
         }
 
 
