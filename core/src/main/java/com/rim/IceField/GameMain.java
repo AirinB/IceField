@@ -8,7 +8,6 @@ import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Scanner;
 
 
@@ -30,11 +29,11 @@ public class GameMain extends BasicGame implements InputProcessor {
     public PlayerBaseGUI playerBaseGUI2;
     public PlayerBase p1;
     public PlayerBase p2;
-    public boolean blow = false;
     ArrayList<PlayerBaseGUI> playersList;
     ArrayList<PlayerBase> players;
-    float setTime = 0;
-    int ran = 0;
+
+    int currentRound = 0;
+
     private PlayerBaseGUI currentPlayerGUI;
 
     public static void main(String[] args) throws Exception {
@@ -96,7 +95,7 @@ public class GameMain extends BasicGame implements InputProcessor {
         System.out.println("explorerCount: " + explorerCount);
         p1 = new Eskimo();
         p2 = new PolarExplorer();
-        p1.isWearingDSuit = true;
+       // p1.isWearingDSuit = true;
         playerBaseGUI1 = new PlayerBaseGUI(p1);
         playerBaseGUI2 = new PlayerBaseGUI(p2);
 
@@ -134,23 +133,22 @@ public class GameMain extends BasicGame implements InputProcessor {
     }
 
     private void nextPlayer() {
-        Random objGenerator = new Random();
-
         if (count == playersList.size()) {
             count = 0;
 
-
-            if (ran == 2) {
-                blow = true;
+            if (game.randomBlow[currentRound]) {
                 try {
                     Blizzard.blow(players, game.getMap().getIcebergs());
+                    System.out.println("heat level" + p1.heatLevel + " " + p2.heatLevel);
+                    System.out.println("the blizzard is blowing");
+                    blizzardGUI.blow = true;
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            ran = objGenerator.nextInt(3);
-            System.out.println("//////////////////////////////////////////////////////////" + ran);
-            if (ran == 2) System.out.println("Next round blizzard will blow");
+
+            currentRound++;
         }
 
         if (currentPlayerGUI != null) {
@@ -164,14 +162,8 @@ public class GameMain extends BasicGame implements InputProcessor {
 
     @Override
     public void update(float delta) {
-        if (GameState.getGameState() == false) {
+        if (!GameState.getGameState()) {
             return;
-        }
-
-        if (blow == true) setTime += delta;
-        if (setTime >= 12.5) {
-            blow = false;
-            setTime = 0;
         }
 
         if (round == 4) {
@@ -189,6 +181,7 @@ public class GameMain extends BasicGame implements InputProcessor {
 
             if (readPlayerActions()) {
                 round++;
+
                 return;
 
             }
@@ -196,7 +189,7 @@ public class GameMain extends BasicGame implements InputProcessor {
             e.printStackTrace();
         }
 
-        if (blow == true) blizzardGUI.update();
+        blizzardGUI.update();
 
     }
 
@@ -207,7 +200,7 @@ public class GameMain extends BasicGame implements InputProcessor {
 
     @Override
     public void render(Graphics g) {
-        if (GameState.getGameState() == false) {
+        if (!GameState.getGameState()) {
             startMenuGUI.render(g);
         } else {
             mapgui.render(g);

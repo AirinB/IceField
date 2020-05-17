@@ -20,9 +20,9 @@ public class Game {
     //Instance of Map, shared between the classes
     private Map map ;
     private ArrayList<PlayerBase> players; // the players belong to the game
-    private final int maxRounds = 10;
+    private final int maxRounds = 30;
     private int currentRound;
-    private boolean[] randomBlow; //if the array element is true, the wind would blow
+    public boolean[] randomBlow; //if the array element is true, the wind would blow
     private Scanner sc;
 
 
@@ -36,10 +36,14 @@ public class Game {
         currentRound = 0;
         sc = new Scanner(System.in);
         randomBlow = new boolean[maxRounds];
+        System.out.println(randomBlow[0]);
         Random objGenerator = new Random(1);
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < randomBlow.length; i++) {
             randomBlow[i] = objGenerator.nextBoolean();
+            System.out.println(randomBlow[i]);
         }
+
+
     }
 
 

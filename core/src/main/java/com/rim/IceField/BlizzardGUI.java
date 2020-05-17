@@ -11,14 +11,8 @@ public class BlizzardGUI {
     private SpriteBatch batch;
     private Sprite sprite;
     Texture texture1;
-    Texture texture2;
-    Texture texture3;
-    Texture texture4;
-
     Texture windRight1;
-    Texture windRight2;
-    Texture windRight3;
-    Texture windRight4;
+    boolean blow = false;
 
     int positionX1;
     int positionX2;
@@ -61,6 +55,7 @@ public class BlizzardGUI {
 
 
     public void update() {
+        if(!blow) return;
         if(positionX1 <= screenWidth) positionX1 += 1;
         if(positionX2 <= screenWidth) positionX2 += 2;
         if(positionX3 <= screenWidth) positionX3 += 3.5;
@@ -75,11 +70,13 @@ public class BlizzardGUI {
                 &&positionX3 >= screenWidth &&positionX4 >= screenWidth
                 && posX1 <= 110 && posX2 <= 110 && posX3 <= 110 && posX4 <= 110){
             resetBlow();
+            blow = false;
         }
     }
 
     //reset the coordinates to the initial ones
     public void resetBlow(){
+
         positionX1 = -100;
         positionX2 = -100;
         positionX3 = -100;
@@ -101,8 +98,7 @@ public class BlizzardGUI {
     }
 
     public void render(Graphics g) {
-        int positionY;
-        int size;
+
 
         batch.begin();
         // Drawing goes here!

@@ -1,9 +1,13 @@
 package com.rim.IceField;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.rim.IceField.Textures.ClickableImage;
+
 import java.util.HashMap;
 
 
@@ -13,15 +17,29 @@ public class StartMenuGUI {
     private ClickableImage explorer;
     private ClickableImage playButton;
     private SpriteBatch sBatch;
+    BitmapFont font;
 
     private HashMap<String, Integer> players = new HashMap<String, Integer>();
 
     public StartMenuGUI(final GameMain game) {
-        background = new Texture("resources/assets/menuBackground.png");
+        background = new Texture("resources/assets/menu_back.png");
         eskimo = new ClickableImage("resources/assets/eskimo.png", 100, 100);
         explorer = new ClickableImage("resources/assets/polarExp.png", 400, 100);
         playButton = new ClickableImage("resources/assets/PlayButton.png", 420, 10);
         sBatch = new SpriteBatch();
+
+        //font2
+        FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("resources/fonts/8bitFont.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter1.size = 20;
+        parameter1.borderWidth = 1;
+        parameter1.color = new Color(	0x7bdff2);
+        parameter1.shadowOffsetX = 1;
+        parameter1.shadowOffsetY = 1;
+        parameter1.shadowColor = new Color(0xb2f7ef);
+        font = generator1.generateFont(parameter1); // font size 12 pixels
+        generator1.dispose(); // don't forget to dispose to avoid memory leaks!
+
         players.put("eskimo", 0);
         players.put("explorer", 0);
 
@@ -51,17 +69,17 @@ public class StartMenuGUI {
         });
     }
 
-    BitmapFont font = new BitmapFont();
+
 
     public void render(org.mini2Dx.core.graphics.Graphics g) {
         sBatch.begin();
         sBatch.draw(background, 0, 0, 640, 480);
-        font.draw(sBatch, "ICE FIELD MENU", 200, 450);
-        font.setColor(1, 0, 0, 1);
-        font.getData().setScale(2);
+        font.draw(sBatch, "ICE FIELD", Gdx.graphics.getWidth()/2 - 50, 450);
 
-        font.draw(sBatch, "Number of players:", 50, 380);
-        font.draw(sBatch, "Choose character", 50, 300);
+
+
+       // font.draw(sBatch, "Number of players:", 50, 380);
+        font.draw(sBatch, "Choose characters", 50, 390);
 
         sBatch.end();
     }
