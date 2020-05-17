@@ -72,7 +72,6 @@ public class MapGUI {
             if (!(this.itemsOnMap[row][col].item.isObtained())) this.itemsOnMap[row][col].render();
 
         }
-
     }
 
     public void render(Graphics g) {

@@ -7,10 +7,11 @@ import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
-//TODO move is not working
+// TODO: move is not working
 // Inventroy needs to be refactored
 
 public class GameMain extends BasicGame implements InputProcessor{
@@ -44,41 +45,26 @@ public class GameMain extends BasicGame implements InputProcessor{
 
     @Override
     public void initialise() {
+        startMenuGUI = new StartMenuGUI(this);
+    }
+
+    public void initialiseGame(HashMap<String, Integer> playersCount) {
+        int eskimoCount = playersCount.get("eskimo");
+        int explorerCount = playersCount.get("explorer");
+        System.out.println("eskimoCount: " + eskimoCount);
+        System.out.println("explorerCount: " + explorerCount);
         p1 = new Eskimo();
         p2 = new PolarExplorer();
         playerBaseGUI1 = new PlayerBaseGUI(p1);
         playerBaseGUI2 = new PlayerBaseGUI(p2);
 
-
-        if(GameState.getGameState() == false) {
-
-            startMenuGUI = new StartMenuGUI();
-
-        }
-
-        //else {
-
-
         playersList = new ArrayList<PlayerBaseGUI>();
-
-//            for (int i = 0; i < startMenuGUI.getEskimos(); i++) {
-//                playerBaseGUI1 = new PlayerBaseGUI(new Eskimo());
-//                playersList.add(playerBaseGUI1);
-//            }
-//            for (int i = 0; i < startMenuGUI.getExplorers(); i++) {
-//                playerBaseGUI2 = new PlayerBaseGUI(new PolarExplorer());
-//                playersList.add(playerBaseGUI2);
-//            }
 
         playersList.add(playerBaseGUI1);
         playersList.add(playerBaseGUI2);
 
 
         players = new ArrayList<PlayerBase>();
-
-//            for (int i = 0; i < playersList.size(); i++) {
-//                players.add(playersList.get(i).player);
-//            }
         players.add(playerBaseGUI1.player);
         players.add(playerBaseGUI2.player);
 
@@ -86,31 +72,9 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         game = new Game(players);
 
-//            for (int i = 0; i < players.size(); i++) {
-//                players.get(i).setGame(game);
-//            }
-
         playerBaseGUI1.player.setGame(game);
         playerBaseGUI2.player.setGame(game);
 
-        Shovel shovel = new Shovel();
-        ItemBase rope = new Rope();
-        DivingSuit ds = new DivingSuit();
-        Food food = new Food();
-        playerBaseGUI1.player.inventory.addItem(rope);
-        playerBaseGUI2.player.inventory.addItem(rope);
-        playerBaseGUI1.player.inventory.addItem(shovel);
-        playerBaseGUI2.player.inventory.addItem(shovel);
-        playerBaseGUI1.player.inventory.addItem(ds);
-        playerBaseGUI2.player.inventory.addItem(ds);
-        playerBaseGUI1.player.inventory.addItem(food);
-        playerBaseGUI2.player.inventory.addItem(food);
-
-//            for (int i = 0; i < players.size(); i++) {
-//                players.get(i).currentIceberg = game.getMap().Icebergs[0][0];
-//                game.getMap().Icebergs[0][0].Add_currentPlayers(players.get(i));
-//                players.get(i).isTurn = true;
-//            }
         playerBaseGUI1.player.currentIceberg = game.getMap().Icebergs[0][0];
         game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI1.player);
         playerBaseGUI1.player.isTurn = true;
@@ -123,7 +87,6 @@ public class GameMain extends BasicGame implements InputProcessor{
         //the blizzard
         blizzardGUI = new BlizzardGUI();
 
-       // map = new Map();
         mapgui = new MapGUI(game.getMap());
         mapgui.initialise();
 
@@ -162,6 +125,9 @@ public class GameMain extends BasicGame implements InputProcessor{
 
     @Override
     public void update(float delta) {
+        if(GameState.getGameState() == false) {
+            return;
+        }
 
         if (blow == true) setTime += delta;
         if (setTime >= 12.5 ) {
@@ -212,8 +178,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         if(GameState.getGameState() == false) {
             startMenuGUI.render(g);
-        }
-        else {
+        } else {
             mapgui.render(g);
 
 
@@ -226,6 +191,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
             blizzardGUI.render(g);
         }
+        GameStage.stage.draw();
 
     //up/down/left/right - move
     //P - pick item
@@ -297,8 +263,7 @@ public class GameMain extends BasicGame implements InputProcessor{
             }
 
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
-            if  (currentPlayerGUI.player.useItem("rope")) {
-
+            if (currentPlayerGUI.player.useItem("rope")) {
                 return true;
             }
 
@@ -346,7 +311,7 @@ public class GameMain extends BasicGame implements InputProcessor{
 
 
        // --------------------------------------------------------Skills-------------------------------------------------------------
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)){
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
                 if (currentPlayerGUI.player.getTag().equals("PolarExplorer") && (currentPlayerGUI.player.useSkill("north"))) {
                     currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()+1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
@@ -358,7 +323,7 @@ public class GameMain extends BasicGame implements InputProcessor{
                 }
             }
 
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
+        }  else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
                 if (currentPlayerGUI.player.getTag().equals("PolarExplorer") && (currentPlayerGUI.player.useSkill("south"))) {
                     currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()-1][currentPlayerGUI.player.currentIceberg.getX()].getMaxNumOfPlayers());
@@ -383,7 +348,7 @@ public class GameMain extends BasicGame implements InputProcessor{
                 }
             }
 
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             if (Gdx.input.isKeyPressed(Input.Keys.U)) {
                 if (currentPlayerGUI.player.getTag().equals("PolarExplorer") && (currentPlayerGUI.player.useSkill("east"))) {
                     currentPlayerGUI.updateMaxlpayers(currentPlayerGUI.player.game.getMap().Icebergs[currentPlayerGUI.player.currentIceberg.getY()][currentPlayerGUI.player.currentIceberg.getX()+1].getMaxNumOfPlayers());
@@ -397,14 +362,13 @@ public class GameMain extends BasicGame implements InputProcessor{
 
         //------------------------------------------------------------------------------------------------------------
 
-        }else if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             if (currentPlayerGUI.player.game.isWin()) {
                 currentPlayerGUI.player.game.GameOver();
                 return true;
             }
 
-
-        }else if(Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             currentPlayerGUI.player.getPosition();
             return true;
         }
@@ -483,7 +447,7 @@ public class GameMain extends BasicGame implements InputProcessor{
         }
 
         Game game = new Game(playersList);
-        for (PlayerBase player:playersList) {
+        for (PlayerBase player : playersList) {
             player.setGame(game);
             player.currentIceberg = game.getMap().Icebergs[0][0];
             game.getMap().Icebergs[0][0].Add_currentPlayers(player);
@@ -493,11 +457,9 @@ public class GameMain extends BasicGame implements InputProcessor{
         try {
             game.newGame();
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             if (e.getMessage().equals("End of Game")) System.out.println("Game is over");
-            else if (e.getMessage().equals("End of turn and end of Game"))  System.out.println("Game is over");
+            else if (e.getMessage().equals("End of turn and end of Game")) System.out.println("Game is over");
         }
 
 

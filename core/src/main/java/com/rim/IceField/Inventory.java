@@ -112,7 +112,7 @@ public class Inventory {
      */
     public void showItems() {
         for (ItemBase item : items) {
-            System.out.println(item.tag + " ");
+//            System.out.println(item.tag + " ");
         }
     }
 
