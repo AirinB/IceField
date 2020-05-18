@@ -5,86 +5,53 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.rim.IceField.Textures.LifeBarTexture;
 
 import java.util.ArrayList;
 
 public class HealthPanelGUI {
     SpriteBatch batch;
-    ArrayList<PlayerHealthPanel> healthPanels;
+    ArrayList<LifeBarTexture> healthPanels;
 
     public HealthPanelGUI(ArrayList<PlayerBase> players, int X, int Y) {
         batch = new SpriteBatch();
-        healthPanels = new ArrayList<PlayerHealthPanel>();
+        healthPanels = new ArrayList<LifeBarTexture>();
 
-        int offsetY = 0;
+
+        BackgroundColor backgroundColor = new BackgroundColor("resources/assets/ice_texture.jpg");
+
+        Skin skin = new Skin(Gdx.files.internal("resources/skins/ice/freezing-ui.json"));
+        Table container = new Table(); ;
+        container.setFillParent(true);
+        container.align(Align.topLeft);
+
+        GameStage.stage.addActor(container);
+
+        Table table = new Table();
+        table.setBackground(backgroundColor);
+        final ScrollPane scroll = new ScrollPane(table, skin);
+
         for (PlayerBase p: players) {
-            PlayerHealthPanel h = new PlayerHealthPanel(p, X, Y - offsetY);
-            healthPanels.add(h);
-            offsetY += 25;
+            table.row().padLeft(5).padTop(5);
+            table.add(new Label("Player " + p.getID(), skin)).expandX().fillX();
+            LifeBarTexture lifeBar = new LifeBarTexture(Math.max(4, p.heatLevel), p);
+            healthPanels.add(lifeBar);
+            table.add(lifeBar).bottom().left();
         }
+
+        container.add(scroll).size(185, 60);
     }
 
     public void render(){
-        batch.begin();
-        for (PlayerHealthPanel h: healthPanels) {
-            h.render(batch);
+        for (LifeBarTexture healthBar: healthPanels) {
+            healthBar.update();
         }
-        batch.end();
     }
 
     public void  dispose(){
         batch.dispose();
-
-    }
-
-    public static class PlayerHealthPanel {
-        PlayerBase player;
-        private int fontSize = 12;
-        private int posX = 0;
-        private int posY = 0;
-
-        LifeBarTexture lifeBarTexture; //dislay the life left
-        BitmapFont text; // text near the life left
-
-
-
-
-
-
-        public PlayerHealthPanel(PlayerBase p, int posX, int posY) {
-            player = p;
-            this.posX = posX;
-            this.posY = posY;
-
-            initialize();
-        }
-
-        public void initialize() {
-            lifeBarTexture = new LifeBarTexture(Math.max(4, player.heatLevel), this.posX + 110, this.posY);
-            FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("resources/fonts/8bitFont.ttf"));
-            FreeTypeFontGenerator.FreeTypeFontParameter options = new FreeTypeFontGenerator.FreeTypeFontParameter();
-            options.size = fontSize;
-            options.borderWidth = 1;
-            options.color = Color.WHITE;
-            options.shadowOffsetX = 1;
-            options.shadowOffsetY = 1;
-            options.shadowColor = new Color(0, 0.5f, 0, 0.75f);
-            text = fontGenerator.generateFont(options); // font size 12 pixels
-            fontGenerator.dispose(); // don't forget to dispose to avoid memory leaks!
-        }
-
-
-        public void render(SpriteBatch batch){
-            // We need to render on Y with posY + fontSize because Render originY for text is top.
-            text.draw(batch, "Player " + player.getID(), this.posX, posY + fontSize);
-            lifeBarTexture.render(batch, player.heatLevel);
-
-        }
-
-        public void dispose() {
-            text.dispose();
-        }
 
     }
 }

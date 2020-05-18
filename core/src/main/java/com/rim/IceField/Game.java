@@ -36,11 +36,10 @@ public class Game {
         currentRound = 0;
         sc = new Scanner(System.in);
         randomBlow = new boolean[maxRounds];
-        System.out.println(randomBlow[0]);
+
         Random objGenerator = new Random(1);
         for (int i = 1; i < randomBlow.length; i++) {
             randomBlow[i] = objGenerator.nextBoolean();
-            System.out.println(randomBlow[i]);
         }
 
 

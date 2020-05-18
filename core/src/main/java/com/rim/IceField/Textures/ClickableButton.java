@@ -7,15 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.rim.IceField.GameStage;
 
-public class ClickableImage {
+public class ClickableButton {
     private Texture texture;
     private ImageButton button;
+    private TextButton textButton;
     private InputListener inputListener;
 
-    public ClickableImage(String texturePath, int posX, int posY) {
+    public ClickableButton(String texturePath, float posX, float posY) {
         texture = new Texture(texturePath);
         TextureRegion textureRegion = new TextureRegion(texture);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(textureRegion);
@@ -23,6 +25,14 @@ public class ClickableImage {
         button.setPosition(posX, posY);
 
         GameStage.stage.addActor(button); //Add the button to the stage to perform rendering and take input.
+        Gdx.input.setInputProcessor(GameStage.stage); //Start taking input from the ui
+    }
+
+    public ClickableButton(TextButton button, float posX, float posY) {
+        textButton = button;
+        button.setPosition(posX, posY);
+
+        GameStage.stage.addActor(textButton); //Add the button to the stage to perform rendering and take input.
         Gdx.input.setInputProcessor(GameStage.stage); //Start taking input from the ui
     }
 
@@ -38,7 +48,12 @@ public class ClickableImage {
                 callback.run();
             }
         };
-        button.addListener(inputListener);
+        if (button != null) {
+            button.addListener(inputListener);
+        }
+        if (textButton != null) {
+            textButton.addListener(inputListener);
+        }
     }
 
     public void setPosition(int x, int y) {
@@ -46,8 +61,15 @@ public class ClickableImage {
     }
 
     public void dispose() {
-        button.remove();
-        button.removeListener(inputListener);
-        texture.dispose();
+        if (button != null) {
+            button.remove();
+            button.removeListener(inputListener);
+            texture.dispose();
+        }
+
+        if (textButton != null) {
+            textButton.remove();
+            textButton.removeListener(inputListener);
+        }
     }
 }

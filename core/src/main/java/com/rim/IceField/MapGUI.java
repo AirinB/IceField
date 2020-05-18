@@ -11,17 +11,16 @@ import java.awt.*;
 
 
 public class MapGUI {
+    Texture tile1;
+    Texture tile2;
+    Texture tile3;
     private GameConfig gameConfig = new GameConfig();
     private final int TILE_SIZE = gameConfig.mapTileSize;
-
     private ItemBaseGUI[][] itemsOnMap = new ItemBaseGUI[10][10];
     private Point coordinate;
     private Map map;
     private int padding = gameConfig.mapTilePadding;
     private Texture waterTexture;
-    Texture tile1;
-    Texture tile2;
-    Texture tile3;
     private SpriteBatch sBatch;
     private TiledMap tMap;
     private OrthogonalTiledMapRenderer renderer;
@@ -105,7 +104,6 @@ public class MapGUI {
     public void dispose() {
         sBatch.dispose();
     }
-
 
 
 }
