@@ -31,6 +31,14 @@ public class GameMain extends BasicGame implements InputProcessor {
     public PlayerBaseGUI playerBaseGUI2;
     public PlayerBase p1;
     public PlayerBase p2;
+
+    public ArrayList<PlayerBase> EskimoArray;
+    public ArrayList<PlayerBase> ExplorerArray;
+    public ArrayList<PlayerBaseGUI> EskimoGUIArray;
+    public ArrayList<PlayerBaseGUI> ExplorerGUIArray;
+
+
+    public boolean blow = false;
     ArrayList<PlayerBaseGUI> playersList;
     ArrayList<PlayerBase> players;
 
@@ -97,36 +105,68 @@ public class GameMain extends BasicGame implements InputProcessor {
         int explorerCount = playersCount.get("explorer");
         System.out.println("eskimoCount: " + eskimoCount);
         System.out.println("explorerCount: " + explorerCount);
-        p1 = new Eskimo();
-        p2 = new PolarExplorer();
-       // p1.isWearingDSuit = true;
-        playerBaseGUI1 = new PlayerBaseGUI(p1);
-        playerBaseGUI2 = new PlayerBaseGUI(p2);
+
+        EskimoArray = new ArrayList<PlayerBase>();
+        ExplorerArray = new ArrayList<PlayerBase>();
+        EskimoGUIArray = new ArrayList<PlayerBaseGUI>();
+        ExplorerGUIArray = new ArrayList<PlayerBaseGUI>();
+
+        for(int i = 0; i < eskimoCount; i++)
+        {
+            EskimoArray.add(new Eskimo());
+        }
+
+        for (int i = 0; i < explorerCount; i++)
+        {
+            ExplorerArray.add(new PolarExplorer());
+        }
+
+        for(int i = 0; i < EskimoArray.size(); i++)
+        {
+            EskimoGUIArray.add(new PlayerBaseGUI(EskimoArray.get(i)));
+        }
+        for(int i = 0; i < ExplorerArray.size(); i++)
+        {
+            ExplorerGUIArray.add(new PlayerBaseGUI(ExplorerArray.get(i)));
+        }
+
 
 
         playersList = new ArrayList<PlayerBaseGUI>();
-        playersList.add(playerBaseGUI1);
-        playersList.add(playerBaseGUI2);
+
+        for(int i = 0; i < EskimoGUIArray.size(); i++)
+        {
+            playersList.add(EskimoGUIArray.get(i));
+        }
+        for(int i = 0; i< ExplorerGUIArray.size(); i++)
+        {
+            playersList.add(ExplorerGUIArray.get(i));
+        }
 
 
         players = new ArrayList<PlayerBase>();
 
-        players.add(playerBaseGUI1.player);
-        players.add(playerBaseGUI2.player);
+        for(int i = 0; i < playersList.size(); i++)
+        {
+            players.add(playersList.get(i).player);
+        }
 
         healthPanelGUI = new HealthPanelGUI(players, 20, Gdx.graphics.getHeight() - 20);
 
         game = new Game(players);
-        playerBaseGUI1.player.setGame(game);
-        playerBaseGUI2.player.setGame(game);
 
-        playerBaseGUI1.player.currentIceberg = game.getMap().Icebergs[0][0];
-        game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI1.player);
-        playerBaseGUI1.player.isTurn = true;
+        for(int i = 0; i < playersList.size(); i++)
+        {
+            playersList.get(i).player.setGame(game);
+        }
 
-        playerBaseGUI2.player.currentIceberg = game.getMap().Icebergs[0][0];
-        game.getMap().Icebergs[0][0].Add_currentPlayers(playerBaseGUI2.player);
-        playerBaseGUI1.player.isTurn = true;
+
+        for(int i = 0; i < playersList.size(); i++)
+        {
+            playersList.get(i).player.currentIceberg = game.getMap().Icebergs[0][0];
+            game.getMap().Icebergs[0][0].Add_currentPlayers(playersList.get(i).player);
+            playersList.get(i).player.isTurn = true;
+        }
 
 
         //the blizzard
@@ -212,8 +252,10 @@ public class GameMain extends BasicGame implements InputProcessor {
             mapgui.render(g);
 
 
-            playerBaseGUI1.render(g);
-            playerBaseGUI2.render(g);
+            for(int i = 0; i < playersList.size(); i++)
+            {
+                playersList.get(i).render(g);
+            }
 
 
             healthPanelGUI.render();

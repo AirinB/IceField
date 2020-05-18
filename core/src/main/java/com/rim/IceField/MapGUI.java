@@ -1,6 +1,7 @@
 package com.rim.IceField;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -24,6 +25,7 @@ public class MapGUI {
     private SpriteBatch sBatch;
     private TiledMap tMap;
     private OrthogonalTiledMapRenderer renderer;
+
 
     public MapGUI(Map map) {
         this.map = map;
@@ -52,7 +54,6 @@ public class MapGUI {
         tile1 = new Texture("resources/assets/iceberg_new.png");
         tile2 = new Texture("resources/assets/water.jpg");
         tile3 = new Texture("resources/assets/snow_mask_1x.png");
-
         sBatch = new SpriteBatch();
     }
 

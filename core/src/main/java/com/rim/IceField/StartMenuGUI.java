@@ -1,6 +1,8 @@
 package com.rim.IceField;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,6 +26,7 @@ public class StartMenuGUI {
     private ClickableButton explorer;
     private ClickableButton playButton;
     private SpriteBatch sBatch;
+    private Music music;
     BitmapFont font;
 
     private HashMap<String, Integer> players = new HashMap<String, Integer>();
@@ -39,7 +42,13 @@ public class StartMenuGUI {
         background = new Texture("resources/assets/menu_back.png");
         eskimo = new ClickableButton("resources/assets/eskimo.png", 100, 100);
         explorer = new ClickableButton("resources/assets/polarExp.png", 400, 100);
-//        playButton = new ClickableImage("resources/assets/PlayButton.png", 420, 10);
+
+        background = new Texture("resources/assets/menuBackground.png");
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("resources/assets/Background.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.1f);
+        music.play();
         sBatch = new SpriteBatch();
 
         //font2
