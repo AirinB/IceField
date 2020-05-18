@@ -1,5 +1,7 @@
 package com.rim.IceField;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +15,7 @@ public class StartMenuGUI {
     private ClickableImage explorer;
     private ClickableImage playButton;
     private SpriteBatch sBatch;
+    private Music music;
 
     private HashMap<String, Integer> players = new HashMap<String, Integer>();
 
@@ -21,6 +24,10 @@ public class StartMenuGUI {
         eskimo = new ClickableImage("resources/assets/eskimo.png", 100, 100);
         explorer = new ClickableImage("resources/assets/polarExp.png", 400, 100);
         playButton = new ClickableImage("resources/assets/PlayButton.png", 420, 10);
+        music = Gdx.audio.newMusic(Gdx.files.internal("resources/assets/Background.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.1f);
+        music.play();
         sBatch = new SpriteBatch();
         players.put("eskimo", 0);
         players.put("explorer", 0);
@@ -28,15 +35,20 @@ public class StartMenuGUI {
         eskimo.addListener(new Runnable() {
             @Override
             public void run() {
-                AddEskimo();
+
+                    AddEskimo();
+
             }
         });
 
         explorer.addListener(new Runnable() {
             @Override
             public void run() {
-                AddExplorer();
-            }
+
+                    AddExplorer();
+
+                }
+
         });
 
         playButton.addListener(new Runnable() {
@@ -47,8 +59,11 @@ public class StartMenuGUI {
                 eskimo.dispose();
                 explorer.dispose();
                 playButton.dispose();
+
+
             }
         });
+
     }
 
     BitmapFont font = new BitmapFont();
