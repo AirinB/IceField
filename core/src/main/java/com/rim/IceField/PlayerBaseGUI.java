@@ -15,6 +15,7 @@ public class PlayerBaseGUI {
     private GameConfig gameConfig = new GameConfig();
     PlayerBase player;
     Texture playerTexture;  //display the texture
+    Texture pDSuitInWater;
     int sizePlayerX;
     int sizePlayerY;
 
@@ -48,6 +49,7 @@ public class PlayerBaseGUI {
 
 
     public void initialize() {
+        pDSuitInWater = new Texture("resources/assets/dsuit_in_Water.png");
         playerAnimation = new PlayerAnimation(moveSpeed, player);
         if (player.getTag().equals("Eskimo")) {
             playerTexture = new Texture("resources/assets/eskimo_in_water.png");
@@ -148,7 +150,12 @@ public class PlayerBaseGUI {
 
         if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
         if(player.isDrowning && !player.getMovingState()) {
-            batch.draw(playerTexture, player.posX, player.posY);
+            if(player.isWearingDSuit){
+                batch.draw(pDSuitInWater, player.posX, player.posY);
+            }else{
+                batch.draw(playerTexture, player.posX, player.posY);
+            }
+
             batch.end();
         } else {
             batch.end();
