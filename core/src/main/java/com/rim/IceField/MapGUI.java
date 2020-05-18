@@ -62,8 +62,8 @@ public class MapGUI {
     }
 
     private Point getCoordinate(int row, int col) {
-        int x = col * TILE_SIZE + col * padding; //+100
-        int y = row * TILE_SIZE + row * padding; // + 30
+        int x = col * TILE_SIZE + col * padding + 90;
+        int y = row * TILE_SIZE + row * padding + 15;
         return new Point(x, y);
     }
 
@@ -91,7 +91,7 @@ public class MapGUI {
                     if (tmpIceberg.getMaxNumOfPlayers()>=1 && tmpIceberg.getAmountOfSnow() == 0) {
                         sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
                     } if (tmpIceberg.getAmountOfSnow() > 0) {
-                        sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
+                        sBatch.draw(tile3, coordinate.x, coordinate.y);
                     }
                     sBatch.end();
                     if (tmpIceberg.getAmountOfSnow() == 0) {
