@@ -3,10 +3,10 @@ package com.rim.IceField;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -212,6 +212,12 @@ public class GameMain extends BasicGame implements InputProcessor {
             return;
         }
 
+        try {
+            if (game.isGameLost()) return;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (round == 4) {
 
             nextPlayer();
@@ -255,6 +261,22 @@ public class GameMain extends BasicGame implements InputProcessor {
             for(int i = 0; i < playersList.size(); i++)
             {
                 playersList.get(i).render(g);
+                try {
+                    if (playersList.get(i).player.game.isWin()) endGameMessage.render(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (playersList.get(i).player.game.isGameLost()) endGameMessage.render(false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                int count = 0;
+                for(int j = 0; j < playersList.size(); j++){
+                    if (playersList.get(j).player.isDrowning) count ++;
+                }
+                if (count == playersList.size()) endGameMessage.render(false);
             }
 
 
