@@ -33,7 +33,7 @@ public class GameConfig extends Properties {
         mapTilePadding = Integer.parseInt(this.getProperty("mapTilePadding"));
         mapMoveDistance = mapTileSize + mapTilePadding;
         playerMoveSpeed = Integer.parseInt(this.getProperty("playerMoveSpeed"));
-        playerInitialCoordinates = new Point(0, mapMoveDistance * 9 + 15);
+        playerInitialCoordinates = new Point(0 + 90, mapMoveDistance * 9 + 15 + 15);
     }
 
 }

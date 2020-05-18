@@ -4,48 +4,57 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
+import com.rim.IceField.PlayerBase;
 
 import java.util.HashMap;
 
-public class LifeBarTexture {
+public class LifeBarTexture extends Stack {
     private int frameWidth = 20;
     private int frameHeight = 20;
     private int maxLives = 5;
-    private int posX = 50;
-    private int posY = 50;
+    private Image currentLifeImage;
+    private TextureRegion allLivesTextureRegion;
+    private TextureRegion currentLivesTextureRegion;
+    private TextureRegionDrawable currentLivesTextureRegionDrawable;
+    private PlayerBase player;
 
     HashMap<String, TextureRegion> lifeBarStatus = new HashMap<String, TextureRegion>();
     Texture lifeBarSheet;
     SpriteBatch spriteBatch;
 
-    public LifeBarTexture(int maxLives) {
+    public LifeBarTexture(int maxLives, PlayerBase p) {
+        super();
+        player = p;
         this.maxLives = maxLives <= 5 && maxLives > 0  ? maxLives : 5;
-        this.initializeAnimation();
-    }
-
-    public LifeBarTexture(int maxLives, int posX, int posY) {
-        this.maxLives = maxLives <= 5 && maxLives > 0  ? maxLives : 5;
-        this.posX = posX;
-        this.posY = posY;
-        this.initializeAnimation();
-    }
-
-    private void initializeAnimation() {
-        // Load the sprite sheet as a Texture
         lifeBarSheet = new Texture(Gdx.files.internal("resources/assets/lifeBar.png"));
 
         int maxWidth = this.maxLives * frameWidth;
+        allLivesTextureRegion = new TextureRegion(lifeBarSheet, 0, frameHeight, maxWidth, frameHeight);
+        currentLivesTextureRegion = new TextureRegion(lifeBarSheet, 0, 0, maxWidth, frameHeight);
 
-        lifeBarStatus.put("gray", new TextureRegion(lifeBarSheet, 0, frameHeight, maxWidth, frameHeight));
-        lifeBarStatus.put("red", new TextureRegion(lifeBarSheet, 0, 0, frameWidth, frameHeight));
+        Image fullLifeImage = new Image(allLivesTextureRegion);
+        this.addActor(fullLifeImage);
 
-        spriteBatch = new SpriteBatch();
-    };
+        currentLivesTextureRegionDrawable = new TextureRegionDrawable(currentLivesTextureRegion);
+        currentLifeImage = new Image(currentLivesTextureRegionDrawable);
+        currentLifeImage.setScaling(Scaling.stretchY);
+        currentLifeImage.setSize(maxWidth, frameHeight);
+        currentLifeImage.setAlign(Align.left);
+        this.addActor(currentLifeImage);
+    }
 
-    public void render(SpriteBatch batch, int lives) {
+
+    public void update() {
+        int lives = player.getHeatLevel();
         int currentLives = Math.min(lives, this.maxLives);
-        lifeBarStatus.get("red").setRegionWidth(currentLives * frameWidth);
-        batch.draw(lifeBarStatus.get("gray"), posX, posY);
-        batch.draw(lifeBarStatus.get("red"), posX, posY);
+        currentLivesTextureRegion.setRegionWidth(currentLives * frameWidth);
+        currentLivesTextureRegionDrawable.setRegion(currentLivesTextureRegion);
+        currentLifeImage.setDrawable(currentLivesTextureRegionDrawable);
+        currentLifeImage.setWidth(currentLives * frameWidth);
     }
 }

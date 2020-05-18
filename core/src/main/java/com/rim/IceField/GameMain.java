@@ -3,17 +3,18 @@ package com.rim.IceField;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Scanner;
 
 
 public class GameMain extends BasicGame implements InputProcessor {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
+
     public int count = 0;
     public int round = 0;
     public Map map;
@@ -40,9 +41,12 @@ public class GameMain extends BasicGame implements InputProcessor {
     public boolean blow = false;
     ArrayList<PlayerBaseGUI> playersList;
     ArrayList<PlayerBase> players;
-    float setTime = 0;
-    int ran = 0;
+
+    int currentRound = 0;
+
     private PlayerBaseGUI currentPlayerGUI;
+
+    private EndGame endGameMessage;
 
     public static void main(String[] args) throws Exception {
 
@@ -127,6 +131,7 @@ public class GameMain extends BasicGame implements InputProcessor {
         }
 
 
+
         playersList = new ArrayList<PlayerBaseGUI>();
 
         for(int i = 0; i < EskimoGUIArray.size(); i++)
@@ -169,26 +174,27 @@ public class GameMain extends BasicGame implements InputProcessor {
 
         mapgui = new MapGUI(game.getMap());
         mapgui.initialise();
+
+        endGameMessage = new EndGame();
     }
 
     private void nextPlayer() {
-        Random objGenerator = new Random();
-
         if (count == playersList.size()) {
             count = 0;
 
-
-            if (ran == 2) {
-                blow = true;
+            if (game.randomBlow[currentRound]) {
                 try {
                     Blizzard.blow(players, game.getMap().getIcebergs());
+                    System.out.println("heat level" + p1.heatLevel + " " + p2.heatLevel);
+                    System.out.println("the blizzard is blowing");
+                    blizzardGUI.blow = true;
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            ran = objGenerator.nextInt(3);
-            System.out.println("//////////////////////////////////////////////////////////" + ran);
-            if (ran == 2) System.out.println("Next round blizzard will blow");
+
+            currentRound++;
         }
 
         if (currentPlayerGUI != null) {
@@ -206,12 +212,6 @@ public class GameMain extends BasicGame implements InputProcessor {
             return;
         }
 
-        if (blow) setTime += delta;
-        if (setTime >= 12.5) {
-            blow = false;
-            setTime = 0;
-        }
-
         if (round == 4) {
 
             nextPlayer();
@@ -227,6 +227,7 @@ public class GameMain extends BasicGame implements InputProcessor {
 
             if (readPlayerActions()) {
                 round++;
+
                 return;
 
             }
@@ -234,7 +235,7 @@ public class GameMain extends BasicGame implements InputProcessor {
             e.printStackTrace();
         }
 
-        if (blow) blizzardGUI.update();
+        blizzardGUI.update();
 
     }
 
@@ -260,8 +261,11 @@ public class GameMain extends BasicGame implements InputProcessor {
             healthPanelGUI.render();
 
             blizzardGUI.render(g);
+
+
         }
         GameStage.stage.draw();
+        GameStage.stage.act();
 
     }
 
@@ -415,6 +419,7 @@ public class GameMain extends BasicGame implements InputProcessor {
 
         return false;
     }
+
 
     @Override
     public boolean keyDown(int keycode) {

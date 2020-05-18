@@ -15,6 +15,7 @@ public class PlayerBaseGUI {
     private GameConfig gameConfig = new GameConfig();
     PlayerBase player;
     Texture playerTexture;  //display the texture
+    Texture pDSuitInWater;
     int sizePlayerX;
     int sizePlayerY;
 
@@ -48,6 +49,7 @@ public class PlayerBaseGUI {
 
 
     public void initialize() {
+        pDSuitInWater = new Texture("resources/assets/dsuit_in_Water.png");
         playerAnimation = new PlayerAnimation(moveSpeed, player);
         if (player.getTag().equals("Eskimo")) {
             playerTexture = new Texture("resources/assets/eskimo_in_water.png");
@@ -110,19 +112,19 @@ public class PlayerBaseGUI {
         //the offX and offY might need to be changed with the width of the tile(iceberg
 
         if(dir.equals("east")){
-            iglooX = player.posX + moveSpeed;
+            iglooX = player.posX + tileSize;
             iglooY = player.posY;
             System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }else if(dir.equals("west")){
-            iglooX = player.posX -  moveSpeed;
+            iglooX = player.posX -  tileSize;
             iglooY = player.posY;
             System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }else if(dir.equals(("north"))){
-            iglooY = player.posY + moveSpeed;
+            iglooY = player.posY + tileSize;
             iglooX = player.posX;
             System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }else if(dir.equals("south")){
-            iglooY = player.posY - moveSpeed;
+            iglooY = player.posY - tileSize;
             iglooX = player.posX;
             System.out.println("Igloo y:" + iglooY  + "x:" + iglooY);
         }
@@ -148,7 +150,12 @@ public class PlayerBaseGUI {
 
         if(showTextFlag == 1) font.draw(batch, printAmountOfPlayers, Gdx.graphics.getWidth()/2 - 100 , 460);
         if(player.isDrowning && !player.getMovingState()) {
-            batch.draw(playerTexture, player.posX, player.posY);
+            if(player.isWearingDSuit){
+                batch.draw(pDSuitInWater, player.posX, player.posY);
+            }else{
+                batch.draw(playerTexture, player.posX, player.posY);
+            }
+
             batch.end();
         } else {
             batch.end();

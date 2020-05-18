@@ -12,17 +12,16 @@ import java.awt.*;
 
 
 public class MapGUI {
+    Texture tile1;
+    Texture tile2;
+    Texture tile3;
     private GameConfig gameConfig = new GameConfig();
     private final int TILE_SIZE = gameConfig.mapTileSize;
-
     private ItemBaseGUI[][] itemsOnMap = new ItemBaseGUI[10][10];
     private Point coordinate;
     private Map map;
     private int padding = gameConfig.mapTilePadding;
     private Texture waterTexture;
-    Texture tile1;
-    Texture tile2;
-    Texture tile3;
     private SpriteBatch sBatch;
     private TiledMap tMap;
     private OrthogonalTiledMapRenderer renderer;
@@ -63,8 +62,8 @@ public class MapGUI {
     }
 
     private Point getCoordinate(int row, int col) {
-        int x = col * TILE_SIZE + col * padding; //+100
-        int y = row * TILE_SIZE + row * padding; // + 30
+        int x = col * TILE_SIZE + col * padding + 90;
+        int y = row * TILE_SIZE + row * padding + 15;
         return new Point(x, y);
     }
 
@@ -92,7 +91,7 @@ public class MapGUI {
                     if (tmpIceberg.getMaxNumOfPlayers()>=1 && tmpIceberg.getAmountOfSnow() == 0) {
                         sBatch.draw(tile1, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
                     } if (tmpIceberg.getAmountOfSnow() > 0) {
-                        sBatch.draw(tile3, coordinate.x, coordinate.y, TILE_SIZE, TILE_SIZE);
+                        sBatch.draw(tile3, coordinate.x, coordinate.y);
                     }
                     sBatch.end();
                     if (tmpIceberg.getAmountOfSnow() == 0) {
@@ -106,7 +105,6 @@ public class MapGUI {
     public void dispose() {
         sBatch.dispose();
     }
-
 
 
 }
