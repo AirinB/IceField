@@ -3,6 +3,7 @@ package com.rim.IceField;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.mini2Dx.core.game.BasicGame;
 import org.mini2Dx.core.graphics.Graphics;
 
@@ -13,6 +14,7 @@ import java.util.Scanner;
 
 public class GameMain extends BasicGame implements InputProcessor {
     public static final String GAME_IDENTIFIER = "com.rim.IceField";
+
     public int count = 0;
     public int round = 0;
     public Map map;
@@ -35,6 +37,8 @@ public class GameMain extends BasicGame implements InputProcessor {
     int currentRound = 0;
 
     private PlayerBaseGUI currentPlayerGUI;
+
+    private EndGame endGameMessage;
 
     public static void main(String[] args) throws Exception {
 
@@ -85,6 +89,7 @@ public class GameMain extends BasicGame implements InputProcessor {
 
     @Override
     public void initialise() {
+
         startMenuGUI = new StartMenuGUI(this);
     }
 
@@ -130,6 +135,8 @@ public class GameMain extends BasicGame implements InputProcessor {
 
         mapgui = new MapGUI(game.getMap());
         mapgui.initialise();
+
+        endGameMessage = new EndGame();
     }
 
     private void nextPlayer() {
@@ -213,8 +220,11 @@ public class GameMain extends BasicGame implements InputProcessor {
             healthPanelGUI.render();
 
             blizzardGUI.render(g);
+
+
         }
         GameStage.stage.draw();
+        GameStage.stage.act();
 
     }
 
@@ -368,6 +378,7 @@ public class GameMain extends BasicGame implements InputProcessor {
 
         return false;
     }
+
 
     @Override
     public boolean keyDown(int keycode) {

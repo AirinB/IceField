@@ -6,26 +6,40 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.rim.IceField.Textures.ClickableImage;
-
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.utils.Align;
+import com.rim.IceField.Textures.ClickableButton;
 import java.util.HashMap;
 
 
 public class StartMenuGUI {
     private Texture background;
-    private ClickableImage eskimo;
-    private ClickableImage explorer;
-    private ClickableImage playButton;
+    private ClickableButton eskimo;
+    private ClickableButton explorer;
+    private ClickableButton playButton;
     private SpriteBatch sBatch;
     BitmapFont font;
 
     private HashMap<String, Integer> players = new HashMap<String, Integer>();
+    private Skin skin;
+
+    private static final String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+            + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+            + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
+
+
 
     public StartMenuGUI(final GameMain game) {
         background = new Texture("resources/assets/menu_back.png");
-        eskimo = new ClickableImage("resources/assets/eskimo.png", 100, 100);
-        explorer = new ClickableImage("resources/assets/polarExp.png", 400, 100);
-        playButton = new ClickableImage("resources/assets/PlayButton.png", 420, 10);
+        eskimo = new ClickableButton("resources/assets/eskimo.png", 100, 100);
+        explorer = new ClickableButton("resources/assets/polarExp.png", 400, 100);
+//        playButton = new ClickableImage("resources/assets/PlayButton.png", 420, 10);
         sBatch = new SpriteBatch();
 
         //font2
@@ -56,6 +70,12 @@ public class StartMenuGUI {
                 AddExplorer();
             }
         });
+
+        skin = new Skin(Gdx.files.internal("resources/skins/ice/freezing-ui.json"));
+        final TextButton button = new TextButton("Start", skin, "default");
+        button.setWidth(200f);
+        button.setHeight(40f);
+        playButton = new ClickableButton(button, 420, 20);
 
         playButton.addListener(new Runnable() {
             @Override

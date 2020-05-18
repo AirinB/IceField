@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.rim.IceField.Textures.ClickableImage;
+import com.rim.IceField.Textures.ClickableButton;
 
 public class InventoryGUI {
     PlayerBase player;
@@ -21,9 +19,10 @@ public class InventoryGUI {
     Texture charge;
     Texture flare;
     Texture gun;
+    Texture collectionBg;
     SpriteBatch batch;
-    ClickableImage foodButton;
-    ClickableImage ropeButton;
+    ClickableButton foodButton;
+    ClickableButton ropeButton;
 
     BitmapFont font; // text near the life left
 
@@ -42,8 +41,9 @@ public class InventoryGUI {
         gun = new Texture("resources/assets/gunNotCollected.png");
         rope =  new Texture("resources/assets/rope.png");
         shovel =  new Texture("resources/assets/shovel.png");
+        collectionBg =  new Texture("resources/assets/bg_deck.png");
 
-        foodButton = new ClickableImage("resources/assets/food_1x.png", 570, 450);
+        foodButton = new ClickableButton("resources/assets/food_1x.png", 570, 450);
         foodButton.addListener(new Runnable() {
             @Override
             public void run() {
@@ -51,7 +51,7 @@ public class InventoryGUI {
             }
         });
 
-        ropeButton =  new ClickableImage("resources/assets/rope_1x.png", 570, 430);
+        ropeButton =  new ClickableButton("resources/assets/rope_1x.png", 570, 430);
         ropeButton.addListener(new Runnable() {
             @Override
             public void run() {
@@ -75,19 +75,14 @@ public class InventoryGUI {
     }
 
     public void updateGoal(){
-        if(Inventory.isGunCollected) gun = new Texture("resources/assets/gun.png");
-
-        if(Inventory.isChargeCollected) charge = new Texture("resources/assets/security.png");
-        if(Inventory.isFlareCollected) flare = new Texture("resources/assets/flare.png");
+//        if(Inventory.isGunCollected) gun = new Texture("resources/assets/gun.png");
+//
+//        if(Inventory.isChargeCollected) charge = new Texture("resources/assets/security.png");
+//        if(Inventory.isFlareCollected) flare = new Texture("resources/assets/flare.png");
     }
 
     public void render(){
         if(!player.isTurn) return;
-        //render the useful items
-        // 20  px difference on y
-//        batch.draw(food,570, 450, 15, 15 );
-//        foodButton.render();
-//        ropeButton.render();
         batch.begin();
         font.draw(batch, " x" + inventory.countItem("food"), 580, 460);
 
@@ -106,9 +101,10 @@ public class InventoryGUI {
 
         //this part should be taken from here to the map
         //or to the player, can be left here anyway
-        font.draw(batch, "GOAL", 530, 50);
         updateGoal();
         //display the collected parts for the gun
+        batch.draw(collectionBg,470, 0, 170, 0.41f * 170);
+        font.draw(batch, "GOAL", 530, 50);
         batch.draw(gun,590, 10, 25, 25 );
         batch.draw(flare,550, 10, 25, 25 );
         batch.draw(charge,510, 14, 20, 10 );
