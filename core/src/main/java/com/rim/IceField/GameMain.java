@@ -89,7 +89,6 @@ public class GameMain extends BasicGame implements InputProcessor {
 
     @Override
     public void initialise() {
-
         startMenuGUI = new StartMenuGUI(this);
     }
 
@@ -221,7 +220,7 @@ public class GameMain extends BasicGame implements InputProcessor {
 
             blizzardGUI.render(g);
 
-            endGameMessage.render(false);
+
         }
         GameStage.stage.draw();
         GameStage.stage.act();
