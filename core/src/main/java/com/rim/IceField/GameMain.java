@@ -184,10 +184,9 @@ public class GameMain extends BasicGame implements InputProcessor {
 
             if (game.randomBlow[currentRound]) {
                 try {
-                    Blizzard.blow(players, game.getMap().getIcebergs());
-                    System.out.println("heat level" + p1.heatLevel + " " + p2.heatLevel);
-                    System.out.println("the blizzard is blowing");
                     blizzardGUI.blow = true;
+                    Blizzard.blow(players, game.getMap().getIcebergs());
+                    System.out.println("the blizzard is blowing");
 
                 } catch (Exception e) {
                     e.printStackTrace();

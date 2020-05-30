@@ -43,11 +43,11 @@ public class StartMenuGUI {
         eskimo = new ClickableButton("resources/assets/eskimo.png", 100, 100);
         explorer = new ClickableButton("resources/assets/polarExp.png", 400, 100);
 
-        background = new Texture("resources/assets/menuBackground.png");
+        background = new Texture("resources/assets/menu_back.png");
 
         music = Gdx.audio.newMusic(Gdx.files.internal("resources/assets/Background.mp3"));
         music.setLooping(true);
-        music.setVolume(0.1f);
+        music.setVolume(0.0f);
         music.play();
         sBatch = new SpriteBatch();
 

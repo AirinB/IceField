@@ -153,7 +153,10 @@ public abstract class PlayerBase extends TimerTask {
 
                 if (currentIceberg.getType().equals("hole")) this.fall();
                 else if (currentIceberg.getType().equals("unstable") && currentIceberg.getMaxNumOfPlayers() < currentIceberg.getCurrentPlayers().size()) {
-                    this.fall();
+                    //this.fall();
+                    for (PlayerBase p:this.currentIceberg.getCurrentPlayers()) {
+                        p.fall();
+                    }
                     throw new Exception("This iceberg falls...");
                 }
             }

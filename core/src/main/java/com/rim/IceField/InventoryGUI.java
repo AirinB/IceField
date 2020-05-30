@@ -23,6 +23,9 @@ public class InventoryGUI {
     SpriteBatch batch;
     ClickableButton foodButton;
     ClickableButton ropeButton;
+    Texture colletedGun;
+    Texture colletedFlare;
+    Texture colletedCharge;
 
     BitmapFont font; // text near the life left
 
@@ -59,6 +62,11 @@ public class InventoryGUI {
             }
         });
 
+        colletedGun =  new Texture("resources/assets/gun.png");
+        colletedFlare = new Texture("resources/assets/flare.png");
+        colletedCharge =  new Texture("resources/assets/security.png");
+
+
         //font2
         FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("resources/fonts/8bitFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -75,10 +83,12 @@ public class InventoryGUI {
     }
 
     public void updateGoal(){
-//        if(Inventory.isGunCollected) gun = new Texture("resources/assets/gun.png");
-//
-//        if(Inventory.isChargeCollected) charge = new Texture("resources/assets/security.png");
-//        if(Inventory.isFlareCollected) flare = new Texture("resources/assets/flare.png");
+
+            if(Inventory.isGunCollected) gun = colletedGun;
+            if(Inventory.isChargeCollected) charge = colletedCharge;
+            if(Inventory.isFlareCollected) flare = colletedFlare;
+
+
     }
 
     public void render(){
