@@ -1,6 +1,7 @@
 # IceField
 BME project lab 
 Icefield
+![Screenshot](Screen Shot 2020-07-29 at 10.53.44 AM.png)
 
 In the game the players control (3 or more) different figures on an icefield surrounded by sea where they have to survive. The figures can be either eskimos or polar explorers, and they operate in rounds.
 
